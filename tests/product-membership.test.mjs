@@ -14,13 +14,13 @@ import { createMembershipOperatorFixture } from './helpers/product-membership-fi
 import { applyLocalMembershipAction } from '../scripts/local-membership-operator.mjs';
 
 test('explicit operator grants preserve bootstrap data and enforce current membership after activation and revoke', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL,
 }, async () => {
   const db = await openIsolatedProductDatabase();
   const developer = { id: `developer-${randomUUID()}`, name: 'Developer', role: 'developer', token: randomBytes(32).toString('hex') };
   const approver = { id: `approver-${randomUUID()}`, name: 'Approver', role: 'approver', token: randomBytes(32).toString('hex') };
   let app = createApp({ sql: db.sql, actors: [developer, approver], repositories: [] });
-  const directory = await mkdtemp(path.join(tmpdir(), 'schemaforge-membership-'));
+  const directory = await mkdtemp(path.join(tmpdir(), 'kelryvo-membership-'));
   const configPath = path.join(directory, 'config.json');
   const config = { databasePassword: randomBytes(32).toString('hex'), developerToken: randomBytes(32).toString('hex'), approverToken: randomBytes(32).toString('hex') };
   const operatorUrl = new URL(db.databaseUrl);
@@ -30,7 +30,7 @@ test('explicit operator grants preserve bootstrap data and enforce current membe
     const args = action === 'grant' || action === 'revoke'
       ? [cli, action, projectId, actorId, selectedConfig] : [cli, action, selectedConfig];
     const child = spawnSync(process.execPath, args, { encoding: 'utf8', timeout: 15_000,
-      env: { ...process.env, SCHEMAFORGE_LOCAL_DATABASE_URL: databaseUrl } });
+      env: { ...process.env, KELRYVO_LOCAL_DATABASE_URL: databaseUrl } });
     assert.equal(child.error, undefined, 'membership operator CLI should start');
     if (child.status !== 0) throw new Error(child.stderr.trim());
     return child.stdout;
@@ -43,14 +43,14 @@ test('explicit operator grants preserve bootstrap data and enforce current membe
     await chmod(configPath, 0o600);
     const wrongPasswordUrl = new URL(operatorUrl); wrongPasswordUrl.password = randomBytes(32).toString('hex');
     const rejectedCli = spawnSync(process.execPath, [cli, 'status', configPath], { encoding: 'utf8', timeout: 15_000,
-      env: { ...process.env, SCHEMAFORGE_LOCAL_DATABASE_URL: wrongPasswordUrl.toString() } });
+      env: { ...process.env, KELRYVO_LOCAL_DATABASE_URL: wrongPasswordUrl.toString() } });
     assert.equal(rejectedCli.status, 1);
     assert.equal(rejectedCli.stdout, '');
     assert.equal(rejectedCli.stderr, 'Local membership operation failed.\n');
     assert.equal(rejectedCli.stderr.includes(config.databasePassword), false);
     const callCli = (action, selectedConfig) => spawnSync(process.execPath,
       [cli, action, selectedConfig], { encoding: 'utf8', timeout: 15_000,
-        env: { ...process.env, SCHEMAFORGE_LOCAL_DATABASE_URL: operatorUrl.toString() } });
+        env: { ...process.env, KELRYVO_LOCAL_DATABASE_URL: operatorUrl.toString() } });
     await symlink(configPath, path.join(directory, 'linked-config.json'));
     for (const rejectedConfig of [path.join(directory, 'linked-config.json')]) {
       const result = callCli('status', rejectedConfig);
@@ -203,7 +203,7 @@ test('explicit operator grants preserve bootstrap data and enforce current membe
 });
 
 test('activation serializes with in-flight revocation and bootstrap creation stays denied', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 30_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 30_000,
 }, async () => {
   const db = await openIsolatedProductDatabase();
   const developer = { id: `lock-developer-${randomUUID()}`, name: 'Lock developer', role: 'developer', token: randomBytes(32).toString('hex') };
@@ -272,7 +272,7 @@ test('activation serializes with in-flight revocation and bootstrap creation sta
 });
 
 test('activation waits for credential lifecycle serialization and refuses coverage after credential revocation', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 30_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 30_000,
 }, async () => {
   const db = await openIsolatedProductDatabase();
   const developer = { id: `credential-lock-developer-${randomUUID()}`, name: 'Credential lock developer', role: 'developer', token: randomBytes(32).toString('hex') };

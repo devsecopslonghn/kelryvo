@@ -8,7 +8,7 @@ import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('browser shows retained plan requester facts and blocks author decisions', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120_000,
 }, async () => {
   const actors = [
     { id: `requester-dev-${randomUUID()}`, name: 'Requester developer', role: 'developer', token: randomBytes(32).toString('hex') },

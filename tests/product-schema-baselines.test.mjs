@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createSchemaFixture, object, completeCoverage } from './helpers/schema-fixture.mjs';
 import { fixtureIdentity } from './helpers/discovery-fixture.mjs';
-const opts={skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:120000};
+const opts={skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:120000};
 
 test('schema snapshots, immutable baselines, semantic comparisons and exact target history persist with project isolation',opts,async()=>{
   const f=await createSchemaFixture();try{

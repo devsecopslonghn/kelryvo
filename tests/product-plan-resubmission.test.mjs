@@ -12,7 +12,7 @@ import { createMembershipOperatorFixture } from './helpers/product-membership-fi
 const git = (directory, ...args) => execFileSync('git', ['-C', directory, ...args], { encoding: 'utf8' }).trim();
 
 test('rejected plan remains immutable when changed SQL is imported as a fresh independently reviewed plan', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 180_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 180_000,
 }, async () => {
   const database = await openIsolatedProductDatabase();
   const actors = [
@@ -20,7 +20,7 @@ test('rejected plan remains immutable when changed SQL is imported as a fresh in
     { id: `resubmit-approver-${randomUUID()}`, name: 'Independent reviewer', role: 'approver', token: randomBytes(32).toString('hex') },
     { id: `resubmit-approver-author-${randomUUID()}`, name: 'Approver plan author', role: 'approver', token: randomBytes(32).toString('hex') },
   ];
-  const repositoryPath = await mkdtemp(path.join(tmpdir(), 'schemaforge-t18-git-'));
+  const repositoryPath = await mkdtemp(path.join(tmpdir(), 'kelryvo-t18-git-'));
   let app;
   const membership = await createMembershipOperatorFixture(database.databaseUrl);
   try {
@@ -28,7 +28,7 @@ test('rejected plan remains immutable when changed SQL is imported as a fresh in
     await writeFile(path.join(repositoryPath, 'migrations/V001__create_widget.sql'), 'CREATE TABLE widget (id NUMBER PRIMARY KEY, name VARCHAR2(100));\n');
     execFileSync('git', ['init', '--initial-branch=main', repositoryPath], { stdio: 'ignore' });
     git(repositoryPath, 'add', '--', 'migrations');
-    git(repositoryPath, '-c', 'user.name=SchemaForge T18', '-c', 'user.email=t18@schemaforge.invalid',
+    git(repositoryPath, '-c', 'user.name=Kelryvo T18', '-c', 'user.email=t18@kelryvo.invalid',
       '-c', 'core.hooksPath=/dev/null', '-c', 'commit.gpgSign=false', 'commit', '-m', 'Initial migration');
     const firstCommit = git(repositoryPath, 'rev-parse', 'HEAD');
     app = createApp({ sql: database.sql, actors, repositories: [{ id: 't18-owned-repo', name: 'T18 temporary repository', path: repositoryPath }] });
@@ -68,7 +68,7 @@ test('rejected plan remains immutable when changed SQL is imported as a fresh in
 
     await writeFile(path.join(repositoryPath, 'migrations/V002__add_description.sql'), 'ALTER TABLE widget ADD (description VARCHAR2(200));\n');
     git(repositoryPath, 'add', '--', 'migrations/V002__add_description.sql');
-    git(repositoryPath, '-c', 'user.name=SchemaForge T18', '-c', 'user.email=t18@schemaforge.invalid',
+    git(repositoryPath, '-c', 'user.name=Kelryvo T18', '-c', 'user.email=t18@kelryvo.invalid',
       '-c', 'core.hooksPath=/dev/null', '-c', 'commit.gpgSign=false', 'commit', '-m', 'Add description column');
     const secondCommit = git(repositoryPath, 'rev-parse', 'HEAD');
     assert.notEqual(secondCommit, firstCommit);

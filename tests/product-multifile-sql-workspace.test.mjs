@@ -4,7 +4,7 @@ import { randomUUID } from 'node:crypto';
 import { createValidationFixture } from './helpers/schema-validation-fixture.mjs';
 import { reconcileDraftConflict } from '../packages/sql-workspace/contracts.mjs';
 
-const enabled = !!process.env.SCHEMAFORGE_TEST_DATABASE_URL;
+const enabled = !!process.env.KELRYVO_TEST_DATABASE_URL;
 const file = (version,name,sql,id=randomUUID())=>({id,path:`V${version}__${name}.sql`,sql});
 
 test('concurrent draft saves retain both independently reconciled file edits and immutable prior revisions',{

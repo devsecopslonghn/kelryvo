@@ -8,7 +8,7 @@ import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('browser shows fixed approval integrity feedback and preserves pending plan for rejection', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 90000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 90000,
 }, async () => {
   const actors = [
     { id: `approval-web-dev-${randomUUID()}`, name: 'Approval author', role: 'developer', token: randomBytes(32).toString('hex') },

@@ -10,7 +10,7 @@ import { createTargetWorkflowFixture } from './helpers/target-workflow-fixture.m
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { initializeDatabase } from '../packages/database/index.ts';
 
-const enabled=!!process.env.SCHEMAFORGE_TEST_DATABASE_URL && process.env.SCHEMAFORGE_REQUIRE_PRODUCT_TESTS==='1';
+const enabled=!!process.env.KELRYVO_TEST_DATABASE_URL && process.env.KELRYVO_REQUIRE_PRODUCT_TESTS==='1';
 const ORG='00000000-0000-4000-8000-000000000001';
 
 test('schema snapshots, baselines, and plan evidence survive native backup restore under immutable recovery hold',{skip:!enabled,timeout:180_000},async()=>{
@@ -86,7 +86,7 @@ test('schema snapshots, baselines, and plan evidence survive native backup resto
   finally {
     if(restoredSql)await restoredSql.end({timeout:2});
     await fixture.close();
-    if(restoredName){const admin=postgres(process.env.SCHEMAFORGE_TEST_DATABASE_URL,{max:1,onnotice:()=>{}});try{await admin.unsafe(`DROP DATABASE IF EXISTS "${restoredName}" WITH (FORCE)`);}finally{await admin.end({timeout:2});}}
+    if(restoredName){const admin=postgres(process.env.KELRYVO_TEST_DATABASE_URL,{max:1,onnotice:()=>{}});try{await admin.unsafe(`DROP DATABASE IF EXISTS "${restoredName}" WITH (FORCE)`);}finally{await admin.end({timeout:2});}}
     await rm(root,{recursive:true,force:true});
   }
 });
@@ -122,7 +122,7 @@ test('R1 management backup upgrades to current schema under RESTORE_HOLD with em
     assert.equal((await restoredSql`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0].state,'RESTORE_HOLD');
   } finally {
     await restoredSql?.end({timeout:2});await source.close();
-    if(restoredName){const admin=postgres(process.env.SCHEMAFORGE_TEST_DATABASE_URL,{max:1,onnotice:()=>{}});try{await admin.unsafe(`DROP DATABASE IF EXISTS "${restoredName}" WITH (FORCE)`);}finally{await admin.end({timeout:2});}}
+    if(restoredName){const admin=postgres(process.env.KELRYVO_TEST_DATABASE_URL,{max:1,onnotice:()=>{}});try{await admin.unsafe(`DROP DATABASE IF EXISTS "${restoredName}" WITH (FORCE)`);}finally{await admin.end({timeout:2});}}
     await rm(root,{recursive:true,force:true});
   }
 });

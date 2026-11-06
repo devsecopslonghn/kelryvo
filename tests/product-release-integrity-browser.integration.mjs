@@ -8,14 +8,14 @@ import { prepareDemoRepository } from '../scripts/local-resources.mjs';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
-test('browser gives fixed feedback when a retained release fails integrity verification', { skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000 }, async () => {
+test('browser gives fixed feedback when a retained release fails integrity verification', { skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120_000 }, async () => {
   const database = await openIsolatedProductDatabase();
   const actors = [{ id: `release-integrity-${randomUUID()}`, name: 'Release integrity reviewer', role: 'developer', token: randomBytes(32).toString('hex') }];
   let app;
   let browser;
   let membership;
   try {
-    const repositoryPath = process.env.SCHEMAFORGE_DEMO_REPOSITORY_PATH || await prepareDemoRepository();
+    const repositoryPath = process.env.KELRYVO_DEMO_REPOSITORY_PATH || await prepareDemoRepository();
     app = await startProduct({ databaseUrl: database.databaseUrl, actors,
       repositories: [{ id: 'demo', name: 'Local migration demo', path: repositoryPath }], port: 0 });
     membership = await createMembershipOperatorFixture(database.databaseUrl);

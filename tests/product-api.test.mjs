@@ -19,7 +19,7 @@ const parserAvailable = existsSync(
 
 test(
   "product API persists a governed offline plan and never claims execution",
-  { skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL || !parserAvailable },
+  { skip: !process.env.KELRYVO_TEST_DATABASE_URL || !parserAvailable },
   async () => {
     const db = await openIsolatedProductDatabase();
     const actors = [

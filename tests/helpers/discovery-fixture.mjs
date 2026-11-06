@@ -1,6 +1,6 @@
 import { createTargetWorkflowFixture } from './target-workflow-fixture.mjs';
 import { applyLocalMembershipAction } from '../../scripts/local-membership-operator.mjs';
-export const fixtureIdentity={engine:'oracle',dbid:'1234567',dbUniqueName:'KELYRVO_FIXTURE',resetlogsChange:'987654',
+export const fixtureIdentity={engine:'oracle',dbid:'1234567',dbUniqueName:'KELRYVO_FIXTURE',resetlogsChange:'987654',
   cdb:true,containerId:'3',containerGuid:'0123456789ABCDEF0123456789ABCDEF',containerDbid:'7654321',
   containerName:'FIXTURE_PDB',serviceName:'TARGETSVC',version:'23.0.0'};
 export async function createDiscoveryFixture(options={}) {

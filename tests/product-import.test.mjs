@@ -12,7 +12,7 @@ import { compareVersions, importGitRelease } from '../packages/migrations/import
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const helperJar = path.join(root, 'experiments/db-devops-wp0/antlr-helper/target/schemaforge-antlr-parser.jar');
 const parserAvailable = existsSync(helperJar);
-const parserRequired = process.env.SCHEMAFORGE_REQUIRE_PRODUCT_TESTS === '1';
+const parserRequired = process.env.KELRYVO_REQUIRE_PRODUCT_TESTS === '1';
 const skipParserTest = !parserAvailable && !parserRequired;
 const sha = value => createHash('sha256').update(value).digest('hex');
 const sql = 'CREATE TABLE sf_import_fixture (id NUMBER PRIMARY KEY);\n';
@@ -25,7 +25,7 @@ function git(repo, args) {
 }
 
 async function temporaryRepo(run) {
-  const directory = mkdtempSync(path.join(tmpdir(), 'schemaforge-import-'));
+  const directory = mkdtempSync(path.join(tmpdir(), 'kelryvo-import-'));
   const repo = path.join(directory, 'repo');
   mkdirSync(repo);
   git(repo, ['init', '--quiet']);

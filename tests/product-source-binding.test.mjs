@@ -19,7 +19,7 @@ const actor = role => ({
 });
 
 test('source bindings persist, authorize changes, constrain imports before Git, and remain private', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL || !parserAvailable,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL || !parserAvailable,
 }, async () => {
   const db = await openIsolatedProductDatabase();
   const developer = actor('developer');
@@ -104,7 +104,7 @@ test('source bindings persist, authorize changes, constrain imports before Git, 
 });
 
 test('source binding is rechecked under a project lock before an imported release can commit', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL || !parserAvailable,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL || !parserAvailable,
   timeout: 30_000,
 }, async () => {
   const db = await openIsolatedProductDatabase();

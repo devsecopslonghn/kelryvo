@@ -8,7 +8,7 @@ import { statementEnvelopeFixture } from './helpers/statement-envelope-fixture.m
 import { applyLocalMembershipAction } from '../scripts/local-membership-operator.mjs';
 
 for (const revocation of ['membership', 'credential', 'restore']) test(`a Git import loses ${revocation} authority before persisting parsed metadata`, {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 60000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 60000,
 }, async () => {
   const f = await statementEnvelopeFixture({ firstStatementCount: 1, includeSecond: false }); let app, releaseParser;
   let signalStarted;
@@ -52,7 +52,7 @@ for (const revocation of ['membership', 'credential', 'restore']) test(`a Git im
 });
 
 test('restore hold permits historical review comments but fences configuration writes', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 60000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 60000,
 }, async () => {
   const f = await statementEnvelopeFixture({ firstStatementCount: 1, includeSecond: false });
   const snapshot = async () => ({
@@ -100,7 +100,7 @@ test('restore hold permits historical review comments but fences configuration w
 });
 
 test('overlapping operator revocation and API write serialize before project and identity locks', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 60000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 60000,
 }, async () => {
   const f = await statementEnvelopeFixture({ firstStatementCount: 1, includeSecond: false });
   let releaseProject, signalLocked, blocker, operator, mutation;
@@ -140,7 +140,7 @@ test('overlapping operator revocation and API write serialize before project and
 });
 
 test('source binding rechecks developer eligibility after a queued role change', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 60000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 60000,
 }, async () => {
   const f = await statementEnvelopeFixture({ firstStatementCount: 1, includeSecond: false });
   const blocker = await f.db.sql.reserve(); let pending;

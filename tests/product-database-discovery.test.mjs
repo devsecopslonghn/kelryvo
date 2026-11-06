@@ -10,7 +10,7 @@ import { randomBytes,randomUUID } from 'node:crypto';
 import postgres from 'postgres';
 
 test('database connections enforce workspace and project grants, preserve secrets and bounded failed discovery evidence',{
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:120000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:120000,
 },async()=>{
   // Authority changes must finish before the synthetic runtime deadline.
   // The short timeout path has its own fixture below.
@@ -45,7 +45,7 @@ test('database connections enforce workspace and project grants, preserve secret
 });
 
 test('a hanging discovery runtime reaches its short deadline and retains one TIMEOUT observation',{
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:30000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:30000,
 },async()=>{
   const f=await createDiscoveryFixture({discoveryTimeoutMs:50});
   try {
@@ -62,7 +62,7 @@ test('a hanging discovery runtime reaches its short deadline and retains one TIM
 });
 
 test('observed identities create immutable binding revisions, reject fixture verification, stale/conflicting evidence and reused approval',{
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:120000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:120000,
 },async()=>{
   const f=await createDiscoveryFixture();try{
     const bindingResponse=await f.createBinding();assert.equal(bindingResponse.statusCode,201,bindingResponse.body);
@@ -103,7 +103,7 @@ test('observed identities create immutable binding revisions, reject fixture ver
 });
 
 test('superseding discovery invalidates schema visibility evidence, plans and approval authority even when physical identity matches',{
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:120000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:120000,
 },async()=>{
   const f=await createDiscoveryFixture();try{
     const binding=(await f.createBinding()).json().binding;
@@ -154,7 +154,7 @@ test('superseding discovery invalidates schema visibility evidence, plans and ap
 });
 
 test('manual instance registration is authorized, unsupported engines and stale observations remain honest',{
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:120000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:120000,
 },async()=>{
   const f=await createDiscoveryFixture();try{
     let r=await f.api('POST',`${f.base}/database-instances`,{name:'Manual fixture instance',containerName:'Manual fixture PDB',kind:'PDB',environment:'DEV',
@@ -176,7 +176,7 @@ test('manual instance registration is authorized, unsupported engines and stale 
 });
 
 test('native backup restores connection discovery and immutable target identity evidence under recovery HOLD',{
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL || process.env.SCHEMAFORGE_REQUIRE_PRODUCT_TESTS!=='1',timeout:120000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL || process.env.KELRYVO_REQUIRE_PRODUCT_TESTS!=='1',timeout:120000,
 },async()=>{
   const f=await createDiscoveryFixture();let restoredSql,restoredName;const dir=await mkdtemp(join(process.cwd(),'.cache','phase3-backup-'));
   try{
@@ -202,7 +202,7 @@ test('native backup restores connection discovery and immutable target identity 
 });
 
 test('metadata recovery HOLD prevents connection and verification mutations without losing prior evidence',{
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:120000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:120000,
 },async()=>{
   const f=await createDiscoveryFixture();try{
     const o=(await f.api('POST',`${f.connections}/${f.connection.id}/discover`,{reason:'Retain observation before HOLD'})).json().observation;
@@ -225,7 +225,7 @@ test('metadata recovery HOLD prevents connection and verification mutations with
 });
 
 test('R1 mismatched topology or manifest identity is retained as conflict and cannot bind; readiness stays separate',{
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:120000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:120000,
 },async()=>{
   const f=await createDiscoveryFixture();try{
     const binding=(await f.createBinding()).json().binding;

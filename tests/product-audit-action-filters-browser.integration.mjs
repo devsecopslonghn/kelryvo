@@ -10,7 +10,7 @@ import { createMembershipOperatorFixture } from './helpers/product-membership-fi
 const ORG = '00000000-0000-4000-8000-000000000001';
 
 test('audit action filters preserve project scope, server order, archived reads and read-only records', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL,
   timeout: 90_000,
 }, async () => {
   const actors = [

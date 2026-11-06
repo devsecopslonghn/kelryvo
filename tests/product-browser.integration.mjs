@@ -9,7 +9,7 @@ import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('browser ignores a committed source-binding response after project and session change', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120_000,
 }, async (t) => {
   const actors = [
     { id: `source-response-dev-${randomUUID()}`, name: 'Source developer', role: 'developer', token: randomBytes(32).toString('hex') },

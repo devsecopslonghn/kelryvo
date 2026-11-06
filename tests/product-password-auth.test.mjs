@@ -15,7 +15,7 @@ import { operateLocalPassword } from '../scripts/local-password-operator.mjs';
 import { writeFile, chmod } from 'node:fs/promises';
 import { join } from 'node:path';
 
-const enabled = !!process.env.SCHEMAFORGE_TEST_DATABASE_URL;
+const enabled = !!process.env.KELRYVO_TEST_DATABASE_URL;
 const password = 'A private initial passphrase 47!';
 const replacement = 'A different private passphrase 92!';
 async function fixture(prefix = 'password') {

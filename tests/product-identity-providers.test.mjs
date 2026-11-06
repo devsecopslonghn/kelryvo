@@ -11,7 +11,7 @@ import { statementEnvelopeFixture } from './helpers/statement-envelope-fixture.m
 import { declareReference, assignReference } from '../packages/catalog-reference/index.mjs';
 import { readExecutionRequest } from '../packages/execution/admission.ts';
 
-const enabled = !!process.env.SCHEMAFORGE_TEST_DATABASE_URL;
+const enabled = !!process.env.KELRYVO_TEST_DATABASE_URL;
 const password = 'Private identity fixture password 491!';
 const ldapConfig = { routeId:'lab-ldap', baseDN:'ou=people,dc=example,dc=test', bindDN:'cn=reader,dc=example,dc=test', bindSecretRef:'ldap-reader', loginAttribute:'uid', subjectAttribute:'entryUUID' };
 const oidcConfig = { routeId:'lab-oidc', issuer:'https://id.example.test/realms/kelryvo', clientId:'kelryvo', clientSecretRef:'oidc-client' };

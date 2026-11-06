@@ -11,7 +11,7 @@ import { setTimeout as delay } from 'node:timers/promises';
 import { createInstalledExecutionService } from '../apps/worker/execution-service.mjs';
 import { createExecutionWorkerStarter, createSupervisedExecutionWorker } from '../apps/worker/supervisor.mjs';
 
-const enabled = !!process.env.SCHEMAFORGE_TEST_DATABASE_URL && process.env.SCHEMAFORGE_REQUIRE_PRODUCT_TESTS === '1';
+const enabled = !!process.env.KELRYVO_TEST_DATABASE_URL && process.env.KELRYVO_REQUIRE_PRODUCT_TESTS === '1';
 const executionUrl = new URL('./helpers/execution-supervisor-unit-factory.mjs', import.meta.url).href;
 const recoveryUrl = new URL('./helpers/execution-expiry-recovery-unit-factory.mjs', import.meta.url).href;
 const main = new URL('../apps/worker/execution-service-main.mjs', import.meta.url);
@@ -52,7 +52,7 @@ test('service rejects caller-selected capabilities, mixed scope and accessor bin
     { ...valid, operation: 'execute' }, { ...valid, scope: 'UNIT_SYNTHETIC', allowUnitSynthetic: false }, trusted,
     { ...valid, pageSize: 51 }, { ...valid, pollMs: 249 }, { ...valid, databaseUrl: 'https://example.invalid' },
     { ...valid, executionFactory: { ...valid.executionFactory, env: { NODE_OPTIONS: '--import=untrusted' } } },
-    { ...valid, executionFactory: { ...valid.executionFactory, env: { SCHEMAFORGE_TEST_DATABASE_URL: 'postgres://other.invalid/db' } } },
+    { ...valid, executionFactory: { ...valid.executionFactory, env: { KELRYVO_TEST_DATABASE_URL: 'postgres://other.invalid/db' } } },
     { ...valid, executionFactory: { ...valid.executionFactory, limits: { operationMs: 1, termGraceMs: 10, reapMs: 100, outputBytes: 256 } } },
   ];
   const accessor = { ...valid };
@@ -129,7 +129,7 @@ test('generation-bound supervised bootstrap closes a mismatched factory before a
       close:async()=>{writeFileSync(${JSON.stringify(closed)},'closed')}}}`, { mode: 0o600 });
     const worker = createSupervisedExecutionWorker({ scope: 'UNIT_SYNTHETIC', workerId: 'mismatched-unit', allowUnitSynthetic: true,
       startWorker: createExecutionWorkerStarter({ factoryUrl: pathToFileURL(file).href,
-        env: { PATH: '/usr/bin:/bin', SCHEMAFORGE_METADATA_GENERATION_ID: generationId } }) });
+        env: { PATH: '/usr/bin:/bin', KELRYVO_METADATA_GENERATION_ID: generationId } }) });
     const result = await worker.runWaitingRequest(randomUUID());
     assert.equal(result.terminalReceipt, false); assert.equal(result.childTermination, 'REAPED');
     assert.equal(await readFile(closed, 'utf8'), 'closed'); await assert.rejects(readFile(marker), { code: 'ENOENT' });
@@ -150,8 +150,8 @@ async function pipelineFixture(firstStatementCount = 1) {
     await assignReference(f.db.sql, { schemaId: reference.schemaId, projectId: f.project.id, expectedRevision: '0', reason: 'UNIT service target' });
     const assignmentId = (await f.db.sql`SELECT id FROM sf_reference_assignments WHERE schema_id=${reference.schemaId} AND closed_at IS NULL`)[0].id;
     await f.db.sql`INSERT INTO sf_supervisor_unit_target(assignment_id) VALUES(${assignmentId})`;
-    const env = { SCHEMAFORGE_UNIT_ASSIGNMENT_ID: assignmentId };
-    if (process.env.SCHEMAFORGE_JAVA_HOME) env.SCHEMAFORGE_JAVA_HOME = process.env.SCHEMAFORGE_JAVA_HOME;
+    const env = { KELRYVO_UNIT_ASSIGNMENT_ID: assignmentId };
+    if (process.env.KELRYVO_JAVA_HOME) env.KELRYVO_JAVA_HOME = process.env.KELRYVO_JAVA_HOME;
     const binding = { ...unitBinding(f.db.databaseUrl), executionFactory: { factoryUrl: executionUrl, workerId: 'supervised-unit-worker', env } };
     const request = async releaseId => {
       const plan = await f.makePlan(releaseId);
@@ -291,7 +291,7 @@ test('service cleanup uncertainty preserves durable success and stops further di
   try {
     const first = await f.request();
     service = await createInstalledExecutionService({ ...f.binding, executionFactory: { ...f.binding.executionFactory,
-      env: { ...f.binding.executionFactory.env, SCHEMAFORGE_UNIT_CLEANUP_FAULT: 'throw' } } });
+      env: { ...f.binding.executionFactory.env, KELRYVO_UNIT_CLEANUP_FAULT: 'throw' } } });
     const result = await service.runCycle();
     assert.equal(result.status, 'HELD'); assert.equal(result.reason, 'WORKER_UNCERTAIN');
     const firstFact = (await f.db.sql`SELECT state,revision FROM sf_execution_jobs WHERE id=${first.jobId}`)[0];
@@ -485,7 +485,7 @@ test('unknown child exit stops dispatch and retains leadership until the actual 
   try {
     await f.request();
     await writeFile(file, `import {writeFileSync} from 'node:fs'; export async function createExecutionWorker(){return {
-      scope:'UNIT_SYNTHETIC',workerId:'unit-unreaped',expectedMetadataGenerationId:process.env.SCHEMAFORGE_METADATA_GENERATION_ID,
+      scope:'UNIT_SYNTHETIC',workerId:'unit-unreaped',expectedMetadataGenerationId:process.env.KELRYVO_METADATA_GENERATION_ID,
       runWaitingRequest:async()=>{writeFileSync(${JSON.stringify(pidFile)},String(process.pid));
         await new Promise(()=>{setInterval(()=>{},1000)})},close:async()=>{}}}`, { mode: 0o600 });
     service = await createInstalledExecutionService({ ...f.binding,

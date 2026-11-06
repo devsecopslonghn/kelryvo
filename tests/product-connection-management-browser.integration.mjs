@@ -4,7 +4,7 @@ import { chromium } from 'playwright';
 import { createDiscoveryFixture } from './helpers/discovery-fixture.mjs';
 
 test('browser creates and revises a deployment profile, shows offline readiness, filters discovery connections, retires with confirmation and fits mobile', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 180000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 180000,
 }, async () => {
   const f = await createDiscoveryFixture(); let browser;
   try {

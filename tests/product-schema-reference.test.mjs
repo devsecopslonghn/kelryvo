@@ -10,7 +10,7 @@ import { createInventoryOperatorFixture } from './helpers/product-inventory-fixt
 import { declareReference,assignReference } from '../packages/catalog-reference/index.mjs';
 
 const base={databaseKey:'shared-db',databaseLabel:'Shared database',containerKey:'prod-pdb',containerName:'Sales',containerKind:'PDB',environment:'PROD',host:'ORACLE.EXAMPLE.INVALID',port:1521,service:'SalesSvc',transport:'TCPS',owner:'Sales'};
-test('manual schema references are idempotent, exact-case, serially assigned and project-scoped', {skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:30000},async()=>{
+test('manual schema references are idempotent, exact-case, serially assigned and project-scoped', {skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:30000},async()=>{
  const db=await openIsolatedProductDatabase();const actor={id:`ref-${randomUUID()}`,name:'Reference reader',role:'developer',token:randomBytes(32).toString('hex')};let app;
  try{
   const first=await declareReference(db.sql,base),again=await declareReference(db.sql,{...base,host:'oracle.example.invalid'});
@@ -119,9 +119,9 @@ test('manual schema references are idempotent, exact-case, serially assigned and
  }finally{if(app)await app.close();await db.close();}
 });
 
-test('trusted inventory CLI uses private local metadata authority and preserves operator history', {skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:30000},async()=>{
+test('trusted inventory CLI uses private local metadata authority and preserves operator history', {skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:30000},async()=>{
  const db=await openIsolatedProductDatabase();const fixture=await createInventoryOperatorFixture(db.databaseUrl);const cli=fileURLToPath(new URL('../scripts/local-inventory-operator.mjs',import.meta.url));
- const run=(action,args=[],url=fixture.databaseUrl,configPath=fixture.configPath)=>spawnSync(process.execPath,[cli,action,'--config',configPath,...args],{encoding:'utf8',timeout:15000,env:{...process.env,SCHEMAFORGE_LOCAL_DATABASE_URL:url}});
+ const run=(action,args=[],url=fixture.databaseUrl,configPath=fixture.configPath)=>spawnSync(process.execPath,[cli,action,'--config',configPath,...args],{encoding:'utf8',timeout:15000,env:{...process.env,KELRYVO_LOCAL_DATABASE_URL:url}});
  try{
   const bad=run('declare',['--owner','OWNER','--password','secret']);assert.equal(bad.status,1);assert.equal(bad.stdout,'');assert.equal(bad.stderr,'Local inventory operation failed.\n');assert.equal(bad.stderr.includes('secret'),false);
   const unsupported=run('probe');assert.equal(unsupported.status,1);assert.equal(unsupported.stdout,'');

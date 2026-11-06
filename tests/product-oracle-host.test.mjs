@@ -10,7 +10,7 @@ import { createExecutionWorker } from '../apps/worker/run-request.ts';
 import { readExecutionRequest,materializeExecutionRequest } from '../packages/execution/admission.ts';
 
 test('protected Oracle host adapter integrates real Git approval, pending-only worker and durable central history',{
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:300000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:300000,
 },async t=>{
   const f=await statementEnvelopeFixture({ firstStatementCount:2,firstFile:'V1__first.sql',includeSecond:false });
   let sql=f.db.sql;

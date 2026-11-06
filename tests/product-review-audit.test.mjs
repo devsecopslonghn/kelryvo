@@ -7,7 +7,7 @@ import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('authenticated denied decisions append fixed audit facts while preserving plan and history', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 30000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 30000,
 }, async () => {
   const db = await openIsolatedProductDatabase();
   const actors = [

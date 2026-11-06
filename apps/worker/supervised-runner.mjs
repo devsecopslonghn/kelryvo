@@ -1,10 +1,11 @@
+import { productEnvironment } from '../../packages/runtime/environment.mjs';
 import { requestMessage, EXECUTION_WORKER_PROTOCOL } from './supervisor-protocol.mjs';
 import { executionUuid } from '../../packages/execution/admission.ts';
 
 /** Fixed child entry. The worker factory is selected by privileged installation argv, never by IPC. */
 export async function runSupervisedExecutionWorker(createWorker) {
   if (typeof process.send !== 'function' || !process.connected || typeof createWorker !== 'function') throw new Error('worker_ipc_required');
-  const expectedGeneration = process.env.SCHEMAFORGE_METADATA_GENERATION_ID;
+  const expectedGeneration = productEnvironment().KELRYVO_METADATA_GENERATION_ID;
   if (expectedGeneration !== undefined && !executionUuid(expectedGeneration)) throw new Error('worker_generation_required');
   let started = false;
   let ended = false;

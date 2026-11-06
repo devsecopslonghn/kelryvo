@@ -12,11 +12,11 @@ import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 const ORG = '00000000-0000-4000-8000-000000000001';
-const skip = !process.env.SCHEMAFORGE_TEST_DATABASE_URL;
+const skip = !process.env.KELRYVO_TEST_DATABASE_URL;
 
 test('combined local Git workflow retains review, withdrawal, manual references and restart state', { skip, timeout: 180_000 }, async () => {
   const db = await openIsolatedProductDatabase();
-  const temp = await mkdtemp(path.join(os.tmpdir(), 'schemaforge-t32-api-'));
+  const temp = await mkdtemp(path.join(os.tmpdir(), 'kelryvo-t32-api-'));
   const repo = path.join(temp, 'repo');
   await mkdir(path.join(repo, 'migrations'), { recursive: true });
   execFileSync('/usr/bin/git', ['init', '--initial-branch=main', repo]);

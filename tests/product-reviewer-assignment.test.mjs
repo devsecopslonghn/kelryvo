@@ -9,7 +9,7 @@ import { createMembershipOperatorFixture } from './helpers/product-membership-fi
 
 test('reviewer assignment is scoped, revisioned, auditable and enforced at decision time', {
   // Multiple fresh plans now derive the complete pinned-parser statement stream.
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120_000,
 }, async () => {
   const db = await openIsolatedProductDatabase();
   const actors = [

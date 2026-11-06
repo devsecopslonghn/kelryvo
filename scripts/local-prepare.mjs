@@ -1,3 +1,4 @@
+import { productEnvironment } from '../packages/runtime/environment.mjs';
 import { spawnSync } from 'node:child_process';
 import { access } from 'node:fs/promises';
 import path from 'node:path';
@@ -9,11 +10,11 @@ const run = args => {
 };
 try {
   try { await access('.cache/licenses/runtime/temurin/bin/java');
-    process.env.SCHEMAFORGE_JAVA_HOME ??= path.resolve('.cache/licenses/runtime/temurin'); }
+    process.env.KELRYVO_JAVA_HOME = productEnvironment().KELRYVO_JAVA_HOME ?? path.resolve('.cache/licenses/runtime/temurin'); }
   catch {
     try { await access('.cache/antlr/temurin/bin/java'); }
     catch { run(['npm', 'run', 'parser:antlr:prepare']); }
-    process.env.SCHEMAFORGE_JAVA_HOME ??= path.resolve('.cache/antlr/temurin');
+    process.env.KELRYVO_JAVA_HOME = productEnvironment().KELRYVO_JAVA_HOME ?? path.resolve('.cache/antlr/temurin');
   }
   run(['npm', 'run', 'parser:antlr:build']);
   requireLocalDocker(['pull', PG_IMAGE], { stdio: 'inherit' });

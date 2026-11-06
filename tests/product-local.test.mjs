@@ -10,7 +10,7 @@ import { spawn, spawnSync } from 'node:child_process';
 
 const moduleUrl = new URL('../scripts/local-resources.mjs', import.meta.url);
 async function isolated(check) {
-  const directory = await mkdtemp(path.join(tmpdir(), 'schemaforge-local-config-'));
+  const directory = await mkdtemp(path.join(tmpdir(), 'kelryvo-local-config-'));
   const previous = process.cwd();
   try {
     process.chdir(directory);
@@ -80,7 +80,7 @@ test('local startup refuses symlinked directories/configs without chmod or readi
 
 test('real Docker CLI ignores remote environment and saved context for read-only local commands',
   { skip: !existsSync('/usr/bin/docker') && 'Local Docker CLI is unavailable.' }, async () => {
-    const directory = await mkdtemp(path.join(tmpdir(), 'schemaforge-docker-context-'));
+    const directory = await mkdtemp(path.join(tmpdir(), 'kelryvo-docker-context-'));
     let remoteConnections = 0;
     const trap = createServer(socket => { remoteConnections += 1; socket.destroy(); });
     await new Promise(resolve => trap.listen(0, '127.0.0.1', resolve));

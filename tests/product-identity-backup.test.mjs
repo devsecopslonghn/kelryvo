@@ -9,7 +9,7 @@ import { createPrivateBackup, restorePrivateBackup, inventory } from '../package
 import { initializeDatabase } from '../packages/database/index.ts';
 import { seedLocalActors, tokenDigest } from '../packages/database/local-credentials.ts';
 
-const enabled = !!process.env.SCHEMAFORGE_TEST_DATABASE_URL && process.env.SCHEMAFORGE_REQUIRE_PRODUCT_TESTS === '1';
+const enabled = !!process.env.KELRYVO_TEST_DATABASE_URL && process.env.KELRYVO_REQUIRE_PRODUCT_TESTS === '1';
 
 test('identity-provider backup retains mappings and audit while restore revokes all credentials under RESTORE_HOLD',
   { skip: !enabled, timeout: 180_000 }, async () => {
@@ -108,7 +108,7 @@ test('identity-provider backup retains mappings and audit while restore revokes 
     } finally {
       await restoredSql?.end({ timeout: 2 }); await source.close();
       if (restoredName) {
-        const admin = postgres(process.env.SCHEMAFORGE_TEST_DATABASE_URL, { max: 1, onnotice: () => {} });
+        const admin = postgres(process.env.KELRYVO_TEST_DATABASE_URL, { max: 1, onnotice: () => {} });
         try { await admin.unsafe(`DROP DATABASE IF EXISTS "${restoredName}" WITH (FORCE)`); }
         finally { await admin.end({ timeout: 2 }); }
       }
@@ -146,7 +146,7 @@ test('password-auth schema signature remains exactly restorable without identity
     } finally {
       await restoredSql?.end({ timeout: 2 }); await source.close();
       if (restoredName) {
-        const admin = postgres(process.env.SCHEMAFORGE_TEST_DATABASE_URL, { max: 1, onnotice: () => {} });
+        const admin = postgres(process.env.KELRYVO_TEST_DATABASE_URL, { max: 1, onnotice: () => {} });
         try { await admin.unsafe(`DROP DATABASE IF EXISTS "${restoredName}" WITH (FORCE)`); }
         finally { await admin.end({ timeout: 2 }); }
       }

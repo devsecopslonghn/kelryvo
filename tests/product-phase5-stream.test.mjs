@@ -8,7 +8,7 @@ import {createExecutionWorker} from '../apps/worker/run-request.ts';
 
 const ORG='00000000-0000-4000-8000-000000000001';
 const sha=value=>createHash('sha256').update(value).digest('hex');
-const enabled=!!process.env.SCHEMAFORGE_TEST_DATABASE_URL;
+const enabled=!!process.env.KELRYVO_TEST_DATABASE_URL;
 
 async function createApprovedRequest(f){
   const validation=(await f.validate()).json().validation;

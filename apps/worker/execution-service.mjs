@@ -2,6 +2,7 @@ import postgres from 'postgres';
 import { setTimeout as delay } from 'node:timers/promises';
 import { executionUuid } from '../../packages/execution/admission.ts';
 import { createExecutionWorkerStarter, createSupervisedExecutionWorker } from './supervisor.mjs';
+import { productEnvironment, productEnvironmentKeys } from '../../packages/runtime/environment.mjs';
 
 const ORG = '00000000-0000-4000-8000-000000000001';
 const reject = () => new Error('Installed execution service unavailable');
@@ -27,14 +28,14 @@ function factoryBinding(value, scope, databaseUrl) {
       || typeof binding.factoryUrl !== 'string' || binding.factoryUrl.length > 4096) throw reject();
   const limits = binding.limits === undefined ? undefined
     : snapshot(binding.limits, ['operationMs', 'termGraceMs', 'reapMs', 'outputBytes']);
-  const env = binding.env === undefined ? {} : snapshot(binding.env, [],
-    ['PATH', 'LANG', 'TZ', 'SCHEMAFORGE_JAVA_HOME', 'SCHEMAFORGE_DATABASE_URL',
-      'SCHEMAFORGE_TEST_DATABASE_URL', 'SCHEMAFORGE_UNIT_SCOPE', 'SCHEMAFORGE_UNIT_ASSIGNMENT_ID', 'SCHEMAFORGE_UNIT_CLEANUP_FAULT']);
-  const key = scope === 'UNIT_SYNTHETIC' ? 'SCHEMAFORGE_TEST_DATABASE_URL' : 'SCHEMAFORGE_DATABASE_URL';
+  const env = binding.env === undefined ? {} : productEnvironment(snapshot(binding.env, [], productEnvironmentKeys(
+    ['PATH', 'LANG', 'TZ', 'KELRYVO_JAVA_HOME', 'KELRYVO_DATABASE_URL',
+      'KELRYVO_TEST_DATABASE_URL', 'KELRYVO_UNIT_SCOPE', 'KELRYVO_UNIT_ASSIGNMENT_ID', 'KELRYVO_UNIT_CLEANUP_FAULT'])));
+  const key = scope === 'UNIT_SYNTHETIC' ? 'KELRYVO_TEST_DATABASE_URL' : 'KELRYVO_DATABASE_URL';
   if (env[key] !== undefined && env[key] !== databaseUrl || scope === 'TRUSTED_VALIDATED'
-      && Object.keys(env).some(name => name.startsWith('SCHEMAFORGE_UNIT_') || name === 'SCHEMAFORGE_TEST_DATABASE_URL')) throw reject();
+      && Object.keys(env).some(name => name.startsWith('KELRYVO_UNIT_') || name === 'KELRYVO_TEST_DATABASE_URL')) throw reject();
   const fixedEnv = Object.freeze({ PATH: '/usr/bin:/bin', LANG: 'C', TZ: 'UTC', ...env, [key]: databaseUrl,
-    ...(scope === 'UNIT_SYNTHETIC' ? { SCHEMAFORGE_UNIT_SCOPE: 'UNIT_SYNTHETIC' } : {}) });
+    ...(scope === 'UNIT_SYNTHETIC' ? { KELRYVO_UNIT_SCOPE: 'UNIT_SYNTHETIC' } : {}) });
   // Validate the fixed module/environment and limits before opening metadata.
   const startWorker = createExecutionWorkerStarter({ factoryUrl: binding.factoryUrl, env: fixedEnv });
   createSupervisedExecutionWorker({ startWorker, workerId: binding.workerId, scope,
@@ -82,7 +83,7 @@ export async function createInstalledExecutionService(value) {
     const supervisor = factory => createSupervisedExecutionWorker({ scope, workerId: factory.workerId,
       allowUnitSynthetic: scope === 'UNIT_SYNTHETIC', ...(factory.limits === undefined ? {} : { limits: factory.limits }),
       startWorker: createExecutionWorkerStarter({ factoryUrl: factory.factoryUrl,
-        env: Object.freeze({ ...factory.env, SCHEMAFORGE_METADATA_GENERATION_ID: generationId }) }) });
+        env: Object.freeze({ ...factory.env, KELRYVO_METADATA_GENERATION_ID: generationId }) }) });
     executor = supervisor(execution); recoverer = supervisor(recovery);
     let cursor = null;
     const held = results => Object.freeze({ status: 'HELD', reason: fault, scope, results: Object.freeze(results) });

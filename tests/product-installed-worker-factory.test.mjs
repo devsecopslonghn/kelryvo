@@ -9,8 +9,8 @@ import { declareReference, assignReference } from '../packages/catalog-reference
 
 const JOB = '99f8eb95-9b25-4d17-b996-a15053e24df1';
 const DATABASE_URL = 'postgres://127.0.0.1:5432/schemaforge_test';
-const enabledProduct = !!process.env.SCHEMAFORGE_TEST_DATABASE_URL
-  && process.env.SCHEMAFORGE_REQUIRE_PRODUCT_TESTS === '1';
+const enabledProduct = !!process.env.KELRYVO_TEST_DATABASE_URL
+  && process.env.KELRYVO_REQUIRE_PRODUCT_TESTS === '1';
 
 function unitInstallation(overrides = {}) {
   return {

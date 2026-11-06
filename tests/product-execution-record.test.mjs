@@ -7,7 +7,7 @@ import { approvedMigrationIdentities } from '../packages/execution/pending-migra
 import { executionDigest } from '../packages/execution/admission.ts';
 
 test('execution record exports a complete bounded synthetic journal without mutations or private metadata', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120_000,
 }, async () => {
   const f = await executionHistoryFixture();
   const url = id => `/api/execution-jobs/${id}/record`;

@@ -5,7 +5,7 @@ import { chromium } from 'playwright';
 import { statementEnvelopeFixture } from './helpers/statement-envelope-fixture.mjs';
 
 test('review shows the complete paged statement envelope, explicit readiness and legacy reapproval without stale results', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120_000,
 }, async () => {
   const f = await statementEnvelopeFixture(); let browser, releaseResponse = () => {};
   try {

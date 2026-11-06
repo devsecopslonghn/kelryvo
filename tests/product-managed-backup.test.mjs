@@ -10,7 +10,7 @@ import { initializeDatabase } from '../packages/database/index.ts';
 import { createManagedPostgresBackup, restoreManagedPostgresBackup } from '../packages/backup/index.mjs';
 import { PG_IMAGE } from '../scripts/local-resources.mjs';
 
-const required=process.env.SCHEMAFORGE_REQUIRE_PRODUCT_TESTS==='1';
+const required=process.env.KELRYVO_REQUIRE_PRODUCT_TESTS==='1';
 const uid=()=>randomUUID();
 const digest=value=>createHash('sha256').update(value).digest('hex');
 const runDocker=(args,env={},timeout=120_000)=>{

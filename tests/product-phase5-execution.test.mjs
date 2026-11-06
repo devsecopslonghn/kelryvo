@@ -7,7 +7,7 @@ import {createExecutionWorker} from '../apps/worker/run-request.ts';
 import {materializeExecutionRequest,readExecutionRequest} from '../packages/execution/admission.ts';
 import {acquireTargetLocks} from '../packages/targets/locks.ts';
 
-const enabled=!!process.env.SCHEMAFORGE_TEST_DATABASE_URL;
+const enabled=!!process.env.KELRYVO_TEST_DATABASE_URL;
 const digest=createHash('sha256').update('Phase 5 UNIT evidence').digest('hex');
 const hash=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
 async function prepare(f) {

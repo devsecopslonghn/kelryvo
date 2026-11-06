@@ -12,14 +12,14 @@ import { prepareDemoRepository } from '../scripts/local-resources.mjs';
 import { runAntlrCandidate } from '../experiments/db-devops-wp0/antlr-envelope.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
-const skip = !process.env.SCHEMAFORGE_TEST_DATABASE_URL;
+const skip = !process.env.KELRYVO_TEST_DATABASE_URL;
 
 test('retained release detail keeps bounded historical diagnostics and rejects unbounded metadata without writes', { skip, timeout: 120_000 }, async () => {
   const db = await openIsolatedProductDatabase();
   const actor = { id: `detail-${randomUUID()}`, name: 'Detail reader', role: 'developer', token: randomBytes(32).toString('hex') };
   const approver = { id: `detail-approver-${randomUUID()}`, name: 'Detail approver', role: 'approver', token: randomBytes(32).toString('hex') };
   const outsider = { id: `detail-outsider-${randomUUID()}`, name: 'Unscoped reader', role: 'developer', token: randomBytes(32).toString('hex') };
-  const temporary = await mkdtemp(path.join(os.tmpdir(), 'schemaforge-retained-detail-'));
+  const temporary = await mkdtemp(path.join(os.tmpdir(), 'kelryvo-retained-detail-'));
   const repoPath = path.join(temporary, 'git');
   await cp(await prepareDemoRepository(), repoPath, { recursive: true });
   let parserUnavailable = false;
@@ -49,9 +49,9 @@ test('retained release detail keeps bounded historical diagnostics and rejects u
     assert.equal((await req('GET', `/api/releases/${id}`)).statusCode, 404, 'revoked membership is masked as not found');
     await membership.grant(project.id, actor.id);
     await writeFile(path.join(repoPath, 'migrations', 'V099__invalid_retained.sql'), 'THIS IS NOT VALID SQL;\n');
-    execFileSync('git', ['-c', 'user.name=SchemaForge Fixture', '-c', 'user.email=fixture@example.invalid', '-C', repoPath,
+    execFileSync('git', ['-c', 'user.name=Kelryvo Fixture', '-c', 'user.email=fixture@example.invalid', '-C', repoPath,
       'add', 'migrations/V099__invalid_retained.sql']);
-    execFileSync('git', ['-c', 'user.name=SchemaForge Fixture', '-c', 'user.email=fixture@example.invalid', '-C', repoPath,
+    execFileSync('git', ['-c', 'user.name=Kelryvo Fixture', '-c', 'user.email=fixture@example.invalid', '-C', repoPath,
       'commit', '-m', 'Add invalid migration fixture'], { stdio: 'ignore' });
     const invalidImport = await req('POST', `/api/projects/${project.id}/releases`, { repositoryId: 'demo', commit: 'HEAD', folder: 'migrations' });
     assert.equal(invalidImport.statusCode, 201, invalidImport.body);

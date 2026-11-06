@@ -1,3 +1,4 @@
+import { productEnvironment } from '../packages/runtime/environment.mjs';
 import { constants } from 'node:fs';
 import { parseArgs } from 'node:util';
 import { readPrivateTls } from './local-tls.mjs';
@@ -16,14 +17,14 @@ try {
   const restored=!!values.restored;
   if (restored && values.repository?.length || !!values['tls-cert'] !== !!values['tls-key']) throw new Error('invalid startup options');
   const tls = values['tls-cert'] ? await readPrivateTls(values['tls-cert'], values['tls-key']) : undefined;
-  const identityRuntime = process.env.SCHEMAFORGE_IDENTITY_CONFIG ? await readIdentityRuntime(process.env.SCHEMAFORGE_IDENTITY_CONFIG) : undefined;
+  const identityRuntime = productEnvironment().KELRYVO_IDENTITY_CONFIG ? await readIdentityRuntime(productEnvironment().KELRYVO_IDENTITY_CONFIG) : undefined;
   if (identityRuntime && !tls) throw new Error('Identity sign-in requires TLS');
   const requestedRepositories = parseLocalRepositoryArguments((values.repository ?? []).flatMap(value => ['--repository', value]));
   const configuredRepositories = await resolveLocalRepositories(requestedRepositories);
-  if (!process.env.SCHEMAFORGE_JAVA_HOME) {
+  if (!productEnvironment().KELRYVO_JAVA_HOME) {
     try { await access('.cache/licenses/runtime/temurin/bin/java');
-      process.env.SCHEMAFORGE_JAVA_HOME = path.resolve('.cache/licenses/runtime/temurin'); }
-    catch { process.env.SCHEMAFORGE_JAVA_HOME = path.resolve('.cache/antlr/temurin'); }
+      process.env.KELRYVO_JAVA_HOME = path.resolve('.cache/licenses/runtime/temurin'); }
+    catch { process.env.KELRYVO_JAVA_HOME = path.resolve('.cache/antlr/temurin'); }
   }
   const config = await localConfiguration();
   await startLocalPostgres(config);
@@ -44,7 +45,7 @@ try {
   }
   const repository = await prepareDemoRepository();
   const { startProduct } = await import('../apps/api/server.ts');
-  const manifestPath=process.env.KELYRVO_DISCOVERY_MANIFEST,secretDirectory=process.env.KELYRVO_DISCOVERY_SECRET_DIRECTORY;
+  const manifestPath=productEnvironment().KELRYVO_DISCOVERY_MANIFEST,secretDirectory=productEnvironment().KELRYVO_DISCOVERY_SECRET_DIRECTORY;
   if(!!manifestPath!==!!secretDirectory)throw new Error('invalid discovery startup options');
   const discoveryRuntime=manifestPath ? (await import('../packages/connectivity/oracle.mjs')).createOracleDiscoveryRuntime({manifestPath,secretDirectory,timeoutMs:8000}) : undefined;
   const app = await startProduct({ databaseUrl, actors: [
@@ -54,17 +55,17 @@ try {
     { id: 'demo', name: 'Local migration demo', path: repository },
     ...configuredRepositories,
   ], tls, discoveryRuntime, identityRuntime });
-  console.log(`SchemaForge: ${tls ? 'https' : 'http'}://127.0.0.1:4317`);
+  console.log(`Kelryvo: ${tls ? 'https' : 'http'}://127.0.0.1:4317`);
   console.log('Local bearer tokens: .cache/local-product/config.json (private local file).');
   console.log('Target execution: NOT_EXECUTED; Oracle validation: BLOCKED.');
   const close = async () => { await app.close(); process.exitCode = 0; };
   process.once('SIGINT', close); process.once('SIGTERM', close);
 } catch (error) {
   if (error instanceof LocalRepositoryError) {
-    console.error('SchemaForge startup failed: invalid repository options. Use --repository PATH for an existing local Git working tree.');
+    console.error('Kelryvo startup failed: invalid repository options. Use --repository PATH for an existing local Git working tree.');
     process.exitCode = 1;
   } else {
-  console.error('SchemaForge startup failed. Check Docker, port 55432/4317 and run npm run local:prepare.');
+  console.error('Kelryvo startup failed. Check Docker, port 55432/4317 and run npm run local:prepare.');
   process.exitCode = 1;
   }
 }

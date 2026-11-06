@@ -10,7 +10,7 @@ import { createArtifactManifest, verifyArtifactManifest, verifyOfflineInstall, w
 const sha = (bytes) => createHash('sha256').update(bytes).digest('hex');
 
 async function fixtureProject() {
-  const root = await mkdtemp(join(tmpdir(), 'schemaforge-artifact-fixture-'));
+  const root = await mkdtemp(join(tmpdir(), 'kelryvo-artifact-fixture-'));
   const cache = join(root, 'cache');
   const packageBytes = Buffer.from('synthetic immutable npm tarball bytes');
   const sriDigest = createHash('sha512').update(packageBytes).digest('base64');
@@ -137,7 +137,7 @@ test('cached tarball bytes are rechecked against lock SRI on every measurement',
 
 test('installed dependency symlinks and smoke-script symlinks fail closed', async () => {
   const fixture = await fixtureProject();
-  const outside = await mkdtemp(join(tmpdir(), 'schemaforge-package-outside-'));
+  const outside = await mkdtemp(join(tmpdir(), 'kelryvo-package-outside-'));
   try {
     const linkedFile = join(fixture.packageDir, 'external.js');
     await writeFile(join(outside, 'external.js'), 'export const leaked = true;\n');
@@ -171,7 +171,7 @@ test('cache miss fails closed and offline install does not fall back to a regist
 });
 
 test('offline install runs a smoke import from an isolated staging directory', async () => {
-  const root = await mkdtemp(join(tmpdir(), 'schemaforge-offline-empty-'));
+  const root = await mkdtemp(join(tmpdir(), 'kelryvo-offline-empty-'));
   try {
     const pkg = { name: 'offline-empty-fixture', version: '1.0.0', type: 'module' };
     const lock = { name: pkg.name, version: pkg.version, lockfileVersion: 3, requires: true, packages: { '': { name: pkg.name, version: pkg.version } } };
@@ -223,8 +223,8 @@ test('offline install and post-install manifest use the supplied nonempty cache 
 });
 
 test('append-only reports reject a report-cache symlink before creating any external directory', async () => {
-  const root = await mkdtemp(join(tmpdir(), 'schemaforge-report-'));
-  const outside = await mkdtemp(join(tmpdir(), 'schemaforge-outside-'));
+  const root = await mkdtemp(join(tmpdir(), 'kelryvo-report-'));
+  const outside = await mkdtemp(join(tmpdir(), 'kelryvo-outside-'));
   try {
     await mkdir(join(root, '.cache', 'reports'), { recursive: true });
     await symlink(outside, join(root, '.cache', 'reports', 'db-devops-wp0'));

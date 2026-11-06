@@ -7,7 +7,7 @@ import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('browser inbox handles delayed scopes, exact plan navigation and grant revocation between pages', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120_000,
 }, async () => {
   const actors = [
     { id: `inbox-browser-dev-${randomUUID()}`, name: 'Inbox browser developer', role: 'developer', token: randomBytes(32).toString('hex') },

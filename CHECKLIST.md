@@ -1,6 +1,6 @@
 # Kelryvo — checklist hiện hành
 
-Nguồn trạng thái duy nhất cho app và Helm. README chỉ là cửa vào. Cập nhật 2026-11-02 (Asia/Saigon).
+Nguồn trạng thái duy nhất cho app và Helm. README chỉ là cửa vào. Cập nhật 2026-11-06 (Asia/Saigon).
 `[x]` nghĩa là hoàn thành đúng phạm vi ghi bên cạnh; không đồng nghĩa production-ready.
 `[ ]` nghĩa là còn thiếu nghiệm thu hoặc điều kiện hoàn thành. Không suy diễn kết quả
 offline thành kết quả Oracle, hoặc chuyển nghiệm thu giữa các source/image.
@@ -457,10 +457,21 @@ push, merge, thay infrastructure hoặc viết lại Git history từ một chec
 Không log secrets hoặc đưa secrets vào Git, image layers, browser storage hay command args.
 
 Node 22.23.3, npm 10.9.9, Python 3.11+, Git. Parser cần pinned JDK; dùng
-`SCHEMAFORGE_JAVA_HOME` trỏ tới JDK đã chuẩn bị. PostgreSQL test phải là fixture disposable
-riêng qua `SCHEMAFORGE_TEST_DATABASE_URL`; không dùng metadata sản phẩm. Native backup fixtures dùng chung Docker daemon chạy tuần tự; các API files còn lại
+`KELRYVO_JAVA_HOME` trỏ tới JDK đã chuẩn bị. PostgreSQL test phải là fixture disposable
+riêng qua `KELRYVO_TEST_DATABASE_URL`; không dùng metadata sản phẩm. Native backup fixtures dùng chung Docker daemon chạy tuần tự; các API files còn lại
 chạy tối đa hai subprocesses. Product runner
 nếu thiếu URL sẽ khởi tạo Docker local; chỉ chạy khi đã xác nhận fixture/environment.
+
+Tên sản phẩm/configuration hiện hành là Kelryvo và `KELRYVO_*`; web build mặc định
+hiển thị Kelryvo. Các biến `SCHEMAFORGE_*` cũ và hai biến gõ nhầm
+`KELYRVO_DISCOVERY_MANIFEST`/`KELYRVO_DISCOVERY_SECRET_DIRECTORY` vẫn được nhận làm
+aliases; giá trị `KELRYVO_*` ưu tiên khi cùng được đặt. Worker chỉ chuyển tiếp các
+aliases thuộc allowlist hiện có, giữ tương thích với installation factories cũ.
+Database/user/container/volume local, cookie/CSRF, backup/source manifest formats,
+worker protocol, parser package/JAR và Oracle mutex namespace giữ định danh cũ để
+bảo toàn dữ liệu, session, checksums và loại trừ writer giữa các phiên bản. Các tên
+này không phải branding; Required Notice/provenance và bằng chứng frozen không đổi.
+Đợt đổi tên source này không kế thừa nghiệm thu Oracle/OCI của artifact `ff239189`.
 
 ```sh
 npm ci --ignore-scripts --no-audit --no-fund

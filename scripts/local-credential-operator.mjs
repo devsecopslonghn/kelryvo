@@ -1,3 +1,4 @@
+import { productEnvironment } from '../packages/runtime/environment.mjs';
 import { createHash, randomBytes } from 'node:crypto';
 import { constants } from 'node:fs';
 import { lstat, open, readFile, rename, unlink } from 'node:fs/promises';
@@ -255,14 +256,14 @@ export async function operateLocalCredential({ configPath, databaseUrl, identity
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(import.meta.url).pathname)) {
   const [, , action, identity, configPath, ...extra] = process.argv;
   try {
-    if (extra.length || !process.env.SCHEMAFORGE_LOCAL_DATABASE_URL) throw genericFailure();
+    if (extra.length || !productEnvironment().KELRYVO_LOCAL_DATABASE_URL) throw genericFailure();
     if (action === 'recover' && process.argv.length !== 4) throw genericFailure();
     if (['rotate', 'revoke'].includes(action) && process.argv.length !== 5) throw genericFailure();
     if (!['recover', 'rotate', 'revoke'].includes(action)) throw genericFailure();
     if (action !== 'recover' && !['developer', 'approver'].includes(identity)) throw genericFailure();
     const selectedConfig = action === 'recover' ? identity : configPath;
-    if (!selectedConfig || !process.env.SCHEMAFORGE_LOCAL_DATABASE_URL) throw genericFailure();
-    if (action === 'recover') await recoverLocalCredentialOperation({ configPath: selectedConfig, databaseUrl: process.env.SCHEMAFORGE_LOCAL_DATABASE_URL });
-    else await operateLocalCredential({ configPath: selectedConfig, databaseUrl: process.env.SCHEMAFORGE_LOCAL_DATABASE_URL, identity, action });
+    if (!selectedConfig || !productEnvironment().KELRYVO_LOCAL_DATABASE_URL) throw genericFailure();
+    if (action === 'recover') await recoverLocalCredentialOperation({ configPath: selectedConfig, databaseUrl: productEnvironment().KELRYVO_LOCAL_DATABASE_URL });
+    else await operateLocalCredential({ configPath: selectedConfig, databaseUrl: productEnvironment().KELRYVO_LOCAL_DATABASE_URL, identity, action });
   } catch { process.stderr.write('Local credential operation failed.\n'); process.exitCode = 1; }
 }

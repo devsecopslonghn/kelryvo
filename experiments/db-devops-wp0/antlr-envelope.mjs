@@ -1,3 +1,4 @@
+import { productEnvironment } from '../../packages/runtime/environment.mjs';
 import { createHash } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { readFile, lstat } from 'node:fs/promises';
@@ -48,7 +49,7 @@ async function runCheckedHelper(rawValue, validate) {
     runtime = await checkedArtifact(runtimePin.path, runtimePin.sha256);
   } catch { return fail('helper_artifacts_unavailable_or_invalid'); }
 
-  const javaHome = process.env.SCHEMAFORGE_JAVA_HOME ?? path.join(ROOT, '.cache/licenses/runtime/temurin');
+  const javaHome = productEnvironment().KELRYVO_JAVA_HOME ?? path.join(ROOT, '.cache/antlr/temurin');
   let result;
   try {
     result = spawnSync(path.join(javaHome, 'bin/java'), ['-Xmx256m', '-Xss1m', '-Dfile.encoding=UTF-8',

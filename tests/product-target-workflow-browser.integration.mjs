@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
 import { createTargetWorkflowFixture } from './helpers/target-workflow-fixture.mjs';
 test('release planning loads target bindings beyond the first bounded page', {
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:120000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:120000,
 },async()=>{
   const f=await createTargetWorkflowFixture();let browser;
   try {

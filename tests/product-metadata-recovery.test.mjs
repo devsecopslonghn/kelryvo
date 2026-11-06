@@ -9,7 +9,7 @@ import { promisify } from 'node:util';
 import { listExpiredExecutionAttempts, operateLocalExecutionRecovery } from '../scripts/local-execution-recovery.mjs';
 
 const exec = promisify(execFile);
-const enabled = !!process.env.SCHEMAFORGE_TEST_DATABASE_URL && process.env.SCHEMAFORGE_REQUIRE_PRODUCT_TESTS === '1';
+const enabled = !!process.env.KELRYVO_TEST_DATABASE_URL && process.env.KELRYVO_REQUIRE_PRODUCT_TESTS === '1';
 
 test('recovery operator rejects malformed commands and private routes without disclosing inputs', async () => {
   const secret = randomBytes(32).toString('hex');
@@ -17,7 +17,7 @@ test('recovery operator rejects malformed commands and private routes without di
     ['status', '/missing/config', secret], ['status', '/missing/config', randomUUID(), 'extra']];
   for (const args of invalid) {
     await assert.rejects(exec(process.execPath, ['scripts/local-execution-recovery.mjs', ...args], {
-      env: { ...process.env, SCHEMAFORGE_LOCAL_DATABASE_URL: `postgres://private:${secret}@example.invalid/schemaforge` },
+      env: { ...process.env, KELRYVO_LOCAL_DATABASE_URL: `postgres://private:${secret}@example.invalid/schemaforge` },
     }), error => {
       assert.equal(error.stdout, '');
       assert.equal(error.stderr, 'Local execution recovery failed.\n');
@@ -87,7 +87,7 @@ test('local operator discovers bounded expired metadata and recovers one selecte
     assert.deepEqual([...page.attempts, ...second.attempts].map(row => row.jobId), jobs.slice(0, 51).map(row => row.id).sort());
     const retained = await f.db.sql`SELECT id,generation,lease_token,lease_owner,lease_until FROM sf_execution_attempts WHERE id=${jobs[0].attemptId}`;
     const cli = await exec(process.execPath, ['scripts/local-execution-recovery.mjs', 'recover', jobs[0].id, configPath], {
-      env: { ...process.env, SCHEMAFORGE_LOCAL_DATABASE_URL: databaseUrl },
+      env: { ...process.env, KELRYVO_LOCAL_DATABASE_URL: databaseUrl },
     });
     assert.equal(cli.stderr, '');
     assert.deepEqual(JSON.parse(cli.stdout), { jobId: jobs[0].id, result: 'HOLD' });

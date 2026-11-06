@@ -9,7 +9,7 @@ import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('browser preserves immutable approval display and drops a held withdrawal response after project ABA', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 90_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 90_000,
 }, async () => {
   const actors=[
     { id:`revoke-browser-dev-${randomUUID()}`,name:'Candidate author',role:'developer',token:randomBytes(32).toString('hex') },

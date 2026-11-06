@@ -8,7 +8,7 @@ import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('plan review shows only its matching current project profile and environment', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL,
   timeout: 180_000,
 }, async () => {
   const actors = [

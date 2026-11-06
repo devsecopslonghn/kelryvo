@@ -5,7 +5,7 @@ import { chromium } from 'playwright';
 import { createDiscoveryFixture } from './helpers/discovery-fixture.mjs';
 
 test('themes preserve project navigation, readable mobile actions and session cleanup across responsive layouts', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120_000,
 }, async t => {
   const fixture = await createDiscoveryFixture();
   let browser;

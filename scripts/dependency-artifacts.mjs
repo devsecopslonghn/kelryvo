@@ -306,7 +306,7 @@ async function requireSafeSmokeScript(root, smokeScript) {
 export async function verifyOfflineInstall({ root = ROOT, smokeScript, cachePath = process.env.npm_config_cache || process.env.NPM_CONFIG_CACHE || resolve(homedir(), '.npm') } = {}) {
   root = resolve(root);
   const smokeSource = await requireSafeSmokeScript(root, smokeScript);
-  const staging = await mkdtemp(resolve(tmpdir(), 'schemaforge-npm-offline-'));
+  const staging = await mkdtemp(resolve(tmpdir(), 'kelryvo-npm-offline-'));
   try {
     await Promise.all([
       copyFile(resolve(root, 'package.json'), resolve(staging, 'package.json')),

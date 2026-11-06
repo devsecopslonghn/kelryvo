@@ -11,16 +11,16 @@ import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('release inspection shows persisted provenance and retained SQL after Git becomes unavailable and project archives', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL,
   timeout: 120_000,
 }, async () => {
-  const temporary = await mkdtemp(path.join(os.tmpdir(), 'schemaforge-release-provenance-'));
+  const temporary = await mkdtemp(path.join(os.tmpdir(), 'kelryvo-release-provenance-'));
   const repoPath = path.join(temporary, 'retained-private-repository');
   const unavailablePath = path.join(temporary, 'repository-unavailable');
   const privatePathMarker = `${temporary}${path.sep}`;
   const actors = [{ id: `provenance-${randomUUID()}`, name: 'Provenance reviewer', role: 'developer', token: randomBytes(32).toString('hex') }];
   const database = await openIsolatedProductDatabase();
-  assert.ok(database, 'SCHEMAFORGE_TEST_DATABASE_URL is required for this browser workflow');
+  assert.ok(database, 'KELRYVO_TEST_DATABASE_URL is required for this browser workflow');
   let app;
   let browser;
   let repoMoved = false;

@@ -8,8 +8,8 @@ import net from 'node:net';
 import { startProduct } from '../apps/api/server.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 
-const enabled = !!process.env.SCHEMAFORGE_TEST_DATABASE_URL
-  && process.env.SCHEMAFORGE_REQUIRE_PRODUCT_TESTS === '1';
+const enabled = !!process.env.KELRYVO_TEST_DATABASE_URL
+  && process.env.KELRYVO_REQUIRE_PRODUCT_TESTS === '1';
 const actors = [{ id: 'runtime-lifecycle', name: 'Runtime lifecycle test', role: 'developer', token: 'a'.repeat(64) }];
 
 function childResult(child, timeoutMs = 15_000) {

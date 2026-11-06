@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
 async function staging() {
-  const root = await mkdtemp(join(tmpdir(), 'schemaforge-antlr-prepare-'));
+  const root = await mkdtemp(join(tmpdir(), 'kelryvo-antlr-prepare-'));
   await mkdir(join(root, 'scripts'));
   await mkdir(join(root, 'docs/dependencies'), { recursive: true });
   await copyFile(new URL('../scripts/antlr-prepare.mjs', import.meta.url), join(root, 'scripts/antlr-prepare.mjs'));
@@ -33,7 +33,7 @@ test('artifact preparation refuses unapproved URLs without echoing injected cred
 
 test('artifact preparation rejects a cache symlink before creating any outside directories', async () => {
   const { root } = await staging();
-  const outside = await mkdtemp(join(tmpdir(), 'schemaforge-antlr-prepare-outside-'));
+  const outside = await mkdtemp(join(tmpdir(), 'kelryvo-antlr-prepare-outside-'));
   try {
     await symlink(outside, join(root, '.cache'));
     const result = spawnSync(process.execPath, ['scripts/antlr-prepare.mjs', '--download'], { cwd: root, encoding: 'utf8', timeout: 5000 });

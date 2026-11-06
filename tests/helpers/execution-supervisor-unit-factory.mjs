@@ -4,10 +4,10 @@ import { createExecutionWorker as makeWorker } from '../../apps/worker/run-reque
 
 const sha = value => createHash('sha256').update(value).digest('hex');
 export async function createExecutionWorker() {
-  if (process.env.SCHEMAFORGE_UNIT_SCOPE !== 'UNIT_SYNTHETIC') throw new Error('unit_scope_required');
-  const sql = postgres(process.env.SCHEMAFORGE_TEST_DATABASE_URL, { max: 2 });
+  if (process.env.KELRYVO_UNIT_SCOPE !== 'UNIT_SYNTHETIC') throw new Error('unit_scope_required');
+  const sql = postgres(process.env.KELRYVO_TEST_DATABASE_URL, { max: 2 });
   const digest = sha('supervised-unit-target');
-  const assignmentId = process.env.SCHEMAFORGE_UNIT_ASSIGNMENT_ID;
+  const assignmentId = process.env.KELRYVO_UNIT_ASSIGNMENT_ID;
   const host = { workerId: 'supervised-unit-worker', scope: 'UNIT_SYNTHETIC', withTarget: async (request, run) => {
     const target = (await sql`SELECT applied FROM sf_supervisor_unit_target WHERE assignment_id=${assignmentId}`)[0];
     if (!target) throw new Error('unit_target_fixture_missing');
@@ -34,10 +34,10 @@ export async function createExecutionWorker() {
       verifyPostconditions: async () => true, centralEvidenceComplete: async () => true });
     return result;
   } };
-  const worker = makeWorker(sql, host, { allowUnitSynthetic: true, expectedMetadataGenerationId: process.env.SCHEMAFORGE_METADATA_GENERATION_ID });
+  const worker = makeWorker(sql, host, { allowUnitSynthetic: true, expectedMetadataGenerationId: process.env.KELRYVO_METADATA_GENERATION_ID });
   return { scope: worker.scope, workerId: worker.workerId, expectedMetadataGenerationId: worker.expectedMetadataGenerationId,
     runWaitingRequest: worker.runWaitingRequest, close: async () => {
     await sql.end({ timeout: 1 });
-    if (process.env.SCHEMAFORGE_UNIT_CLEANUP_FAULT === 'throw') throw new Error('unit_cleanup_fault');
+    if (process.env.KELRYVO_UNIT_CLEANUP_FAULT === 'throw') throw new Error('unit_cleanup_fault');
   } };
 }

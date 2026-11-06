@@ -7,7 +7,7 @@ import { initializeExecutionReconciliation, registerExecutionReconciliation } fr
 
 const sha=value=>createHash('sha256').update(value).digest('hex');
 test('HOLD reconciliation retains digest-only evidence with independent immutable review and no replay authority',{
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:120_000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:120_000,
 },async()=>{
   const f=await executionHistoryFixture();let app;
   const buildApp=async()=>{

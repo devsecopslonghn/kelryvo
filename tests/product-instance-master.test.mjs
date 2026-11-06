@@ -4,7 +4,7 @@ import { createDiscoveryFixture } from './helpers/discovery-fixture.mjs';
 import { instanceProfileCurrent } from '../packages/connectivity/instance-current.ts';
 
 test('one instance credential discovers before assignment and serves multiple independently governed schema streams',{
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:120000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:120000,
 },async()=>{
   const f=await createDiscoveryFixture();try {
     const body={name:'Shared instance',containerName:'PDB',kind:'PDB',environment:'DEV',host:'master.example.invalid',port:1521,

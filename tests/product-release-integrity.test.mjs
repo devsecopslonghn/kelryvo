@@ -12,12 +12,12 @@ import { createMembershipOperatorFixture } from './helpers/product-membership-fi
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const parserAvailable = existsSync(path.join(root, 'experiments/db-devops-wp0/antlr-helper/target/schemaforge-antlr-parser.jar'));
-const skip = !process.env.SCHEMAFORGE_TEST_DATABASE_URL || !parserAvailable;
+const skip = !process.env.KELRYVO_TEST_DATABASE_URL || !parserAvailable;
 const sha = (value) => createHash('sha256').update(value).digest('hex');
 
 test('offline planning rejects corrupted retained releases without writes and uses locked current state', { skip, timeout: 120_000 }, async () => {
   const db = await openIsolatedProductDatabase();
-  const temporaryRepo = process.env.SCHEMAFORGE_DEMO_REPOSITORY_PATH || await prepareDemoRepository();
+  const temporaryRepo = process.env.KELRYVO_DEMO_REPOSITORY_PATH || await prepareDemoRepository();
   const actors = [{ id: `integrity-${randomUUID()}`, name: 'Integrity tester', role: 'developer', token: randomBytes(32).toString('hex') }];
   let app = createApp({ sql: db.sql, actors, repositories: [{ id: 'demo', name: 'Demo', path: temporaryRepo }] });
   const membership = await createMembershipOperatorFixture(db.databaseUrl);

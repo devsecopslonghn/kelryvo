@@ -11,7 +11,7 @@ import {createPrivateBackup,restorePrivateBackup,inventory as inspectBackupSchem
 import {createApp} from '../apps/api/index.ts';
 import {SQL_WORKSPACE_TABLES} from '../packages/sql-workspace/schema.mjs';
 import {prepareAuthoredSnapshot} from '../packages/migrations/authored-snapshot.mjs';
-const enabled=!!process.env.SCHEMAFORGE_TEST_DATABASE_URL && process.env.SCHEMAFORGE_REQUIRE_PRODUCT_TESTS==='1';
+const enabled=!!process.env.KELRYVO_TEST_DATABASE_URL && process.env.KELRYVO_REQUIRE_PRODUCT_TESTS==='1';
 test('Native backup preserves SQL revisions and release attribution, while restored metadata keeps preparation held',{
   skip:!enabled,timeout:180000,
 },async()=>{

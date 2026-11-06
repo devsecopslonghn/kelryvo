@@ -12,7 +12,7 @@ import { parseLocalRepositoryArguments, resolveLocalRepositories } from '../scri
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 function git(cwd, args) {
-  const result = spawnSync('/usr/bin/git', ['-c', 'core.hooksPath=/dev/null', '-c', 'user.name=SchemaForge test', '-c', 'user.email=test@schemaforge.invalid', '-C', cwd, ...args], {
+  const result = spawnSync('/usr/bin/git', ['-c', 'core.hooksPath=/dev/null', '-c', 'user.name=Kelryvo test', '-c', 'user.email=test@kelryvo.invalid', '-C', cwd, ...args], {
     encoding: 'utf8',
     env: { PATH: '/usr/bin:/bin', LANG: 'C.UTF-8', GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null' },
     timeout: 5_000,
@@ -32,7 +32,7 @@ async function createRepository(parent, name) {
   assert.equal(init.status, 0, 'test repository init should succeed');
   git(repositoryPath, ['add', '--', 'migrations']);
   const commit = spawnSync('/usr/bin/git', [
-    '-c', 'user.name=SchemaForge test', '-c', 'user.email=test@schemaforge.invalid',
+    '-c', 'user.name=Kelryvo test', '-c', 'user.email=test@kelryvo.invalid',
     '-c', 'core.hooksPath=/dev/null', '-C', repositoryPath, 'commit', '-m', 'Add migration',
   ], { encoding: 'utf8', env: { PATH: '/usr/bin:/bin', LANG: 'C.UTF-8' }, timeout: 5_000 });
   assert.equal(commit.status, 0, 'test repository commit should succeed');
@@ -51,7 +51,7 @@ test('startup arguments accept repeated local repositories and reject unknown or
 });
 
 test('configured repositories are canonical local Git worktrees with display-only public descriptors', async () => {
-  const temporary = await mkdtemp(path.join(os.tmpdir(), 'schemaforge-repositories-'));
+  const temporary = await mkdtemp(path.join(os.tmpdir(), 'kelryvo-repositories-'));
   try {
     const first = await createRepository(temporary, 'private-project-name');
     const second = await createRepository(temporary, 'another-project');
@@ -83,7 +83,7 @@ test('configured repositories are canonical local Git worktrees with display-onl
 });
 
 test('invalid startup options fail before creating local configuration or reaching Docker', async () => {
-  const temporary = await mkdtemp(path.join(os.tmpdir(), 'schemaforge-startup-options-'));
+  const temporary = await mkdtemp(path.join(os.tmpdir(), 'kelryvo-startup-options-'));
   const script = fileURLToPath(new URL('../scripts/local-dev.mjs', import.meta.url));
   const invocations = [
     ['--unexpected-secret-flag', 'value'],
@@ -98,7 +98,7 @@ test('invalid startup options fail before creating local configuration or reachi
         timeout: 10_000,
       });
       assert.equal(child.status, 1);
-      assert.equal(child.stderr, 'SchemaForge startup failed: invalid repository options. Use --repository PATH for an existing local Git working tree.\n');
+      assert.equal(child.stderr, 'Kelryvo startup failed: invalid repository options. Use --repository PATH for an existing local Git working tree.\n');
       assert.equal(child.stderr.includes(temporary), false);
     }
     await assert.rejects(access(path.join(temporary, '.cache')), { code: 'ENOENT' });
@@ -108,8 +108,8 @@ test('invalid startup options fail before creating local configuration or reachi
 });
 
 test('a configured custom Git repository is visible without its path and imports through the product API',
-  { skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL }, async () => {
-    const temporary = await mkdtemp(path.join(os.tmpdir(), 'schemaforge-custom-repository-'));
+  { skip: !process.env.KELRYVO_TEST_DATABASE_URL }, async () => {
+    const temporary = await mkdtemp(path.join(os.tmpdir(), 'kelryvo-custom-repository-'));
     let db;
     let app;
     let membership;
@@ -160,7 +160,7 @@ test('a configured custom Git repository is visible without its path and imports
         'ALTER TABLE item ADD (label VARCHAR2(80));\n');
       git(privateRepositoryPath, ['add', '--', 'migrations/V002__add_label.sql']);
       const movedHead = spawnSync('/usr/bin/git', [
-        '-c', 'user.name=SchemaForge test', '-c', 'user.email=test@schemaforge.invalid',
+        '-c', 'user.name=Kelryvo test', '-c', 'user.email=test@kelryvo.invalid',
         '-c', 'core.hooksPath=/dev/null', '-C', privateRepositoryPath, 'commit', '-m', 'Move HEAD',
       ], { encoding: 'utf8', env: { PATH: '/usr/bin:/bin', LANG: 'C.UTF-8' }, timeout: 5_000 });
       assert.equal(movedHead.status, 0);
@@ -177,10 +177,10 @@ test('a configured custom Git repository is visible without its path and imports
   });
 
 test('project-bound Git refs list safely and imports retain immutable branch and tag commits', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL,
   timeout: 90_000,
 }, async () => {
-  const temporary = await mkdtemp(path.join(os.tmpdir(), 'schemaforge-git-refs-'));
+  const temporary = await mkdtemp(path.join(os.tmpdir(), 'kelryvo-git-refs-'));
   let db;
   let app;
     let membership;
@@ -253,7 +253,7 @@ test('project-bound Git refs list safely and imports retain immutable branch and
 
     await writeFile(path.join(repositoryPath, 'migrations/V002__add_label.sql'), 'ALTER TABLE item ADD (label VARCHAR2(80));\n');
     git(repositoryPath, ['add', '--', 'migrations/V002__add_label.sql']);
-    const moved = spawnSync('/usr/bin/git', ['-c', 'user.name=SchemaForge test', '-c', 'user.email=test@schemaforge.invalid', '-c', 'core.hooksPath=/dev/null', '-C', repositoryPath, 'commit', '-m', 'Move branch'], { encoding: 'utf8', env: { PATH: '/usr/bin:/bin', LANG: 'C.UTF-8' }, timeout: 5_000 });
+    const moved = spawnSync('/usr/bin/git', ['-c', 'user.name=Kelryvo test', '-c', 'user.email=test@kelryvo.invalid', '-c', 'core.hooksPath=/dev/null', '-C', repositoryPath, 'commit', '-m', 'Move branch'], { encoding: 'utf8', env: { PATH: '/usr/bin:/bin', LANG: 'C.UTF-8' }, timeout: 5_000 });
     assert.equal(moved.status, 0);
     git(repositoryPath, ['branch', '-f', 'release/qa', 'HEAD']);
     git(repositoryPath, ['tag', '-a', '-f', 'v1.1.0', '-m', 'Moved annotated release', 'HEAD']);

@@ -4,7 +4,7 @@ import { chromium } from 'playwright';
 import { createDiscoveryFixture } from './helpers/discovery-fixture.mjs';
 
 test('browser onboards one master Oracle credential across multiple project schemas without claiming fixture evidence is live', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 180000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 180000,
 }, async () => {
   const f = await createDiscoveryFixture();
   let browser;

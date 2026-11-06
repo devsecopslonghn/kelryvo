@@ -1,3 +1,4 @@
+import { productEnvironment } from '../packages/runtime/environment.mjs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import postgres from 'postgres';
@@ -16,8 +17,8 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   try {
     const [action, identity, ...extra] = process.argv.slice(2);
     if (extra.length) throw new Error();
-    await operateLocalIdentityAdmin({ configPath: process.env.SCHEMAFORGE_LOCAL_CONFIG ?? path.resolve('.cache/local-product/config.json'),
-      databaseUrl: process.env.SCHEMAFORGE_LOCAL_DATABASE_URL, action, identity });
+    await operateLocalIdentityAdmin({ configPath: productEnvironment().KELRYVO_LOCAL_CONFIG ?? path.resolve('.cache/local-product/config.json'),
+      databaseUrl: productEnvironment().KELRYVO_LOCAL_DATABASE_URL, action, identity });
     process.stdout.write('Identity configuration capability updated. Application roles and project grants preserved.\n');
   } catch { process.stderr.write('Local identity operation unavailable. Use grant|revoke developer|approver.\n'); process.exitCode = 1; }
 }

@@ -1,3 +1,4 @@
+import { productEnvironment } from '../packages/runtime/environment.mjs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import postgres from 'postgres';
@@ -58,7 +59,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
       configPath: action === 'status' ? args[0] : args[1],
       jobId: action === 'recover' ? args[0] : undefined,
       afterJobId: action === 'status' ? args[1] : undefined,
-      databaseUrl: process.env.SCHEMAFORGE_LOCAL_DATABASE_URL });
+      databaseUrl: productEnvironment().KELRYVO_LOCAL_DATABASE_URL });
     process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
   } catch { process.stderr.write('Local execution recovery failed.\n'); process.exitCode = 1; }
 }

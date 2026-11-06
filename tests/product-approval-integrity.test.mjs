@@ -13,7 +13,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const parserAvailable = existsSync(path.join(root, 'experiments/db-devops-wp0/antlr-helper/target/schemaforge-antlr-parser.jar'));
 
 test('approval verifies locked retained release and ordered plan facts before writes; rejection remains available', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL || !parserAvailable, timeout: 120_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL || !parserAvailable, timeout: 120_000,
 }, async () => {
   const db = await openIsolatedProductDatabase();
   const actors = [

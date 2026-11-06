@@ -67,7 +67,7 @@ export async function createTargetWorkflowFixture({fileCount=1,discoveryRuntime,
     const lineageId = randomUUID();
     const optionDefinition = () => ({ expectedOptionRevision: '0', projectId: project.id, assignmentId: assignment.id,
       environmentId: environment.id, profileId: profile.id, routeId: reference.serviceId, routeConfigRevision: '1',
-      routeAlias: 'Target workflow route', migrationNamespace: 'KELYRVO_WORKFLOW', policyId: randomUUID(), policyRevision: '1',
+      routeAlias: 'Target workflow route', migrationNamespace: 'KELRYVO_WORKFLOW', policyId: randomUUID(), policyRevision: '1',
       exactOwner: 'APP', deploymentPrincipalId: randomUUID(), principalPurpose: 'DEPLOY', principalUsername: deploymentUsername,
       privatePrincipalRef: credentialRef, principalAlias: 'Workflow deployment principal', lineageId,
       reason: 'configure offline target option' });

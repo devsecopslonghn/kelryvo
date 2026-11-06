@@ -2,6 +2,7 @@ import { ChildProcess, fork } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { EXECUTION_WORKER_PROTOCOL, exact, resultMessage } from './supervisor-protocol.mjs';
+import { productEnvironment, productEnvironmentKeys } from '../../packages/runtime/environment.mjs';
 
 const LIMITS = Object.freeze({ operationMs: 300_000, termGraceMs: 500, reapMs: 5_000, outputBytes: 16_384 });
 const RESULT = Object.freeze({ status: 'HOLD', reason: 'WORKER_UNCERTAIN', workerResult: 'HOLD_PERSISTENCE_PENDING',
@@ -16,9 +17,9 @@ const hold = (reason, childTermination = 'UNCONFIRMED') => Object.freeze({ ...RE
 const actualChild = child => child instanceof ChildProcess && Number.isInteger(child.pid) && child.pid > 0
   && child.connected && child.stdin === null && child.stdout && child.stderr;
 
-const FIXED_ENV_KEYS = new Set(['PATH', 'LANG', 'TZ', 'SCHEMAFORGE_JAVA_HOME', 'SCHEMAFORGE_DATABASE_URL',
-  'SCHEMAFORGE_METADATA_GENERATION_ID',
-  'SCHEMAFORGE_TEST_DATABASE_URL', 'SCHEMAFORGE_UNIT_SCOPE', 'SCHEMAFORGE_UNIT_ASSIGNMENT_ID', 'SCHEMAFORGE_UNIT_CLEANUP_FAULT']);
+const FIXED_ENV_KEYS = new Set(productEnvironmentKeys(['PATH', 'LANG', 'TZ', 'KELRYVO_JAVA_HOME', 'KELRYVO_DATABASE_URL',
+  'KELRYVO_METADATA_GENERATION_ID',
+  'KELRYVO_TEST_DATABASE_URL', 'KELRYVO_UNIT_SCOPE', 'KELRYVO_UNIT_ASSIGNMENT_ID', 'KELRYVO_UNIT_CLEANUP_FAULT']));
 /** Build the fixed fork closure at privileged installation time. Request data cannot select its entry or factory. */
 export function createExecutionWorkerStarter({ factoryUrl, env = { PATH: '/usr/bin:/bin', LANG: 'C', TZ: 'UTC' } } = {}) {
   let parsed;
@@ -26,8 +27,9 @@ export function createExecutionWorkerStarter({ factoryUrl, env = { PATH: '/usr/b
   if (parsed.protocol !== 'file:') throw new TypeError('privileged_worker_binding_required');
   if (!exact(env, Object.keys(env)) || Object.keys(env).some(key => !FIXED_ENV_KEYS.has(key))
       || Object.values(env).some(value => typeof value !== 'string' || value.length > 4096)) throw new TypeError('privileged_worker_binding_rejected');
-  const startupEnv = Object.freeze({ ...env });
-  if (startupEnv.SCHEMAFORGE_UNIT_SCOPE && startupEnv.SCHEMAFORGE_UNIT_SCOPE !== 'UNIT_SYNTHETIC') throw new TypeError('privileged_worker_scope_rejected');
+  // Staged installation factories from earlier releases still read legacy names.
+  const startupEnv = Object.freeze(productEnvironment(env, { includeLegacy: true }));
+  if (startupEnv.KELRYVO_UNIT_SCOPE && startupEnv.KELRYVO_UNIT_SCOPE !== 'UNIT_SYNTHETIC') throw new TypeError('privileged_worker_scope_rejected');
   const entry = fileURLToPath(new URL('./execution-worker-child.mjs', import.meta.url));
   const specifier = parsed.href;
   return () => fork(entry, [specifier], Object.freeze({ execArgv: Object.freeze([]), serialization: 'json', shell: false,

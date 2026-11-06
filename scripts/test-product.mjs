@@ -1,3 +1,4 @@
+import { productEnvironment } from '../packages/runtime/environment.mjs';
 import { spawn } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { partitionProductFiles } from './product-test-shards.mjs';
@@ -13,12 +14,13 @@ function parseShard(value) {
 }
 
 export async function runProductTests(argv = process.argv.slice(2), env = process.env) {
+  env = productEnvironment(env);
   let shard;
   let options;
   let files;
   try {
-    shard = parseShard(env.SCHEMAFORGE_TEST_SHARD);
-    options = parseProductTestOptions(argv, { shard: env.SCHEMAFORGE_TEST_SHARD });
+    shard = parseShard(env.KELRYVO_TEST_SHARD);
+    options = parseProductTestOptions(argv, { shard: env.KELRYVO_TEST_SHARD });
     files = shard
       ? partitionProductFiles(options.files, shard.total)[shard.index - 1]
       : options.files;
@@ -34,8 +36,8 @@ export async function runProductTests(argv = process.argv.slice(2), env = proces
   const runnerOptions = `${options.browser ? '--browser ' : ''}--file <product-test-file>${options.name === undefined ? '' : ' --name <pattern>'}`;
   process.stderr.write(`${suite} product tests: ${files.length} file${files.length === 1 ? '' : 's'}${shard ? ` (shard ${shard.index}/${shard.total})` : ''}. Debug one file: node scripts/test-product.mjs ${runnerOptions}\n`);
 
-  let url = env.SCHEMAFORGE_TEST_DATABASE_URL;
-  let demoRepositoryPath = env.SCHEMAFORGE_DEMO_REPOSITORY_PATH;
+  let url = env.KELRYVO_TEST_DATABASE_URL;
+  let demoRepositoryPath = env.KELRYVO_DEMO_REPOSITORY_PATH;
   let resources;
   if (!url) {
     const [resourceModule, postgresModule] = await Promise.all([
@@ -63,8 +65,8 @@ export async function runProductTests(argv = process.argv.slice(2), env = proces
     if (options.name !== undefined) args.push(`--test-name-pattern=${literalTestNamePattern(options.name)}`);
     args.push(...group.files);
     const child = spawn(process.execPath, args, { stdio: 'inherit', env: {
-      ...env, SCHEMAFORGE_TEST_DATABASE_URL: url, SCHEMAFORGE_DEMO_REPOSITORY_PATH: demoRepositoryPath,
-      SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: '1',
+      ...env, KELRYVO_TEST_DATABASE_URL: url, KELRYVO_DEMO_REPOSITORY_PATH: demoRepositoryPath,
+      KELRYVO_REQUIRE_PRODUCT_TESTS: '1',
     } });
     return new Promise((resolve, reject) => {
       child.once('error', reject);

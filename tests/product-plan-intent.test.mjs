@@ -7,7 +7,7 @@ import { prepareDemoRepository } from '../scripts/local-resources.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('plan intent persists across API restart and damaged or legacy intent blocks approval without writes', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 180_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 180_000,
 }, async () => {
   const database = await openIsolatedProductDatabase();
   const actors = [

@@ -1,3 +1,4 @@
+import { productEnvironment } from '../packages/runtime/environment.mjs';
 import { createHash, randomUUID } from 'node:crypto';
 import { createReadStream } from 'node:fs';
 import {
@@ -321,7 +322,7 @@ async function validateInputs(projectRoot, lock) {
 }
 
 async function buildOnce({ tools, runtime, helperDir, env }) {
-  const temp = await mkdtemp(join(await realpath(tmpdir()), 'schemaforge-antlr-build-'));
+  const temp = await mkdtemp(join(await realpath(tmpdir()), 'kelryvo-antlr-build-'));
   try {
     const generated = join(temp, 'generated');
     const classes = join(temp, 'classes');
@@ -411,14 +412,15 @@ async function assertJarContents(jarCommand, jarPath, cwd, env) {
 }
 
 export async function build({ projectRoot = ROOT, environment = process.env } = {}) {
+  environment = productEnvironment(environment);
   const root = resolve(projectRoot);
   const lockFile = await checkedPath(root, LOCK_PATH);
   const lock = JSON.parse(await readFile(lockFile, 'utf8'));
   const inputs = await validateInputs(root, lock);
-  const configuredJavaHome = environment.SCHEMAFORGE_JAVA_HOME
-    ? resolve(environment.SCHEMAFORGE_JAVA_HOME)
+  const configuredJavaHome = environment.KELRYVO_JAVA_HOME
+    ? resolve(environment.KELRYVO_JAVA_HOME)
     : resolve(root, lock.external_jdk.default_home);
-  if (!environment.SCHEMAFORGE_JAVA_HOME) await checkedPath(root, lock.external_jdk.default_home);
+  if (!environment.KELRYVO_JAVA_HOME) await checkedPath(root, lock.external_jdk.default_home);
   const env = compilerEnvironment(configuredJavaHome);
   const { java, javac, jar } = await assertJdk(configuredJavaHome, env);
   const artifactFiles = await resolveArtifactFiles(root, PINNED_ARTIFACTS);

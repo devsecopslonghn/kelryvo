@@ -43,8 +43,8 @@ static void capabilities(unsigned int effective) {
 }
 static void sanitize_environment(void) {
   const char *keys[] = {"KELRYVO_SECRET_DIR", "KELRYVO_INSTALLATION_DIR", "KELRYVO_BIND_HOST", "KELRYVO_PORT",
-    "KELRYVO_EXECUTION_ENABLED", "KELRYVO_DISCOVERY_ENABLED", "SCHEMAFORGE_JAVA_HOME", NULL};
-  char *values[8] = {0};
+    "KELRYVO_EXECUTION_ENABLED", "KELRYVO_DISCOVERY_ENABLED", "KELRYVO_JAVA_HOME", "SCHEMAFORGE_JAVA_HOME", NULL};
+  char *values[sizeof(keys) / sizeof(keys[0])] = {0};
   for (int i = 0; keys[i]; i++) {
     const char *value = getenv(keys[i]);
     if (value && (strlen(value) > 4096 || !(values[i] = strdup(value)))) fail();

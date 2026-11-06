@@ -7,7 +7,7 @@ import { execFileSync } from 'node:child_process';
 export const UNIT_NOW = Date.parse('2026-10-08T14:30:00Z');
 export const UNIT_PASSWORD = randomBytes(24).toString('hex');
 function temporaryUnitWallet() {
-  const directory = mkdtempSync(join(tmpdir(), 'schemaforge-unit-wallet-'));
+  const directory = mkdtempSync(join(tmpdir(), 'kelryvo-unit-wallet-'));
   const file = name => join(directory, name);
   const openssl = args => execFileSync('/usr/bin/openssl', args, {
     stdio: 'ignore', timeout: 10_000,

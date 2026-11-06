@@ -11,7 +11,7 @@ import { startProduct } from '../apps/api/server.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 test('Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 240_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 240_000,
 }, async () => {
   const actors = [
     { id: `t32-browser-dev-${randomUUID()}`, name: 'T32 browser requester', role: 'developer', token: randomBytes(32).toString('hex') },
@@ -19,7 +19,7 @@ test('Chromium completes Git intake through inbox approval, independent withdraw
     { id: `t32-browser-withdrawer-${randomUUID()}`, name: 'T32 browser other approver', role: 'approver', token: randomBytes(32).toString('hex') },
   ];
   const db = await openIsolatedProductDatabase();
-  const temp = await mkdtemp(path.join(os.tmpdir(), 'schemaforge-t32-browser-'));
+  const temp = await mkdtemp(path.join(os.tmpdir(), 'kelryvo-t32-browser-'));
   const repo = path.join(temp, 'repo'); await mkdir(path.join(repo, 'migrations'), { recursive: true });
   execFileSync('/usr/bin/git', ['init', '--initial-branch=main', repo]);
   execFileSync('/usr/bin/git', ['-C', repo, 'config', 'user.name', 'T32 browser']);

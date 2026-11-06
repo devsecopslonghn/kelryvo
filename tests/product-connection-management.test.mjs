@@ -6,7 +6,7 @@ import { initializeDatabase } from '../packages/database/index.ts';
 const clean = value => JSON.stringify(value);
 
 test('connection management creates revisioned deployment profiles and enforces readiness, access, redaction and lifecycle', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120000,
 }, async () => {
   const f = await createDiscoveryFixture();
   try {
@@ -146,7 +146,7 @@ test('connection management creates revisioned deployment profiles and enforces 
 });
 
 test('discovery connection configuration advances revisions without changing retained observation and denies cross-project mutation', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120000,
 }, async () => {
   const f = await createDiscoveryFixture();
   try {

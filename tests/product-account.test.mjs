@@ -7,7 +7,7 @@ import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { tokenDigest } from '../packages/database/local-credentials.ts';
 
 test('account sessions and grants are self-scoped, revocation is durable, CSRF-protected and audited', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 60000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 60000,
 }, async () => {
   const db = await openIsolatedProductDatabase(), tls = await createTlsFixture(); let app;
   const actors = ['developer', 'approver'].map(role => ({ id: `account-${role}`, name: `Account ${role}`, role, token: randomBytes(32).toString('hex') }));

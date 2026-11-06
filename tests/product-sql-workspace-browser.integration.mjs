@@ -5,7 +5,7 @@ import { chromium } from 'playwright';
 import { createValidationFixture } from './helpers/schema-validation-fixture.mjs';
 
 test('browser reconciles independent file changes, repeated concurrent revisions and explicit version collisions without automatic writes',{
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:150000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:150000,
 },async()=>{
   const f=await createValidationFixture();let browser;
   try{
@@ -62,7 +62,7 @@ test('browser reconciles independent file changes, repeated concurrent revisions
 });
 
 test('authored review corrections focus exact saved SQL, preserve unsaved edits, and create fresh independently reviewed candidates',{
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:240000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:240000,
 },async()=>{
   const f=await createValidationFixture();let browser;
   try{
@@ -156,7 +156,7 @@ test('authored review corrections focus exact saved SQL, preserve unsaved edits,
 });
 
 test('SQL workspace drops stale analysis and surfaces optimistic revision conflicts in the browser', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120000,
 }, async () => {
   const f = await createValidationFixture();
   let browser;

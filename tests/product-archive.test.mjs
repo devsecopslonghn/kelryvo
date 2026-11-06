@@ -7,7 +7,7 @@ import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('archival keeps immutable records readable and refuses further project work', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL,
 }, async () => {
   const db = await openIsolatedProductDatabase();
   const developer = { id: `archiver-${randomUUID()}`, name: 'Developer', role: 'developer', token: randomBytes(32).toString('hex') };
@@ -87,7 +87,7 @@ test('archival keeps immutable records readable and refuses further project work
 });
 
 test('an in-flight metadata write rechecks archival after acquiring the project lock', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 15_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 15_000,
 }, async () => {
   const db = await openIsolatedProductDatabase();
   const actor = { id: 'race-developer', name: 'Developer', role: 'developer', token: randomBytes(32).toString('hex') };

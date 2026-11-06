@@ -14,7 +14,7 @@ const scope = 'UNIT_SYNTHETIC';
 // Only disposable PostgreSQL/Git and synthetic host ports. No Oracle driver,
 // target SQL effects, credential resolution or runtime acceptance.
 test('approved Git request reaches controlled worker/history; uncertainty and revoked authority never replay', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 600_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 600_000,
 }, async t => {
   const f = await statementEnvelopeFixture({ firstStatementCount:3 });
   const sql = f.db.sql;

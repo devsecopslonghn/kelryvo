@@ -13,7 +13,7 @@ import { createMembershipOperatorFixture } from './helpers/product-membership-fi
 import { compareRetainedReleases, compareVersions } from '../packages/migrations/compare-retained-releases.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const skip = !process.env.SCHEMAFORGE_TEST_DATABASE_URL
+const skip = !process.env.KELRYVO_TEST_DATABASE_URL
   || !existsSync(path.join(root, 'experiments/db-devops-wp0/antlr-helper/target/schemaforge-antlr-parser.jar'));
 
 test('retained source facts align canonically and distinguish path, content and presence changes', () => {
@@ -29,7 +29,7 @@ test('retained source facts align canonically and distinguish path, content and 
 
 test('authenticated retained comparison is scoped, read-only, self-comparable, and survives repository removal', { skip, timeout: 120_000 }, async () => {
   const db = await openIsolatedProductDatabase();
-  const temporary = await mkdtemp(path.join(os.tmpdir(), 'schemaforge-retained-compare-'));
+  const temporary = await mkdtemp(path.join(os.tmpdir(), 'kelryvo-retained-compare-'));
   const repositoryPath = path.join(temporary, 'repository');
   await mkdir(path.join(repositoryPath, 'migrations'), { recursive: true });
   execFileSync('/usr/bin/git', ['init', '--initial-branch=main', repositoryPath]);

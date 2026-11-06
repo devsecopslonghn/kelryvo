@@ -11,7 +11,7 @@ import {configureTargetOption} from '../packages/targets/index.ts';
 // Real HTTPS API, parser, Git and PostgreSQL; only Oracle observations are fixtures.
 // No target credentials, Oracle connections, DDL dispatch or infrastructure changes.
 test('HTTPS browser completes registration through discovery, SQL review, independent approval, readiness, request and durable audit', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 240000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 240000,
 }, async t => {
   const cert = await createTlsFixture();
   let f, browser;
@@ -106,7 +106,7 @@ test('HTTPS browser completes registration through discovery, SQL review, indepe
     await card.getByLabel('Evidence reason').fill('Discover isolated synthetic identity');
     await card.getByRole('button', {name: 'Discover schemas', exact: true}).click();
     await card.locator('.observation-result').filter({hasText: 'DISCOVER · OBSERVED'}).waitFor();
-    assert.match(await card.innerText(), /KELYRVO_FIXTURE/);
+    assert.match(await card.innerText(), /KELRYVO_FIXTURE/);
     assert.doesNotMatch(await card.innerText(), /FOREIGN_PRIVATE|fixture-private-password|secret:\/\//);
     await card.getByLabel('Project target binding').selectOption(binding.bindingId);
     await card.getByLabel('Observed schema owner').selectOption('APP');

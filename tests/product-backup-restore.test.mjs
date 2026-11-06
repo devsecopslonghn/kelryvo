@@ -12,7 +12,7 @@ import { seedLocalActors } from '../packages/database/local-credentials.ts';
 import { setupPassword } from '../packages/database/password-auth.ts';
 import { createTlsFixture, tlsRequest } from './helpers/product-tls-fixture.mjs';
 
-const enabled=!!process.env.SCHEMAFORGE_TEST_DATABASE_URL && process.env.SCHEMAFORGE_REQUIRE_PRODUCT_TESTS==='1';
+const enabled=!!process.env.KELRYVO_TEST_DATABASE_URL && process.env.KELRYVO_REQUIRE_PRODUCT_TESTS==='1';
 test('native metadata backup and witness-verified restore retain source and enter persistent hold',{skip:!enabled,timeout:180_000},async()=>{
   const source=await openIsolatedProductDatabase();
   const root=await mkdtemp(join(process.cwd(),'.cache','t34-backup-'));
@@ -107,7 +107,7 @@ test('native metadata backup and witness-verified restore retain source and ente
     if(restoredSql) await restoredSql.end({timeout:2});
     await source.close();
     if(restoredName) {
-      const base=postgres(process.env.SCHEMAFORGE_TEST_DATABASE_URL,{max:1,onnotice:()=>{}});
+      const base=postgres(process.env.KELRYVO_TEST_DATABASE_URL,{max:1,onnotice:()=>{}});
       try { await base.unsafe(`DROP DATABASE IF EXISTS "${restoredName}" WITH (FORCE)`); }
       finally { await base.end({timeout:2}); }
     }
@@ -312,7 +312,7 @@ test('SIGKILL after native import leaves restored approved queues unclaimable an
       import {restorePrivateBackup} from './packages/backup/index.mjs';
       import {readPrivateLocalConfig} from './scripts/local-operator-config.mjs';
       const config=await readPrivateLocalConfig(process.env.TEST_RESTORE_CONFIG);
-      const url=new URL(process.env.SCHEMAFORGE_TEST_DATABASE_URL);url.pathname='/'+process.env.TEST_SOURCE_NAME;url.password=config.databasePassword;
+      const url=new URL(process.env.KELRYVO_TEST_DATABASE_URL);url.pathname='/'+process.env.TEST_SOURCE_NAME;url.password=config.databasePassword;
       await restorePrivateBackup({configPath:process.env.TEST_RESTORE_CONFIG,databaseUrl:url.toString(),backupDirectory:process.env.TEST_RESTORE_BACKUP,witnessPath:process.env.TEST_RESTORE_WITNESS,destinationDatabase:process.env.TEST_RESTORE_NAME,interruptAt:'after-import'});
     `],{env:{...process.env,TEST_RESTORE_CONFIG:fixture.configPath,TEST_SOURCE_NAME:new URL(fixture.databaseUrl).pathname.slice(1),TEST_RESTORE_BACKUP:backupDirectory,TEST_RESTORE_WITNESS:witnessPath,TEST_RESTORE_NAME:name},stdio:['ignore','pipe','pipe']});
     let output='';child.stdout.on('data',b=>output+=b);child.stderr.on('data',b=>output+=b);
@@ -425,7 +425,7 @@ for(const generation of ['legacy','Phase 2','Phase 3'])test(`exact ${generation}
     assert.equal((await source.sql`SELECT name FROM sf_projects WHERE id=${project.id}`)[0].name,'Retained legacy project');
   }finally{
     await restoredSql?.end({timeout:2});await source.close();
-    if(restoredName){const admin=postgres(process.env.SCHEMAFORGE_TEST_DATABASE_URL,{max:1,onnotice:()=>{}});try{
+    if(restoredName){const admin=postgres(process.env.KELRYVO_TEST_DATABASE_URL,{max:1,onnotice:()=>{}});try{
       assert.match(restoredName,/^sf_product_restore_[a-f0-9]{32}$/);await admin.unsafe(`DROP DATABASE "${restoredName}" WITH (FORCE)`);
     }finally{await admin.end({timeout:2});}}
     await rm(root,{recursive:true,force:true});

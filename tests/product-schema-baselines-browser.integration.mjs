@@ -6,7 +6,7 @@ import { chromium } from 'playwright';
 import { createSchemaFixture,object,completeCoverage } from './helpers/schema-fixture.mjs';
 
 test('browser observes exact schema, captures immutable baseline, compares structure, opens plans and history and retains data after restart',{
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:180000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:180000,
 },async()=>{
   const f=await createSchemaFixture();let browser;
   try{
@@ -69,7 +69,7 @@ test('browser observes exact schema, captures immutable baseline, compares struc
 });
 
 test('plan schema drift limitation codes wrap at mobile width without losing their full text',{
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:180000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:180000,
 },async()=>{
   const f=await createSchemaFixture();let browser;
   try{
@@ -119,7 +119,7 @@ test('plan schema drift limitation codes wrap at mobile width without losing the
 });
 
 test('browser retains exact object reference observations through validation, plan review, downloads and restart',{
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:180000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:180000,
 },async()=>{
   const f=await createSchemaFixture();let browser;
   try{
@@ -168,7 +168,7 @@ test('browser retains exact object reference observations through validation, pl
 });
 
 test('schema navigation scopes migration history to the exact binding and preserves manual filters and scoped cursors',{
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:180000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:180000,
 },async()=>{
   const f=await createSchemaFixture();let browser;
   try {
@@ -234,7 +234,7 @@ test('schema navigation scopes migration history to the exact binding and preser
 });
 
 test('browser filters bounded retained objects without changing evidence and distinguishes same-named comparison references',{
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:180000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:180000,
 },async()=>{
   const f=await createSchemaFixture();let browser;
   try {

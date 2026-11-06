@@ -18,7 +18,7 @@ async function unusedPort() {
 }
 
 test('local password stays primary while a mapped OIDC option is configured in the browser', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 90000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 90000,
 }, async () => {
   const db = await openIsolatedProductDatabase(), tls = await createTlsFixture();
   let app, browser, operatorSql;

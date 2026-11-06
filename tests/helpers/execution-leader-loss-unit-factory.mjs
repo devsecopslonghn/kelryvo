@@ -5,9 +5,9 @@ import { createExecutionWorker as makeWorker } from '../../apps/worker/run-reque
 
 // Test-owned synthetic target. The first acknowledged effect pauses before its receipt.
 export async function createExecutionWorker() {
-  if (process.env.SCHEMAFORGE_UNIT_SCOPE !== 'UNIT_SYNTHETIC') throw new Error('unit_scope_required');
-  const sql = postgres(process.env.SCHEMAFORGE_TEST_DATABASE_URL, { max: 2, onnotice: () => {} });
-  const assignmentId = process.env.SCHEMAFORGE_UNIT_ASSIGNMENT_ID;
+  if (process.env.KELRYVO_UNIT_SCOPE !== 'UNIT_SYNTHETIC') throw new Error('unit_scope_required');
+  const sql = postgres(process.env.KELRYVO_TEST_DATABASE_URL, { max: 2, onnotice: () => {} });
+  const assignmentId = process.env.KELRYVO_UNIT_ASSIGNMENT_ID;
   const digest = createHash('sha256').update('UNIT leader loss target').digest('hex');
   const host = { scope: 'UNIT_SYNTHETIC', workerId: 'unit-leader-loss', withTarget: async (request, run) =>
     run({ scope: 'UNIT_SYNTHETIC', current: async () => true,
@@ -25,7 +25,7 @@ export async function createExecutionWorker() {
         return { receiptDigest: digest, centralEvidenceDigest: digest };
       }, verifyPostconditions: async () => true, centralEvidenceComplete: async () => true }) };
   const worker = makeWorker(sql, host, { allowUnitSynthetic: true,
-    expectedMetadataGenerationId: process.env.SCHEMAFORGE_METADATA_GENERATION_ID });
+    expectedMetadataGenerationId: process.env.KELRYVO_METADATA_GENERATION_ID });
   return { scope: worker.scope, workerId: worker.workerId, expectedMetadataGenerationId: worker.expectedMetadataGenerationId,
     runWaitingRequest: worker.runWaitingRequest, close: () => sql.end({ timeout: 1 }) };
 }

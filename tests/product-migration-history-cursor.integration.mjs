@@ -10,7 +10,7 @@ import { guardBrowserMutation } from '../packages/database/browser-sessions.ts';
 const ORG = '00000000-0000-4000-8000-000000000001';
 
 test('migration history authority reads tolerate browser session expiry refresh concurrent with its lock', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL,
   timeout: 90_000,
 }, async () => {
   const actor = { id: `history-session-${randomUUID()}`, name: 'History session operator', role: 'developer', token: randomBytes(32).toString('hex') };
@@ -58,7 +58,7 @@ test('migration history authority reads tolerate browser session expiry refresh 
 });
 
 test('migration history cursors remain stable across ties and writes and expose scoped HOLD evidence', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL,
   timeout: 90_000,
 }, async () => {
   const actor = { id: `history-cursor-${randomUUID()}`, name: 'History cursor operator', role: 'developer', token: randomBytes(32).toString('hex') };
@@ -169,7 +169,7 @@ test('migration history cursors remain stable across ties and writes and expose 
 });
 
 test('migration history resolves a verified target intent for filtered execution requests', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL,
   timeout: 120_000,
 }, async () => {
   const f = await createValidationFixture();

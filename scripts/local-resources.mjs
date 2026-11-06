@@ -128,8 +128,8 @@ export async function prepareDemoRepository() {
     'ALTER TABLE widget ADD (description VARCHAR2(200));\n');
   command('git', ['init', '--initial-branch=main', repository]);
   command('git', ['-C', repository, 'add', '--', 'migrations']);
-  command('git', ['-C', repository, '-c', 'user.name=SchemaForge local demo',
-    '-c', 'user.email=demo@schemaforge.invalid', '-c', 'core.hooksPath=/dev/null',
+  command('git', ['-C', repository, '-c', 'user.name=Kelryvo local demo',
+    '-c', 'user.email=demo@kelryvo.invalid', '-c', 'core.hooksPath=/dev/null',
     '-c', 'commit.gpgSign=false', 'commit', '-m', 'Local demonstration migrations']);
   return repository;
 }

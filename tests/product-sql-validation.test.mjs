@@ -13,7 +13,7 @@ import {join} from 'node:path';
 import {randomBytes} from 'node:crypto';
 import postgres from 'postgres';
 
-const enabled=!!process.env.SCHEMAFORGE_TEST_DATABASE_URL;
+const enabled=!!process.env.KELRYVO_TEST_DATABASE_URL;
 test('validation API preserves parser availability and evidence size HTTP statuses',async()=>{
   for(const [code,status] of [['VALIDATION_PARSER_UNAVAILABLE',503],['VALIDATION_TOO_LARGE',413],['VALIDATION_EVIDENCE_UNAVAILABLE',409]]){
     let handler;
@@ -154,7 +154,7 @@ test('credential expiry during validation cannot persist a result or audit event
 });
 
 test('native backup preserves schema validation and format-4 plans; recovery HOLD prevents new validation and planning',{
-  skip:!enabled || process.env.SCHEMAFORGE_REQUIRE_PRODUCT_TESTS!=='1',timeout:120000,
+  skip:!enabled || process.env.KELRYVO_REQUIRE_PRODUCT_TESTS!=='1',timeout:120000,
 },async()=>{
   const f=await createValidationFixture();const directory=await mkdtemp(join(process.cwd(),'.cache','sql-validation-backup-'));
   let restoredSql,restoredName;

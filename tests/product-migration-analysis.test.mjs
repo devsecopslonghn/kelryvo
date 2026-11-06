@@ -8,7 +8,7 @@ import { createExecutionWorker } from '../apps/worker/run-request.ts';
 import { materializeExecutionRequest, readExecutionRequest } from '../packages/execution/admission.ts';
 import { acquireTargetLocks } from '../packages/targets/locks.ts';
 
-const enabled = Boolean(process.env.SCHEMAFORGE_TEST_DATABASE_URL);
+const enabled = Boolean(process.env.KELRYVO_TEST_DATABASE_URL);
 const evidenceDigest = createHash('sha256').update('migration-analysis retained evidence').digest('hex');
 const hash = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
 

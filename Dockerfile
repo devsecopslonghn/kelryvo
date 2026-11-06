@@ -17,15 +17,16 @@ RUN npm ci --ignore-scripts --no-audit --no-fund
 COPY docs/dependencies ./docs/dependencies
 COPY experiments/db-devops-wp0/antlr-helper ./experiments/db-devops-wp0/antlr-helper
 COPY scripts/antlr-prepare.mjs scripts/antlr-build.mjs scripts/jdk-platform.mjs scripts/container-source-archives.mjs ./scripts/
+COPY packages/runtime/environment.mjs ./packages/runtime/environment.mjs
 RUN node scripts/antlr-prepare.mjs --download
 RUN node scripts/container-source-archives.mjs
-ENV SCHEMAFORGE_JAVA_HOME=/opt/kelryvo/.cache/antlr/temurin
+ENV KELRYVO_JAVA_HOME=/opt/kelryvo/.cache/antlr/temurin
 RUN node scripts/antlr-build.mjs
 COPY . .
 RUN mkdir -p dist/bin && gcc -std=c11 -O2 -Wall -Wextra -Werror \
     -D_FORTIFY_SOURCE=2 -fstack-protector-strong -fPIE -pie -Wl,-z,relro,-z,now \
     apps/runtime/launcher.c -o dist/bin/kelryvo-runtime
-RUN SCHEMAFORGE_PRODUCT_NAME=Kelryvo node scripts/build-web.mjs
+RUN KELRYVO_PRODUCT_NAME=Kelryvo node scripts/build-web.mjs
 RUN GIT_AUTHOR_DATE=2000-01-01T00:00:00Z GIT_COMMITTER_DATE=2000-01-01T00:00:00Z \
     node --input-type=module -e "import {prepareDemoRepository} from './scripts/local-resources.mjs'; await prepareDemoRepository();"
 RUN npm prune --omit=dev --ignore-scripts --no-audit --no-fund
@@ -53,7 +54,7 @@ ARG TARGETARCH
 RUN node -e "if ({x64:'amd64',arm64:'arm64'}[process.arch] !== '${TARGETARCH}') process.exit(1)" \
     && .cache/antlr/temurin/bin/java -version \
     && node scripts/container-inventory.mjs
-ENV NODE_ENV=production SCHEMAFORGE_JAVA_HOME=/opt/kelryvo/.cache/antlr/temurin
+ENV NODE_ENV=production KELRYVO_JAVA_HOME=/opt/kelryvo/.cache/antlr/temurin
 ARG KELRYVO_REVISION=local-unpublished
 LABEL org.opencontainers.image.source="https://github.com/devsecopslonghn/kelryvo" \
       org.opencontainers.image.revision="${KELRYVO_REVISION}" \

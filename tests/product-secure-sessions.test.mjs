@@ -12,7 +12,7 @@ import { readPrivateTls } from '../scripts/local-tls.mjs';
 import { operateLocalCredential, recoverLocalCredentialOperation } from '../scripts/local-credential-operator.mjs';
 import { createTlsFixture,tlsRequest } from './helpers/product-tls-fixture.mjs';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
-const enabled=!!process.env.SCHEMAFORGE_TEST_DATABASE_URL;
+const enabled=!!process.env.KELRYVO_TEST_DATABASE_URL;
 
 test('HTTPS sessions enforce transport, CSRF, parent and idle/absolute lifetime, replacement and logout',{skip:!enabled,timeout:60000},async()=>{
   const db=await openIsolatedProductDatabase(),fixture=await createTlsFixture();let app,plain;
@@ -141,8 +141,8 @@ test('browser churn above journal capacity preserves operator rotation, revocati
     const readSession=cookie=>tlsRequest(base,fixture.ca,'/api/session',{headers:{cookie}});
     const interrupt=(action,phase)=>{
       const code='import { operateLocalCredential } from '+JSON.stringify(new URL('../scripts/local-credential-operator.mjs',import.meta.url).href)
-        +'; await operateLocalCredential({configPath:'+JSON.stringify(configPath)+',databaseUrl:process.env.SCHEMAFORGE_TEST_DATABASE_URL,identity:"developer",action:'+JSON.stringify(action)+',interruptAt:'+JSON.stringify(phase)+'});';
-      const child=spawnSync(process.execPath,['--input-type=module','--eval',code],{env:{...process.env,SCHEMAFORGE_TEST_DATABASE_URL:db.databaseUrl},encoding:'utf8',timeout:15000,maxBuffer:16384});
+        +'; await operateLocalCredential({configPath:'+JSON.stringify(configPath)+',databaseUrl:process.env.KELRYVO_TEST_DATABASE_URL,identity:"developer",action:'+JSON.stringify(action)+',interruptAt:'+JSON.stringify(phase)+'});';
+      const child=spawnSync(process.execPath,['--input-type=module','--eval',code],{env:{...process.env,KELRYVO_TEST_DATABASE_URL:db.databaseUrl},encoding:'utf8',timeout:15000,maxBuffer:16384});
       assert.equal(child.error,undefined);assert.equal(child.signal,'SIGKILL');assert.equal(child.stdout,'');assert.equal(child.stderr,'');
     };
     for(const action of ['rotate','revoke']){

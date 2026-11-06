@@ -6,7 +6,7 @@ import { verifyOfflinePlanIntent } from '../packages/migrations/offline-plan-int
 const hash = value => createHash('sha256').update(value).digest('hex');
 
 test('complete statement approval survives restart, pages by exact digest, denies tampering and preserves legacy history', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120_000,
 }, async () => {
   const f = await statementEnvelopeFixture();
   try {

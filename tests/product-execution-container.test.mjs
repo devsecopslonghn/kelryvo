@@ -10,7 +10,7 @@ const ORG='00000000-0000-4000-8000-000000000001';
 const digest=value=>createHash('sha256').update(value).digest('hex');
 
 test('active legacy execution history vetoes a master stream across catalog aliases and unknown physical identities',{
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:120000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:120000,
 },async t=>{
   for(const mode of ['known physical identity','unknown physical identity'])await t.test(mode,async()=>{
     const f=await createValidationFixture();

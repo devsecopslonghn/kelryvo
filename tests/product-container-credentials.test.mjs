@@ -7,7 +7,7 @@ import { seedLocalActors, authenticateLocalToken, tokenDigest } from '../package
 import { initializeDatabase } from '../packages/database/index.ts';
 import { recoverRestoredContainerActorCredential, rotateContainerActorCredential } from '../packages/database/container-credentials.ts';
 
-const enabled = !!process.env.SCHEMAFORGE_TEST_DATABASE_URL;
+const enabled = !!process.env.KELRYVO_TEST_DATABASE_URL;
 const fresh = () => randomBytes(32).toString('hex');
 async function fixture() {
   const db = await openIsolatedProductDatabase();
@@ -77,7 +77,7 @@ test('metadata HOLD rejects credential changes without retiring existing authori
 });
 
 test('trusted operator recovers only a witnessed restore credential and keeps RESTORE_HOLD', { skip: !enabled }, async () => {
-  const baseUrl=process.env.SCHEMAFORGE_TEST_DATABASE_URL, name=`sf_product_restore_${randomUUID().replaceAll('-','')}`;
+  const baseUrl=process.env.KELRYVO_TEST_DATABASE_URL, name=`sf_product_restore_${randomUUID().replaceAll('-','')}`;
   const admin=postgres(baseUrl,{max:1,onnotice:()=>{}});let sql;
   try {
     await admin.unsafe(`CREATE DATABASE "${name}"`);
@@ -120,7 +120,7 @@ test('trusted operator recovers only a witnessed restore credential and keeps RE
 });
 
 test('restore credential recovery rejects missing or mismatched owner marker', { skip: !enabled }, async () => {
-  const baseUrl=process.env.SCHEMAFORGE_TEST_DATABASE_URL,name=`sf_product_restore_${randomUUID().replaceAll('-','')}`;
+  const baseUrl=process.env.KELRYVO_TEST_DATABASE_URL,name=`sf_product_restore_${randomUUID().replaceAll('-','')}`;
   const admin=postgres(baseUrl,{max:1,onnotice:()=>{}});let sql;
   try {
     await admin.unsafe(`CREATE DATABASE "${name}"`);const url=new URL(baseUrl);url.pathname=`/${name}`;

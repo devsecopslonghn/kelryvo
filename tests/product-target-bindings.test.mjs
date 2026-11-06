@@ -11,7 +11,7 @@ const declaration = { databaseKey: 'target-db', databaseLabel: 'Target DB', cont
   port: 1521, service: 'TargetSvc', transport: 'TCPS', owner: 'APP_OWNER' };
 
 test('target options and bindings enforce CAS and project scope, preserve private facts, currentness and stream lineage',
-  { skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 30000 }, async () => {
+  { skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 30000 }, async () => {
     const db = await openIsolatedProductDatabase();
     try {
       await initializeTargetSchema(db.sql);

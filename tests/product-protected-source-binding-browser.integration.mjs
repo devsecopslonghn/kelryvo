@@ -14,7 +14,7 @@ import { createMembershipOperatorFixture } from './helpers/product-membership-fi
 const git = (directory, ...args) => execFileSync('git', ['-C', directory, ...args], { encoding: 'utf8' }).trim();
 
 test('review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 180_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 180_000,
 }, async () => {
   const actors = [
     { id: `t19-browser-dev-${randomUUID()}`, name: 'Plan author', role: 'developer', token: randomBytes(32).toString('hex') },
@@ -22,7 +22,7 @@ test('review recovers a stale pending plan through T18 intake and keeps guidance
     { id: `t19-browser-second-approver-${randomUUID()}`, name: 'Independent second approver', role: 'approver', token: randomBytes(32).toString('hex') },
   ];
   const database = await openIsolatedProductDatabase();
-  const repositoryPath = await mkdtemp(path.join(tmpdir(), 'schemaforge-t19-browser-git-'));
+  const repositoryPath = await mkdtemp(path.join(tmpdir(), 'kelryvo-t19-browser-git-'));
   let app;
   let browser;
   let releaseDecision;
@@ -33,7 +33,7 @@ test('review recovers a stale pending plan through T18 intake and keeps guidance
     await writeFile(path.join(repositoryPath, 'migrations/V001__create_widget.sql'), 'CREATE TABLE widget (id NUMBER PRIMARY KEY);\n');
     execFileSync('git', ['init', '--initial-branch=main', repositoryPath], { stdio: 'ignore' });
     git(repositoryPath, 'add', '--', 'migrations');
-    git(repositoryPath, '-c', 'user.name=SchemaForge T19', '-c', 'user.email=t19@schemaforge.invalid',
+    git(repositoryPath, '-c', 'user.name=Kelryvo T19', '-c', 'user.email=t19@kelryvo.invalid',
       '-c', 'core.hooksPath=/dev/null', '-c', 'commit.gpgSign=false', 'commit', '-m', 'Initial migration');
     const commit = git(repositoryPath, 'rev-parse', 'HEAD');
     app = await startProduct({ databaseUrl: database.databaseUrl, actors,

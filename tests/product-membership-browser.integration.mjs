@@ -11,7 +11,7 @@ import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { operateLocalMembership } from '../scripts/local-membership-operator.mjs';
 
 test('browser keeps bootstrap read-only, shows creation receipt without loading it, and clears revoked selection', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120_000,
 }, async () => {
   const db = await openIsolatedProductDatabase();
   const actors = [
@@ -20,8 +20,8 @@ test('browser keeps bootstrap read-only, shows creation receipt without loading 
   ];
   const legacyName = 'Retained legacy project';
   const legacy = (await db.sql`INSERT INTO sf_projects(organization_id,name) VALUES('00000000-0000-4000-8000-000000000001',${legacyName}) RETURNING id`)[0];
-  const directory = await mkdtemp(path.join(tmpdir(), 'schemaforge-membership-browser-'));
-  const repositoryPath = await mkdtemp(path.join(tmpdir(), 'schemaforge-membership-source-'));
+  const directory = await mkdtemp(path.join(tmpdir(), 'kelryvo-membership-browser-'));
+  const repositoryPath = await mkdtemp(path.join(tmpdir(), 'kelryvo-membership-source-'));
   const configPath = path.join(directory, 'config.json');
   const config = { databasePassword: randomBytes(32).toString('hex'), developerToken: randomBytes(32).toString('hex'), approverToken: randomBytes(32).toString('hex') };
   const operatorUrl = new URL(db.databaseUrl); operatorUrl.password = config.databasePassword;
@@ -35,7 +35,7 @@ test('browser keeps bootstrap read-only, shows creation receipt without loading 
     await writeFile(path.join(repositoryPath, 'migrations/V001__membership.sql'), 'CREATE TABLE membership_probe (id NUMBER);\n');
     execFileSync('git', ['init', '--initial-branch=main', repositoryPath], { stdio: 'ignore' });
     execFileSync('git', ['-C', repositoryPath, 'add', '--', 'migrations'], { stdio: 'ignore' });
-    execFileSync('git', ['-C', repositoryPath, '-c', 'user.name=Membership fixture', '-c', 'user.email=membership@schemaforge.invalid',
+    execFileSync('git', ['-C', repositoryPath, '-c', 'user.name=Membership fixture', '-c', 'user.email=membership@kelryvo.invalid',
       '-c', 'core.hooksPath=/dev/null', '-c', 'commit.gpgSign=false', 'commit', '-m', 'Add membership source'], { stdio: 'ignore' });
     app = await startProduct({ databaseUrl: db.databaseUrl, actors,
       repositories: [{ id: 'membership-browser-repo', name: 'Membership browser repository', path: repositoryPath }], port: 0 });

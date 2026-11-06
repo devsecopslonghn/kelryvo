@@ -19,7 +19,7 @@ async function openMobileNavigation(page) {
 }
 
 test('browser sets up existing identities, signs in by password, changes it and retains token recovery', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 90000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 90000,
 }, async () => {
   const db=await openIsolatedProductDatabase(),tls=await createTlsFixture();let app,browser;
   const actors=['developer','approver'].map(role=>({id:`browser-password-${role}`,name:`Local ${role}`,role,token:randomBytes(32).toString('hex')}));

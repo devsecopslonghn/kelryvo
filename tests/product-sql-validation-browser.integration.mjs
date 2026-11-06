@@ -6,7 +6,7 @@ import {chromium} from 'playwright';
 import {createValidationFixture} from './helpers/schema-validation-fixture.mjs';
 
 test('browser selects retained SQL, validates target, reviews unknowns, creates immutable plan, independently approves and retains evidence after restart',{
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:180000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:180000,
 },async()=>{
   const f=await createValidationFixture();let browser;
   try{

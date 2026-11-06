@@ -8,7 +8,7 @@ import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { createTlsFixture, tlsRequest } from './helpers/product-tls-fixture.mjs';
 
 test('HTTPS browser sessions enforce trust, cookie, CSRF, retry and expiry boundaries', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 90_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 90_000,
 }, async t => {
   const actors = ['developer', 'approver'].map(role => ({ id: `session-${randomUUID()}`,
     name: `Session ${role}`, role, token: randomBytes(32).toString('hex') }));

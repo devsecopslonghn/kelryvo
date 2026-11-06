@@ -11,7 +11,7 @@ import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 const sha = token => createHash('sha256').update(token).digest('hex');
 
 test('local credentials persist and recover real interrupted operator processes', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 60_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 60_000,
 }, async () => {
   const db = await openIsolatedProductDatabase();
   const developerToken = randomBytes(32).toString('hex');
@@ -58,9 +58,9 @@ test('local credentials persist and recover real interrupted operator processes'
     const interrupt = (phase, action = 'rotate') => {
       const code = 'import { operateLocalCredential } from ' + JSON.stringify(operatorUrl)
         + '; await operateLocalCredential({configPath:' + JSON.stringify(configPath)
-        + ',databaseUrl:process.env.SCHEMAFORGE_TEST_DATABASE_URL,identity:"developer",action:' + JSON.stringify(action) + ',interruptAt:' + JSON.stringify(phase) + '});';
+        + ',databaseUrl:process.env.KELRYVO_TEST_DATABASE_URL,identity:"developer",action:' + JSON.stringify(action) + ',interruptAt:' + JSON.stringify(phase) + '});';
       const child = spawnSync(process.execPath, ['--input-type=module', '--eval', code], {
-        env: { ...process.env, SCHEMAFORGE_TEST_DATABASE_URL: db.databaseUrl }, encoding: 'utf8', timeout: 15_000, maxBuffer: 16_384,
+        env: { ...process.env, KELRYVO_TEST_DATABASE_URL: db.databaseUrl }, encoding: 'utf8', timeout: 15_000, maxBuffer: 16_384,
       });
       assert.equal(child.error, undefined);
       assert.equal(child.signal, 'SIGKILL');
@@ -147,7 +147,7 @@ test('local credentials persist and recover real interrupted operator processes'
     const dbBeforeInvalidCli = await db.sql.unsafe("SELECT token_sha256,revoked_at,issued_at,expires_at FROM sf_local_credentials WHERE actor_id='local-developer' ORDER BY token_sha256");
     const cliPath = new URL('../scripts/local-credential-operator.mjs', import.meta.url).pathname;
     const invalidCli = spawnSync(process.execPath, [cliPath, 'rotate', 'developer', configPath, '--dry-run'], {
-      env: { ...process.env, SCHEMAFORGE_LOCAL_DATABASE_URL: db.databaseUrl }, encoding: 'utf8', timeout: 15_000, maxBuffer: 16_384,
+      env: { ...process.env, KELRYVO_LOCAL_DATABASE_URL: db.databaseUrl }, encoding: 'utf8', timeout: 15_000, maxBuffer: 16_384,
     });
     assert.equal(invalidCli.error, undefined);
     assert.equal(invalidCli.status, 1);

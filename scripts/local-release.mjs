@@ -88,7 +88,7 @@ export async function buildLocalRelease({ repositoryRoot=root, outputDirectory, 
       notices:['LICENSE','NOTICE','docs/dependencies/product-NOTICES.txt',...lock.notices.map(n=>n.path)],files };
     await writeFile(path.join(tree,manifestName),JSON.stringify(manifest,null,2)+'\n',{ mode:0o644 });
     await verifyLocalRelease(tree);
-    const filename=`schemaforge-local-${revision.slice(0,12)}.tar.gz`,temporary=path.join(stage,filename);
+    const filename=`kelryvo-local-${revision.slice(0,12)}.tar.gz`,temporary=path.join(stage,filename);
     run('/usr/bin/tar',['--sort=name','--mtime=@0','--owner=0','--group=0','--numeric-owner','--format=ustar','-czf',temporary,'-C',tree,'.'],source);
     const archiveBytes=await readFile(temporary);await chmod(temporary,0o600);await link(temporary,path.join(output,filename));
     const result={ format:'schemaforge-local-source-checksum-v1',sourceCommit:revision,archive:filename,

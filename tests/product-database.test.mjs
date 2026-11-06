@@ -6,7 +6,7 @@ import postgres from 'postgres';
 import { fileURLToPath } from 'node:url';
 import { initializeDatabase } from '../packages/database/index.ts';
 
-const databaseUrl = process.env.SCHEMAFORGE_TEST_DATABASE_URL;
+const databaseUrl = process.env.KELRYVO_TEST_DATABASE_URL;
 const root = fileURLToPath(new URL('../', import.meta.url));
 
 function databaseName() {
@@ -51,7 +51,7 @@ test('concurrent product schema initialization serializes DDL on a fresh Postgre
     const script = `import { openProductDatabase } from ${JSON.stringify(new URL('./helpers/product-db.mjs', import.meta.url).href)}; await openProductDatabase();`;
     const child = spawnSync(process.execPath, ['--input-type=module', '--eval', script], {
       cwd: root,
-      env: { ...process.env, SCHEMAFORGE_TEST_DATABASE_URL: isolatedUrl },
+      env: { ...process.env, KELRYVO_TEST_DATABASE_URL: isolatedUrl },
       encoding: 'utf8',
       timeout: 5_000,
       maxBuffer: 64 * 1024,

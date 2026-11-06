@@ -9,7 +9,7 @@ import { createMembershipOperatorFixture } from './helpers/product-membership-fi
 const ORG = '00000000-0000-4000-8000-000000000001';
 
 test('migration history is project and target scoped, searchable, paginated, and rejects denied or stale access', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL,
   timeout: 90_000,
 }, async () => {
   const actors = [

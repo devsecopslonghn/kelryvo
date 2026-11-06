@@ -1,3 +1,4 @@
+import { productEnvironment } from '../packages/runtime/environment.mjs';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { appendFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
@@ -62,8 +63,9 @@ export function selectFocusedTests(paths) {
 }
 
 export async function runFocusedTests(files, env = process.env) {
+  env = productEnvironment(env);
   if (!Array.isArray(files) || !files.length || files.some(file => !allFiles.has(file) || !existsSync(file))) throw new Error('Invalid focused test selection');
-  if (!env.SCHEMAFORGE_TEST_DATABASE_URL || env.SCHEMAFORGE_REQUIRE_PRODUCT_TESTS !== '1'
+  if (!env.KELRYVO_TEST_DATABASE_URL || env.KELRYVO_REQUIRE_PRODUCT_TESTS !== '1'
       || !existsSync('experiments/db-devops-wp0/antlr-helper/target/schemaforge-antlr-parser.jar')
       || !existsSync('dist/web/index.html') || !existsSync('dist/web/app.js')) throw new Error('Focused tests require PostgreSQL, the built parser and web bundle');
   const { prepareDemoRepository } = await import('./local-resources.mjs');
@@ -71,7 +73,7 @@ export async function runFocusedTests(files, env = process.env) {
   console.log(`Focused tests: ${files.join(', ')}`);
   return runProductTestGroups(files, false, group => {
     const result = spawnSync(process.execPath, ['--test', `--test-concurrency=${group.concurrency}`, ...group.files], {
-      stdio: 'inherit', env: { ...env, SCHEMAFORGE_DEMO_REPOSITORY_PATH: demo },
+      stdio: 'inherit', env: { ...env, KELRYVO_DEMO_REPOSITORY_PATH: demo },
     });
     if (result.error) throw result.error;
     return result.status ?? 1;

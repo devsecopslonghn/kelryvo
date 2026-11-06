@@ -80,7 +80,7 @@ try {
     env: { PATH: '/usr/bin:/bin', LANG: 'C', TZ: 'UTC' },
   });
   if (extract.error || extract.status !== 0) throw new Error('jdk_extraction_failed');
-  console.log('Pinned public ANTLR/JDK inputs prepared; use SCHEMAFORGE_JAVA_HOME=.cache/antlr/temurin.');
+  console.log('Pinned public ANTLR/JDK inputs prepared; use KELRYVO_JAVA_HOME=.cache/antlr/temurin.');
 } catch (error) {
   console.error(/^[a-z_]+$/.test(error.message) ? error.message : 'artifact_preparation_failed');
   process.exitCode = 1;

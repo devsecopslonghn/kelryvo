@@ -14,14 +14,14 @@ import { createMembershipOperatorFixture } from './helpers/product-membership-fi
 const git = (directory, ...args) => execFileSync('git', ['-C', directory, ...args], { encoding: 'utf8' }).trim();
 
 test('browser prepares a fresh plan from a new commit after rejection and fails closed by project state', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 180_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 180_000,
 }, async () => {
   const actors = [
     { id: `resubmit-web-dev-${randomUUID()}`, name: 'Plan author', role: 'developer', token: randomBytes(32).toString('hex') },
     { id: `resubmit-web-reviewer-${randomUUID()}`, name: 'Independent reviewer', role: 'approver', token: randomBytes(32).toString('hex') },
   ];
   const database = await openIsolatedProductDatabase();
-  const repositoryPath = await mkdtemp(path.join(tmpdir(), 'schemaforge-t18-browser-git-'));
+  const repositoryPath = await mkdtemp(path.join(tmpdir(), 'kelryvo-t18-browser-git-'));
   let app;
   let browser;
   let membership;
@@ -30,7 +30,7 @@ test('browser prepares a fresh plan from a new commit after rejection and fails 
     await writeFile(path.join(repositoryPath, 'migrations/V001__create_widget.sql'), 'CREATE TABLE widget (id NUMBER PRIMARY KEY, name VARCHAR2(100));\n');
     execFileSync('git', ['init', '--initial-branch=main', repositoryPath], { stdio: 'ignore' });
     git(repositoryPath, 'add', '--', 'migrations');
-    git(repositoryPath, '-c', 'user.name=SchemaForge T18', '-c', 'user.email=t18@schemaforge.invalid',
+    git(repositoryPath, '-c', 'user.name=Kelryvo T18', '-c', 'user.email=t18@kelryvo.invalid',
       '-c', 'core.hooksPath=/dev/null', '-c', 'commit.gpgSign=false', 'commit', '-m', 'Initial migration');
     const firstCommit = git(repositoryPath, 'rev-parse', 'HEAD');
     app = await startProduct({ databaseUrl: database.databaseUrl, actors,
@@ -161,7 +161,7 @@ test('browser prepares a fresh plan from a new commit after rejection and fails 
 
     await writeFile(path.join(repositoryPath, 'migrations/V002__add_description.sql'), 'ALTER TABLE widget ADD (description VARCHAR2(200));\n');
     git(repositoryPath, 'add', '--', 'migrations/V002__add_description.sql');
-    git(repositoryPath, '-c', 'user.name=SchemaForge T18', '-c', 'user.email=t18@schemaforge.invalid',
+    git(repositoryPath, '-c', 'user.name=Kelryvo T18', '-c', 'user.email=t18@kelryvo.invalid',
       '-c', 'core.hooksPath=/dev/null', '-c', 'commit.gpgSign=false', 'commit', '-m', 'Add description column');
     const secondCommit = git(repositoryPath, 'rev-parse', 'HEAD');
     await page.getByLabel('Git commit or ref').fill(secondCommit);

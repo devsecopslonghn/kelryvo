@@ -12,7 +12,7 @@ import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 const git = (cwd, args) => {
-  const result = spawnSync('/usr/bin/git', ['-c', 'core.hooksPath=/dev/null', '-c', 'user.name=SchemaForge test', '-c', 'user.email=test@schemaforge.invalid', '-C', cwd, ...args], {
+  const result = spawnSync('/usr/bin/git', ['-c', 'core.hooksPath=/dev/null', '-c', 'user.name=Kelryvo test', '-c', 'user.email=test@kelryvo.invalid', '-C', cwd, ...args], {
     encoding: 'utf8', env: { PATH: '/usr/bin:/bin', LANG: 'C.UTF-8' }, timeout: 5_000,
   });
   assert.equal(result.status, 0, `test Git ${args[0]} should succeed`);
@@ -28,7 +28,7 @@ async function makeRepository(parent, name, branch) {
   });
   assert.equal(init.status, 0);
   git(repository, ['add', '--', 'migrations']);
-  const commit = spawnSync('/usr/bin/git', ['-c', 'user.name=Test', '-c', 'user.email=test@schemaforge.invalid', '-C', repository, 'commit', '-m', 'Fixture'], {
+  const commit = spawnSync('/usr/bin/git', ['-c', 'user.name=Test', '-c', 'user.email=test@kelryvo.invalid', '-C', repository, 'commit', '-m', 'Fixture'], {
     encoding: 'utf8', env: { PATH: '/usr/bin:/bin', LANG: 'C.UTF-8' }, timeout: 5_000,
   });
   assert.equal(commit.status, 0);
@@ -39,10 +39,10 @@ async function makeRepository(parent, name, branch) {
 }
 
 test('release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL,
   timeout: 90_000,
 }, async () => {
-  const temporary = await mkdtemp(path.join(os.tmpdir(), 'schemaforge-git-ref-browser-'));
+  const temporary = await mkdtemp(path.join(os.tmpdir(), 'kelryvo-git-ref-browser-'));
   const actors = [{ id: `git-refs-${randomUUID()}`, name: 'Git refs developer', role: 'developer', token: randomBytes(32).toString('hex') }];
   const database = await openIsolatedProductDatabase();
   let app;

@@ -6,7 +6,7 @@ import path from 'node:path';
 import { statementEnvelopeFixture } from './helpers/statement-envelope-fixture.mjs';
 
 test('incremental review presents ordered SQL and evidence limits, pages consistently and discards stale plan responses', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120_000,
 }, async () => {
   const f = await statementEnvelopeFixture(); let browser, releaseResponse = () => {}, releaseJump = () => {};
   try {

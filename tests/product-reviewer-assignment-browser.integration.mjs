@@ -8,7 +8,7 @@ import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 const ORG='00000000-0000-4000-8000-000000000001';
-test('review assignment controls and Assigned to me filter follow scoped plan state', { skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout:90000 }, async () => {
+test('review assignment controls and Assigned to me filter follow scoped plan state', { skip:!process.env.KELRYVO_TEST_DATABASE_URL, timeout:90000 }, async () => {
   const actors=[
     {id:`assign-dev-${randomUUID()}`,name:'Assignment requester',role:'developer',token:randomBytes(32).toString('hex')},
     {id:`assign-approver-${randomUUID()}`,name:'Assigned reviewer',role:'approver',token:randomBytes(32).toString('hex')},

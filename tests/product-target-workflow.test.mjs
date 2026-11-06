@@ -5,7 +5,7 @@ import { createTargetWorkflowFixture } from './helpers/target-workflow-fixture.m
 import { readExecutionRequest } from '../packages/execution/admission.ts';
 
 test('target-bound plans retain immutable format-3 evidence and fail closed across stale or unauthorized workflow steps', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL,
   timeout: 180_000,
 }, async () => {
   const f = await createTargetWorkflowFixture();
@@ -177,7 +177,7 @@ test('target-bound plans retain immutable format-3 evidence and fail closed acro
 
 
 test('target binding commit rechecks a project grant revoked while catalog serialization is queued', {
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:60000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:60000,
 },async()=>{
   const f=await createTargetWorkflowFixture();let release, blocked, request;
   try {
@@ -204,7 +204,7 @@ test('target binding commit rechecks a project grant revoked while catalog seria
 
 
 test('credential expiry during real statement verification cannot create plans, decisions or requests', {
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:120000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:120000,
 },async()=>{
   const f=await createTargetWorkflowFixture({fileCount:3});
   try {

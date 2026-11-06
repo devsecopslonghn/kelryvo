@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { createHash, randomUUID } from 'node:crypto';
 import { createValidationFixture } from './helpers/schema-validation-fixture.mjs';
 
-const enabled = !!process.env.SCHEMAFORGE_TEST_DATABASE_URL;
+const enabled = !!process.env.KELRYVO_TEST_DATABASE_URL;
 const sha256 = value => createHash('sha256').update(value).digest('hex');
 
 test('SQL workspace drafts are project scoped, revision checked, durable and prepare truthful immutable releases', {

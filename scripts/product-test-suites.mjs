@@ -1,3 +1,4 @@
+import { productEnvironment } from '../packages/runtime/environment.mjs';
 export const PRODUCT_API_FILES = Object.freeze([
   'tests/product-schema-baselines.test.mjs', 'tests/product-schema-backup.test.mjs',
   'tests/product-migration-analysis.test.mjs',
@@ -93,7 +94,7 @@ export const PRODUCT_BROWSER_SMOKE_FILES = Object.freeze([
 export const PRODUCT_BROWSER_EXTENDED_FILES = Object.freeze(
   PRODUCT_BROWSER_FILES.filter(file => !PRODUCT_BROWSER_SMOKE_FILES.includes(file)));
 
-export function parseProductTestOptions(argv, { shard = process.env.SCHEMAFORGE_TEST_SHARD } = {}) {
+export function parseProductTestOptions(argv, { shard = productEnvironment().KELRYVO_TEST_SHARD } = {}) {
   let browser = false, list = false, smoke = false, extended = false, file, name;
   for (let index = 0; index < argv.length; index++) {
     const arg = argv[index];
@@ -127,7 +128,7 @@ export function parseProductTestOptions(argv, { shard = process.env.SCHEMAFORGE_
   if (name !== undefined && (name.length > 1000 || !name.trim()))
     throw new TypeError('--name must be a nonempty literal test name of at most 1000 characters');
   if (list && (file || name !== undefined)) throw new TypeError('--list cannot be combined with --file or --name');
-  if (shard && (file || name !== undefined || list)) throw new TypeError('Product test selection cannot be combined with SCHEMAFORGE_TEST_SHARD');
+  if (shard && (file || name !== undefined || list)) throw new TypeError('Product test selection cannot be combined with KELRYVO_TEST_SHARD');
   if ((smoke || extended) && !browser) throw new TypeError('Browser tiers require --browser');
   if (smoke && extended) throw new TypeError('Choose one browser tier');
   const files = browser ? smoke ? PRODUCT_BROWSER_SMOKE_FILES

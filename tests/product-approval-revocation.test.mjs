@@ -8,7 +8,7 @@ import { createMembershipOperatorFixture } from './helpers/product-membership-fi
 import { initializeDatabase } from '../packages/database/index.ts';
 
 test('approval withdrawal links immutable history and works after retained content corruption', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120_000,
 }, async () => {
   const db = await openIsolatedProductDatabase();
   const actors = [

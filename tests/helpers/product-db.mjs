@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 import { initializeDatabase } from "../../packages/database/index.ts";
 
 export async function openProductDatabase() {
-  const url = process.env.SCHEMAFORGE_TEST_DATABASE_URL;
+  const url = process.env.KELRYVO_TEST_DATABASE_URL;
   if (!url) return null;
   const sql = postgres(url, { max: 4, onnotice: () => {} });
   try {
@@ -39,7 +39,7 @@ async function dropOwnedDatabase(baseUrl, name) {
  * each other's project rows and schema. The caller's dedicated PG URL is never logged.
  */
 export async function openIsolatedProductDatabase({ initialize = initializeDatabase } = {}) {
-  const baseUrl = process.env.SCHEMAFORGE_TEST_DATABASE_URL;
+  const baseUrl = process.env.KELRYVO_TEST_DATABASE_URL;
   if (!baseUrl) return null;
 
   const name = isolatedName();

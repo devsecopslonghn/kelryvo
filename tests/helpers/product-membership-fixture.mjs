@@ -5,7 +5,7 @@ import path from 'node:path';
 import { operateLocalMembership } from '../../scripts/local-membership-operator.mjs';
 
 export async function createMembershipOperatorFixture(databaseUrl) {
-  const directory = await mkdtemp(path.join(tmpdir(), 'schemaforge-membership-fixture-'));
+  const directory = await mkdtemp(path.join(tmpdir(), 'kelryvo-membership-fixture-'));
   const configPath = path.join(directory, 'config.json');
   const config = { databasePassword: randomBytes(32).toString('hex'), developerToken: randomBytes(32).toString('hex'), approverToken: randomBytes(32).toString('hex') };
   const operatorUrl = new URL(databaseUrl); operatorUrl.password = config.databasePassword;

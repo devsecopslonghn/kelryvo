@@ -4,8 +4,8 @@ import { randomUUID } from 'node:crypto';
 import { createInstalledExpiryRecoveryWorkerFactory } from '../apps/worker/installed-worker-factory.mjs';
 
 const DATABASE_URL = 'postgres://127.0.0.1:5432/schemaforge_test';
-const enabledProduct = !!process.env.SCHEMAFORGE_TEST_DATABASE_URL
-  && process.env.SCHEMAFORGE_REQUIRE_PRODUCT_TESTS === '1';
+const enabledProduct = !!process.env.KELRYVO_TEST_DATABASE_URL
+  && process.env.KELRYVO_REQUIRE_PRODUCT_TESTS === '1';
 const installation = () => ({ scope: 'UNIT_SYNTHETIC', workerId: 'expiry-recovery-unit',
   authorize: async () => { throw new Error('unexpected Oracle authorization'); },
   resolvePrivateOptions: async () => { throw new Error('unexpected Oracle route lookup'); },
@@ -136,8 +136,8 @@ test('a supervised child recovers only expired metadata and preserves retained e
   try {
     const makeRecovery = (cleanupFault = false) => {
       const env = { PATH: '/usr/bin:/bin', LANG: 'C', TZ: 'UTC',
-        SCHEMAFORGE_UNIT_SCOPE: 'UNIT_SYNTHETIC', SCHEMAFORGE_TEST_DATABASE_URL: f.db.databaseUrl };
-      if (cleanupFault) env.SCHEMAFORGE_UNIT_CLEANUP_FAULT = 'throw';
+        KELRYVO_UNIT_SCOPE: 'UNIT_SYNTHETIC', KELRYVO_TEST_DATABASE_URL: f.db.databaseUrl };
+      if (cleanupFault) env.KELRYVO_UNIT_CLEANUP_FAULT = 'throw';
       const factoryUrl = new URL('./helpers/execution-expiry-recovery-unit-factory.mjs', import.meta.url).href;
       const startWorker = createExecutionWorkerStarter({ factoryUrl, env: Object.freeze(env) });
       return createSupervisedExecutionWorker({ scope: 'UNIT_SYNTHETIC', workerId: 'unit-expiry-recovery-worker',

@@ -9,7 +9,7 @@ import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('browser archives a project and keeps its releases, plan, audit, and history readable', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL,
   timeout: 120_000,
 }, async () => {
   const actors = [
@@ -17,7 +17,7 @@ test('browser archives a project and keeps its releases, plan, audit, and histor
     { id: `archive-approver-${randomUUID()}`, name: 'Archive approver', role: 'approver', token: randomBytes(32).toString('hex') },
   ];
   const database = await openIsolatedProductDatabase();
-  assert.ok(database, 'SCHEMAFORGE_TEST_DATABASE_URL is required for this browser workflow');
+  assert.ok(database, 'KELRYVO_TEST_DATABASE_URL is required for this browser workflow');
   let app;
   let browser;
   let membership;

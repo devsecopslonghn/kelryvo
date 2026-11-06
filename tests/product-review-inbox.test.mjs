@@ -6,7 +6,7 @@ import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('review inbox is grant scoped, bounded, microsecond ordered, filtered and rechecks revoked membership', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120_000,
 }, async () => {
   const actors = [
     { id: `inbox-dev-${randomUUID()}`, name: 'Inbox developer', role: 'developer', token: randomBytes(32).toString('hex') },

@@ -10,7 +10,7 @@ import { createPrivateBackup, restorePrivateBackup } from '../packages/backup/in
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { initializeDatabase } from '../packages/database/index.ts';
 
-const enabled = !!process.env.SCHEMAFORGE_TEST_DATABASE_URL && process.env.SCHEMAFORGE_REQUIRE_PRODUCT_TESTS === '1';
+const enabled = !!process.env.KELRYVO_TEST_DATABASE_URL && process.env.KELRYVO_REQUIRE_PRODUCT_TESTS === '1';
 const digest = value => createHash('sha256').update(value).digest('hex');
 
 test('Phase 5 native backup retains reconciliation evidence and decision; restore hold blocks new reconciliation writes', {
@@ -123,7 +123,7 @@ for (const prior of [
     await restoredSql?.end({ timeout: 2 });
     await source.close();
     if (restoredName) {
-      const admin = postgres(process.env.SCHEMAFORGE_TEST_DATABASE_URL, { max: 1, onnotice: () => {} });
+      const admin = postgres(process.env.KELRYVO_TEST_DATABASE_URL, { max: 1, onnotice: () => {} });
       try { await admin.unsafe(`DROP DATABASE "${restoredName}" WITH (FORCE)`); }
       finally { await admin.end({ timeout: 2 }); }
     }

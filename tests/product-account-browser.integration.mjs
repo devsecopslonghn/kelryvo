@@ -21,7 +21,7 @@ async function navigate(page, name) {
 }
 
 test('browser discovers account access and revokes another session while preserving its own session', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 60000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 60000,
 }, async () => {
   const db = await openIsolatedProductDatabase(), tls = await createTlsFixture(); let app, browser;
   const actors = [{ id: 'account-browser', name: 'Account browser user', role: 'developer', token: randomBytes(32).toString('hex') }];

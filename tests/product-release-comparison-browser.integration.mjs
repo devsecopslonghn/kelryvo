@@ -11,12 +11,12 @@ import { prepareDemoRepository } from '../scripts/local-resources.mjs';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
-test('browser compares explicitly selected retained releases and discards a late result after pair changes', { skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000 }, async () => {
+test('browser compares explicitly selected retained releases and discards a late result after pair changes', { skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120_000 }, async () => {
   const actor = { id: `compare-browser-${randomUUID()}`, name: 'Comparison reviewer', role: 'developer', token: randomBytes(32).toString('hex') };
-  const demoRepository = process.env.SCHEMAFORGE_DEMO_REPOSITORY_PATH || await prepareDemoRepository();
+  const demoRepository = process.env.KELRYVO_DEMO_REPOSITORY_PATH || await prepareDemoRepository();
   const approver = { id: `compare-browser-approver-${randomUUID()}`, name: 'Comparison approver', role: 'approver', token: randomBytes(32).toString('hex') };
   const database = await openIsolatedProductDatabase();
-  const temporary = await mkdtemp(path.join(os.tmpdir(), 'schemaforge-comparison-browser-'));
+  const temporary = await mkdtemp(path.join(os.tmpdir(), 'kelryvo-comparison-browser-'));
   const repositoryPath = path.join(temporary, 'repository');
   execFileSync('/usr/bin/git', ['clone', '--quiet', demoRepository, repositoryPath]);
   const baseCommit = execFileSync('/usr/bin/git', ['-C', repositoryPath, 'rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();

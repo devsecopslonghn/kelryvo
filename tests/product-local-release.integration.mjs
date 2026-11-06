@@ -25,7 +25,7 @@ const run=(program,args,cwd)=>new Promise((resolve,reject)=>{
 });
 
 test('frozen source archive installs pinned dependencies and passes local end-to-end acceptance', { timeout:600_000 },async()=>{
-  assert.ok(process.env.SCHEMAFORGE_TEST_DATABASE_URL,'explicit disposable metadata PostgreSQL required');
+  assert.ok(process.env.KELRYVO_TEST_DATABASE_URL,'explicit disposable metadata PostgreSQL required');
   const temp=await mkdtemp(path.join(tmpdir(),'sf-release-install-'));
   try {
     const repositoryRoot=await prepareReleaseRepository(process.cwd(),path.join(temp,'repo'));

@@ -70,7 +70,7 @@ test('unknown, ambiguous, and incompatible selections fail before runner setup',
   ]) assert.throws(() => parseProductTestOptions(argv));
 
   const result = spawnSync(process.execPath, ['scripts/test-product.mjs', '--file', 'missing.test.mjs'], {
-    encoding: 'utf8', env: { ...process.env, SCHEMAFORGE_TEST_DATABASE_URL: 'postgres://invalid/unused' },
+    encoding: 'utf8', env: { ...process.env, KELRYVO_TEST_DATABASE_URL: 'postgres://invalid/unused' },
   });
   assert.equal(result.status, 2);
   assert.match(result.stderr, /Unknown API product test file/);
@@ -80,8 +80,8 @@ test('unknown, ambiguous, and incompatible selections fail before runner setup',
 test('an impossible shard count fails before local PostgreSQL setup', () => {
   const result = spawnSync(process.execPath, ['scripts/test-product.mjs'], {
     encoding: 'utf8', env: {
-      ...process.env, SCHEMAFORGE_TEST_SHARD: '1/100',
-      SCHEMAFORGE_TEST_DATABASE_URL: 'postgres://invalid/unused',
+      ...process.env, KELRYVO_TEST_SHARD: '1/100',
+      KELRYVO_TEST_DATABASE_URL: 'postgres://invalid/unused',
     },
   });
   assert.equal(result.status, 2);
@@ -91,7 +91,7 @@ test('an impossible shard count fails before local PostgreSQL setup', () => {
 
 test('--list reports suite files without provisioning local resources', () => {
   const result = spawnSync(process.execPath, ['scripts/test-product.mjs', '--browser', '--list'], {
-    encoding: 'utf8', env: { ...process.env, SCHEMAFORGE_TEST_DATABASE_URL: 'postgres://invalid/unused' },
+    encoding: 'utf8', env: { ...process.env, KELRYVO_TEST_DATABASE_URL: 'postgres://invalid/unused' },
   });
   assert.equal(result.status, 0, result.stderr);
   assert.deepEqual(result.stdout.trim().split('\n'), PRODUCT_BROWSER_FILES);

@@ -1,3 +1,4 @@
+import { productEnvironment } from '../packages/runtime/environment.mjs';
 import path from 'node:path';
 import postgres from 'postgres';
 import { initializeDatabase } from '../packages/database/index.ts';
@@ -133,7 +134,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(im
     const expected = databaseAction ? 2 : ['grant','revoke','deploy-grant','deploy-revoke'].includes(action) ? 3 : 1;
     if (!['status','activate','grant','revoke','deploy-grant','deploy-revoke','database-grant','database-revoke'].includes(action) || args.length !== expected || args.some(value => !value)) throw fail();
     const [projectId, actorId, configPath] = databaseAction ? [undefined,args[0],args[1]] : ['grant','revoke','deploy-grant','deploy-revoke'].includes(action) ? args : [undefined, undefined, args[0]];
-    await operate({ action, projectId, actorId, configPath, databaseUrl: process.env.SCHEMAFORGE_LOCAL_DATABASE_URL });
+    await operate({ action, projectId, actorId, configPath, databaseUrl: productEnvironment().KELRYVO_LOCAL_DATABASE_URL });
   } catch { process.stderr.write('Local membership operation failed.\n'); process.exitCode = 1; }
 }
 

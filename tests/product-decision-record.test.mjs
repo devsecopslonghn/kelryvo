@@ -9,7 +9,7 @@ import { encodeOfflinePlanIntent } from '../packages/migrations/offline-plan-int
 const ORG = '00000000-0000-4000-8000-000000000001';
 
 test('terminal plan decisions retain reviewer snapshots and historical ID fallback', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL,
   timeout: 30_000,
 }, async () => {
   const db = await openIsolatedProductDatabase();

@@ -6,7 +6,7 @@ import { startProduct } from '../apps/api/server.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 
 test('browser clears a revoked session and ignores a delayed 401 from an earlier session epoch', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 60_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 60_000,
 }, async () => {
   const actors = [
     { id: 'credential-browser-developer', name: 'Credential developer', role: 'developer', token: randomBytes(32).toString('hex') },

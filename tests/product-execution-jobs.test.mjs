@@ -12,7 +12,7 @@ import { initializeDatabase } from '../packages/database/index.ts';
 import { initializeDatabase as initializeT32 } from './fixtures/product-t32-schema.ts';
 
 test('T32 schema upgrades add execution scope constraints while retaining assignments and legacy NULL approval references', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120_000,
 }, async () => {
   // Exact 18,560-byte packages/database/index.ts from frozen T32 commit 91841f9 (published57/frozen1545).
   assert.equal(createHash('sha256').update(await readFile(new URL('./fixtures/product-t32-schema.ts', import.meta.url))).digest('hex'),
@@ -61,7 +61,7 @@ test('T32 schema upgrades add execution scope constraints while retaining assign
 });
 
 test('durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120_000,
 }, async () => {
   const db = await openIsolatedProductDatabase();
   const actors = [

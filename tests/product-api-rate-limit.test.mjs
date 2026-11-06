@@ -4,7 +4,7 @@ import { randomUUID } from 'node:crypto';
 import { createApp } from '../apps/api/index.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 
-const enabled = !!process.env.SCHEMAFORGE_TEST_DATABASE_URL;
+const enabled = !!process.env.KELRYVO_TEST_DATABASE_URL;
 
 async function fixture() {
   const db = await openIsolatedProductDatabase();

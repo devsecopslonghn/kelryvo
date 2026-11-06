@@ -54,7 +54,7 @@ test('ANTLR lock rejects unreviewed parser, tool and distribution rights', () =>
 });
 
 test('stale authored-source hashes reject before building or replacing an installed helper', async () => {
-  const root = await mkdtemp(join(tmpdir(), 'schemaforge-antlr-sources-'));
+  const root = await mkdtemp(join(tmpdir(), 'kelryvo-antlr-sources-'));
   const modified = structuredClone(lock);
   try {
     for (const entry of modified.authored_sources) {
@@ -74,8 +74,8 @@ test('stale authored-source hashes reject before building or replacing an instal
 });
 
 test('ANTLR source validation rejects digest changes, symlinks and path escapes', async () => {
-  const root = await mkdtemp(join(tmpdir(), 'schemaforge-antlr-lock-'));
-  const outside = await mkdtemp(join(tmpdir(), 'schemaforge-antlr-outside-'));
+  const root = await mkdtemp(join(tmpdir(), 'kelryvo-antlr-lock-'));
+  const outside = await mkdtemp(join(tmpdir(), 'kelryvo-antlr-outside-'));
   const inputDir = join(root, 'inputs');
   const bytes = Buffer.from('pinned grammar fixture');
   const entry = { path: 'inputs/grammar.g4', sha256: sha256(bytes) };

@@ -22,7 +22,7 @@ import IdentityProviders from './IdentityProviders.jsx';
 import { Instances } from './Instances.jsx';
 import { mergeExecutionJobWindow, terminalExecutionStates } from './executionJobs.js';
 
-const productName = process.env.SCHEMAFORGE_PRODUCT_NAME;
+const productName = process.env.KELRYVO_PRODUCT_NAME;
 
 let browserSessionEpoch = 0;
 let lastInteraction = Date.now();
@@ -1607,7 +1607,7 @@ function App() {
   if (!actor) return <main className="login-shell">
     <div className="login-card">
       <div className="login-brand-row">
-        <a className="brand" href="#home" aria-label={`${productName} home`}><span className="brand-mark">{productName[0]}</span><span className="brand-copy"><span className="brand-title">{productName === 'SchemaForge' ? <>Schema<span className="brand-light">Forge</span></> : productName}</span><span className="brand-subtitle">Oracle Database DevOps</span></span></a>
+        <a className="brand" href="#home" aria-label={`${productName} home`}><span className="brand-mark">{productName[0]}</span><span className="brand-copy"><span className="brand-title">{productName}</span><span className="brand-subtitle">Oracle Database DevOps</span></span></a>
         <button type="button" className="theme-toggle" aria-label="Toggle color theme" onClick={toggleTheme}>{theme === 'dark' ? '☀ Light' : '☾ Dark'}</button>
       </div>
       <h1>Sign in to {productName}</h1>
@@ -1633,7 +1633,7 @@ function App() {
 
   return <div className="app-shell">
     <aside className={`sidebar ${mobileNavigation ? 'navigation-open' : ''}`}>
-      <a className="brand" href="#workspace" aria-label={`${productName} workspace`}><span className="brand-mark">{productName[0]}</span><span className="brand-copy"><span className="brand-title">{productName === 'SchemaForge' ? <>Schema<span className="brand-light">Forge</span></> : productName}</span><span className="brand-subtitle">Oracle Database DevOps</span></span></a>
+      <a className="brand" href="#workspace" aria-label={`${productName} workspace`}><span className="brand-mark">{productName[0]}</span><span className="brand-copy"><span className="brand-title">{productName}</span><span className="brand-subtitle">Oracle Database DevOps</span></span></a>
       <label className="project-switcher">Project<select aria-label="Active project" value={projectId} disabled={busy && !navigateDuringWithdrawal} onChange={event => selectProject(event.target.value)}><option value="">Choose a project</option>{projects.map(project => <option key={project.id} value={project.id}>{project.name}{project.archivedAt ? ' · Archived' : ''}</option>)}</select></label>
       <nav id="workspace-navigation" aria-label="Workspace navigation">
         {[

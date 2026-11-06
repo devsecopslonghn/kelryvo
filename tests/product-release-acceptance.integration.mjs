@@ -6,7 +6,7 @@ import { declareReference, assignReference } from '../packages/catalog-reference
 import { createExecutionWorker } from '../apps/worker/run-request.ts';
 
 test('installed source bundle connects approved Git request to controlled UNIT history and restart', { timeout:180_000 },async()=>{
-  assert.ok(process.env.SCHEMAFORGE_TEST_DATABASE_URL,'disposable metadata database required');
+  assert.ok(process.env.KELRYVO_TEST_DATABASE_URL,'disposable metadata database required');
   const f=await statementEnvelopeFixture({ firstStatementCount:3 });
   try {
     const live=await f.api('GET','/api/livez');

@@ -16,7 +16,7 @@ import { acquireTargetLocks } from '../packages/targets/locks.ts';
 const hash = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const scope = 'UNIT_SYNTHETIC';
 test('modern retained target completions reconcile format-3 and format-4 intents from captured identity evidence', {
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout:300_000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL, timeout:300_000,
 },async t=>{
   for(const intentVersion of [2,3]) await t.test(`intentVersion ${intentVersion}`,async()=>{
     const f=await createValidationFixture({deploymentUsername:'DEPLOYER'});
@@ -117,7 +117,7 @@ test('modern retained target completions reconcile format-3 and format-4 intents
   });
 });
 test('Git V1 then approved V2 executes only pending files; divergent or untrusted target history holds without replay', {
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout:300_000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL, timeout:300_000,
 },async()=>{
   const f=await statementEnvelopeFixture({ firstStatementCount:2,firstFile:'V1__first.sql',includeSecond:false });
   const sql=f.db.sql, calls=[], ledger=[];

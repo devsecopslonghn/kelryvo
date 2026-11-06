@@ -33,7 +33,7 @@ test('a complete synthetic profile exits successfully for planning while denying
 });
 
 test('malformed and oversized profile files produce fixed errors without leaking input', async () => {
-  const directory = await mkdtemp(join(tmpdir(), 'schemaforge-thin-plan-cli-'));
+  const directory = await mkdtemp(join(tmpdir(), 'kelryvo-thin-plan-cli-'));
   try {
     const malformed = join(directory, 'malformed.json');
     const oversized = join(directory, 'oversized.json');

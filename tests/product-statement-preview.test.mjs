@@ -33,9 +33,9 @@ function observeTransactions(sql, queries) {
 }
 
 test('statement preview is scoped, bounded, archived-readable and read only', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 180_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 180_000,
 }, async () => {
-  const temporary = await mkdtemp(path.join(os.tmpdir(), 'schemaforge-statement-preview-'));
+  const temporary = await mkdtemp(path.join(os.tmpdir(), 'kelryvo-statement-preview-'));
   const repositoryPath = path.join(temporary, 'repository');
   const actors = [
     { id: `statement-dev-${randomUUID()}`, name: 'Statement developer', role: 'developer', token: randomBytes(32).toString('hex') },
@@ -66,7 +66,7 @@ test('statement preview is scoped, bounded, archived-readable and read only', {
     await writeFile(path.join(repositoryPath, 'migrations/V9007199254740993__large_version.sql'), 'CREATE TABLE version_large_b (id NUMBER);\n');
     git(['add', '--', 'migrations/V099__statement_review.sql',
       'migrations/V9007199254740992__large_version.sql', 'migrations/V9007199254740993__large_version.sql']);
-    git(['-c', 'user.name=Statement Preview Test', '-c', 'user.email=statement-preview@schemaforge.invalid',
+    git(['-c', 'user.name=Statement Preview Test', '-c', 'user.email=statement-preview@kelryvo.invalid',
       '-c', 'core.hooksPath=/dev/null', '-c', 'commit.gpgSign=false', 'commit', '-m', 'Add statement preview migration']);
     const commit = git(['rev-parse', 'HEAD']);
     app = createApp({ sql: observedSql, actors, repositories: [{ id: 'statement-repo', name: 'Statement test', path: repositoryPath }] });

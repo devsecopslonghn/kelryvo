@@ -1,3 +1,4 @@
+import { productEnvironment } from '../packages/runtime/environment.mjs';
 import { configureTargetOption } from '../packages/targets/index.ts';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
@@ -112,7 +113,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(im
     const result = await operateLocalInventory({
       action,
       values: parsed.values,
-      databaseUrl: process.env.SCHEMAFORGE_LOCAL_DATABASE_URL,
+      databaseUrl: productEnvironment().KELRYVO_LOCAL_DATABASE_URL,
     });
     process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
   } catch {

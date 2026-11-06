@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { createExecutionWorkerStarter, createSupervisedExecutionWorker } from '../apps/worker/supervisor.mjs';
 
-const enabled = !!process.env.SCHEMAFORGE_TEST_DATABASE_URL && process.env.SCHEMAFORGE_REQUIRE_PRODUCT_TESTS === '1';
+const enabled = !!process.env.KELRYVO_TEST_DATABASE_URL && process.env.KELRYVO_REQUIRE_PRODUCT_TESTS === '1';
 
 test('fixed child bootstrap runs the real worker across PostgreSQL admission, dispatch, receipts, and cleanup', {
   skip: !enabled, timeout: 600_000,
@@ -29,9 +29,9 @@ test('fixed child bootstrap runs the real worker across PostgreSQL admission, di
     const dbUrl = f.db.databaseUrl;
     const factory = new URL('./helpers/execution-supervisor-unit-factory.mjs', import.meta.url).href;
     const startupEnv = Object.freeze({ PATH: '/usr/bin:/bin', LANG: 'C', TZ: 'UTC',
-      SCHEMAFORGE_JAVA_HOME: process.env.SCHEMAFORGE_JAVA_HOME,
-      SCHEMAFORGE_UNIT_SCOPE: 'UNIT_SYNTHETIC', SCHEMAFORGE_TEST_DATABASE_URL: dbUrl,
-      SCHEMAFORGE_UNIT_ASSIGNMENT_ID: assignmentId, SCHEMAFORGE_UNIT_CLEANUP_FAULT: 'throw' });
+      KELRYVO_JAVA_HOME: process.env.KELRYVO_JAVA_HOME,
+      KELRYVO_UNIT_SCOPE: 'UNIT_SYNTHETIC', KELRYVO_TEST_DATABASE_URL: dbUrl,
+      KELRYVO_UNIT_ASSIGNMENT_ID: assignmentId, KELRYVO_UNIT_CLEANUP_FAULT: 'throw' });
     const startWorker = createExecutionWorkerStarter({ factoryUrl: factory, env: startupEnv });
     const worker = createSupervisedExecutionWorker({ scope: 'UNIT_SYNTHETIC', workerId: 'supervised-unit-worker', allowUnitSynthetic: true, startWorker });
     const result = await worker.runWaitingRequest(jobId);
@@ -51,7 +51,7 @@ test('fixed child bootstrap runs the real worker across PostgreSQL admission, di
     assert.equal((await f.api('POST', `/api/plans/${secondPlan.id}/decision`, { decision: 'APPROVE', reason: 'Review V2 suffix' }, f.actors[1])).statusCode, 200);
     const secondCreated = await f.api('POST', `/api/plans/${secondPlan.id}/execution`, { idempotencyKey: randomUUID(), reason: 'Supervised pending-only V2' });
     assert.equal(secondCreated.statusCode, 201, secondCreated.body);
-    const cleanEnv = { ...startupEnv }; delete cleanEnv.SCHEMAFORGE_UNIT_CLEANUP_FAULT;
+    const cleanEnv = { ...startupEnv }; delete cleanEnv.KELRYVO_UNIT_CLEANUP_FAULT;
     const cleanStarter = createExecutionWorkerStarter({ factoryUrl: factory, env: Object.freeze(cleanEnv) });
     const cleanWorker = createSupervisedExecutionWorker({ scope: 'UNIT_SYNTHETIC', workerId: 'supervised-unit-worker', allowUnitSynthetic: true, startWorker: cleanStarter });
     const secondResult = await cleanWorker.runWaitingRequest(secondCreated.json().job.id);

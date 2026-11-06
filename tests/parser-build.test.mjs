@@ -7,7 +7,7 @@ import { join } from 'node:path';
 import { verifyMavenCache, verifyCacheFiles } from '../scripts/parser-build.mjs';
 
 test('offline Maven cache rejects artifact mutation, symlinks and credentialed origins', async () => {
-  const cache = await mkdtemp(join(tmpdir(), 'schemaforge-maven-'));
+  const cache = await mkdtemp(join(tmpdir(), 'kelryvo-maven-'));
   const digest = createHash('sha256').update('fixture').digest('hex');
   const item = { maven_central_base_url: 'https://repo.maven.apache.org/maven2/local/fixture/1.0/',
     jar_filename: 'fixture.jar', jar_sha256: digest, pom_filename: 'fixture.pom', pom_sha256: digest };
@@ -28,7 +28,7 @@ test('offline Maven cache rejects artifact mutation, symlinks and credentialed o
 });
 
 test('cache-lock and runtime URL entries enforce the same origin and symlink boundaries', async () => {
-  const cache = await mkdtemp(join(tmpdir(), 'schemaforge-cache-lock-'));
+  const cache = await mkdtemp(join(tmpdir(), 'kelryvo-cache-lock-'));
   const file = join(cache, 'fixture.jar');
   const digest = createHash('sha256').update('fixture').digest('hex');
   const entry = { source_url: 'https://repo.maven.apache.org/maven2/fixture.jar', sha256: digest };

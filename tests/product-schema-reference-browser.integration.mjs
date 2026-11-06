@@ -6,7 +6,7 @@ import { startProduct } from '../apps/api/server.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { declareReference,assignReference } from '../packages/catalog-reference/index.mjs';
 
-test('schema-reference view labels provisional identity and drops a delayed session response', {skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:90000},async()=>{
+test('schema-reference view labels provisional identity and drops a delayed session response', {skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:90000},async()=>{
  const db=await openIsolatedProductDatabase();const actor={id:'reference-browser-'+randomBytes(5).toString('hex'),name:'Reference reader',role:'developer',token:randomBytes(32).toString('hex')};let app,browser,release;
  try{
   const project=(await db.sql`INSERT INTO sf_projects(organization_id,name) VALUES('00000000-0000-4000-8000-000000000001','Reference browser project') RETURNING id`)[0];
@@ -28,7 +28,7 @@ test('schema-reference view labels provisional identity and drops a delayed sess
  }finally{release?.();await browser?.close();await app?.close();await db.close();}
 });
 
-test('schema references follow project context and clear after grant revocation', {skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:90000},async()=>{
+test('schema references follow project context and clear after grant revocation', {skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:90000},async()=>{
  const db=await openIsolatedProductDatabase();const actor={id:'reference-context-'+randomBytes(5).toString('hex'),name:'Context reader',role:'developer',token:randomBytes(32).toString('hex')};let app,browser,release;
  try{
   const projects=await db.sql`INSERT INTO sf_projects(organization_id,name) VALUES('00000000-0000-4000-8000-000000000001','Context project A'),('00000000-0000-4000-8000-000000000001','Context project B') RETURNING id,name`;
@@ -71,7 +71,7 @@ test('schema references follow project context and clear after grant revocation'
  }finally{release?.();await browser?.close();await app?.close();await db.close();}
 });
 
-test('schema estate groups loaded pages and preserves omitted-service warnings', {skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:90000},async()=>{
+test('schema estate groups loaded pages and preserves omitted-service warnings', {skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:90000},async()=>{
  const db=await openIsolatedProductDatabase();const actor={id:'estate-reader-'+randomBytes(5).toString('hex'),name:'Estate reader',role:'developer',token:randomBytes(32).toString('hex')};let app,browser;
  try{
   const project=(await db.sql`INSERT INTO sf_projects(organization_id,name) VALUES('00000000-0000-4000-8000-000000000001','Paged estate project') RETURNING id`)[0];

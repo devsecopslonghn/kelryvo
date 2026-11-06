@@ -7,7 +7,7 @@ import {createValidationFixture} from './helpers/schema-validation-fixture.mjs';
 import {createTlsFixture} from './helpers/product-tls-fixture.mjs';
 
 test('Phase 8 journey authors ordered multi-file SQL and retains plan-bound comparison, approval and request evidence after restart', {
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:240000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:240000,
 },async()=>{
   const cert=await createTlsFixture();let f,browser,page;
   const errors=[],output='.cache/phase8-acceptance';

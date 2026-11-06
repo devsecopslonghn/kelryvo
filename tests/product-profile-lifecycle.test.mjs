@@ -5,7 +5,7 @@ import { statementEnvelopeFixture } from './helpers/statement-envelope-fixture.m
 import { readExecutionRequest } from '../packages/execution/admission.ts';
 
 test('profile retirement preserves exact history and blocks fresh authority at every admission boundary', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120000,
 }, async () => {
   const f = await statementEnvelopeFixture({ firstStatementCount: 1, includeSecond: false });
   const { db, api, actors, profile, project, base } = f;
@@ -57,7 +57,7 @@ test('profile retirement preserves exact history and blocks fresh authority at e
 });
 
 test('worker admission rejects a queued legacy approval after profile configuration changes and returns to its original values',{
-  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:120000,
+  skip:!process.env.KELRYVO_TEST_DATABASE_URL,timeout:120000,
 },async()=>{
   const f=await statementEnvelopeFixture({firstStatementCount:1,includeSecond:false});
   try {

@@ -4,7 +4,7 @@ import { chromium } from 'playwright';
 import { statementEnvelopeFixture } from './helpers/statement-envelope-fixture.mjs';
 
 test('browser discovers instance configuration, retires a profile and keeps retained plans readable', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120000,
 }, async () => {
   const f = await statementEnvelopeFixture({ firstStatementCount: 1, includeSecond: false }); let browser;
   try {

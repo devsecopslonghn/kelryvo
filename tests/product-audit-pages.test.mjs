@@ -7,7 +7,7 @@ import { createMembershipOperatorFixture } from './helpers/product-membership-fi
 import { encodeAuditCursor } from '../packages/audit/cursor.mjs';
 
 test('scoped audit pages preserve exact PostgreSQL order, old actions, and membership checks', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL,
 }, async () => {
   const db = await openIsolatedProductDatabase();
   const actors = [

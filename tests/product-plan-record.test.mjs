@@ -75,7 +75,7 @@ test('format-3 plan record exports the public target snapshot as record format 2
 });
 
 test('plan record preserves scoped frozen intent, current decision and withdrawal without credentials or mutations', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120_000,
 }, async () => {
   const f = await statementEnvelopeFixture({ firstStatementCount: 2 });
   try {

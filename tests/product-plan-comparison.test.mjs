@@ -26,7 +26,7 @@ test('statement comparison ignores ordinal shifts, reports order changes, and ma
 });
 
 test('plan comparison binds exact authorized source, survives restart and attaches to independent review', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120000,
 }, async () => {
   const f = await createTargetWorkflowFixture();
   try {

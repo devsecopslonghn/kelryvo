@@ -40,7 +40,7 @@ async function historyContextFixture() {
 }
 
 test('scoped execution history is bounded, read only, restart durable and cannot replay ambiguous attempts', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120_000,
 }, async () => {
   const f = await executionHistoryFixture();
   const list = id => `/api/execution-jobs/${id}/attempts`;
@@ -122,7 +122,7 @@ test('scoped execution history is bounded, read only, restart durable and cannot
 });
 
 test('history labels pending V2 from the approved V1+V2 envelope even when V1 and V2 digests duplicate', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000,
+  skip: !process.env.KELRYVO_TEST_DATABASE_URL, timeout: 120_000,
 }, async () => {
   const { approvedMigrationIdentities } = await import('../packages/execution/pending-migrations.mjs');
   const { verifyOfflinePlanIntent } = await import('../packages/migrations/offline-plan-intent.mjs');
