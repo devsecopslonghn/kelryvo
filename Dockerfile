@@ -16,7 +16,7 @@ RUN npm ci --ignore-scripts --no-audit --no-fund
 # reviewed parser build can be reused without downloading or recompiling it.
 COPY docs/dependencies ./docs/dependencies
 COPY experiments/db-devops-wp0/antlr-helper ./experiments/db-devops-wp0/antlr-helper
-COPY scripts/antlr-prepare.mjs scripts/antlr-build.mjs scripts/jdk-platform.mjs scripts/container-source-archives.mjs ./scripts/
+COPY scripts/antlr-prepare.mjs scripts/antlr-download.mjs scripts/antlr-build.mjs scripts/jdk-platform.mjs scripts/container-source-archives.mjs ./scripts/
 COPY packages/runtime/environment.mjs ./packages/runtime/environment.mjs
 RUN node scripts/antlr-prepare.mjs --download
 RUN node scripts/container-source-archives.mjs

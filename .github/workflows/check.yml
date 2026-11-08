@@ -27,8 +27,8 @@ jobs:
           cache: npm
           cache-dependency-path: package-lock.json
       - run: npm ci --ignore-scripts --no-audit --no-fund
-      - name: Fast offline feedback (complete source, unit and dependency checks)
-        run: npm run check:fast
+      - name: Delivery essentials (build, targeted invariants and dependency closure)
+        run: npm run check:delivery
       - name: Verify installed dependency bytes and lock integrity
         run: npm run dependencies:manifest > /tmp/kelryvo-dependencies.json
 

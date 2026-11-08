@@ -36,6 +36,7 @@ export const PRODUCT_API_FILES = Object.freeze([
 ]);
 
 export const PRODUCT_BROWSER_FILES = Object.freeze([
+  'tests/product-project-onboarding-browser.integration.mjs',
   'tests/product-theme-browser.integration.mjs',
   'tests/product-schema-baselines-browser.integration.mjs',
   'tests/product-migration-analysis-browser.integration.mjs',

@@ -10,6 +10,7 @@ async function staging() {
   await mkdir(join(root, 'scripts'));
   await mkdir(join(root, 'docs/dependencies'), { recursive: true });
   await copyFile(new URL('../scripts/antlr-prepare.mjs', import.meta.url), join(root, 'scripts/antlr-prepare.mjs'));
+  await copyFile(new URL('../scripts/antlr-download.mjs', import.meta.url), join(root, 'scripts/antlr-download.mjs'));
   await copyFile(new URL('../scripts/jdk-platform.mjs', import.meta.url), join(root, 'scripts/jdk-platform.mjs'));
   const lock = JSON.parse(await readFile(new URL('../docs/dependencies/antlr-parser-lock.json', import.meta.url)));
   await writeFile(join(root, 'docs/dependencies/antlr-parser-lock.json'), JSON.stringify(lock));
@@ -68,5 +69,20 @@ test('a later invalid origin or digest rejects before the first download or cach
     assert.equal(jdkResult.status, 1);
     assert.equal(jdkResult.stderr.trim(), 'invalid_digest');
     assert.equal(await lstat(join(root, '.cache')).catch(() => null), null);
+  } finally { await rm(root, { recursive: true, force: true }); }
+});
+
+test('CI annotations identify an exhausted HTTP download without exposing response bodies or URLs', async () => {
+  const { root } = await staging();
+  try {
+    await writeFile(join(root, 'mock-fetch.mjs'), "globalThis.fetch = async () => new Response('PRIVATE_HTTP_BODY_CANARY', { status: 429, headers: { 'retry-after': '181' } });\n");
+    const result = spawnSync(process.execPath, ['--import', './mock-fetch.mjs', 'scripts/antlr-prepare.mjs', '--download'], {
+      cwd: root, encoding: 'utf8', timeout: 5000, env: { ...process.env, GITHUB_ACTIONS: 'true' },
+    });
+    assert.equal(result.status, 1);
+    assert.match(result.stderr, /Pinned input antlr4-4\.13\.2-complete\.jar could not be prepared\./);
+    assert.match(result.stderr, /::error title=Pinned parser input download failed::artifact_download_http_429/);
+    assert.equal(`${result.stdout}${result.stderr}`.includes('PRIVATE_HTTP_BODY_CANARY'), false);
+    assert.equal(`${result.stdout}${result.stderr}`.includes('https://'), false);
   } finally { await rm(root, { recursive: true, force: true }); }
 });

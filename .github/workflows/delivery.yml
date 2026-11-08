@@ -4,7 +4,6 @@ on:
   workflow_run:
     workflows:
       - Offline WP0 checks
-      - Kelryvo focused acceptance
       - Kelryvo OCI verification and publication
       - CodeQL
     types: [completed]

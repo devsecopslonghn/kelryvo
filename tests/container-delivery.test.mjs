@@ -38,8 +38,8 @@ test('only exact source master workflow completion or master recovery dispatch c
   for (const patch of [{ event: 'pull_request' }, { head_branch: 'feature' }, { head_repository: { full_name: 'fork/repo' } }, { head_sha: 'bad' }]) assert.throws(() => sourceRevision(env, { ...event, workflow_run: { ...event.workflow_run, ...patch } }));
   assert.equal(sourceRevision({ ...env, GITHUB_EVENT_NAME: 'workflow_dispatch', GITHUB_REF: 'refs/heads/master', GITHUB_SHA: SHA }, {}), SHA);
 });
-test('every master workflow, CodeQL language and security gate is required', async () => {
-  assert.deepEqual(REQUIRED_WORKFLOWS, ['check.yml', 'product.yml', 'containers.yml']);
+test('delivery requires source, image and security while broad acceptance runs independently', async () => {
+  assert.deepEqual(REQUIRED_WORKFLOWS, ['check.yml', 'containers.yml']);
   assert.equal((await publicationGate(gateApi(), SHA)).ready, true);
   for (const workflow of [...REQUIRED_WORKFLOWS, '/5/']) {
     assert.equal((await publicationGate(gateApi({ failed: workflow }), SHA)).ready, false);
@@ -50,6 +50,8 @@ test('every master workflow, CodeQL language and security gate is required', asy
   await assert.rejects(publicationGate(gateApi({ alerts: [{}] }), SHA), /findings/);
   assert.equal((await publicationGate(gateApi({ failed: 'parser.yml' }), SHA)).ready, true, 'optional corpus runs do not gate tested images');
   assert.equal((await publicationGate(gateApi({ failed: 'regression.yml' }), SHA)).ready, true, 'optional full regression does not gate tested images');
+  assert.equal((await publicationGate(gateApi({ failed: 'product.yml' }), SHA)).ready, true, 'focused acceptance failures do not gate tested images');
+  assert.equal((await publicationGate(gateApi({ pending: 'product.yml' }), SHA)).ready, true, 'delivery does not wait for optional focused acceptance');
 });
 test('API credential errors have actionable fixed diagnostics without response/token leakage', async () => {
   const api = githubApi('sensitive-token', SOURCE_REPOSITORY, async () => ({ ok: false, status: 403 }));
