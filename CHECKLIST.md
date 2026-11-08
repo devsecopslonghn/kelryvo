@@ -72,36 +72,56 @@ results remain accurate. Publishing or deployment still needs its own authorizat
   The prior parser-download failure was confirmed from authenticated logs and
   addressed with bounded retries/diagnostics. GitOps remains disabled; this did
   not publish or deploy the new master artifact.
-- [ ] **SHIP2 — Accept and hand over the new user artifact:** the local source
-  candidate below passed clean installation and disposable PostgreSQL/browser
-  acceptance. Qualify the intended delivery artifact against its required gates
-  and obtain publication/deployment authorization before distributing or deploying.
-  No additional QC sign-off or full-browser rerun is required for routine delivery.
-  Keep execution/discovery disabled in an installation until its own prerequisites
-  are satisfied. Existing frozen-artifact distribution approval does not approve
-  this candidate or a production rollout.
+- [x] **SHIP2 — Accept and hand over the new user artifact:** the owner-authorized
+  customer pilot below is published from verified master OCI/source artifacts,
+  with an installation path, customer Git intake and durable delivery evidence.
+  Source, security and both native container/install checks pass. No additional
+  QC sign-off or full-browser rerun is required. Execution/discovery remain
+  disabled; this handover does not claim new native Oracle acceptance or a
+  production/customer infrastructure deployment.
 
 
-### Customer pilot delivery — current work
+### Customer pilot delivery
 
 The owner authorized a versioned customer pilot release, PR/master delivery and
 publication on 2026-11-08. No customer infrastructure deployment is authorized.
 The supported initial route is a single Linux Docker Compose host with local Git
 checkout intake and offline governance; Oracle execution/discovery stay disabled.
 
-- [ ] **CP1 — Customer installation:** ship the isolated Compose definition,
+- [x] **CP1 — Customer installation:** ship the isolated Compose definition,
   exclusive root-owned configuration generator, interactive account bootstrap and
   explicit project grants. The app uses a non-superuser metadata role.
-- [ ] **CP2 — Customer Git:** load operator-owned repository manifests, confine
+- [x] **CP2 — Customer Git:** load operator-owned repository manifests, confine
   checkouts to the read-only repository mount and import the customer's committed
   SQL through the existing release/plan workflow. Keep remote credentials outside.
-- [ ] **CP3 — Customer operations:** ship CUSTOMER-GUIDE.md with installation,
+- [x] **CP3 — Customer operations:** ship CUSTOMER-GUIDE.md with installation,
   login/first project, repository updates, TLS, backup/restore, upgrade and support
   scope. Existing lab Helm defaults are not the customer installation path.
-- [ ] **CP4 — Published pilot:** publish a dated prerelease from the exact verified
+- [x] **CP4 — Published pilot:** publish a dated prerelease from the exact verified
   master OCI, source bundle and matching notices/source access, with checksums and
   release notes. Link the customer guide from the release. No additional QC or
   broad browser rerun is required; targeted checks and the existing OCI smoke apply.
+
+Published [pilot-2026-11-08](https://github.com/devsecopslonghn/kelryvo/releases/tag/pilot-2026-11-08)
+contains 17 assets. [PR #136](https://github.com/devsecopslonghn/kelryvo/pull/136)
+merged the customer installation and Git intake. The release stays frozen at
+GitHub-verified master `d57255b491ce6fe16f660264aa6626f78b88e432` and OCI index
+`sha256:fce8082d9c2dc5d74bdd9d5a85137b5a31e00a5e3005f794aceed966bfb80f96`.
+[Source checks](https://github.com/devsecopslonghn/kelryvo/actions/runs/42495193505),
+[native OCI/install smoke](https://github.com/devsecopslonghn/kelryvo/actions/runs/42495193340)
+and [CodeQL](https://github.com/devsecopslonghn/kelryvo/actions/runs/42495193214) pass.
+Source checks include 38 targeted Node tests and two Python setup tests. Both
+native platforms verify customer Git intake/review and fresh Compose account setup.
+
+Durable [delivery-evidence.json](https://github.com/devsecopslonghn/kelryvo/releases/download/pilot-2026-11-08/delivery-evidence.json)
+has SHA-256 `bec3f68feab37fd95c801dfd89c3f5eb9d2eb5ded26febcc4c3e72ef72ab5c44`.
+The complete [SHA256SUMS](https://github.com/devsecopslonghn/kelryvo/releases/download/pilot-2026-11-08/SHA256SUMS)
+has SHA-256 `7e7f13941830a11613c9af0a27893fdf6d23f7165299d0b98ae8b798de6a1530`.
+The release includes the full frozen Git source, exact Debian corresponding sources
+for 79 source-package versions, runtime inventories and preserved notices. Its
+manifest records the dated owner authorization; embedded older distribution and
+pending-work records remain historical. Oracle acceptance and production DR/HA
+are not qualified by these offline governance/install checks.
 
 
 Local verification logs are under ignored `.cache/delivery-20261108/`.
