@@ -6,6 +6,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import https from 'node:https';
 import { createServer } from 'node:net';
+import { prepareDemoRepository } from './local-resources.mjs';
 
 // One disposable installed-customer smoke, no browser, Oracle, release or registry writes.
 const image = process.argv[2];
@@ -23,11 +24,12 @@ const compose = args => command('sudo', ['--preserve-env=COMPOSE_PROJECT_NAME', 
   '--env-file', path.join(directory, 'pilot.env'), '-f', path.join(directory, 'compose.yaml'), ...args]);
 let stage = 'configuration';
 try {
+  const repository = await prepareDemoRepository();
   const probe = createServer();
   await new Promise(resolve => probe.listen(0, '127.0.0.1', resolve));
   const port = probe.address().port; await new Promise(resolve => probe.close(resolve));
   command('sudo', ['python3', 'scripts/pilot.py', 'init', '--directory', directory, '--image', image,
-    '--port', String(port), '--repository', path.resolve('.cache/local-product/demo-repository')]);
+    '--port', String(port), '--repository', repository]);
   stage = 'startup'; compose(['up', '-d', '--wait', '--wait-timeout', '90']);
   const ca = command('sudo', ['cat', path.join(directory, 'secrets/tls.crt')]);
   const request = (method, route, body, headers = {}) => new Promise((resolve, reject) => {
