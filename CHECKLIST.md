@@ -7,6 +7,46 @@ offline thành kết quả Oracle, hoặc chuyển nghiệm thu giữa các sour
 
 ## Current delivery goal — 2026-11-08
 
+### Customer rollout follow-up — 2026-11-08
+
+The customer identified `https://kelryvo.apps.drgdevlab.com/` as the affected
+installation and clarified the required result: versioned Oracle migrations with
+one instance credential, project-owned schemas and centralized audit. Offline
+review and publishing another pilot do not meet that requirement. Customer
+databases include 19c and 26; a separate 26 test target has been identified.
+
+Read-only inspection of the URL and `k8s-admin-public` / namespace `kelryvo` found
+deployment `kelryvo-app` still using image `afe222f9…` (the `66c4a31` development
+artifact), with discovery/execution both disabled and no Oracle installation
+mount. HTTPS liveness/readiness pass, with target availability `UNVERIFIED`.
+The mounted developer bearer returned HTTP 401; this does not establish the
+customer's password-session permissions. No deployment or Oracle writes were made.
+
+- [ ] **CR1 — Complete the customer Oracle rollout:** qualify the actual test
+  endpoint/transport, grants and exact source/image; complete login, project access,
+  instance credential setup, schema assignment/verification, SQL/Git migration,
+  independent approval, execution and retained audit. Do not transfer the earlier
+  Oracle Free/TCP qualification to Autonomous Database/TCPS, 19c or a new image.
+- [x] **CR2 — Remove onboarding blockers (source candidate):** show the creation UUID that the API
+  already returns, route target setup through instance onboarding, and expose
+  explicit operator database-management/deployment grants without automatic access
+  or approval. Local delivery checks pass (38 Node and three Python setup tests),
+  along with one PostgreSQL/Chromium membership workflow and the targeted instance
+  master API test. This candidate has not been deployed to the customer URL.
+
+The supplied test endpoint accepted a read-only TCPS connection on port 1521 with
+certificate verification enabled, using pinned node-oracledb 7.0.1 Thin. It reports
+Oracle AI Database 26ai / `23.26.4.1.0`, Autonomous Database, PDB. The required
+Kelryvo ledger/mutex objects are absent. This native connection/catalog inspection
+is not governed execution or artifact qualification. Private target identity and
+sanitized results are retained under ignored `.cache/customer-rollout-20261108/`;
+no credential values are committed or logged. Oracle SQL writes remain unperformed.
+
+The current credential UI accepts operator-provisioned references only. A customer
+expectation of entering an admin password directly is an implementation gap, not
+a completed credential-vault feature. See the live rollout path and prerequisites
+in CUSTOMER-GUIDE.md. Keep the original published offline pilot scope below.
+
 Deliver a usable self-hosted pilot for the supported workflow: project and target
 setup, SQL/Git release, validation, immutable plan, independent review, governed
 execution request, and retained history. Keep the existing Oracle qualification

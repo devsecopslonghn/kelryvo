@@ -83,7 +83,9 @@ Bootstrap can also reset these two accounts; this revokes their prior password
 sessions. Keep recovery tokens in the root-only secrets directory.
 
 Open `https://localhost:8443`, select password sign-in and use the developer
-account. Create a project, copy its UUID, then explicitly grant both pilot actors:
+account. Create a project and copy the UUID from **Project access handoff** before
+reloading or signing out. The receipt remains visible during workspace refreshes;
+it does not grant access. Explicitly grant both pilot actors:
 
 ```sh
 sudo python3 scripts/pilot.py grant --directory /srv/kelryvo-pilot \
@@ -101,6 +103,62 @@ supported installation process. For an immediately usable offline workflow,
 configure a reference-only Oracle profile under Project setup and use the Git
 release path below; offline syntax validation and review do not connect to Oracle.
 Do not enter database passwords into credential-reference fields.
+
+## Oracle rollout on an existing installation
+
+The customer rollout workflow is **instance → discover → assign schema to project
+→ verify target → SQL/Git release → validate → independent approval → request
+execution → migration history and audit**. Offline review alone does not complete
+a database rollout. The Compose pilot above keeps discovery and execution disabled.
+An older running installation is not upgraded by downloading a new release.
+
+Before using the live workflow, the operator must prepare the exact target and
+image: an authorized Oracle endpoint and transport, a protected credential source,
+purpose-specific grants, the target ledger and mutex, and an installation runtime
+qualified for that source/image and database topology. Enabling environment flags
+alone does not provide these capabilities. Oracle 19c and Autonomous Database over
+TCPS do not inherit the historical Oracle Free/TCP qualification.
+
+Project access, workspace database management and deployment are separate grants.
+For an installation created with `pilot.py`, the operator can grant the developer
+database management and, separately, deployment to an explicit project:
+
+```sh
+sudo python3 scripts/pilot.py database-grant --directory /srv/kelryvo-pilot
+sudo python3 scripts/pilot.py deploy-grant --directory /srv/kelryvo-pilot \
+  --project REPLACE_WITH_PROJECT_UUID
+```
+
+These commands retain operator audit and do not enable Oracle runtimes, create
+database users, provision database grants, approve plans or execute SQL. In a
+Kubernetes installation, use `node scripts/container-membership.mjs database-grant
+kelryvo-developer` and `node scripts/container-membership.mjs deploy-grant
+PROJECT_UUID kelryvo-developer` inside the application container through the
+authorized operator process.
+
+Once those prerequisites are verified:
+
+1. Sign in as the developer, open the assigned project and add its environment
+   under **Project setup**. Select **Connect an Oracle instance** from the overview.
+2. Register one instance master using the operator-provisioned credential reference,
+   or attach an existing workspace master. A reference field does not accept or
+   provision an admin password. Current releases require operator-managed secrets;
+   password entry and a self-service credential vault are not implemented.
+3. Discover schemas, select the project environment and assign the exact application
+   owners. The assignments are provisional until each schema passes accepted live
+   identity verification. Attaching an instance to another project never transfers
+   schema ownership. IP alone does not identify an Oracle target: service/container
+   and transport are also required.
+4. Open **SQL Workspace** for the assigned target, save SQL and prepare a release,
+   or import committed Git migrations under **Releases**. Validate against the
+   verified target and create a fresh immutable plan.
+5. Sign in separately as the approver, inspect the SQL, target and findings, and
+   approve the plan. Return as the authorized developer and inspect execution
+   readiness before submitting the execution request.
+6. Verify `VERIFIED_SUCCESS` (or `NOOP` for an already applied version) and the
+   retained receipts in **Migration history** and **Audit & history**. `APPROVED`
+   and `NOT_EXECUTED` are not successful database rollout results. An ambiguous
+   outcome remains `HOLD`; use reconciliation and do not replay it.
 
 ## Use your own Git migrations
 

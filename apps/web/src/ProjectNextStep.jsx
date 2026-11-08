@@ -38,8 +38,8 @@ export default function ProjectNextStep({ detail, actor, accessMode, recoverySta
     planId = pending[0]?.id; status = 'PENDING_APPROVAL';
   } else if (!(detail.targetBindings || []).length) {
     title = 'Configure a project target';
-    description = 'Assign a schema and bind an explicit environment before preparing a SQL change. Target options are configured by the operator.';
-    destination = 'targets'; action = 'Open project targets';
+    description = 'Register or reuse an Oracle instance, discover its schemas, and assign them to this project. A database manager needs operator-provisioned credentials and a configured Oracle runtime.';
+    destination = 'instances'; action = 'Connect an Oracle instance';
   } else if (pending.length) {
     title = 'Follow up on independent review';
     description = 'A plan is awaiting approval. Inspect its review record or ask an independent approver to review it.';
