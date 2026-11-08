@@ -27,6 +27,7 @@ const pgPort = hostNetwork ? await freePort() : 5432;
 const owner = `kelryvo-test-${randomUUID()}`, pg = `${owner}-pg`, app = `${owner}-app`;
 const httpNetwork = `${owner}-http`;
 const root = await mkdtemp(path.join(tmpdir(), 'kelryvo-oci-'));
+const customerRepository = path.join(root, 'customer-repository');
 const secrets = path.join(root, 'secrets'), missingSecrets = path.join(root, 'missing-secrets');
 const docker = (...args) => execFileSync('/usr/bin/docker', args, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'], timeout: 60_000 }).trim();
 const dockerResult = (args, options = {}) => spawnSync('/usr/bin/docker', args, { encoding: 'utf8', timeout: 60_000, maxBuffer: 4 * 1024 * 1024, ...options });
@@ -106,6 +107,16 @@ try {
   execFileSync('/usr/bin/openssl', ['req', '-x509', '-newkey', 'rsa:2048', '-nodes', '-days', '1', '-subj', '/CN=localhost',
     '-addext', 'subjectAltName=IP:127.0.0.1,DNS:localhost', '-keyout', path.join(secrets, 'tls.key'), '-out', path.join(secrets, 'tls.crt')], { stdio: 'ignore' });
   const ca = await readFile(path.join(secrets, 'tls.crt'));
+  stage = 'customer-owned repository checkout';
+  const checkout = docker('create', '--entrypoint', 'node', appImage);
+  try { docker('cp', `${checkout}:/opt/kelryvo/repositories/demo`, customerRepository); }
+  finally { docker('rm', checkout); }
+  // Only this disposable fixture helper can normalize copied restrictive directories.
+  docker('run', '--rm', '--network', 'none', '--user', '0:0', '--cap-drop=ALL', '--cap-add=CHOWN', '--cap-add=DAC_OVERRIDE', '--cap-add=FOWNER',
+    '--entrypoint', 'node', '--mount', `type=bind,src=${customerRepository},dst=/checkout`, appImage, '-e',
+    "const fs=require('node:fs'),p=require('node:path');function own(d){fs.chmodSync(d,0o755);for(const n of fs.readdirSync(d)){const f=p.join(d,n),s=fs.lstatSync(f);if(s.isDirectory())own(f);else{if(!s.isSymbolicLink())fs.chmodSync(f,0o644);fs.lchownSync(f,10001,10001);}}fs.chownSync(d,10001,10001);}own('/checkout');");
+  await writeFile(path.join(secrets, 'repositories.json'), JSON.stringify({ format: 1,
+    paths: ['/run/kelryvo/repositories/customer'] }), { mode: 0o400 });
   await rootOwnSourceSecrets(appImage);
   stage = 'protected source permissions';
   assert.equal(docker('run', '--rm', '--network', 'none', '--read-only', '--cap-drop=ALL', '--entrypoint', 'node',
@@ -139,7 +150,8 @@ try {
     ? ['--network', 'host', '--env', `KELRYVO_PORT=${hostPort}`]
     : ['--network', httpNetwork, '--network', owner, '--publish', `127.0.0.1:${hostPort}:8443`]), '--label', `dev.kelryvo.test=${owner}`,
     ...runtimeSecurity, '--memory=768m',
-    '--mount', `type=bind,src=${secrets},dst=/run/kelryvo/secrets,readonly`, appImage);
+    '--mount', `type=bind,src=${secrets},dst=/run/kelryvo/secrets,readonly`,
+    '--mount', `type=bind,src=${customerRepository},dst=/run/kelryvo/repositories/customer,readonly`, appImage);
   stage = 'app container'; run();
   const origin = hostNetwork ? `https://127.0.0.1:${hostPort}` : `https://${docker('port', app, '8443/tcp')}`;
   const wait = async () => {
@@ -186,7 +198,7 @@ try {
     assert.match(docker('exec', app, 'node', 'scripts/container-credentials.mjs', 'rotate', identity), /previous authority retired and audited/);
     assert.match(docker('exec', app, 'node', 'scripts/container-credentials.mjs', 'rotate', identity), /expiry unchanged/);
   };
-  const result = await smokeGovernance({ origin, ca, tokens, operator, rotate, onStep: step => { stage = step; } });
+  const result = await smokeGovernance({ origin, ca, tokens, operator, rotate, repositoryId: 'local-1', onStep: step => { stage = step; } });
   stage = 'graceful restart and retained metadata';
   docker('stop', '--time', '30', app);
   assert.equal(docker('inspect', '--format', '{{.State.ExitCode}}', app), '0');
@@ -255,5 +267,11 @@ try {
     catch { /* own absent fixture */ }
   }
   try { await releaseSourceSecrets(appImage); } catch { await chmod(secrets, 0o700).catch(() => {}); }
+  try {
+    const uid = process.getuid(), gid = process.getgid();
+    docker('run', '--rm', '--network', 'none', '--user', '0:0', '--cap-drop=ALL', '--cap-add=CHOWN', '--cap-add=DAC_OVERRIDE', '--cap-add=FOWNER',
+      '--entrypoint', 'node', '--mount', `type=bind,src=${customerRepository},dst=/checkout`, appImage, '-e',
+      `const fs=require('node:fs'),p=require('node:path');function own(d){for(const n of fs.readdirSync(d)){const f=p.join(d,n),s=fs.lstatSync(f);if(s.isDirectory())own(f);else fs.lchownSync(f,${uid},${gid});}fs.chmodSync(d,0o700);fs.chownSync(d,${uid},${gid});}own('/checkout');`);
+  } catch { /* fixture may not have been created */ }
   await rm(root, { recursive: true, force: true });
 }

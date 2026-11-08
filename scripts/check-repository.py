@@ -46,7 +46,7 @@ def check_repository(root):
         elif name.startswith('docs/') and not name.startswith('docs/dependencies/'):
             errors.append(f'Keep current requirements in CHECKLIST.md: {display}')
         elif path.suffix.lower() == '.md':
-            allowed = name in {'README.md', 'CHECKLIST.md', 'docs/dependencies/antlr-provenance.md'}
+            allowed = name in {'README.md', 'CHECKLIST.md', 'CUSTOMER-GUIDE.md', 'docs/dependencies/antlr-provenance.md'}
             if not allowed and path.name.lower() not in LEGAL_MARKDOWN:
                 errors.append(f'Use CHECKLIST.md instead of another status document: {display}')
 

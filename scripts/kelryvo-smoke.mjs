@@ -4,7 +4,7 @@ import { randomBytes } from 'node:crypto';
 
 // Reused for the actual OCI runtime and the authorized public deployment.
 // Caller supplies private credentials in memory. No request/response bodies are logged.
-export async function smokeGovernance({ origin, ca, tokens, operator, rotate, onStep = () => {} }) {
+export async function smokeGovernance({ origin, ca, tokens, operator, rotate, repositoryId = 'demo', onStep = () => {} }) {
   const request = (method, route, payload, session, extra = {}) => new Promise((resolve, reject) => {
     const bytes = payload === undefined ? undefined : Buffer.from(JSON.stringify(payload));
     const req = https.request(new URL(route, origin), { method, ca, timeout: 30_000,
@@ -66,9 +66,9 @@ export async function smokeGovernance({ origin, ca, tokens, operator, rotate, on
     engine: 'oracle', host: 'oracle.example.invalid', port: 1521, service: 'DEV', username: 'APP', credentialRef: 'secret://unconfigured/oracle' }, developer);
   assert.equal(profile.status, 201);
   onStep('source binding');
-  assert.equal((await request('PUT', `${base}/source`, { repositoryId: 'demo', folder: 'migrations' }, developer)).status, 200);
+  assert.equal((await request('PUT', `${base}/source`, { repositoryId, folder: 'migrations' }, developer)).status, 200);
   onStep('Git import and parser validation');
-  const imported = await request('POST', `${base}/releases`, { repositoryId: 'demo', commit: 'HEAD', folder: 'migrations' }, developer);
+  const imported = await request('POST', `${base}/releases`, { repositoryId, commit: 'HEAD', folder: 'migrations' }, developer);
   assert.equal(imported.status, 201); assert.equal(imported.body.release.validationStatus, 'VALID');
   onStep('plan preparation');
   const made = await request('POST', `${base}/plans`, { releaseId: imported.body.release.id, profileId: profile.body.profile.id }, developer);

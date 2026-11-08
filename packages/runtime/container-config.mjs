@@ -4,6 +4,7 @@ import path from 'node:path';
 import { isIP } from 'node:net';
 import { createSecureContext } from 'node:tls';
 import { readIdentityRuntime } from '../identity/runtime.mjs';
+import { containerRepositories } from './repositories.mjs';
 
 const unavailable = () => new Error('Container configuration unavailable');
 
@@ -60,12 +61,19 @@ export async function loadContainerConfig(env = process.env) {
     try { await lstat(path.join(root, 'identity-runtime.json')); }
     catch (error) { if (error.code !== 'ENOENT') throw error; identityPresent = false; }
     if (identityPresent) identityRuntime = await readIdentityRuntime(path.join(root, 'identity-runtime.json'));
+    let repositories = [{ id: 'demo', name: 'Kelryvo migration demo', path: path.resolve('repositories/demo') }];
+    const repositoryManifest = await lstat(path.join(root, 'repositories.json')).catch(error => {
+      if (error.code !== 'ENOENT') throw error;
+      return null;
+    });
+    if (repositoryManifest) repositories = [...repositories,
+      ...await containerRepositories(JSON.parse(await readContainerSecret(root, 'repositories.json')))];
     return { databaseUrl, host, port: Number(portText), tls, identityRuntime,
       actors: [
         { id: 'kelryvo-developer', name: 'Kelryvo developer', role: 'developer', token: developerToken },
         { id: 'kelryvo-approver', name: 'Kelryvo approver', role: 'approver', token: approverToken },
       ],
-      repositories: [{ id: 'demo', name: 'Kelryvo migration demo', path: path.resolve('repositories/demo') }],
+      repositories,
     };
   } catch { throw unavailable(); }
 }
