@@ -23,7 +23,7 @@ platforms and is the exact CI-built image, not a locally rebuilt substitute.
 Load your platform with skopeo (choose `arm64` on an arm64 host):
 
 ```sh
-skopeo copy --override-os linux --override-arch amd64 \
+sudo skopeo copy --override-os linux --override-arch amd64 \
   oci-archive:kelryvo-app-oci.tar docker-daemon:kelryvo:pilot-2026-11-08
 ```
 
@@ -33,7 +33,7 @@ name above is an import alias. With a private registry, use its verified
 
 ## Install on a Linux host
 
-Requirements: Docker Engine with Compose v2, Python 3.11+, OpenSSL (and Git for
+Requirements: Docker Engine with Compose v2, skopeo for OCI import, Python 3.11+, OpenSSL (and Git for
 customer checkout snapshots), at least two
 CPUs, 4 GiB available memory and 5 GiB free storage plus space for retained data.
 These are pilot starting values, not a measured capacity guarantee. No Node,
