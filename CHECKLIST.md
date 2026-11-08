@@ -63,22 +63,15 @@ results remain accurate. Publishing or deployment still needs its own authorizat
   shards concurrently. Docker and source bundles include the downloader; source
   bundles also include the previously omitted JDK platform selector. Fresh public
   ANTLR/JDK preparation, source-bundle checks and local offline checks pass.
-- [ ] **CI2 — Verify the new candidate on hosted CI:** on master `cbbfa77295ac`,
-  scheduled [parser](https://github.com/devsecopslonghn/kelryvo/actions/runs/42465130749)
-  and [full regression](https://github.com/devsecopslonghn/kelryvo/actions/runs/42465366215)
-  failed at `parser:antlr:prepare`; nine regression partitions failed there and
-  three API partitions passed. Authenticated log review now confirms
-  `artifact_download_failed` in the parser job and sampled API, release and browser
-  partitions. The original downloader discarded the artifact label and HTTP
-  status, so the historical failing endpoint/status cannot be recovered from
-  these logs. The existing Git credential provides repository admin access and
-  successful authenticated log downloads; no additional admin grant is needed.
-  Source and OCI checks passed on this master; focused acceptance was cancelled
-  and delivery was skipped. After an
-  authorized push, verify the delivery essentials, exact image smoke and CodeQL
-  on the new commit. Optional API/browser/parser/install runs may proceed separately;
-  they are not a prerequisite for release preparation or publishing. Do not bypass
-  required checks or interpret local results as a successful hosted rerun.
+- [x] **CI2 — Hosted delivery verification:** PR #135 merged as GitHub-verified
+  `6ae30001f72fe659fdf4023cc5634ede9717e0e6`. Source build/targeted checks,
+  CodeQL and exact-image amd64/arm64 smoke/index verification passed on master.
+  [Source](https://github.com/devsecopslonghn/kelryvo/actions/runs/42491247650),
+  [OCI](https://github.com/devsecopslonghn/kelryvo/actions/runs/42491247646),
+  [security](https://github.com/devsecopslonghn/kelryvo/actions/runs/42491247339).
+  The prior parser-download failure was confirmed from authenticated logs and
+  addressed with bounded retries/diagnostics. GitOps remains disabled; this did
+  not publish or deploy the new master artifact.
 - [ ] **SHIP2 — Accept and hand over the new user artifact:** the local source
   candidate below passed clean installation and disposable PostgreSQL/browser
   acceptance. Qualify the intended delivery artifact against its required gates
@@ -87,6 +80,29 @@ results remain accurate. Publishing or deployment still needs its own authorizat
   Keep execution/discovery disabled in an installation until its own prerequisites
   are satisfied. Existing frozen-artifact distribution approval does not approve
   this candidate or a production rollout.
+
+
+### Customer pilot delivery — current work
+
+The owner authorized a versioned customer pilot release, PR/master delivery and
+publication on 2026-11-08. No customer infrastructure deployment is authorized.
+The supported initial route is a single Linux Docker Compose host with local Git
+checkout intake and offline governance; Oracle execution/discovery stay disabled.
+
+- [ ] **CP1 — Customer installation:** ship the isolated Compose definition,
+  exclusive root-owned configuration generator, interactive account bootstrap and
+  explicit project grants. The app uses a non-superuser metadata role.
+- [ ] **CP2 — Customer Git:** load operator-owned repository manifests, confine
+  checkouts to the read-only repository mount and import the customer's committed
+  SQL through the existing release/plan workflow. Keep remote credentials outside.
+- [ ] **CP3 — Customer operations:** ship CUSTOMER-GUIDE.md with installation,
+  login/first project, repository updates, TLS, backup/restore, upgrade and support
+  scope. Existing lab Helm defaults are not the customer installation path.
+- [ ] **CP4 — Published pilot:** publish a dated prerelease from the exact verified
+  master OCI, source bundle and matching notices/source access, with checksums and
+  release notes. Link the customer guide from the release. No additional QC or
+  broad browser rerun is required; targeted checks and the existing OCI smoke apply.
+
 
 Local verification logs are under ignored `.cache/delivery-20261108/`.
 Before the delivery-policy change, the full offline check passed with 497 tests
@@ -122,9 +138,10 @@ corrected overbroad UI role restriction remain in their original logs.
 The retained candidate predates the delivery-policy change; its historical
 acceptance does not claim that the updated workflows have run on GitHub.
 
-Docker is installed but its daemon is unavailable. Native Docker backup, OCI,
-Oracle and hosted-CI acceptance remain pending; no Oracle access, push,
-publication, deployment or external infrastructure change was performed.
+At the local-test stage Docker was unavailable; subsequent hosted OCI and source
+checks passed and PR #135 was merged as recorded above. New Oracle qualification
+and customer deployment were not performed. Historical local results retain their
+original scope; they do not describe the later hosted delivery state.
 
 ## Trạng thái tiếp quản
 

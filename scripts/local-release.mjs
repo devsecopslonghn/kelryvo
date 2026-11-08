@@ -18,7 +18,7 @@ const tests = new Set(['product-phase7-workflow-browser.integration.mjs','produc
   'product-account.test.mjs','product-account-browser.integration.mjs','managed-backup-operator.test.mjs',
   'product-profile-lifecycle.test.mjs','product-instances-browser.integration.mjs','product-mutation-authority.test.mjs']);
 const fixed = new Set(['LICENSE','NOTICE','.nvmrc','package.json','package-lock.json','tsconfig.json',
-  'README.md','CHECKLIST.md']);
+  'README.md','CHECKLIST.md','CUSTOMER-GUIDE.md','compose.pilot.yaml','scripts/pilot.py']);
 export function selectedReleasePath(name) {
   return fixed.has(name) || /^(apps|packages)\//.test(name) || name.startsWith('docs/dependencies/')
     || name.startsWith('experiments/db-devops-wp0/antlr-helper/')

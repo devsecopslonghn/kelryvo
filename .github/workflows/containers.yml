@@ -58,6 +58,8 @@ jobs:
           set -euo pipefail
           skopeo copy "oci-archive:dist/oci/app-$TARGET_ARCH.tar" docker-daemon:kelryvo-app:test
           node scripts/test-containers.mjs kelryvo-app:test "$TARGET_ARCH"
+      - name: Install the customer Compose pilot and import its mounted repository
+        run: node scripts/test-pilot.mjs kelryvo-app:test
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: platform-images-${{ github.sha }}-${{ github.run_attempt }}-${{ matrix.arch }}
