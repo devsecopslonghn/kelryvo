@@ -129,22 +129,25 @@ def main(argv=None):
     init.add_argument('--tls-cert')
     init.add_argument('--tls-key')
     init.add_argument('--port', type=int, default=8443)
-    for action in ['bootstrap', 'grant', 'status']:
+    for action in ['bootstrap', 'grant', 'database-grant', 'deploy-grant', 'status']:
         command = commands.add_parser(action)
         command.add_argument('--directory', required=True)
-        if action == 'grant':
+        if action in ['grant', 'deploy-grant']:
             command.add_argument('--project', required=True)
     args = parser.parse_args(argv)
     if args.action == 'init':
         prepare(args.directory, args.image, args.repository, args.tls_cert, args.tls_key, args.port)
     elif args.action == 'status':
         compose(args.directory, ['ps'])
-    elif args.action == 'grant':
+    elif args.action == 'database-grant':
+        compose(args.directory, ['exec', '-T', 'kelryvo', 'node', 'scripts/container-membership.mjs',
+                                 'database-grant', 'kelryvo-developer'])
+    elif args.action in ['grant', 'deploy-grant']:
         if not re.fullmatch(r'[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}', args.project):
             raise ValueError('Use the project UUID shown by the application.')
-        for identity in ['developer', 'approver']:
+        for identity in (['developer', 'approver'] if args.action == 'grant' else ['developer']):
             compose(args.directory, ['exec', '-T', 'kelryvo', 'node', 'scripts/container-membership.mjs',
-                                     'grant', args.project, f'kelryvo-{identity}'])
+                                     args.action, args.project, f'kelryvo-{identity}'])
     else:
         accounts = []
         for identity in ['developer', 'approver']:

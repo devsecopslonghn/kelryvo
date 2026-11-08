@@ -12,6 +12,26 @@ spec.loader.exec_module(pilot)
 
 
 class PilotSetupTests(unittest.TestCase):
+    def test_grants_are_explicit_and_preserve_separate_authorities(self):
+        project = '00000000-0000-4000-8000-000000000001'
+        prefix = ['exec', '-T', 'kelryvo', 'node', 'scripts/container-membership.mjs']
+        with patch.object(pilot, 'compose') as compose:
+            pilot.main(['database-grant', '--directory', '/srv/kelryvo-pilot'])
+            compose.assert_called_once_with('/srv/kelryvo-pilot', [*prefix, 'database-grant', 'kelryvo-developer'])
+            compose.reset_mock()
+            pilot.main(['deploy-grant', '--directory', '/srv/kelryvo-pilot', '--project', project])
+            compose.assert_called_once_with('/srv/kelryvo-pilot', [*prefix, 'deploy-grant', project, 'kelryvo-developer'])
+            compose.reset_mock()
+            pilot.main(['grant', '--directory', '/srv/kelryvo-pilot', '--project', project])
+            self.assertEqual([call.args[1] for call in compose.call_args_list], [
+                [*prefix, 'grant', project, 'kelryvo-developer'],
+                [*prefix, 'grant', project, 'kelryvo-approver'],
+            ])
+            compose.reset_mock()
+            with self.assertRaises(ValueError):
+                pilot.main(['deploy-grant', '--directory', '/srv/kelryvo-pilot', '--project', 'not-a-uuid'])
+            compose.assert_not_called()
+
     def test_private_configuration_is_exclusive_and_never_starts_services(self):
         with tempfile.TemporaryDirectory() as temp:
             home = Path(temp) / 'installation'

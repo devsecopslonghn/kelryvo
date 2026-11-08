@@ -63,6 +63,11 @@ test('browser keeps bootstrap read-only, shows creation receipt without loading 
     const receipt = await (await createdResponse).json();
     assert.deepEqual(Object.keys(receipt.project).sort(), ['createdAt', 'id']);
     await page.getByRole('status').filter({ hasText: 'Project created. Ask the local OS operator to grant access before opening it.' }).waitFor();
+    const handoff = page.getByRole('region', { name: 'Project access handoff', exact: true });
+    await handoff.getByText(receipt.project.id, { exact: true }).waitFor();
+    assert.match(await handoff.locator('pre').innerText(), new RegExp(`pilot.py grant .* --project ${receipt.project.id}$`));
+    await page.getByRole('button', { name: 'Refresh workspace' }).click();
+    await handoff.getByText(receipt.project.id, { exact: true }).waitFor();
     assert.equal(await page.getByRole('button', { name: /Receipt without grant/ }).count(), 0);
     assert.equal(await page.getByRole('heading', { name: legacyName, exact: true }).count(), 1);
 
@@ -72,6 +77,10 @@ test('browser keeps bootstrap read-only, shows creation receipt without loading 
     await assignedButton.waitFor();
     await assignedButton.click();
     await page.getByRole('heading', { name: 'Receipt without grant', exact: true }).waitFor();
+    await page.getByRole('region', { name: 'Recommended next step', exact: true })
+      .getByRole('button', { name: 'Connect an Oracle instance →', exact: true }).click();
+    await page.getByRole('region', { name: 'Oracle instance onboarding' }).getByText(/needs workspace database-management permission/).waitFor();
+    await page.getByRole('button', { name: /Projects/ }).click();
     const projectHeaders = { authorization: `Bearer ${actors[0].token}`, 'content-type': 'application/json' };
     const environmentResponse = await fetch(`${url}/api/projects/${receipt.project.id}/environments`, {
       method: 'POST', headers: projectHeaders, body: JSON.stringify({ name: 'Granted environment' }),

@@ -29,7 +29,7 @@ test('initial sign-in loads its selected project once and empty target and draft
   await nextStep(page).getByRole('heading', { name: 'Configure a project target' }).waitFor();
   assert.equal(fixture.requests.filter(r => r.path === `/api/projects/${model.project.id}`).length, 1,
     'auto-selection must not invalidate and repeat the initial project read');
-  await nextStep(page).getByRole('button', { name: 'Open project targets →', exact: true }).click();
+  await overview(page).getByRole('button', { name: 'Configure targets →', exact: true }).click();
   await page.getByText('No schemas assigned.', { exact: false }).waitFor();
   assert.equal(await page.getByText('Loading assigned targets…', { exact: true }).count(), 0);
   await page.getByRole('button', { name: /SQL Workspace/ }).click();
@@ -129,7 +129,7 @@ test('developer setup stays usable and next-step navigation fits a mobile viewpo
   assert.equal(await page.getByRole('button', { name: 'Save profile', exact: true }).isEnabled(), true);
   await page.setViewportSize({ width: 390, height: 844 });
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
-  assert.equal(await nextStep(page).getByRole('button', { name: 'Open project targets →', exact: true }).isVisible(), true);
+  assert.equal(await nextStep(page).getByRole('button', { name: 'Connect an Oracle instance →', exact: true }).isVisible(), true);
   fixture.assertClean();
 });
 
