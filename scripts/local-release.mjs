@@ -9,7 +9,7 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const manifestName = 'release-manifest.json';
 const helperTarget = 'experiments/db-devops-wp0/antlr-helper/target';
-const scripts = new Set(['checklist','antlr-build','antlr-prepare','build-web','check-source','local-backup-operator','managed-backup-operator',
+const scripts = new Set(['checklist','antlr-build','antlr-prepare','antlr-download','jdk-platform','build-web','check-source','local-backup-operator','managed-backup-operator',
   'local-credential-operator','local-dev','local-inventory-operator','local-membership-operator',
   'local-operator-config','local-prepare','local-repositories','local-resources','local-tls',
   'product-dependencies','release-acceptance','local-release']);

@@ -4,7 +4,9 @@ import { pathToFileURL } from 'node:url';
 export const SOURCE_REPOSITORY = 'devsecopslonghn/kelryvo';
 export const HELM_REPOSITORY = 'devsecopslonghn/kelryvo-helm-chart';
 export const CODEQL_JOBS = ['Analyze (javascript-typescript)', 'Analyze (actions)', 'Analyze (java-kotlin)', 'Analyze (python)'];
-export const REQUIRED_WORKFLOWS = ['check.yml', 'product.yml', 'containers.yml'];
+// Broad acceptance is advisory. Delivery retains source/build, exact-image smoke
+// and security checks; scheduled/manual QC results never hold an unrelated release.
+export const REQUIRED_WORKFLOWS = ['check.yml', 'containers.yml'];
 export const isSha = value => /^[a-f0-9]{40}$/.test(value ?? '');
 export const isDigest = value => /^sha256:[a-f0-9]{64}$/.test(value ?? '');
 

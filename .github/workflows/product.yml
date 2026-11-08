@@ -1,17 +1,19 @@
 name: Kelryvo focused acceptance
 
 on:
-  push:
-    branches: [master]
-  pull_request:
+  schedule:
+    - cron: '47 2 * * 3'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: kelryvo-focused-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: kelryvo-focused-${{ github.ref }}
+  cancel-in-progress: true
+
+# Advisory scheduled/manual investigation. This workflow is not a publication
+# dependency; failures remain visible without stopping independent delivery.
 
 jobs:
   changes:
@@ -90,7 +92,7 @@ jobs:
         env:
           CI_TEST_FILES: ${{ toJSON(matrix.files) }}
 
-  # Always report a stable, fail-closed gate, including a deliberate no-test diff.
+  # Report the real result of this advisory run; never turn failed tests green.
   product:
     if: always()
     needs: [changes, focused]

@@ -6,7 +6,7 @@ import { PRODUCT_API_FILES } from '../scripts/product-test-suites.mjs';
 test('documentation and frontend-only changes use build/unit/image gates without PostgreSQL regression', () => {
   assert.equal(selectFocusedTests(['CHECKLIST.md', 'apps/web/app.jsx']).needed, false);
 });
-test('common API, auth, dependency and unclassified shared changes keep all trust boundaries gated', () => {
+test('common API, auth, dependency and unclassified shared changes retain advisory trust-boundary coverage', () => {
   for (const path of ['apps/api/server.ts', 'packages/database/local-credentials.ts', 'package-lock.json', 'tests/helpers/product-db.mjs', 'packages/new-domain/new.ts']) {
     const selection = selectFocusedTests([path]);
     assert.equal(selection.needed, true);

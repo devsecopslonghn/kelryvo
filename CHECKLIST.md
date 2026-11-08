@@ -1,9 +1,130 @@
 # Kelryvo — checklist hiện hành
 
-Nguồn trạng thái duy nhất cho app và Helm. README chỉ là cửa vào. Cập nhật 2026-11-06 (Asia/Saigon).
+Nguồn trạng thái duy nhất cho app và Helm. README chỉ là cửa vào. Cập nhật 2026-11-08 (Asia/Saigon).
 `[x]` nghĩa là hoàn thành đúng phạm vi ghi bên cạnh; không đồng nghĩa production-ready.
 `[ ]` nghĩa là còn thiếu nghiệm thu hoặc điều kiện hoàn thành. Không suy diễn kết quả
 offline thành kết quả Oracle, hoặc chuyển nghiệm thu giữa các source/image.
+
+## Current delivery goal — 2026-11-08
+
+Deliver a usable self-hosted pilot for the supported workflow: project and target
+setup, SQL/Git release, validation, immutable plan, independent review, governed
+execution request, and retained history. Keep the existing Oracle qualification
+limits and operator-managed access. The local changes below are a new candidate;
+they do not inherit the frozen pilot's native or OCI acceptance.
+
+### Delivery policy — effective 2026-11-08
+
+The owner requested delivery and feature work to proceed together with proportional
+verification. There is no separate QC role, sign-off or acceptance phase in routine
+delivery. This policy supersedes older process requirements below; historical test
+results and the supported Oracle matrix remain evidence with their original scope.
+
+| Lane | When it runs | Effect on delivery |
+| --- | --- | --- |
+| Delivery essentials | Each PR/master push; locally `npm run check` or `npm run check:delivery` | Required build/typecheck, targeted tests, dependency integrity and notices |
+| Exact image and security | Existing OCI smoke on amd64/arm64 and CodeQL | Required source-bound artifacts, startup/governance smoke, secret isolation and security |
+| Focused product acceptance | Manual or weekly Wednesday schedule | Advisory; no publish dependency and no per-feature QC sign-off |
+| Extended API/browser/parser/install regression | Manual or weekly schedule; `npm run check:full` for full offline coverage | Advisory; failures stay visible and are triaged independently |
+
+Use one relevant build/smoke/targeted check for a change and continue delivery once
+it passes. Do not repeat full browser suites or create disposable infrastructure
+merely to increase test counts. A missing optional log/fixture, an unrelated test
+failure or a dependency-download failure in an advisory run is not a delivery
+blocker. Confirmed product failures affecting startup, security, authorization,
+data integrity or artifact identity still block the affected artifact or behavior.
+The image must actually build and pass its smoke; never relabel a failed gate as
+passing. Existing approval and production-execution boundaries remain in force.
+
+`check.yml` and `containers.yml`, together with the existing CodeQL checks, are the
+publication prerequisites. `product.yml`, `parser.yml` and `regression.yml` run
+independently and are not publication dependencies. Their failed/skipped/cancelled
+results remain accurate. Publishing or deployment still needs its own authorization.
+
+- [x] **FLOW — Delivery without a QC dependency:** routine source CI uses the bounded
+  delivery checks. Full offline coverage is explicit; focused and broad acceptance
+  run on schedule or manually. Publication no longer waits for focused acceptance.
+  Global engineering instructions persist the same delivery priorities.
+- [x] **DX1 — Guided project workflow:** the overview recommends the next step from
+  retained project, role, review and execution facts. Review shortcuts select the
+  relevant plan and status; active requests, HOLD, recovery and completed outcomes
+  have distinct guidance. Initial project selection shares its existing refresh;
+  profile forms enforce developer permissions in the UI, while project and
+  environment actions retain the existing membership-based permissions. Empty
+  target/draft responses settle their loading indicators. Chromium contract tests
+  exercise the actual built web bundle.
+- [x] **CI1 — Resilient pinned inputs and source installation:** parser preparation
+  retries transient HTTP/network failures up to four attempts within a 180-second
+  per-input deadline, reports fixed artifact names and HTTP status without URLs or
+  response bodies, checks SHA-256 before installation and removes partial files.
+  Server Retry-After delays are honored within that deadline. Exhausted network
+  downloads produce redacted GitHub error annotations for diagnosis without logs.
+  Corruption and permanent HTTP failures fail closed. Regression runs at most four
+  shards concurrently. Docker and source bundles include the downloader; source
+  bundles also include the previously omitted JDK platform selector. Fresh public
+  ANTLR/JDK preparation, source-bundle checks and local offline checks pass.
+- [ ] **CI2 — Verify the new candidate on hosted CI:** on master `cbbfa77295ac`,
+  scheduled [parser](https://github.com/devsecopslonghn/kelryvo/actions/runs/42465130749)
+  and [full regression](https://github.com/devsecopslonghn/kelryvo/actions/runs/42465366215)
+  failed at `parser:antlr:prepare`; nine regression partitions failed there and
+  three API partitions passed. Authenticated log review now confirms
+  `artifact_download_failed` in the parser job and sampled API, release and browser
+  partitions. The original downloader discarded the artifact label and HTTP
+  status, so the historical failing endpoint/status cannot be recovered from
+  these logs. The existing Git credential provides repository admin access and
+  successful authenticated log downloads; no additional admin grant is needed.
+  Source and OCI checks passed on this master; focused acceptance was cancelled
+  and delivery was skipped. After an
+  authorized push, verify the delivery essentials, exact image smoke and CodeQL
+  on the new commit. Optional API/browser/parser/install runs may proceed separately;
+  they are not a prerequisite for release preparation or publishing. Do not bypass
+  required checks or interpret local results as a successful hosted rerun.
+- [ ] **SHIP2 — Accept and hand over the new user artifact:** the local source
+  candidate below passed clean installation and disposable PostgreSQL/browser
+  acceptance. Qualify the intended delivery artifact against its required gates
+  and obtain publication/deployment authorization before distributing or deploying.
+  No additional QC sign-off or full-browser rerun is required for routine delivery.
+  Keep execution/discovery disabled in an installation until its own prerequisites
+  are satisfied. Existing frozen-artifact distribution approval does not approve
+  this candidate or a production rollout.
+
+Local verification logs are under ignored `.cache/delivery-20261108/`.
+Before the delivery-policy change, the full offline check passed with 497 tests
+passing and 154 optional skips; that suite is now `npm run check:full`. Targeted
+download, preparation, source-bundle and CI-selection checks passed 17 tests.
+After the policy change, `npm run check:delivery` passed build/typecheck, source
+hygiene, JSON formatting, dependency closure and 37 targeted tests (zero failures
+or skips; test duration 2.14 seconds). The workflow YAML and publication dependency
+graph were checked locally. Browser/database suites were not repeated for this
+process change. The rule-change logs are in `.cache/delivery-20261108/rule-update/`.
+Fresh pinned input preparation and parser build passed, with four ANTLR integration
+tests passing using the freshly prepared JDK.
+
+Additional database acceptance uses an owned PostgreSQL 17.10 process and fresh
+data directory under `.cache/delivery-20261108/postgres-fixture/`, listening only
+on loopback. Official PGDG package checksums were checked against repository
+metadata; the ICU dependency was verified against the installed AlmaLinux signing
+key. This fixture uses the same loopback trust authentication as CI; Git settings
+are isolated in the test subprocesses. No product metadata or service is used.
+The focused API run passed 17 tests, and the complete browser suite passed all
+64 tests, both with zero failures or skips. A retained source candidate from local
+test snapshot `b4acafb4884a6eaee8cdddd5cac5d0c154be310d` passed clean `npm ci`,
+license verification, fresh parser/JDK preparation, parser/web build, source
+verification and all 27 installed workflow tests, with zero failures or skips.
+Its archive is
+`.cache/delivery-20261108/candidate/source-bundle/kelryvo-local-b4acafb4884a.tar.gz`,
+SHA-256 `25ea9a244e44ced3424c47eb3391df9ae40954ddd11957bb697b42b2356ec490`;
+the adjacent `checksums.json` and `candidate/installation-results.json` retain
+source, manifest, archive and phase results. This snapshot is local test evidence,
+not a published commit or an Oracle-qualified release. Review-branch commits
+retain their own source identity; this earlier test snapshot remains unchanged. Earlier fixture authentication/Git-signing failures and the
+corrected overbroad UI role restriction remain in their original logs.
+The retained candidate predates the delivery-policy change; its historical
+acceptance does not claim that the updated workflows have run on GitHub.
+
+Docker is installed but its daemon is unavailable. Native Docker backup, OCI,
+Oracle and hosted-CI acceptance remain pending; no Oracle access, push,
+publication, deployment or external infrastructure change was performed.
 
 ## Trạng thái tiếp quản
 

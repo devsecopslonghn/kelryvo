@@ -15,6 +15,7 @@ import ExecutionHistory from './ExecutionHistory.jsx';
 import ExecutionReadiness from './ExecutionReadiness.jsx';
 import ExecutionReconciliation from './ExecutionReconciliation.jsx';
 import ExecutionRequestsHistory from './ExecutionRequestsHistory.jsx';
+import ProjectNextStep from './ProjectNextStep.jsx';
 import { Account } from './Account.jsx';
 import PasswordLogin from './PasswordLogin.jsx';
 import ExternalSignIn from './ExternalSignIn.jsx';
@@ -51,6 +52,7 @@ const errorCopy = {
   UNAUTHENTICATED: 'That token was not accepted. Check it and try again.',
   UNAUTHORIZED: 'That token was not accepted. Check it and try again.',
   FORBIDDEN: 'This role cannot make that change.',
+  DEVELOPER_REQUIRED: 'Developer privileges are required to configure database profiles.',
   APPROVER_REQUIRED: 'Only an approver can record this decision.',
   MEMBERSHIP_BOOTSTRAP_REQUIRED: 'Project access is still in bootstrap mode. Ask the local OS operator to finish membership setup, then refresh.',
   SELF_APPROVAL_DENIED: 'A plan author cannot approve their own plan. Ask another approver to review it.',
@@ -446,6 +448,7 @@ function App() {
   const [inboxScope, setInboxScope] = useState('ALL');
   const [inboxPage, setInboxPage] = useState({ plans: [], nextCursor: null, loading: false, error: '' });
   const refreshSequence = useRef(0);
+  const refreshContext = useRef(null);
   const mutationSequence = useRef(0);
   const activeProjectId = useRef(projectId);
   const sessionEpoch = useRef(0);
@@ -654,6 +657,7 @@ function App() {
     withdrawalContextEpoch.current += 1;
     setRevocationReason('');
     const sequence = ++refreshSequence.current;
+    refreshContext.current = { token: activeToken, projectId: selectedId };
     reviewerSequence.current += 1; setReviewerChoices([]); setReviewerChoice(''); setReviewerMessage('');
     setBusy(true); setError('');
     try {
@@ -667,6 +671,7 @@ function App() {
       setProjects(rows);
       const nextId = rows.some((item) => item.id === selectedId) ? selectedId : rows[0]?.id || '';
       if (nextId !== selectedId) clearProjectState();
+      refreshContext.current = { token: activeToken, projectId: nextId };
       activeProjectId.current = nextId;
       setProjectId(nextId);
       if (nextId) {
@@ -780,7 +785,10 @@ function App() {
     return () => { current = false; };
   }, []);
 
-  useEffect(() => { if (token && projectId) void refresh(token, projectId); }, [token, projectId]);
+  useEffect(() => {
+    if (token && projectId && (refreshContext.current?.token !== token || refreshContext.current?.projectId !== projectId))
+      void refresh(token, projectId);
+  }, [token, projectId]);
   useEffect(() => {
     if (!token) { setMetadataRecovery({ state: 'UNKNOWN' }); return; }
     let current = true;
@@ -1040,6 +1048,7 @@ function App() {
 
   const createProject = (event) => {
     event.preventDefault();
+    if (accessMode !== 'ENFORCED' || metadataRecovery.state !== 'ACTIVE' || busy) return;
     void mutate(async () => {
       const payload = { name: projectForm.name };
       if (projectForm.description.trim()) payload.description = projectForm.description.trim();
@@ -1050,13 +1059,13 @@ function App() {
     });
   };
   const createEnvironment = (event) => {
-    event.preventDefault(); if (!projectId || detail?.project?.archivedAt) return;
+    event.preventDefault(); if (!projectLoaded || detail?.project?.archivedAt || accessMode !== 'ENFORCED' || metadataRecovery.state !== 'ACTIVE' || busy) return;
     void mutate(async () => {
       await json(`/api/projects/${projectId}/environments`, token, { method: 'POST', body: JSON.stringify({ name: environmentName }) });
     }, 'Environment added.', () => setEnvironmentName(''));
   };
   const createProfile = (event) => {
-    event.preventDefault(); if (!projectId || detail?.project?.archivedAt) return;
+    event.preventDefault(); if (!projectLoaded || detail?.project?.archivedAt || actor?.role !== 'developer' || accessMode !== 'ENFORCED' || metadataRecovery.state !== 'ACTIVE' || busy) return;
     void mutate(async () => {
       await json(`/api/projects/${projectId}/profiles`, token, { method: 'POST', body: JSON.stringify({ ...profileForm, port: Number(profileForm.port), engine: 'oracle' }) });
     }, 'Connection profile saved. Its credential remains a reference.', () => setProfileForm({ name: '', environmentId: '', host: '', port: '1521', service: '', username: '', credentialRef: '' }));
@@ -1708,6 +1717,8 @@ function WorkspaceScreen({ model }) {
   const [search, setSearch] = useState('');
   const visibleProjects = projects.filter(project => `${project.name} ${project.description || ''}`.toLowerCase().includes(search.trim().toLowerCase()));
   const pending = (detail?.plans || []).filter(plan => plan.status === 'PENDING_APPROVAL').length;
+  const canConfigure = accessMode === 'ENFORCED' && model.metadataRecovery.state === 'ACTIVE';
+  const canManageProfiles = canConfigure && model.actor?.role === 'developer';
   return <>
     <div className="page-heading"><div><p className="eyebrow">WORKSPACE</p><h1>Your projects</h1><p className="muted">Choose a project and continue your next change.</p></div></div>
     <div className="workspace-grid">
@@ -1717,10 +1728,12 @@ function WorkspaceScreen({ model }) {
         <div className="project-list">{visibleProjects.map(project => <button type="button" key={project.id} disabled={busy && !navigateDuringWithdrawal} aria-current={projectId===project.id?'true':undefined} className={`project-row ${projectId===project.id?'selected':''}`} onClick={()=>selectProject(project.id)}><span className="project-icon" aria-hidden="true">{project.name.slice(0,1).toUpperCase()}</span><span className="project-copy"><strong>{project.name}</strong>{project.description && <small>{project.description}</small>}</span>{project.archivedAt && <span className="status-pill neutral">ARCHIVED</span>}<span className="row-arrow" aria-hidden="true">›</span></button>)}</div>
         {!projects.length && <div className="empty-state compact"><strong>{accessMode==='ENFORCED'?'No assigned projects':'No projects yet'}</strong><span>{accessMode==='ENFORCED'?'Ask your operator for project access.':'Create a project to get started.'}</span></div>}
         {!!projects.length && !visibleProjects.length && <p role="status" className="empty-state compact">No projects match your search.</p>}
-        <details className="create-project-disclosure" open={!projects.length}><summary>New project</summary><form className="stack project-create" onSubmit={createProject}>
+        {!canConfigure && <p className="subtle">Project changes require active membership and completed metadata recovery.</p>}
+        {model.actor?.role !== 'developer' && <p className="subtle">Developer privileges are required to configure database profiles. You can inspect existing profiles.</p>}
+        <details className="create-project-disclosure" open={!projects.length}><summary>New project</summary><form className="stack project-create" onSubmit={createProject}><fieldset className="profile-fields stack" disabled={busy || !canConfigure}>
           <label htmlFor="project-name">New project name</label><input id="project-name" placeholder="New project name" value={projectForm.name} onChange={event=>setProjectForm({...projectForm,name:event.target.value})} required disabled={accessMode==='BOOTSTRAP_REQUIRED'}/>
           <label htmlFor="project-description">Description (optional)</label><input id="project-description" placeholder="Description (optional)" value={projectForm.description} onChange={event=>setProjectForm({...projectForm,description:event.target.value})} disabled={accessMode==='BOOTSTRAP_REQUIRED'}/>
-          <button type="submit" className="primary" disabled={busy || accessMode==='BOOTSTRAP_REQUIRED'}>Create project</button>
+          </fieldset><button type="submit" className="primary" disabled={busy || !canConfigure}>Create project</button>
         </form></details>
       </section>
       <div className="project-overview">
@@ -1733,17 +1746,21 @@ function WorkspaceScreen({ model }) {
               <div className="project-kpi-card"><span className="project-kpi-label">Pending review</span><strong className="project-kpi-value">{pending}</strong></div>
               <div className="project-kpi-card"><span className="project-kpi-label">Releases</span><strong className="project-kpi-value">{(detail.releases || []).length}</strong></div>
             </div>
-            <div className="project-next-step"><h3>Continue your work</h3><p>Prepare SQL, then create a plan for independent review.</p><div className="project-quick-links"><button type="button" className="primary" onClick={()=>model.setTab('sql')}>Open SQL Workspace →</button><button type="button" className="secondary" onClick={()=>model.setTab('review')}>Review plans ({(detail.plans || []).length}) →</button></div></div>
+            <ProjectNextStep detail={detail} actor={model.actor} accessMode={accessMode} recoveryState={model.metadataRecovery.state} onNavigate={(tab, context) => {
+              if (tab === 'review') { model.filterPlans(context.status || 'ALL'); if (context.planId) model.setSelectedPlan(context.planId); }
+              model.setTab(tab);
+            }}/>
+            <div className="project-quick-links"><button type="button" className="secondary" onClick={()=>model.setTab('sql')}>Open SQL Workspace →</button><button type="button" className="secondary" onClick={()=>model.setTab('review')}>Review plans ({(detail.plans || []).length}) →</button></div>
             <div className="project-context-links"><button type="button" className="text-button" onClick={()=>model.setTab('targets')}>Configure targets →</button><button type="button" className="text-button" onClick={()=>model.setTab('history')}>View migration history →</button></div>
           </>}
         </section>
         {detail && <section className="panel project-settings"><details className="project-setup-details"><summary><span>Project setup</span><small>{(detail.environments || []).length} environments · {(detail.profiles || []).length} profiles</small></summary><div className="project-setup-content">
                 <div className="section-title"><span>01</span><strong>Environments</strong></div>
                 <div className="chip-list">{(detail.environments || []).map((env) => <span className="data-chip" key={env.id}><i/> {env.name}</span>)}{!detail.environments?.length && <span className="subtle">No environments configured</span>}</div>
-                <form className="inline-form" inert={accessMode === 'BOOTSTRAP_REQUIRED'} onSubmit={createEnvironment}><label className="sr-only" htmlFor="environment-name">Environment name</label><input id="environment-name" placeholder="e.g. Development" value={environmentName} onChange={(e) => setEnvironmentName(e.target.value)} required disabled={busy || isArchived}/><button type="submit" className="text-button" disabled={busy || isArchived}>＋ Add</button></form>
+                <form className="inline-form" inert={accessMode === 'BOOTSTRAP_REQUIRED'} onSubmit={createEnvironment}><label className="sr-only" htmlFor="environment-name">Environment name</label><input id="environment-name" placeholder="e.g. Development" value={environmentName} onChange={(e) => setEnvironmentName(e.target.value)} required disabled={busy || isArchived || !canConfigure}/><button type="submit" className="text-button" disabled={busy || isArchived || !canConfigure}>＋ Add</button></form>
                 <div className="section-title section-spaced"><span>02</span><strong>Connection profiles</strong><small>{(detail.profiles || []).length} profiles</small></div>
                 <div className="profile-list">{(detail.profiles || []).map((profile) => <div className="profile-row" key={profile.id}><span className="profile-icon">◎</span><span><strong>{profile.name}</strong><small>{profile.host}:{profile.port}/{profile.service} · {profile.username}</small></span><span className="ref-badge">{profile.retiredAt ? 'RETIRED' : 'ref only'}</span></div>)}{!detail.profiles?.length && <p className="subtle">No connection profiles yet.</p>}</div>
-                <details className="form-disclosure"><summary>{isArchived ? 'Connection profile form unavailable' : 'Add Oracle profile'}</summary><form className="profile-form" inert={accessMode === 'BOOTSTRAP_REQUIRED'} onSubmit={createProfile}><fieldset className="profile-fields" disabled={busy || isArchived}><label>Name<input aria-label="Profile name" value={profileForm.name} onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })} required/></label><label>Environment<select aria-label="Profile environment" value={profileForm.environmentId} onChange={(e) => setProfileForm({ ...profileForm, environmentId: e.target.value })} required><option value="">Choose environment</option>{(detail.environments || []).map((env) => <option key={env.id} value={env.id}>{env.name}</option>)}</select></label><label>Host<input aria-label="Database host" value={profileForm.host} onChange={(e) => setProfileForm({ ...profileForm, host: e.target.value })} required/></label><label>Port<input aria-label="Database port" type="number" value={profileForm.port} onChange={(e) => setProfileForm({ ...profileForm, port: e.target.value })} required/></label><label>Service<input aria-label="Oracle service" value={profileForm.service} onChange={(e) => setProfileForm({ ...profileForm, service: e.target.value })} required/></label><label>Username<input aria-label="Database username" value={profileForm.username} onChange={(e) => setProfileForm({ ...profileForm, username: e.target.value })} required/></label><label className="full-width">Credential reference<input aria-label="Credential reference" placeholder="vault://team/reference" value={profileForm.credentialRef} onChange={(e) => setProfileForm({ ...profileForm, credentialRef: e.target.value })} required/><small>Enter a reference only. Password fields are never sent or stored here.</small></label></fieldset><button type="submit" className="primary" disabled={busy || isArchived}>Save profile</button></form></details>
+                <details className="form-disclosure"><summary>{isArchived ? 'Connection profile form unavailable' : 'Add Oracle profile'}</summary><form className="profile-form" inert={accessMode === 'BOOTSTRAP_REQUIRED'} onSubmit={createProfile}><fieldset className="profile-fields" disabled={busy || isArchived || !canManageProfiles}><label>Name<input aria-label="Profile name" value={profileForm.name} onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })} required/></label><label>Environment<select aria-label="Profile environment" value={profileForm.environmentId} onChange={(e) => setProfileForm({ ...profileForm, environmentId: e.target.value })} required><option value="">Choose environment</option>{(detail.environments || []).map((env) => <option key={env.id} value={env.id}>{env.name}</option>)}</select></label><label>Host<input aria-label="Database host" value={profileForm.host} onChange={(e) => setProfileForm({ ...profileForm, host: e.target.value })} required/></label><label>Port<input aria-label="Database port" type="number" value={profileForm.port} onChange={(e) => setProfileForm({ ...profileForm, port: e.target.value })} required/></label><label>Service<input aria-label="Oracle service" value={profileForm.service} onChange={(e) => setProfileForm({ ...profileForm, service: e.target.value })} required/></label><label>Username<input aria-label="Database username" value={profileForm.username} onChange={(e) => setProfileForm({ ...profileForm, username: e.target.value })} required/></label><label className="full-width">Credential reference<input aria-label="Credential reference" placeholder="vault://team/reference" value={profileForm.credentialRef} onChange={(e) => setProfileForm({ ...profileForm, credentialRef: e.target.value })} required/><small>Enter a reference only. Password fields are never sent or stored here.</small></label></fieldset><button type="submit" className="primary" disabled={busy || isArchived || !canManageProfiles}>Save profile</button></form></details>
 
         </div></details></section>}
         {canArchive && !isArchived && <details className="danger-zone"><summary>Archive project</summary><form className="archive-form" inert={accessMode === 'BOOTSTRAP_REQUIRED'} onSubmit={archiveProject}><label htmlFor="archive-reason">Archive project</label><p>Archiving preserves records but prevents new environments, profiles, releases, plans, and decisions.</p><textarea id="archive-reason" aria-label="Archive reason" value={archiveReason} onChange={(event) => setArchiveReason(event.target.value)} placeholder="Reason for archiving this project" required/><button type="submit" className="danger-button" disabled={busy || !archiveReason.trim()}>Archive project</button></form></details>}
@@ -1900,7 +1917,7 @@ function ReviewScreen({ model }) {
                     <RetainedReleaseContent source={planSource.source} onCorrectSource={(path,statement)=>model.openOriginatingDraft(plan.releaseId,path,statement)} repositories={repositories} fmt={fmt} statementPreview={statementPreview} planContext={plan.id} selectEvidence={plan.status === 'PENDING_APPROVAL' && !isArchived ? toggleCommentEvidence : null} selectedEvidence={commentEvidence} requestStatementPreview={(releaseId, filePath) => requestStatementPreview(releaseId, filePath, plan.id)}/>
                   </div>}
                 </section>
-                {['APPROVED', 'REJECTED', 'REVOKED'].includes(plan.status) && <section className="decision-record" aria-label="Decision record"><h3>Original decision</h3><p><strong>{plan.decidedByName || plan.decidedBy}</strong>{plan.decidedByName && <code>{plan.decidedBy}</code>}</p><time dateTime={plan.decidedAt}>{fmt(plan.decidedAt)}</time><p className="decision-record-reason">{plan.decisionReason}</p>{plan.approvalReference && <p>Approval reference <code>{plan.approvalReference}</code></p>}{plan.revocation && <div className="revocation-record"><h4>Approval withdrawn</h4><p><strong>{plan.revocation.actorName}</strong> · <time dateTime={plan.revocation.createdAt}>{fmt(plan.revocation.createdAt)}</time></p><p className="decision-record-reason">{plan.revocation.reason}</p><p className="muted">Withdrawal changes offline approval authority. No execution was performed or rolled back.</p></div>}{plan.status === 'APPROVED' && canWithdrawApproval && !isArchived && <div className="decision-box"><label htmlFor="revocation-reason">Withdrawal reason</label><textarea id="revocation-reason" disabled={busy || readOnlyBootstrap} value={revocationReason} onChange={(event) => setRevocationReason(event.target.value)} maxLength={2000} placeholder="Explain why this approval is being withdrawn" required/><button type="button" className="danger-button" onClick={revokeApproval} disabled={busy || readOnlyBootstrap || !revocationReason.trim()}>Withdraw approval</button><small>The approved plan remains NOT_EXECUTED; a new plan is required to seek approval again.</small></div>}{plan.status === 'REJECTED' && canPrepareNewPlan && <div className="prepare-new-plan"><p>Changed SQL must be committed and imported as a new immutable release. The rejected plan and its review record remain unchanged.</p><button type="button" className="primary" onClick={prepareNewPlan} disabled={busy || readOnlyBootstrap}>Prepare new plan</button></div>}{plan.status === 'REVOKED' && canPrepareNewPlan && <div className="prepare-new-plan"><p>Approval was withdrawn. Prepare a fresh plan before requesting approval again.</p><button type="button" className="primary" onClick={prepareNewPlan} disabled={busy || readOnlyBootstrap}>Prepare new plan</button></div>}{['REJECTED','REVOKED'].includes(plan.status) && !isArchived && projectLoaded && !model.sourceBinding && <p className="banner warning">Bind a repository and migration folder before preparing a new plan.</p>}</section>}
+                {['APPROVED', 'REJECTED', 'REVOKED'].includes(plan.status) && <section className="decision-record" aria-label="Decision record"><h3>Original decision</h3><p><strong>{plan.decidedByName || plan.decidedBy}</strong>{plan.decidedByName && <> <code>{plan.decidedBy}</code></>}</p><time dateTime={plan.decidedAt}>{fmt(plan.decidedAt)}</time><p className="decision-record-reason">{plan.decisionReason}</p>{plan.approvalReference && <p>Approval reference <code>{plan.approvalReference}</code></p>}{plan.revocation && <div className="revocation-record"><h4>Approval withdrawn</h4><p><strong>{plan.revocation.actorName}</strong> · <time dateTime={plan.revocation.createdAt}>{fmt(plan.revocation.createdAt)}</time></p><p className="decision-record-reason">{plan.revocation.reason}</p><p className="muted">Withdrawal changes offline approval authority. No execution was performed or rolled back.</p></div>}{plan.status === 'APPROVED' && canWithdrawApproval && !isArchived && <div className="decision-box"><label htmlFor="revocation-reason">Withdrawal reason</label><textarea id="revocation-reason" disabled={busy || readOnlyBootstrap} value={revocationReason} onChange={(event) => setRevocationReason(event.target.value)} maxLength={2000} placeholder="Explain why this approval is being withdrawn" required/><button type="button" className="danger-button" onClick={revokeApproval} disabled={busy || readOnlyBootstrap || !revocationReason.trim()}>Withdraw approval</button><small>The approved plan remains NOT_EXECUTED; a new plan is required to seek approval again.</small></div>}{plan.status === 'REJECTED' && canPrepareNewPlan && <div className="prepare-new-plan"><p>Changed SQL must be committed and imported as a new immutable release. The rejected plan and its review record remain unchanged.</p><button type="button" className="primary" onClick={prepareNewPlan} disabled={busy || readOnlyBootstrap}>Prepare new plan</button></div>}{plan.status === 'REVOKED' && canPrepareNewPlan && <div className="prepare-new-plan"><p>Approval was withdrawn. Prepare a fresh plan before requesting approval again.</p><button type="button" className="primary" onClick={prepareNewPlan} disabled={busy || readOnlyBootstrap}>Prepare new plan</button></div>}{['REJECTED','REVOKED'].includes(plan.status) && !isArchived && projectLoaded && !model.sourceBinding && <p className="banner warning">Bind a repository and migration folder before preparing a new plan.</p>}</section>}
                 <details className="technical-details review-details"><summary>Source generation details</summary><section className="panel source-generation" aria-label="Protected source generation"><h3>Protected source configuration</h3><p>Current project binding generation: <code>{validBindingGeneration(detail.project.sourceBinding?.generation) ? detail.project.sourceBinding.generation : 'Unavailable'}</code></p><p>Captured by this plan: <code>{validBindingGeneration(plan.sourceBindingGeneration) ? plan.sourceBindingGeneration : 'Unavailable'}</code></p></section></details>
                 {plan.status === 'PENDING_APPROVAL' && selectedNeedsFreshPlan && <div className="prepare-new-plan" role="region" aria-label="Fresh plan required"><p className="banner warning">This pending plan’s retained source, binding or intent facts are missing, stale or unverifiable. Prepare a fresh plan from the current protected repository and migration folder before approval or attaching statement references. You can import the current bound commit without editing SQL; the original plan and review history remain unchanged.</p>{canPrepareNewPlan && <button type="button" className="primary" onClick={prepareNewPlan} disabled={busy || readOnlyBootstrap}>Prepare fresh plan</button>}</div>}
                 {targetProfile?.retiredAt && <p className="banner warning" role="status">This target profile is retired. Existing records remain readable; prepare a fresh plan with an active profile.</p>}

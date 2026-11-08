@@ -52,6 +52,10 @@ test('local source bundle is reproducible, excludes private/research inputs, pre
     assert.equal(manifest.oracleRuntime,'UNVALIDATED');assert.equal(manifest.bundledExternalBinaries,false);
     assert.equal(manifest.files.some(f=>/\.cache|node_modules|docs\/inputs|evidence\/|\.git\//.test(f.path)),false);
     assert.equal(manifest.files.some(f=>f.path==='scripts/managed-backup-operator.mjs'),true);
+    for (const filename of ['antlr-prepare', 'antlr-download', 'jdk-platform']) {
+      assert.equal(manifest.files.some(f => f.path === `scripts/${filename}.mjs`), true,
+        'fresh source installations must include every parser preparation module');
+    }
     assert.match(await readFile(path.join(unpack,'LICENSE'),'utf8'),/PolyForm Shield/);
     assert.ok(manifest.files.some(file=>file.path==='CHECKLIST.md'));
     assert.ok(manifest.files.some(file=>file.path==='README.md'));
