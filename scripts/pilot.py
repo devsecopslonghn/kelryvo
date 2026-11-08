@@ -161,7 +161,7 @@ def main(argv=None):
         for identity, body in accounts:
             compose(args.directory, ['exec', '-T', 'kelryvo', 'node', 'scripts/container-password.mjs', 'reset', identity],
                     input=json.dumps(body), text=True)
-        print('Accounts ready. Trust your installation TLS certificate, then sign in at https://localhost:8443.')
+        print('Accounts ready. Trust your installation TLS certificate, then sign in at the configured HTTPS address.')
         print('Create a project in the UI, then run the grant command with its project UUID.')
 
 

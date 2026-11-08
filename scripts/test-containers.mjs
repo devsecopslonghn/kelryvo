@@ -111,9 +111,10 @@ try {
   const checkout = docker('create', '--entrypoint', 'node', appImage);
   try { docker('cp', `${checkout}:/opt/kelryvo/repositories/demo`, customerRepository); }
   finally { docker('rm', checkout); }
-  docker('run', '--rm', '--network', 'none', '--user', '0:0', '--cap-drop=ALL', '--cap-add=CHOWN',
+  // Only this disposable fixture helper can normalize copied restrictive directories.
+  docker('run', '--rm', '--network', 'none', '--user', '0:0', '--cap-drop=ALL', '--cap-add=CHOWN', '--cap-add=DAC_OVERRIDE', '--cap-add=FOWNER',
     '--entrypoint', 'node', '--mount', `type=bind,src=${customerRepository},dst=/checkout`, appImage, '-e',
-    "const fs=require('node:fs'),p=require('node:path');function own(d){fs.chownSync(d,10001,10001);for(const n of fs.readdirSync(d)){const f=p.join(d,n),s=fs.lstatSync(f);if(s.isDirectory())own(f);else fs.lchownSync(f,10001,10001);}}own('/checkout');");
+    "const fs=require('node:fs'),p=require('node:path');function own(d){fs.chmodSync(d,0o755);for(const n of fs.readdirSync(d)){const f=p.join(d,n),s=fs.lstatSync(f);if(s.isDirectory())own(f);else{if(!s.isSymbolicLink())fs.chmodSync(f,0o644);fs.lchownSync(f,10001,10001);}}fs.chownSync(d,10001,10001);}own('/checkout');");
   await writeFile(path.join(secrets, 'repositories.json'), JSON.stringify({ format: 1,
     paths: ['/run/kelryvo/repositories/customer'] }), { mode: 0o400 });
   await rootOwnSourceSecrets(appImage);
@@ -266,5 +267,11 @@ try {
     catch { /* own absent fixture */ }
   }
   try { await releaseSourceSecrets(appImage); } catch { await chmod(secrets, 0o700).catch(() => {}); }
+  try {
+    const uid = process.getuid(), gid = process.getgid();
+    docker('run', '--rm', '--network', 'none', '--user', '0:0', '--cap-drop=ALL', '--cap-add=CHOWN', '--cap-add=DAC_OVERRIDE', '--cap-add=FOWNER',
+      '--entrypoint', 'node', '--mount', `type=bind,src=${customerRepository},dst=/checkout`, appImage, '-e',
+      `const fs=require('node:fs'),p=require('node:path');function own(d){for(const n of fs.readdirSync(d)){const f=p.join(d,n),s=fs.lstatSync(f);if(s.isDirectory())own(f);else fs.lchownSync(f,${uid},${gid});}fs.chmodSync(d,0o700);fs.chownSync(d,${uid},${gid});}own('/checkout');`);
+  } catch { /* fixture may not have been created */ }
   await rm(root, { recursive: true, force: true });
 }
