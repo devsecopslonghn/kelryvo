@@ -24,11 +24,12 @@ customer's password-session permissions. That inspection made no deployment or
 Oracle writes; the subsequently authorized test-database cleanup and scoped trial
 are recorded below.
 
-- [ ] **CR1 — Complete the customer Oracle rollout:** qualify the actual test
-  endpoint/transport, grants and exact source/image; complete login, project access,
-  instance credential setup, schema assignment/verification, SQL/Git migration,
-  independent approval, execution and retained audit. Do not transfer the earlier
-  Oracle Free/TCP qualification to Autonomous Database/TCPS, 19c or a new image.
+- [x] **CR1 — Complete the scoped Oracle 26 test workflow:** actual password login,
+  project access, operator-managed instance credential, schema assignment and
+  identity verification, immutable Git migrations, independent approval, native
+  execution and retained audit now pass on the specific installation below.
+  This is a test-installation handoff; the customer URL, self-service credential
+  vault and Oracle 19 support are not delivered by this result.
 - [x] **CR2 — Remove onboarding blockers (merged source):** show the creation UUID that the API
   already returns, route target setup through instance onboarding, and expose
   explicit operator database-management/deployment grants without automatic access
@@ -60,8 +61,8 @@ the supplied ADMIN credential was used only for authorized setup/inspection.
   releases/plans and independent approval. Discovery was `PARTIAL` with
   `SCHEMA_VISIBILITY_LIMITED`; offline validation remained `UNVERIFIED`. Neither
   result is a full catalog or Oracle semantic-compilation claim.
-- [ ] **CR4 — Complete native rollout and qualify the installation:** the first
-  request stopped before SQL because the adapted operator module incorrectly
+- [x] **CR4 — Complete the scoped native rollout:** the initial failures below
+  remain in history. The first request stopped before SQL because the adapted operator module incorrectly
   expected transport on the profile rather than its route. That HOLD remains.
   The corrected module pinned the route/principal revision and passed native
   identity, TLS, grant and object-integrity preflight. Its V1 request created
@@ -73,10 +74,9 @@ the supplied ADMIN credential was used only for authorized setup/inspection.
   was not logged. Standard expired-lease recovery changed job/attempt to
   `HOLD / LEASE_EXPIRED_UNKNOWN`. Independent reconciliation recorded
   `RETAIN_HOLD`; exact retry returned the same job with no retry/execution authority.
-  **V1 is not VERIFIED_SUCCESS; V2 and NOOP were not run.** Do not replay SQL,
-  erase HOLD, reset metadata or use another stream to evade the physical-container
-  veto. A 900-second operation/permit proposal passed syntax checks only; it was
-  not activated or qualified, keeps the 300-second lease and does not resolve HOLD.
+  At that stage V1 was not VERIFIED_SUCCESS and V2/NOOP were unrun. Subsequent
+  verified recovery and execution are recorded below. No SQL was replayed, HOLD
+  erased, metadata reset or alternate stream used to evade the physical veto.
 
 Selected secret-free evidence, including both failed attempts, native ledger,
 receipt preimages, recovery and reconciliation, is retained in the existing
@@ -102,7 +102,65 @@ immutable audit resolution. Original held job/attempt states and exact retries
 remain unchanged; a later independently approved plan still needs fresh native
 admission. The operator entry point loads a fixed protected module and accepts no
 SQL or credentials. The existing schema and backup formats are unchanged.
-This source is not yet qualified on Oracle; CR1 and CR4 remain open.
+PR [#139](https://github.com/devsecopslonghn/kelryvo/pull/139) merged as verified
+source `58dfae5520c999b49a54f0de48dcbfa0ee77a434`. Source delivery checks (70 Node
+and three Python tests), targeted PostgreSQL recovery/restart behavior, one
+Chromium recovery flow, CodeQL and both native OCI platform checks passed.
+The exact OCI index is
+`sha256:3ca9fbea9bfeed123ae7e763702da03e2ec137aa01a31fad5f8ce874077b67cb`;
+the tested linux/amd64 manifest is
+`sha256:d6140fe7f9b039932916e1dd74e5f8b2dfa89415fb1260a0c87d54818f12e32b`.
+[Source CI](https://github.com/devsecopslonghn/kelryvo/actions/runs/42507238490),
+[OCI CI](https://github.com/devsecopslonghn/kelryvo/actions/runs/42507238517) and
+[CodeQL](https://github.com/devsecopslonghn/kelryvo/actions/runs/42507238108) passed.
+
+The protected C installation uses the same metadata, original stream, native
+ledger and trial principals. Its bounded operation and permit are 900 seconds;
+the lease remains 300 seconds. Batched read-only attestation retains identity,
+TLS, purpose-specific grants and protected-object/source checks. The observer
+received only non-grantable `SELECT SYS.GV_$SESSION` for global writer exclusion.
+No database-wide write privilege or CR7 authority was added.
+
+Actual native results on that exact image and Autonomous 26ai PDB/TCPS:
+
+- Original V1 remains HOLD. Fresh complete-ledger/receipt verification, independent
+  exact-digest review and mutex-protected confirmation added immutable
+  `EXECUTION_RECOVERED_APPLIED`. All original job/attempt states remain unchanged.
+  V1 SQL was dispatched by source `7430817`; its CREATE TABLE execution
+  qualification does not transfer to `58dfae5`.
+- A fresh independently approved V2 executed ALTER TABLE/CREATE INDEX and reached
+  `VERIFIED_SUCCESS`, with exactly two linked receipts. A fresh subsequent plan
+  reached `NOOP`, with zero SQL dispatches and zero receipts. Real password UI
+  sessions displayed both outcomes; exact request retries returned the same jobs.
+- The production native-ledger reader replays 13 events through versions 1 and 2.
+  All three historical/current receipts recompute correctly. Final object/column
+  postconditions and all 20 final integrity checks pass; no writer sessions remain.
+  `CR7ALLGOALS_APP` still matches its pre-cleanup metadata and all-table data
+  fingerprints: 166 objects, 45 tables and 7,785 rows.
+
+Two discovery observations returned incomplete identity before a later real native
+observation succeeded. Diagnostic queries succeeded; the transient cause is not
+proven. Failed observations remain retained. Offline validation stays UNVERIFIED
+and catalog discovery has SCHEMA_VISIBILITY_LIMITED. This does not qualify Oracle
+19, arm64 native execution, RAC failover, DR, arbitrary DDL or a generic native
+installer. The operator C configuration is narrowly bound and expires at
+2026-11-08T22:07:26.774Z; expiry must not be bypassed to continue execution.
+
+The final selected owner evidence archive is
+`../acceptance-artifacts/customer-adb26-58dfae5-20261108T190000Z.tar.gz`, SHA-256
+`190696f8af1009ab61c800d4ed878bcadcf40ba164aab48f241921f980828962`.
+Its 26 members passed known-secret scanning, checksums and member round-trip.
+Raw protected-schema business metadata is excluded. The final restricted backup
+is `../acceptance-artifacts/customer-adb26-private-20261108T190000Z/`, retaining
+four jobs, three attempts, three receipts, two reconciliations, two decisions and
+81 audit events, plus private runtime/account inputs. Backup catalog/checksums
+pass; restore/DR is not qualified. The owned fixture was restarted after the cold
+snapshot. Existing earlier evidence and backups remain unchanged.
+
+The release handoff for source `58dfae5` freezes this exact source/image and reports
+the above native scope separately from the default governance-only installer.
+Documentation changes after that source do not inherit its Oracle qualification.
+The customer URL has not been deployed or upgraded.
 
 The current credential UI accepts operator-provisioned references only. A customer
 expectation of entering an admin password directly is an implementation gap, not

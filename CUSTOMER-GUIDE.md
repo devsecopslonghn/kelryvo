@@ -119,16 +119,58 @@ qualified for that source/image and database topology. Enabling environment flag
 alone does not provide these capabilities. Oracle 19c and Autonomous Database over
 TCPS do not inherit the historical Oracle Free/TCP qualification.
 
-The owner-authorized Autonomous 26ai trial of source `7430817` remains incomplete.
-Scoped onboarding and independent approval worked, and V1 created its trial table
-with a complete native ledger and one matching central receipt. The runtime exited
-before final verification; expired-lease recovery retained `HOLD`. V2 and NOOP were
-not run. The customer URL still uses its earlier installation. This result does
-not qualify this image for Oracle rollout; retain the trial evidence and do not
-replay SQL or delete HOLD to retry. Reconciliation records an independent review
-and keeps retry/execution authority disabled. The owner has authorized development of verified completion recovery while preserving
-HOLD and all audit. That source work does not qualify a runtime by itself; changing
-streams or rebuilding metadata against the held physical container is not recovery.
+The owner-authorized Autonomous 26ai trial completed on the isolated test
+installation at source `58dfae5520c999b49a54f0de48dcbfa0ee77a434` (linux/amd64
+manifest `sha256:d6140fe7f9b039932916e1dd74e5f8b2dfa89415fb1260a0c87d54818f12e32b`).
+V1 had already executed on source `7430817` and entered HOLD before final
+verification. The new source verified its complete native ledger, original
+receipt and postcondition under a mutex, after an independent exact-digest review.
+It recorded `EXECUTION_RECOVERED_APPLIED` without replaying SQL or changing the
+original HOLD. A fresh approved V2 reached `VERIFIED_SUCCESS` with two receipts;
+a fresh plan then reached `NOOP` with no SQL or receipts. The original two held
+jobs, approvals, receipts and all audit remain retained. CR7ALLGOALS_APP metadata
+and all-table data fingerprints match the pre-cleanup snapshot.
+
+The tested operator installation is narrowly bound to its exact PDB, principals,
+SQL hashes, image and metadata generation. Its authority expires at
+2026-11-08T22:07:26.774Z. Do not extend, reset history or switch streams to bypass
+an expired binding or HOLD. This result covers recovery plus the V2 ALTER TABLE
+and CREATE INDEX suffix on one Autonomous 26ai PDB over verified TCPS. It does not
+transfer CREATE TABLE execution qualification from the older image, qualify
+Oracle 19, arm64 native execution, RAC failover/DR, arbitrary SQL or a generic
+native installer. Validation remains UNVERIFIED; discovery reports limited schema
+visibility. Failed/incomplete discovery observations remain in evidence.
+
+The customer URL has not been upgraded. The dated recovery release's ordinary
+Compose installation still starts with discovery/execution disabled. Use its
+exact source/image and normal installation steps for governance; live execution
+additionally requires the qualified protected operator installation. The source
+release and CI alone do not install native authority.
+
+For the owner workspace trial, open `https://localhost:38443` on the same host
+(or tunnel that loopback port). Trust the generated trial certificate through
+your normal workstation trust procedure. Password accounts are `kry26-developer`
+and `kry26-approver`; the owner-only account file is
+`.cache/customer-rollout-20261108/local-private/browser-accounts.json` relative to
+the repository. Do not copy its contents into support messages. The restricted
+final backup preserves these credentials and installation inputs.
+
+To inspect the delivered result without issuing more SQL:
+
+1. Sign in as the developer and select the trial project
+   `783315d9-f06e-4364-8f19-2fc4ed6ed38f`.
+2. Open Migration history and inspect V2 job
+   `d1582d03-4631-4690-b5b8-c9cca1b1cb70` (`VERIFIED_SUCCESS`, two receipts).
+3. Inspect job `f4df87f7-3684-470a-9230-bed6a7c38444` (`NOOP`, zero receipts).
+4. Inspect V1's original HOLD and its independently reviewed recovered-completion
+   evidence in reconciliation/Audit & history. Recovery adds a resolution; the
+   original job is still HOLD and has no retry authority.
+
+The local fixture is an owner test installation, not a durable customer endpoint.
+The evidence archive and cold backup paths/checksums are in CHECKLIST.md. If its
+processes are unavailable, retain the backup and evidence; restore only through
+the witnessed recovery procedure. Do not initialize replacement metadata against
+the existing ledger to get a new executable stream.
 
 For an installation that has qualified the complete-held-execution recovery module,
 the operator can verify a fully applied migration without replaying it. This narrow
