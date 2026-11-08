@@ -127,7 +127,7 @@ For a first offline review, use this exact route:
    Oracle profile. Reference-only example values are host `oracle.example.invalid`,
    port `1521`, service `DEV`, username `APP` and credential reference
    `secret://unconfigured/oracle`. These values do not provision or connect a database.
-2. Import the committed release from **Git migrations**. After its syntax
+2. Import the committed release from **Import a release**. After its syntax
    validation succeeds, expand **Compatibility planning**, then **Legacy unbound
    planning**, choose that profile and select **Prepare offline plan**.
 3. Open the retained plan as the separate approver and record a review decision.

@@ -17,7 +17,7 @@ const directory = path.join(temp, 'installation');
 const env = { ...process.env, COMPOSE_PROJECT_NAME: project };
 const command = (program, args, options = {}) => {
   const r = spawnSync(program, args, { env, encoding: 'utf8', timeout: 120_000, maxBuffer: 1024 * 1024, ...options });
-  if (r.error || r.status !== 0) throw new Error('Pilot command failed');
+  if (r.error || r.status !== 0) throw Object.assign(new Error('Pilot command failed'), { code: r.error?.code ?? `EXIT_${r.status}` });
   return r.stdout;
 };
 const compose = args => command('sudo', ['--preserve-env=COMPOSE_PROJECT_NAME', 'docker', 'compose',
@@ -31,6 +31,7 @@ try {
   command('sudo', ['python3', 'scripts/pilot.py', 'init', '--directory', directory, '--image', image,
     '--port', String(port), '--repository', repository]);
   stage = 'startup'; compose(['up', '-d', '--wait', '--wait-timeout', '90']);
+  stage = 'HTTPS readiness';
   const ca = command('sudo', ['cat', path.join(directory, 'secrets/tls.crt')]);
   const request = (method, route, body, headers = {}) => new Promise((resolve, reject) => {
     const data = body === undefined ? undefined : JSON.stringify(body);
@@ -70,8 +71,26 @@ try {
   const imported = await request('POST', `/api/projects/${projectId}/releases`, { repositoryId: 'local-1', commit: 'HEAD', folder: 'migrations' }, headers);
   assert.equal(imported.status, 201); assert.equal(imported.body.release.validationStatus, 'VALID');
   console.log('Customer pilot install, non-default password login, grants and customer Git import: PASS; Oracle NOT_RUN.');
-} catch {
+} catch (error) {
   console.error(`Customer pilot smoke failed during ${stage}; private command/response bodies omitted.`);
+  if (/^[A-Z0-9_]{1,32}$/.test(error.code ?? '')) console.error(JSON.stringify({ code: error.code }));
+  try {
+    const states = compose(['ps', '--all', '--format', 'json']).trim();
+    for (const line of states.split('\n').filter(Boolean)) {
+      const item = JSON.parse(line);
+      console.error(JSON.stringify({ service: item.Service, state: item.State, health: item.Health, exitCode: item.ExitCode }));
+    }
+    const logs = compose(['logs', '--no-log-prefix', '--tail', '30', 'kelryvo']);
+    for (const line of logs.split('\n')) {
+      try {
+        const item = JSON.parse(line);
+        if (['startup', 'shutdown'].includes(item.event) && ['started', 'ready', 'failed', 'complete', 'timeout'].includes(item.state)) {
+          console.error(JSON.stringify({ event: item.event, state: item.state,
+            ...(/^[a-z_]{1,40}$/.test(item.code ?? '') ? { code: item.code } : {}) }));
+        }
+      } catch { /* ignore unstructured child output */ }
+    }
+  } catch { /* fixed diagnostics only, never private responses */ }
   process.exitCode = 1;
 } finally {
   try { compose(['down', '--volumes', '--remove-orphans']); } catch { /* only this UUID-owned fixture */ }

@@ -40,9 +40,10 @@ services:
       - ${KELRYVO_HOME}/repositories:/run/kelryvo/repositories:ro
     ports: ['127.0.0.1:${KELRYVO_HOST_PORT:-8443}:8443']
     mem_limit: 1g
-    networks: [metadata]
+    networks: [metadata, frontend]
 volumes:
   metadata:
 networks:
+  frontend: {}
   metadata:
     internal: true
