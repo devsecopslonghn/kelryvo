@@ -119,6 +119,44 @@ qualified for that source/image and database topology. Enabling environment flag
 alone does not provide these capabilities. Oracle 19c and Autonomous Database over
 TCPS do not inherit the historical Oracle Free/TCP qualification.
 
+The owner-authorized Autonomous 26ai trial of source `7430817` remains incomplete.
+Scoped onboarding and independent approval worked, and V1 created its trial table
+with a complete native ledger and one matching central receipt. The runtime exited
+before final verification; expired-lease recovery retained `HOLD`. V2 and NOOP were
+not run. The customer URL still uses its earlier installation. This result does
+not qualify this image for Oracle rollout; retain the trial evidence and do not
+replay SQL or delete HOLD to retry. Reconciliation records an independent review
+and keeps retry/execution authority disabled. The owner has authorized development of verified completion recovery while preserving
+HOLD and all audit. That source work does not qualify a runtime by itself; changing
+streams or rebuilding metadata against the held physical container is not recovery.
+
+For an installation that has qualified the complete-held-execution recovery module,
+the operator can verify a fully applied migration without replaying it. This narrow
+path requires every original central ACK/receipt and dispatch preimage, a complete
+native ledger, fresh target identity/TLS/grant/object checks, an exclusive native
+mutex and verified postconditions. Missing receipts or partial/ambiguous files stay
+on HOLD. The published offline pilot does not install this capability automatically.
+
+1. In the protected execution role, run `node apps/worker/held-completion-main.mjs
+   preview JOB_UUID`. The fixed installation must provide a protected
+   `held-completion.mjs` factory; API input cannot select a module or credential.
+2. In the held request's reconciliation panel, retain the returned evidence digest
+   as `TARGET_LEDGER`. A different project approver records `EVIDENCE_REVIEWED` for
+   that exact digest. Copy the displayed reference ID.
+3. The operator runs `node apps/worker/held-completion-main.mjs confirm JOB_UUID
+   RECONCILIATION_UUID`. Native checks run again while the mutex is held. A successful
+   result appends `EXECUTION_RECOVERED_APPLIED` to the existing immutable audit;
+   the original job, attempt, HOLD events and idempotent response stay unchanged.
+4. Refresh evidence to see the verified recovery. Create and independently approve
+   a new plan for the next version or NOOP. Its installed worker still verifies
+   the current target and full ledger before admitting any operation.
+
+Inside the container, these operator commands run as `10002:10002` from
+`/opt/kelryvo`, through the authorized OS/operator process. They do not take a
+password, SQL text, runtime path or approval override. Recovery supports complete
+instance-schema executions with 1–128 pending statements and a qualified native
+verifier. UNIT tests and a prepared factory are not Oracle qualification.
+
 Project access, workspace database management and deployment are separate grants.
 For an installation created with `pilot.py`, the operator can grant the developer
 database management and, separately, deployment to an explicit project:

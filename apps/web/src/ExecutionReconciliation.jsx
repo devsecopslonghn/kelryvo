@@ -23,6 +23,7 @@ export default function ExecutionReconciliation({job,projectId,token,request,isD
   const [rows,setRows]=useState([]),[busy,setBusy]=useState(false),[loading,setLoading]=useState(false),[error,setError]=useState('');
   const [evidenceDigest,setEvidenceDigest]=useState(''),[evidenceKind,setEvidenceKind]=useState(kinds[0]),[reason,setReason]=useState('');
   const [decisionReasons,setDecisionReasons]=useState({});
+  const [recovered,setRecovered]=useState(null);
   const current=(generation=epoch.current)=>generation===epoch.current&&currentCheck.current();
   const refresh=async(generation)=>{
     setLoading(true);
@@ -31,12 +32,16 @@ export default function ExecutionReconciliation({job,projectId,token,request,isD
     if(!current(generation))return;
     if(result.jobId!==job.id||result.projectId!==projectId||result.retryEligible!==false||result.executionAuthority!==false
       ||!Array.isArray(result.reconciliations)||result.reconciliations.length>20)throw new Error('RECONCILIATION_UNAVAILABLE');
-    setRows(result.reconciliations);
+    const completion=result.recoveredCompletion??null;
+    if(completion&&(completion.status!=='RECOVERED_APPLIED'||completion.jobState!=='HOLD'
+      ||completion.retryEligible!==false||completion.executionAuthority!==false
+      ||!/^[a-f0-9]{64}$/.test(completion.evidenceDigest??'')))throw new Error('RECONCILIATION_UNAVAILABLE');
+    setRows(result.reconciliations);setRecovered(completion);
     }finally{if(current(generation))setLoading(false);}
   };
   useEffect(()=>{
     const generation=++epoch.current;let active=true;
-    setRows([]);setError('');setBusy(false);pending.current=false;
+    setRows([]);setRecovered(null);setError('');setBusy(false);pending.current=false;
     if(isCurrent())refresh(generation).catch(failure=>{if(active&&current(generation))setError(explain(failure,'Reconciliation history unavailable. Refresh evidence and try again.'));});
     return()=>{active=false;epoch.current++;};
   },[job?.id,projectId,token]);
@@ -76,6 +81,10 @@ export default function ExecutionReconciliation({job,projectId,token,request,isD
   if(!job||job.state!=='HOLD'||!current())return null;
   return <section aria-label="Execution HOLD reconciliation" className="execution-reconciliation">
     <h3>Execution is on HOLD</h3>
+    {recovered&&<aside aria-label="Verified recovery"><strong>Migration effects verified by recovery</strong>
+      <p>The installed verifier confirmed the complete migration effects and original receipts after independent review. This request stays on HOLD and cannot be replayed. Continue with a new plan and approval; its target checks still apply.</p>
+      <p className="muted">Recovery evidence SHA-256 {recovered.evidenceDigest}</p>
+    </aside>}
     <p className="muted">Retain references to external evidence for independent review. This form accepts a SHA-256 digest only; do not paste SQL, credentials, or evidence files. Review never verifies Oracle effects, enables retry, or authorizes replay.</p>
     <button type="button" className="secondary" disabled={busy||loading} onClick={reload}>Refresh evidence</button>
     {loading&&<p role="status">Loading reconciliation evidence…</p>}
@@ -88,8 +97,9 @@ export default function ExecutionReconciliation({job,projectId,token,request,isD
     </div>}
     {rows.map(row=><article key={row.id} className="execution-reconciliation-row">
       <p>{row.evidenceKind} · SHA-256 {row.evidenceDigest}</p><p>{row.reason}</p>
+      <p className="muted">Reference ID <code>{row.id}</code></p>
       <p className="muted">Submitted by {row.submitterId} · {new Date(row.createdAt).toLocaleString()} · Target identity {row.targetIdentityDigest??'not available'}</p>
-      {row.decision?<p>Independent review: {row.decision.decision} by {row.decision.reviewerId}. HOLD remains; target effects are not attested.</p>
+      {row.decision?<p>Independent review: {row.decision.decision} by {row.decision.reviewerId}. {recovered?.reconciliationId===row.id?'This review is linked to the verified recovery above.':'HOLD remains; target effects are not attested by this review.'}</p>
         :isApprover&&actorId&&planAuthorId&&![row.submitterId,job.requesterId,planAuthorId].includes(actorId)?<div><label>Review reason<textarea value={decisionReasons[row.id]??''} maxLength={1000} onChange={e=>setDecisionReasons(v=>({...v,[row.id]:e.target.value}))}/></label>
           <button type="button" className="secondary" disabled={busy||loading||!(decisionReasons[row.id]??'').trim()} onClick={()=>decide(row,'RETAIN_HOLD')}>Retain HOLD</button>
           <button type="button" className="secondary" disabled={busy||loading||!(decisionReasons[row.id]??'').trim()} onClick={()=>decide(row,'EVIDENCE_REVIEWED')}>Record evidence reviewed</button></div>

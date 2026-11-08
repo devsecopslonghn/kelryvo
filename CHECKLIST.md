@@ -20,27 +20,89 @@ deployment `kelryvo-app` still using image `afe222f9…` (the `66c4a31` developm
 artifact), with discovery/execution both disabled and no Oracle installation
 mount. HTTPS liveness/readiness pass, with target availability `UNVERIFIED`.
 The mounted developer bearer returned HTTP 401; this does not establish the
-customer's password-session permissions. No deployment or Oracle writes were made.
+customer's password-session permissions. That inspection made no deployment or
+Oracle writes; the subsequently authorized test-database cleanup and scoped trial
+are recorded below.
 
 - [ ] **CR1 — Complete the customer Oracle rollout:** qualify the actual test
   endpoint/transport, grants and exact source/image; complete login, project access,
   instance credential setup, schema assignment/verification, SQL/Git migration,
   independent approval, execution and retained audit. Do not transfer the earlier
   Oracle Free/TCP qualification to Autonomous Database/TCPS, 19c or a new image.
-- [x] **CR2 — Remove onboarding blockers (source candidate):** show the creation UUID that the API
+- [x] **CR2 — Remove onboarding blockers (merged source):** show the creation UUID that the API
   already returns, route target setup through instance onboarding, and expose
   explicit operator database-management/deployment grants without automatic access
   or approval. Local delivery checks pass (38 Node and three Python setup tests),
   along with one PostgreSQL/Chromium membership workflow and the targeted instance
-  master API test. This candidate has not been deployed to the customer URL.
+  master API test. Merged through PR #138 at `7430817338bf1fc248c897c8f0047d827f873699`;
+  required source, CodeQL and amd64/arm64 OCI checks passed. The customer URL
+  has not been upgraded.
 
-The supplied test endpoint accepted a read-only TCPS connection on port 1521 with
-certificate verification enabled, using pinned node-oracledb 7.0.1 Thin. It reports
-Oracle AI Database 26ai / `23.26.4.1.0`, Autonomous Database, PDB. The required
-Kelryvo ledger/mutex objects are absent. This native connection/catalog inspection
-is not governed execution or artifact qualification. Private target identity and
-sanitized results are retained under ignored `.cache/customer-rollout-20261108/`;
-no credential values are committed or logged. Oracle SQL writes remain unperformed.
+The owner subsequently authorized application-schema cleanup on the supplied
+Oracle Autonomous 26ai test PDB. Seventeen named garbage schemas were dropped;
+Oracle-maintained users and cloud/admin service accounts were preserved, including
+accounts whose `ORACLE_MAINTAINED` flag is `N`. No sessions were killed. Before/after
+metadata and all-table content fingerprints prove `CR7ALLGOALS_APP` unchanged
+through both cleanup and trial: 166 objects, 45 tables and 7,785 rows.
+
+The fresh trial created exactly five `KRY261108_` accounts: two schema-only owners,
+a schema-scoped instance writer, a protected ledger/mutex owner and a read-only
+observer. TLS certificate verification remained enabled on TCPS/1521. The native
+target reports Autonomous 26ai `23.26.4.1.0`; node-oracledb 7.0.1 Thin was used.
+The tested linux/amd64 OCI manifest was
+`sha256:a252b0c1e3373e51276dfbf097e22d850f534fcd4d3e4800c341f1ebbd57fe15`,
+from source `7430817`. The app and PostgreSQL metadata were isolated local fixtures;
+the supplied ADMIN credential was used only for authorized setup/inspection.
+
+- [x] **CR3 — Authorized cleanup and scoped onboarding:** cleanup and protected-schema
+  fingerprints pass. Actual API sessions completed project access, one instance
+  registration, discovery, two schema assignments/verifications, immutable Git
+  releases/plans and independent approval. Discovery was `PARTIAL` with
+  `SCHEMA_VISIBILITY_LIMITED`; offline validation remained `UNVERIFIED`. Neither
+  result is a full catalog or Oracle semantic-compilation claim.
+- [ ] **CR4 — Complete native rollout and qualify the installation:** the first
+  request stopped before SQL because the adapted operator module incorrectly
+  expected transport on the profile rather than its route. That HOLD remains.
+  The corrected module pinned the route/principal revision and passed native
+  identity, TLS, grant and object-integrity preflight. Its V1 request created
+  `KRY_PILOT_ITEM (ID NUMBER)`, appended five native ledger events through
+  `FILE_APPLIED` and retained one central receipt. Read-only production-ledger
+  replay, checksum/receipt recomputation and the V1 object postcondition pass.
+  However, the runtime exited before final verification. Its default 300-second
+  worker bound is consistent with the observed timing; the exact supervisor fault
+  was not logged. Standard expired-lease recovery changed job/attempt to
+  `HOLD / LEASE_EXPIRED_UNKNOWN`. Independent reconciliation recorded
+  `RETAIN_HOLD`; exact retry returned the same job with no retry/execution authority.
+  **V1 is not VERIFIED_SUCCESS; V2 and NOOP were not run.** Do not replay SQL,
+  erase HOLD, reset metadata or use another stream to evade the physical-container
+  veto. A 900-second operation/permit proposal passed syntax checks only; it was
+  not activated or qualified, keeps the 300-second lease and does not resolve HOLD.
+
+Selected secret-free evidence, including both failed attempts, native ledger,
+receipt preimages, recovery and reconciliation, is retained in the existing
+owner evidence store:
+`../acceptance-artifacts/customer-adb26-7430817-20261108T173000Z.tar.gz`,
+SHA-256 `c5ba76730c04886812cfd2dfdadadfa812a1b976c3474379972342071d7461c7`.
+Archive checksum, member round-trip and known-secret scan passed. This is diagnostic
+evidence of an incomplete trial, not new Oracle qualification. No customer URL
+change, Oracle 19 trial or new Oracle-qualified release occurred.
+The owned fixture was stopped after both jobs became terminal HOLD. Its isolated
+metadata and private runtime inputs were backed up with checksums to
+`../acceptance-artifacts/customer-adb26-private-20261108T173000Z/` (restricted,
+credential-bearing; never publish). The backup retains two held jobs, one attempt,
+one receipt, one reconciliation, one decision and 51 audit events. This backup
+has not been restore-qualified and does not authorize replay.
+
+The owner subsequently delegated the remaining test/recovery decisions, with
+`CR7ALLGOALS_APP` protection mandatory. Work now adds a narrowly scoped verified
+completion path instead of deleting HOLD or resetting metadata. The implementation
+prepares native-chain/receipt evidence, requires an independent exact-digest
+`EVIDENCE_REVIEWED` decision, rechecks the target under its mutex and appends one
+immutable audit resolution. Original held job/attempt states and exact retries
+remain unchanged; a later independently approved plan still needs fresh native
+admission. The operator entry point loads a fixed protected module and accepts no
+SQL or credentials. The existing schema and backup formats are unchanged.
+This source is not yet qualified on Oracle; CR1 and CR4 remain open.
 
 The current credential UI accepts operator-provisioned references only. A customer
 expectation of entering an admin password directly is an implementation gap, not

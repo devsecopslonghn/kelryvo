@@ -1,6 +1,7 @@
 /** Central history is a veto against missing/divergent target history, never
  * evidence of target effects. Call only under the admission authority locks.
  */
+import { readRecoveredCompletion } from './recovered-completion.ts';
 import { verifyOfflinePlanIntent, MAX_PLAN_STATEMENTS } from '../migrations/offline-plan-intent.mjs';
 import { MAX_STDOUT_BYTES } from '../../experiments/db-devops-wp0/parser-envelope.mjs';
 import { MAX_RELEASE_FILES } from '../../experiments/db-devops-wp0/parser-release.mjs';
@@ -44,12 +45,15 @@ export async function reconcileCompletedHistory(tx: any, observation: TargetObse
     WHERE proof.organization_id='00000000-0000-4000-8000-000000000001'
       AND (((${streamId ?? null}::uuid IS NOT NULL) AND proof.host_binding->>'streamId'=${streamId ?? null})
         OR ((${streamId ?? null}::uuid IS NULL) AND proof.host_binding->>'targetKey'=${observation.targetKey}))
-      AND job.state='VERIFIED_SUCCESS'
+      AND (job.state='VERIFIED_SUCCESS' OR job.state='HOLD' AND EXISTS(SELECT 1 FROM sf_audit recovered
+        WHERE recovered.resource_id=job.id AND recovered.organization_id=job.organization_id AND recovered.action='EXECUTION_RECOVERED_APPLIED'))
     ORDER BY proof.intent_digest,proof.created_at DESC
     LIMIT ${MAX_RELEASE_FILES + 1}`;
   if (priors.length > MAX_RELEASE_FILES) return false;
   const witnessed = new Set<number>();
   for (const prior of priors) {
+    const recovered=prior.state==='HOLD'?await readRecoveredCompletion(tx,prior.job_id):null;
+    if(prior.state==='HOLD'&&(!recovered||recovered.evidence.scope!==observation.scope))return false;
     const binding = prior.host_binding;
     const intent = verifyOfflinePlanIntent(prior.envelope, prior.intent_digest, {
       organizationId:prior.organization_id,projectId:prior.project_id,manifestDigest:prior.source_manifest_digest,
@@ -106,10 +110,10 @@ export async function reconcileCompletedHistory(tx: any, observation: TargetObse
           || acknowledgments[index].ordinal !== row.ordinal || acknowledgments[index].statement_digest !== row.statement_digest)
         || terminal[0]?.phase !== prior.state) return false;
     const validity = terminal[1]?.facts;
-    if (terminal[1]?.phase !== 'VALIDITY_VERIFIED' || validity?.validity !== 'VALID' || validity?.postconditions !== 'PASS'
+    if (!recovered && (terminal[1]?.phase !== 'VALIDITY_VERIFIED' || validity?.validity !== 'VALID' || validity?.postconditions !== 'PASS'
         || validity?.scope !== prior.scope || validity?.targetIdentityDigest !== prior.target_identity_digest
         || validity?.historySnapshotDigest !== prior.history_snapshot_digest || validity?.mutexAuthorityDigest !== prior.mutex_authority_digest
-        || validity?.validityDigest !== prior.validity_digest || validity?.centralEvidenceDigest !== prior.central_evidence_digest) return false;
+        || validity?.validityDigest !== prior.validity_digest || validity?.centralEvidenceDigest !== prior.central_evidence_digest)) return false;
     for (let i=binding.appliedMigrationCount;i<migrations.length;i++) {
       const applied = observation.appliedMigrations[i];
       if (applied.approvalReference !== prior.approval_reference || applied.intentDigest !== prior.intent_digest) return false;

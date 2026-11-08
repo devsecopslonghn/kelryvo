@@ -1,3 +1,4 @@
+import { readRecoveredCompletion } from './recovered-completion.ts';
 import { sessionParentAuthority } from '../identity/authority.ts';
 import { physicalOracleTargetKey } from '../connectivity/instance-identity.mjs';
 /** Worker-only admission producer. API credentials cannot install host capabilities. */
@@ -23,31 +24,37 @@ export type AdmissionScope = 'TRUSTED_VALIDATED' | 'UNIT_SYNTHETIC';
  */
 export async function targetRequestConflict(tx: any, projectId: string, streamId: string, excludeJobId?: string, heldOnly = false) {
   const rows = await tx`WITH pending AS (
-    SELECT j.id,j.state,j.project_id,p.offline_intent_digest,p.offline_intent_envelope
+    SELECT j.id,j.state,j.project_id,p.offline_intent_digest,p.offline_intent_envelope,
+        EXISTS(SELECT 1 FROM sf_audit a WHERE a.resource_id=j.id AND a.organization_id=j.organization_id AND a.action='EXECUTION_RECOVERED_APPLIED') AS recovery_recorded
       FROM sf_execution_jobs j JOIN sf_plans p ON p.id=j.plan_id AND p.project_id=j.project_id
       WHERE j.organization_id=${ORG}
         AND j.state IN ('WAITING_VALIDATION','ADMITTED','HOLD') AND (${heldOnly}=false OR j.state='HOLD')
         AND (${excludeJobId ?? null}::uuid IS NULL OR j.id<>${excludeJobId ?? null}::uuid)
       ORDER BY j.id LIMIT 1001
-    ) SELECT id,state,project_id,offline_intent_digest,
+    ) SELECT id,state,project_id,offline_intent_digest,recovery_recorded,
       CASE WHEN octet_length(offline_intent_envelope)<=${MAX_STDOUT_BYTES}
         AND sum(coalesce(octet_length(offline_intent_envelope),0)) OVER()<=${2 * MAX_STDOUT_BYTES}
         THEN offline_intent_envelope END AS envelope FROM pending`;
   if (rows.length > 1000) return true;
-  return rows.some((row: any) => {
-    const prior = verifyOfflinePlanIntent(row.envelope,row.offline_intent_digest,{organizationId:ORG,projectId:row.project_id});
-    return !prior || (prior.target ? prior.target.streamId === streamId : row.project_id === projectId);
-  });
+  for(const row of rows) {
+    const prior=verifyOfflinePlanIntent(row.envelope,row.offline_intent_digest,{organizationId:ORG,projectId:row.project_id});
+    if(!prior)return true;
+    if(prior.target ? prior.target.streamId!==streamId : row.project_id!==projectId)continue;
+    if(row.state==='HOLD'&&row.recovery_recorded&&await readRecoveredCompletion(tx,row.id))continue;
+    return true;
+  }
+  return false;
 }
 
 /** Mixed legacy/master installations must also serialize known container identity.
  * Unknown legacy physical scope is a veto while a master workflow is active.
  */
-export async function executionContainerConflict(tx:any,candidate:any) {
+export async function executionContainerConflict(tx:any,candidate:any,scope:AdmissionScope='TRUSTED_VALIDATED') {
   const target=candidate.executionTarget;
   const own=(await tx`SELECT s.container_id FROM sf_reference_assignments a JOIN sf_reference_schemas s ON s.id=a.schema_id
     WHERE a.id=${target?.assignmentId??null}::uuid`)[0];
-  const rows=await tx`SELECT s.container_id,e.identity,
+  const rows=await tx`SELECT job.id,job.state,s.container_id,e.identity,
+    EXISTS(SELECT 1 FROM sf_audit a WHERE a.resource_id=job.id AND a.organization_id=job.organization_id AND a.action='EXECUTION_RECOVERED_APPLIED') AS recovery_recorded,
     EXISTS(SELECT 1 FROM sf_instance_profile_sources source WHERE source.profile_id=proof.profile_id) AS master
     FROM sf_execution_admission_proofs proof JOIN sf_execution_jobs job ON job.id=proof.job_id
     LEFT JOIN sf_reference_assignments a ON a.id=proof.target_assignment_id
@@ -58,12 +65,17 @@ export async function executionContainerConflict(tx:any,candidate:any) {
     WHERE proof.organization_id=${ORG} AND job.state IN ('ADMITTED','HOLD') AND job.id<>${candidate.job.id} LIMIT 1001`;
   if(rows.length>1000)return true;
   const master=target?.credentialMode==='INSTANCE_MASTER';
-  return rows.some((r:any)=>{
+  for(const r of rows){
     const key=physicalOracleTargetKey(r.identity);
-    return own && r.container_id===own.container_id
+    const conflict=own && r.container_id===own.container_id
       || key && target?.physicalTargetKey && key===target.physicalTargetKey
       || master && !key || r.master && !target?.physicalTargetKey;
-  });
+    if(!conflict)continue;
+    const recovered=r.state==='HOLD'&&r.recovery_recorded?await readRecoveredCompletion(tx,r.id):null;
+    if(recovered?.evidence.scope===scope)continue;
+    return true;
+  }
+  return false;
 }
 export type MigrationIdentity = Readonly<{ path: string; version: string; sha256: string;
   statementManifestDigest: string; statementDigests: readonly string[] }>;
