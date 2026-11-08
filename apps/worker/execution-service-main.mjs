@@ -5,7 +5,7 @@ import { pathToFileURL, fileURLToPath } from 'node:url';
 
 const reject = () => new Error('Installed execution service unavailable');
 
-async function loadInstallation(file) {
+export async function loadProtectedInstallationModule(file) {
   if (typeof file !== 'string' || !path.isAbsolute(file) || path.extname(file) !== '.mjs') throw reject();
   let cursor = path.parse(file).root;
   for (const component of file.slice(cursor.length).split(path.sep).filter(Boolean)) {
@@ -29,7 +29,7 @@ export async function runInstalledExecutionService(file) {
   let service;
   process.on('SIGTERM', abort); process.on('SIGINT', abort);
   try {
-    const installation = await loadInstallation(file);
+    const installation = await loadProtectedInstallationModule(file);
     if (typeof installation.createExecutionService !== 'function') throw reject();
     service = await installation.createExecutionService();
     if (!service || service.scope !== 'TRUSTED_VALIDATED' || typeof service.run !== 'function' || typeof service.close !== 'function') throw reject();

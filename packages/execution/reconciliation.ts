@@ -1,3 +1,4 @@
+import { readRecoveredCompletion } from './recovered-completion.ts';
 import { randomUUID } from 'node:crypto';
 import { LOCAL_ORGANIZATION as ORG, projectAccessMode } from '../database/project-membership.ts';
 import { guardMutationAuthority } from '../database/mutation-authority.ts';
@@ -212,10 +213,15 @@ export function registerExecutionReconciliation(app:any,{sql,authenticate}:any){
       const reconciliations=await tx`SELECT s.*,d.id AS decision_id,d.reviewer_id,d.job_revision AS decision_revision,d.decision,d.reason AS decision_reason,d.created_at AS decision_created_at
         FROM sf_execution_reconciliations s LEFT JOIN sf_execution_reconciliation_decisions d ON d.reconciliation_id=s.id
         WHERE s.job_id=${job.id} ORDER BY s.created_at,s.id LIMIT ${MAX_SUBMISSIONS_PER_JOB}`;
-      return {jobId:job.id,projectId:job.project_id,reconciliations};
+      const recovered=await readRecoveredCompletion(tx,job.id);
+      return {jobId:job.id,projectId:job.project_id,reconciliations,recoveredCompletion:recovered?{
+        status:'RECOVERED_APPLIED',jobState:'HOLD',evidenceDigest:recovered.evidenceDigest,
+        reconciliationId:recovered.reconciliationId,decisionId:recovered.decisionId,
+        sourceCommit:recovered.evidence.sourceCommit,imageDigest:recovered.evidence.imageDigest,
+        retryEligible:false,executionAuthority:false}:null};
     });
     return result===null?reply.code(404).send({error:'NOT_FOUND'}):{jobId:result.jobId,projectId:result.projectId,
-      reconciliations:result.reconciliations.map(publicSubmission),retryEligible:false,executionAuthority:false};
+      reconciliations:result.reconciliations.map(publicSubmission),recoveredCompletion:result.recoveredCompletion,retryEligible:false,executionAuthority:false};
   });
 
   route('post','/api/execution-jobs/:id/reconciliations/:reconciliationId/decision',async(req:any,reply:any)=>{

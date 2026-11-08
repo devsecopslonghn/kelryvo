@@ -1,4 +1,5 @@
 /** Read-only retained migration comparison. This projection never grants worker authority. */
+import { readRecoveredCompletion } from './recovered-completion.ts';
 import { createHash } from 'node:crypto';
 import { verifyOfflinePlanIntent, MAX_PLAN_STATEMENTS } from '../migrations/offline-plan-intent.mjs';
 import { verifyRetainedRelease } from '../migrations/verify-retained-release.mjs';
@@ -74,7 +75,8 @@ function exactExpected(plan: any, organizationId: string) {
 }
 
 async function verifiedPrior(tx: any, prior: any, currentIntent: any, candidateIdentityDigest: string) {
-  if (prior.state !== 'VERIFIED_SUCCESS') return null;
+  const recovered=prior.state==='HOLD'?await readRecoveredCompletion(tx,prior.job_id):null;
+  if (prior.state !== 'VERIFIED_SUCCESS'&&!recovered) return null;
   const proof = prior;
   if (!proof.job_id
       || !['TRUSTED_VALIDATED', 'UNIT_SYNTHETIC'].includes(prior.scope)
@@ -107,7 +109,7 @@ async function verifiedPrior(tx: any, prior: any, currentIntent: any, candidateI
     job_admission_statement_count: prior.job_admission_statement_count });
   if (!context || context.pendingStatementCount < 1 || context.totalApprovedStatements > MAX_PLAN_STATEMENTS) return null;
   const attempt = (await tx`SELECT id,generation,state FROM sf_execution_attempts WHERE job_id=${prior.job_id} LIMIT 2`);
-  if (attempt.length !== 1 || attempt[0].state !== 'VERIFIED_SUCCESS') return null;
+  if (attempt.length !== 1 || attempt[0].state !== prior.state) return null;
   const receipts = await tx`SELECT ordinal,statement_digest,receipt_digest,central_evidence_digest FROM sf_execution_receipts
     WHERE job_id=${prior.job_id} AND attempt_id=${attempt[0].id} AND generation=${attempt[0].generation}
     ORDER BY ordinal LIMIT ${MAX_PLAN_STATEMENTS + 1}`;
@@ -120,13 +122,14 @@ async function verifiedPrior(tx: any, prior: any, currentIntent: any, candidateI
       || receipts.some((r: any, i: number) => Number(r.ordinal) !== i + 1 || r.statement_digest !== expected[i]
         || !HASH.test(r.receipt_digest ?? '') || r.central_evidence_digest !== proof.central_evidence_digest
         || Number(acks[i]?.ordinal) !== i + 1 || acks[i]?.statement_digest !== expected[i])
-      || terminal[0]?.phase !== 'VERIFIED_SUCCESS' || terminal[1]?.phase !== 'VALIDITY_VERIFIED') return null;
+      || terminal[0]?.phase !== prior.state || !recovered && terminal[1]?.phase !== 'VALIDITY_VERIFIED') return null;
   const validity = terminal[1].facts;
-  if (validity?.validity !== 'VALID' || validity?.postconditions !== 'PASS' || validity?.scope !== prior.scope
+  if (!recovered && (validity?.validity !== 'VALID' || validity?.postconditions !== 'PASS' || validity?.scope !== prior.scope
       || validity?.targetIdentityDigest !== prior.target_identity_digest || validity?.historySnapshotDigest !== proof.history_snapshot_digest
       || validity?.mutexAuthorityDigest !== proof.mutex_authority_digest || validity?.validityDigest !== proof.validity_digest
-      || validity?.centralEvidenceDigest !== proof.central_evidence_digest) return null;
-  return { intent, context, scope: prior.scope, jobId: prior.job_id, planId: prior.plan_id };
+      || validity?.centralEvidenceDigest !== proof.central_evidence_digest)) return null;
+  return { intent, context, scope: prior.scope, jobId: prior.job_id, planId: prior.plan_id,
+    completionKind:recovered?'RECOVERED_APPLIED':'VERIFIED_SUCCESS',recoveryEvidenceDigest:recovered?.evidenceDigest??null };
 }
 
 export function registerMigrationAnalysis(app: any, sql: any, authenticate: any) {
@@ -265,21 +268,23 @@ export function registerMigrationAnalysis(app: any, sql: any, authenticate: any)
             JOIN sf_releases release ON release.id=plan.release_id AND release.project_id=plan.project_id
             WHERE proof.organization_id=${ORG} AND proof.host_binding->>'streamId'=${target.streamId}
             ORDER BY proof.created_at DESC,proof.job_id DESC LIMIT 201`;
-          const heldRows = await tx`SELECT j.id,p.offline_intent_digest,
+          const heldRows = await tx`SELECT j.id,j.state,p.offline_intent_digest,
             CASE WHEN octet_length(p.offline_intent_envelope)<=${MAX_STDOUT_BYTES} THEN p.offline_intent_envelope END AS envelope
             FROM sf_execution_jobs j JOIN sf_plans p ON p.id=j.plan_id AND p.project_id=j.project_id
             WHERE j.organization_id=${ORG} AND j.state IN ('HOLD','WAITING_VALIDATION','ADMITTED') ORDER BY j.id LIMIT 201`;
           holdScanOverflow = heldRows.length > 200;
-          holds = heldRows.filter((row: any) => {
-            const held = verifyOfflinePlanIntent(row.envelope, row.offline_intent_digest, { organizationId: ORG });
-            return !held || held.target?.streamId === target.streamId;
-          });
+          for(const row of heldRows){
+            const held=verifyOfflinePlanIntent(row.envelope,row.offline_intent_digest,{organizationId:ORG});
+            if(held&&held.target?.streamId!==target.streamId)continue;
+            if(row.state==='HOLD'&&await readRecoveredCompletion(tx,row.id))continue;
+            holds.push(row);
+          }
         }
         const historyByMigration = new Map<string, any>();
         let historyMismatch = priorRows.length > 200 || holdScanOverflow || holds.length > 0;
         for (const prior of priorRows.slice(0, 200)) {
           if (prior.state === 'NOOP') continue;
-          if (prior.state !== 'VERIFIED_SUCCESS') { historyMismatch = true; continue; }
+          if (!['VERIFIED_SUCCESS','HOLD'].includes(prior.state)) { historyMismatch = true; continue; }
           const verified = await verifiedPrior(tx, prior, intent, targetProof[0].identity_digest);
           if (!verified) { historyMismatch = true; continue; }
           if (prior.project_id !== projectId) { historyMismatch = true; continue; }
@@ -292,7 +297,8 @@ export function registerMigrationAnalysis(app: any, sql: any, authenticate: any)
           })) { historyMismatch = true; continue; }
           for (const migration of priorMigrations.slice(verified.context.appliedMigrationCount)) {
             const key = `${migration.path}\0${migration.version}\0${migration.sha256}`;
-            historyByMigration.set(key, { jobId: verified.jobId, planId: verified.planId, scope: verified.scope });
+            historyByMigration.set(key, { jobId: verified.jobId, planId: verified.planId, scope: verified.scope,
+              completionKind:verified.completionKind,recoveryEvidenceDigest:verified.recoveryEvidenceDigest });
           }
         }
         let encounteredPending = false;

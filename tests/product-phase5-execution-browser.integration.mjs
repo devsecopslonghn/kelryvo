@@ -13,7 +13,7 @@ test('HOLD review UI accepts digest references, blocks retry and requires an ind
     planId: model.plan.id, requesterId: model.actors[0].id, revision: 4, state: 'HOLD',
     readiness: { status: 'HOLD' }, reason: 'Worker outcome is ambiguous; inspect external evidence.' };
   model.detail.executionJobs.push(job);
-  const reconciliations = [];
+  const reconciliations = [];let recoveredCompletion=null;
   let submissionFailure = 'REVISION_CONFLICT', decisionFailure = 'DECISION_ALREADY_RECORDED';
   let failNextHistoryRead = false;
   const readiness = { requestEligible: false, executionAuthority: false, executable: false,
@@ -25,7 +25,7 @@ test('HOLD review UI accepts digest references, blocks retry and requires an ind
       if (method === 'GET' && path === `/api/plans/${model.plan.id}/execution-readiness`) return { status: 200, body: readiness };
       if (path === `/api/execution-jobs/${job.id}/reconciliations` && method === 'GET') {
         if (failNextHistoryRead) { failNextHistoryRead = false; return { status: 503, body: { error: 'RECONCILIATION_UNAVAILABLE' } }; }
-        return { status: 200, body: { jobId: job.id, projectId: model.project.id, retryEligible: false, executionAuthority: false, reconciliations } };
+        return { status: 200, body: { jobId: job.id, projectId: model.project.id, retryEligible: false, executionAuthority: false, reconciliations,recoveredCompletion } };
       }
       if (path === `/api/execution-jobs/${job.id}/reconciliations` && method === 'POST') {
         if (submissionFailure) return { status: 409, body: { error: submissionFailure } };
@@ -118,6 +118,14 @@ test('HOLD review UI accepts digest references, blocks retry and requires an ind
     assert.equal(job.state, 'HOLD');
     assert.equal(readiness.requestEligible, false);
     assert.equal(reconciliations[0].retryEligible, false);
+    recoveredCompletion={status:'RECOVERED_APPLIED',jobState:'HOLD',evidenceDigest:digest,reconciliationId:reconciliations[0].id,retryEligible:false,executionAuthority:false};
+    await hold.getByRole('button',{name:'Refresh evidence',exact:true}).click();
+    const recovery=hold.getByRole('complementary',{name:'Verified recovery'});
+    await recovery.getByText('Migration effects verified by recovery',{exact:true}).waitFor();
+    assert.match(await recovery.innerText(),/This request stays on HOLD and cannot be replayed/);
+    await hold.getByText(reconciliations[0].id,{exact:true}).waitFor();
+    assert.equal(job.state,'HOLD');
+    assert.equal(await page.getByRole('button',{name:'Request deployment',exact:true}).isDisabled(),true,'verified recovery does not replay the held request');
     await fixture.assertClean();
   } finally { await fixture?.close(); }
 });

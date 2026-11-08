@@ -1,4 +1,5 @@
 /** Explicitly installed host capabilities, never an API route or JSON configuration. */
+import { readRecoveredCompletion } from '../../packages/execution/recovered-completion.ts';
 import { createHash } from 'node:crypto';
 import { coordinate, type Receipt } from '../../packages/execution/coordinator.ts';
 import { createExecutionJobStore } from '../../packages/execution/postgres-jobs.ts';
@@ -98,13 +99,18 @@ export function createExecutionWorker(sql: any, host: ExecutionHost, options: { 
             if (!current || current.snapshotDigest !== expectedSnapshot || current.authority.role !== candidate.authority.role) return null;
             // Central uncertainty is a veto, never proof of target application.
             // Target/catalog locks serialize admissions and authority changes.
-            if ((await tx`SELECT 1 FROM sf_execution_admission_proofs proof JOIN sf_execution_jobs prior ON prior.id=proof.job_id
+            const retainedConflicts=await tx`SELECT prior.id,prior.state FROM sf_execution_admission_proofs proof JOIN sf_execution_jobs prior ON prior.id=proof.job_id
               WHERE proof.organization_id='00000000-0000-4000-8000-000000000001'
                 AND (proof.host_binding->>'targetKey'=${observation.targetKey}
                   OR ${candidate.executionTarget?.streamId ?? null}::text IS NOT NULL
                     AND proof.host_binding->>'streamId'=${candidate.executionTarget?.streamId ?? null}) AND prior.id<>${jobId}
-                AND prior.state IN ('ADMITTED','HOLD') LIMIT 1`)[0]) { historyLost = true; return null; }
-            if(await executionContainerConflict(tx,candidate)) { historyLost=true;return null; }
+                AND prior.state IN ('ADMITTED','HOLD') LIMIT 1001`;
+            if(retainedConflicts.length>1000){historyLost=true;return null;}
+            for(const prior of retainedConflicts){
+              const recovered=prior.state==='HOLD'?await readRecoveredCompletion(tx,prior.id):null;
+              if(recovered?.evidence.scope!==scope){historyLost=true;return null;}
+            }
+            if(await executionContainerConflict(tx,candidate,scope)) { historyLost=true;return null; }
             if (candidate.executionTarget && await targetRequestConflict(tx,candidate.project.id,candidate.executionTarget.streamId,jobId,true)) {
               historyLost=true; return null;
             }
