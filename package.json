@@ -50,7 +50,7 @@
     "local:identity-admin": "node scripts/local-identity-admin.mjs",
     "hygiene:check": "python3 scripts/check-repository.py",
     "check:delivery": "npm run hygiene:check && npm run build && node scripts/checklist.mjs validate && npm run format:check && npm run test:delivery && npm run dependencies:product",
-    "test:delivery": "node --test --test-concurrency=2 tests/container-delivery.test.mjs tests/oci-archive-verification.test.mjs tests/container-config.test.mjs tests/container-repositories.test.mjs tests/local-release.test.mjs tests/antlr-download.test.mjs tests/antlr-prepare.test.mjs tests/checklist.test.mjs tests/completion-evidence.test.mjs tests/held-completion-installation.test.mjs tests/credential-vault.test.mjs tests/oracle-installation-policy.test.mjs tests/oracle-postconditions.test.mjs tests/schema-scope.test.mjs && python3 tests/test_pilot_setup.py",
+    "test:delivery": "node --test --test-concurrency=2 tests/container-delivery.test.mjs tests/oci-archive-verification.test.mjs tests/container-config.test.mjs tests/container-repositories.test.mjs tests/local-release.test.mjs tests/antlr-download.test.mjs tests/antlr-prepare.test.mjs tests/checklist.test.mjs tests/completion-evidence.test.mjs tests/held-completion-installation.test.mjs tests/credential-vault.test.mjs tests/oracle-installation-policy.test.mjs tests/oracle-postconditions.test.mjs tests/oracle-runtime-expiry.test.mjs tests/schema-scope.test.mjs && python3 tests/test_pilot_setup.py",
     "check:full": "npm run hygiene:check && npm run build && node scripts/checklist.mjs validate && npm run format:check && npm test && npm run dependencies:smoke && npm run dependencies:product"
   },
   "dependencies": {
