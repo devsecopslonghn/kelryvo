@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { generateKeyPairSync } from 'node:crypto';
+import { fixtureIdentity } from './helpers/discovery-fixture.mjs';
 import { createDiscoveryFixture } from './helpers/discovery-fixture.mjs';
 import { resolveManagedOracleCredential } from '../packages/connectivity/credential-vault.mjs';
 import { instanceProfileCurrent } from '../packages/connectivity/instance-current.ts';
@@ -16,7 +17,7 @@ test('encrypted instance credentials enforce grants, scoped resolution, rotation
   const f = await createDiscoveryFixture({ oracleVaultPublicKey: keys.publicKey });
   const body = { name: 'Encrypted instance', containerName: 'PDB', kind: 'PDB', environment: 'DEV',
     host: 'encrypted.example.invalid', port: 1521, service: 'TARGETSVC', transport: 'TCPS',
-    username: 'MIGRATION_MASTER', password: 'encrypted-fixture-password-v1', reason: 'Register encrypted credential' };
+    username: 'ADMIN', password: 'encrypted-fixture-password-v1', reason: 'Register encrypted credential' };
   try {
     let r = await f.api('POST', `${f.base}/database-instances/master`, body, f.actors[1]);
     assert.equal(r.statusCode, 403, r.body);
@@ -42,11 +43,29 @@ test('encrypted instance credentials enforce grants, scoped resolution, rotation
     assert.equal(schema.signature, 'd252a0313bfc9e76718234a3009d1dc922fedb669c4c104f41a2b6facbd62c04');
     assert.ok(schema.tables.includes('sf_oracle_credentials'));
     const o = (await f.api('POST', `${path}/discover`, { reason: 'Discover assigned owner' })).json().observation;
+    const assignment = { observationId: o.id, expectedConnectionRevision: '1', owners: ['APP'],
+      environmentId: f.environment.id, reason: 'Require scoped runtime for managed credential' };
+    assert.equal((await f.api('POST', `${path}/assign-schemas`, assignment)).json().error, 'INSTANCE_RUNTIME_REQUIRED');
+    const descriptor = { sqlProfile: 'ORACLE26_NUMBER_VARCHAR2_BYTE_V1', format: 1, connectionId: c.id, connectionRevision: '1',
+      metadataGenerationId: (await f.db.sql`SELECT generation_id FROM sf_metadata_current`)[0].generation_id,
+      sourceSha: 'f'.repeat(40), imageDigest: 'sha256:' + 'e'.repeat(64), installationDigest: 'd'.repeat(64),
+      identity: fixtureIdentity, writerUsername: 'SCOPED_WRITER', writerCredentialRef: `secret://kelryvo-runtime/${c.id}/writer`,
+      schemaOwners: ['APP'], protectedOwners: ['CR7ALLGOALS_APP'], operatorOsUid: 0,
+      expiresAt: new Date(Date.now() + 3600000).toISOString() };
+    await f.db.sql`INSERT INTO sf_database_connection_audit(organization_id,connection_id,action,facts)
+      VALUES(${original.organizationId},${c.id},'INSTANCE_RUNTIME_INSTALLED',${f.db.sql.json(descriptor)})`;
+    assert.equal((await f.api('POST', `${path}/assign-schemas`, { ...assignment, owners: ['CR7ALLGOALS_APP'] })).json().error,
+      'SCHEMA_OUTSIDE_INSTALLED_SCOPE');
+
     r = await f.api('POST', `${path}/assign-schemas`, { observationId: o.id, expectedConnectionRevision: '1',
       owners: ['APP'], environmentId: f.environment.id, reason: 'Bind one schema' });
     assert.equal(r.statusCode, 201, r.body);
     const p = r.json().bindings[0].profileId;
     assert.equal(await instanceProfileCurrent(f.db.sql, p), true);
+    const profile = (await f.db.sql`SELECT username,credential_ref FROM sf_profiles WHERE id=${p}`)[0];
+    assert.equal(profile.username, 'SCOPED_WRITER');
+    assert.equal(profile.credential_ref, descriptor.writerCredentialRef);
+    assert.notEqual(profile.username, original.username, 'ADMIN is never the migration principal');
     const rotation = { action: 'ROTATE', expectedRevision: '1', password: 'encrypted-fixture-password-v2', reason: 'Rotate in app' };
     r = await f.api('POST', `${f.foreignBase}/database-connections/${c.id}/credentials`, rotation);
     assert.equal(r.statusCode, 404, r.body);
@@ -59,6 +78,16 @@ test('encrypted instance credentials enforce grants, scoped resolution, rotation
     assert.equal(await instanceProfileCurrent(f.db.sql, p), false);
     await assert.rejects(resolveManagedOracleCredential(f.db.sql, original, keys.privateKey));
     assert.equal(await resolveManagedOracleCredential(f.db.sql, await current(), keys.privateKey), rotation.password);
+    const oldBinding = (await f.db.sql`SELECT b.id,r.stream_id FROM sf_target_bindings b JOIN sf_target_binding_revisions r ON r.binding_id=b.id AND r.revision=b.current_revision WHERE r.profile_id=${p}`)[0];
+    await f.db.sql`INSERT INTO sf_database_connection_audit(organization_id,connection_id,action,facts)
+      VALUES(${original.organizationId},${c.id},'INSTANCE_RUNTIME_INSTALLED',${f.db.sql.json({...descriptor,connectionRevision:'2'})})`;
+    const refreshedObservation=(await f.api('POST', `${path}/discover`, {reason:'Rediscover after credential rotation'})).json().observation;
+    r=await f.api('POST', `${path}/assign-schemas`, {...assignment,observationId:refreshedObservation.id,expectedConnectionRevision:'2'});
+    assert.equal(r.statusCode,201,r.body);
+    const refreshed=r.json().bindings[0];
+    assert.equal(refreshed.bindingId,oldBinding.id);
+    assert.equal(refreshed.streamId,oldBinding.stream_id,'credential refresh preserves migration history');
+    assert.equal(await instanceProfileCurrent(f.db.sql,refreshed.profileId),true);
     r = await f.api('POST', `${path}/credentials`, { action: 'REVOKE', expectedRevision: '2', reason: 'Revoke saved credential' });
     assert.equal(r.statusCode, 200, r.body);
     assert.equal(r.json().connection.enabled, false);

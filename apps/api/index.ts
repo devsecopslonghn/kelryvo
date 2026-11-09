@@ -1,4 +1,5 @@
 import { registerIdentity } from '../../packages/identity/api.ts';
+import { checkManagedPlanSqlProfile } from '../../packages/execution/managed-sql-profile.mjs';
 import { retainPlanSchema } from '../../packages/schema-baselines/store.ts';
 import { registerSourceComparison, readPlanComparison } from '../../packages/governance/source-comparison.ts';
 import {registerSqlWorkspace} from '../../packages/sql-workspace/api.ts';
@@ -1670,6 +1671,11 @@ export function createApp(options: {
           if (b.expectedIntentDigest !== intent.digest || b.expectedAssignmentRevision !== intent.target?.assignmentRevision || b.expectedBindingRevision !== intent.target?.bindingRevision) denial = 'FRESH_PLAN_REQUIRED';
           if(!denial && intent.validation)await validationForIntent(tx,intent);
           if (!denial && await targetRequestConflict(tx,plan.project_id,intent.target!.streamId)) denial='EXECUTION_ALREADY_PENDING';
+        }
+        if(!denial){
+          const installedSql=await checkManagedPlanSqlProfile(tx,{organizationId:ORG,projectId:plan.project_id,authorId:plan.author_id,
+            profileId:plan.profile_id,envelope:payload.offline_intent_envelope,intentDigest:plan.offline_intent_digest,release:retained});
+          if(!installedSql.supported)denial='ORACLE_SQL_PROFILE_UNSUPPORTED';
         }
         if (denial) return { error: denial };
         await guardMutationAuthority(tx, req);

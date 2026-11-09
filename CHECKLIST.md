@@ -17,7 +17,9 @@ the completed Oracle 26 trial below does not mark this delivery complete.
   password entry, public-key envelope encryption, revisioned rotation/revocation,
   scoped private resolution and immutable audit. The API receives only the vault
   public key; the root-owned private key stays outside API secrets and metadata
-  backups. Local crypto/API/upgrade tests pass. Runtime integration, real UI
+  backups. Local crypto/API/upgrade tests pass, including dedicated writer selection and
+  rotation with the same binding and stream. The current runtime source adds a
+  fixed-policy controller and protected publication. Real UI
   verification and deployment remain pending; do not claim a complete vault yet.
 - [ ] **CR6 — Maintainable Oracle runtime:** replace the private trial adapter with
   shipped installation code, purpose-specific scoped principals, protected-schema

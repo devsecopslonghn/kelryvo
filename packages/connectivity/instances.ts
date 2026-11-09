@@ -5,6 +5,7 @@ import { configureTargetOption, createTargetBinding, ORG } from '../targets/inde
 import { publicConnection } from './management.ts';
 import { instanceIdentityCurrent } from './instance-identity.mjs';
 import { oracleCredentialEndpointDigest, readOracleVaultPublicKey, sealOracleCredential, validOraclePassword } from './credential-vault.mjs';
+import { instanceDeploymentPrincipal } from './instance-runtime.mjs';
 
 const uuid=(v:any)=>typeof v==='string' && /^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(v);
 const text=(v:any,n=2000)=>typeof v==='string' && !!v.trim() && v.length<=n && !/[\u0000-\u001f\u007f]/.test(v);
@@ -124,6 +125,10 @@ export function registerInstances({sql,route,guard,connection,audited,projectCon
       const c=await connection(tx,req);
       if(c.credential_mode!=='INSTANCE_MASTER' || c.retired_at || !c.enabled || c.service_kind!=='SERVICE_NAME'
         || String(c.revision)!==b.expectedConnectionRevision)throw fail('CONNECTION_REVISION_CONFLICT');
+      const deployment=await instanceDeploymentPrincipal(tx,c);
+      if(!deployment)throw fail('INSTANCE_RUNTIME_REQUIRED');
+      if(deployment.runtime && b.owners.some((owner:string)=>!deployment.runtime.schemaOwners.includes(owner)
+        || deployment.runtime.protectedOwners.includes(owner)))throw fail('SCHEMA_OUTSIDE_INSTALLED_SCOPE');
       const env=(await tx`SELECT * FROM sf_environments WHERE id=${b.environmentId} AND project_id=${req.params.projectId}`)[0];
       if(!env)throw fail('NOT_FOUND',404);
       const o=(await tx`SELECT *,expires_at>clock_timestamp() AS fresh FROM sf_database_observations WHERE id=${b.observationId} AND connection_id=${c.id} AND operation='DISCOVER'`)[0];
@@ -136,7 +141,7 @@ export function registerInstances({sql,route,guard,connection,audited,projectCon
         AND p.environment_id=${env.id} AND p.retired_at IS NULL AND p.enabled ORDER BY p.created_at DESC LIMIT 1`)[0];
       if(!profile){
         profile=(await tx`INSERT INTO sf_profiles(project_id,organization_id,environment_id,name,engine,host,port,service,username,credential_ref)
-          VALUES(${req.params.projectId},${ORG},${env.id},${c.name},'oracle',${c.host},${c.port},${c.service},${c.username},${c.credential_ref}) RETURNING *`)[0];
+          VALUES(${req.params.projectId},${ORG},${env.id},${c.name},'oracle',${c.host},${c.port},${c.service},${deployment.username},${deployment.credentialRef}) RETURNING *`)[0];
         await tx`INSERT INTO sf_instance_profile_sources(profile_id,connection_id,connection_revision) VALUES(${profile.id},${c.id},${c.revision})`;
       }
       const bindings=[];
@@ -151,7 +156,7 @@ export function registerInstances({sql,route,guard,connection,audited,projectCon
         const existing=(await tx`SELECT b.id,b.current_revision FROM sf_target_bindings b WHERE b.assignment_id=${a.id} AND b.environment_id=${env.id}`)[0];
         const option=await configureTargetOption(tx,{expectedOptionRevision:'0',projectId:req.params.projectId,assignmentId:a.id,environmentId:env.id,profileId:profile.id,
           routeId:c.route_id,routeConfigRevision:'1',routeAlias:c.name,lineageId:lineage?.id??randomUUID(),migrationNamespace:'KELRYVO',policyId:c.id,policyRevision:'1',
-          exactOwner:owner,deploymentPrincipalId:c.id,principalPurpose:'DEPLOY',principalUsername:c.username,privatePrincipalRef:c.credential_ref,principalAlias:'Instance master',reason:b.reason});
+          exactOwner:owner,deploymentPrincipalId:c.id,principalPurpose:'DEPLOY',principalUsername:deployment.username,privatePrincipalRef:deployment.credentialRef,principalAlias:'Instance migration principal',reason:b.reason});
         const binding=await createTargetBinding(tx,{projectId:req.params.projectId,assignmentId:a.id,expectedAssignmentRevision:a.revision,environmentId:env.id,
           targetOptionId:option.optionId,expectedTargetOptionRevision:option.optionRevision,...(existing?{bindingId:existing.id}:{}),expectedBindingRevision:String(existing?.current_revision??'0'),reason:b.reason,actorId:req.actor.id});
         bindings.push(binding.binding);

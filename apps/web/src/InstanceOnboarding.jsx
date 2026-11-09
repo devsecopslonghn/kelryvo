@@ -6,6 +6,8 @@ const emptyInstance = { name: '', containerName: '', kind: 'PDB', environment: '
 const protectedSchema = owner => !isOracleApplicationOwner(owner);
 const explanations = {
   ORACLE_CREDENTIAL_VAULT_UNAVAILABLE: 'Encrypted credential storage is unavailable. The operator must install the vault public key.',
+  INSTANCE_RUNTIME_REQUIRED: 'The credential is saved. The operator must install the scoped Oracle runtime before schemas can be assigned.',
+  SCHEMA_OUTSIDE_INSTALLED_SCOPE: 'This schema is protected or outside the installed deployment scope.',
   CONNECTION_EXECUTION_ACTIVE: 'Credential changes are blocked while an execution is active or held. Inspect its retained evidence first.',
   DATABASE_MANAGEMENT_REQUIRED: 'Instance onboarding requires the workspace database management grant.',
   INSTANCE_MASTER_ALREADY_CONFIGURED: 'This Oracle container already has a master credential. Select the existing instance below.',
@@ -50,7 +52,8 @@ export function InstanceOnboarding({ token, projectId, detail, api, actor, acces
   const environments = loaded ? detail.environments || [] : [];
   const selected = (rawData?.connections || []).find(connection => connection.id === selectedId) || null;
   const alreadyBound = owner => bindings.some(binding => binding.routeId === selected?.routeId && binding.exactOwner === owner
-    && binding.environmentId === environmentId);
+    && binding.environmentId === environmentId && (binding.instanceConnectionRevision==null
+      || String(binding.instanceConnectionRevision)===String(selected?.revision)));
   const currentObservation = observation?.operation === 'DISCOVER' ? observation
     : selected?.latestObservation?.operation === 'DISCOVER' ? selected.latestObservation : null;
   const schemas = currentObservation?.schemas || [];
@@ -250,6 +253,13 @@ export function InstanceOnboarding({ token, projectId, detail, api, actor, acces
   const observationUsable = !!currentObservation?.id && !!currentObservation.identityDigest
     && currentObservation.currentness === 'CURRENT' && currentObservation.identityState === 'OBSERVED';
 
+  useEffect(()=>{
+    if(!manageable||!selected||!['SETUP_REQUIRED','PREPARING'].includes(selected.runtimeState))return;
+    let cancelled=false,timer;
+    const poll=async()=>{if(cancelled)return;await load(epoch.current);if(!cancelled)timer=setTimeout(poll,2000);};
+    timer=setTimeout(poll,1500);return()=>{cancelled=true;clearTimeout(timer);};
+  },[selected?.id,selected?.runtimeState,manageable]);
+
   if (!loaded) return <section className="panel instance-onboarding" aria-label="Oracle instance onboarding"><h2>Connect an Oracle instance</h2><p>Select a project to manage database instances and assigned schemas.</p></section>;
 
   return <section className="panel instance-onboarding" aria-label="Oracle instance onboarding">
@@ -305,8 +315,11 @@ export function InstanceOnboarding({ token, projectId, detail, api, actor, acces
         <dl><div><dt>Endpoint</dt><dd>{selected.host}:{selected.port}/{selected.service} · {selected.transport}</dd></div>
           <div><dt>Username</dt><dd>{selected.username}</dd></div><div><dt>Credential</dt><dd>{selected.credentialConfigured ? 'Master reference configured · value hidden' : 'Reference status unavailable'}</dd></div>
           <div><dt>Credential mode</dt><dd>{selected.credentialMode}</dd></div></dl>
+        {['SETUP_REQUIRED','PREPARING'].includes(selected.runtimeState) && <p className="banner warning" role="status">Credential saved. Preparing scoped Oracle access. This view refreshes automatically.</p>}
+        {selected.runtimeState === 'SETUP_FAILED' && <p className="banner warning" role="status">Oracle setup stopped. Check the credential or ask the operator to inspect the setup journal. No migrations were dispatched by setup.</p>}
+        {selected.runtimeSqlProfile && <p className="muted">Supported rollout: CREATE TABLE, ADD COLUMN and CREATE INDEX with NUMBER and VARCHAR2 byte columns. Schema access and independent approval are required.</p>}
         <label>Reason for discovery or assignment<textarea required maxLength="500" value={reason} onChange={e => setReason(e.target.value)} disabled={busy}/></label>
-        <button type="button" className="secondary" disabled={busy || !manageable || !reason.trim()} onClick={discover}>Discover schemas</button>
+        <button type="button" className="secondary" disabled={busy || !manageable || !reason.trim() || ['SETUP_REQUIRED','PREPARING','SETUP_FAILED'].includes(selected.runtimeState)} onClick={discover}>Discover schemas</button>
         {manageable && credentialEntryAvailable && <details className="connection-form"><summary>Manage saved credential</summary>
           <label>Replacement password<input type="password" autoComplete="new-password" maxLength="4096" value={replacementPassword} onChange={e => setReplacementPassword(e.target.value)} disabled={busy}/></label>
           <p>Replacing the credential makes previous target verification stale. Revoking disables this connection. History is retained.</p>
@@ -320,9 +333,9 @@ export function InstanceOnboarding({ token, projectId, detail, api, actor, acces
           {!currentObservation.identityDigest && <p className="banner warning" role="status">No usable database identity digest was retained. Assignments are unavailable.</p>}
           {!!currentObservation.limitations?.length && <p className="banner warning" role="status">Discovery limitations: {currentObservation.limitations.join(', ')}</p>}
           <ul className="instance-schema-list">{schemas.map(schema => <li key={schema.owner}>
-            <label><input type="checkbox" checked={owners.includes(schema.owner)} disabled={busy || !manageable || !observationUsable || schema.accessible !== true || protectedSchema(schema.owner) || alreadyBound(schema.owner)}
+            <label><input type="checkbox" checked={owners.includes(schema.owner)} disabled={busy || !manageable || !observationUsable || schema.accessible !== true || protectedSchema(schema.owner) || selected.protectedSchemaOwners?.includes(schema.owner) || selected.runtimeState === 'SETUP_REQUIRED' || selected.runtimeState === 'INSTALLED' && !selected.runtimeSchemaOwners?.includes(schema.owner) || alreadyBound(schema.owner)}
               onChange={e => setOwners(previous => e.target.checked ? [...previous, schema.owner] : previous.filter(owner => owner !== schema.owner))}/>
-              <span><strong>{schema.owner}</strong> · {schema.accessible === true ? 'accessible' : schema.accessible === false ? 'inaccessible' : 'visibility unknown'}{protectedSchema(schema.owner) ? ' · protected system schema' : ''}{alreadyBound(schema.owner) ? ' · already bound in this environment' : ''}</span>
+              <span><strong>{schema.owner}</strong> · {schema.accessible === true ? 'accessible' : schema.accessible === false ? 'inaccessible' : 'visibility unknown'}{protectedSchema(schema.owner) ? ' · protected system schema' : selected.protectedSchemaOwners?.includes(schema.owner) ? ' · protected schema' : ''}{alreadyBound(schema.owner) ? ' · already bound in this environment' : ''}</span>
             </label></li>)}</ul>
           <p>Schema assignment creates a provisional target binding. Each binding needs a separate accepted live identity verification before it can be used for governed migration.</p>
           <button type="button" className="primary" disabled={busy || !manageable || !observationUsable || !environmentId || !selectedSchemas.length || !reason.trim()}

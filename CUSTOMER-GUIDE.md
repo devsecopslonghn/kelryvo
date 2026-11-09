@@ -104,6 +104,51 @@ configure a reference-only Oracle profile under Project setup and use the Git
 release path below; offline syntax validation and review do not connect to Oracle.
 Do not enter database passwords into credential-reference fields.
 
+## Managed Oracle runtime (candidate)
+
+The shipped runtime supports a policy-bound Oracle 26ai TCPS instance on
+Linux amd64. Installation is an operator action; after it is armed, users enter
+and rotate the instance password in the application. The controller has no HTTP
+listener. It decrypts the current instance credential privately, validates the
+physical database identity, TLS destination and catalog grantability, then creates
+three dedicated accounts: a schema-scoped writer, ledger/mutex owner and observer.
+Migration dispatch never uses ADMIN. Schema-only owners must be explicitly listed
+in the root-owned policy. Existing populated schemas cannot be adopted implicitly.
+
+Run the verified image with `scripts/oracle-runtime-controller.mjs watch`, passing
+only protected file paths via `--database-url-file`, `--vault-key-file`, `--policy`,
+`--state-directory`, `--witness-directory` and its exact `--image-digest`.
+The controller runs as UID 0 with CHOWN and DAC_OVERRIDE, a read-only root filesystem,
+no service-account token and no network listener. Mount its private RSA key and
+policy only into this process. The API receives the public key. Share the protected
+execution directory with the runtime and retain operator state and the UID 10002
+witness on persistent storage; never put them in an ephemeral `/tmp` volume.
+The companion Helm chart provides these mounts and starts the waiting service.
+
+The policy schema is validated by
+`packages/connectivity/oracle-installation-policy.mjs`: exact host, service, IPv4
+pins, certificate DN, physical identity, allowed and protected owners, tablespace,
+quota, explicit new owners, authorization reference and expiry (at most 90 days).
+Protect `CR7ALLGOALS_APP`, all existing trial owners and service accounts. The
+controller provisions only these explicit new owners and principals. It has no
+DROP or migration-dispatch path. Failed or interrupted setup stops for inspection
+of its owner-only journal; restarting cannot replay an unknown DDL outcome.
+Credential rotation refreshes protected configuration while retaining the same
+principals, native ledger, witness, assignment and migration stream.
+
+This first installed SQL profile accepts uppercase unquoted names, NUMBER and
+VARCHAR2 BYTE columns, CREATE TABLE, ADD COLUMN and CREATE INDEX. For example:
+`CREATE TABLE ROLLOUT_ITEM (ID NUMBER, NAME VARCHAR2(100 BYTE));`.
+Unsupported types, table constraints, implicit CHAR semantics and destructive DDL
+are rejected before a job is queued. Native postconditions verify exact tables,
+columns and indexes after each migration. NOOP uses the retained matching history.
+Plan, approval, target binding, immutable migration bytes and checksum rules remain
+mandatory; a changed credential invalidates stale target profiles until refreshed.
+
+The source checks do not qualify Oracle 19, arm64 Oracle execution, arbitrary SQL,
+HA or disaster recovery. The current candidate still requires exact-image native
+validation and the live customer walkthrough before handoff.
+
 ## Encrypted instance credentials (candidate)
 
 The current candidate adds an encrypted-password option to instance registration
