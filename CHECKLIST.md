@@ -7,29 +7,55 @@ offline thành kết quả Oracle, hoặc chuyển nghiệm thu giữa các sour
 
 ## Current delivery goal — 2026-11-08
 
-### Customer runtime completion — 2026-11-09
+### Managed Oracle customer delivery — 2026-11-09
 
-The owner explicitly requested completion of credential entry, a maintainable
-Oracle installation and deployment to the customer URL. This is a new active scope;
-the completed Oracle 26 trial below does not mark this delivery complete.
+Version `managed-oracle26-2026-11-09` binds runtime source
+`b14d9cf0c75ec67b8eb78aff5c7e921dd31ecefa` to OCI index
+`sha256:e53cc2111b27a5ca05ec398f2243cfbd6249ff7f339432acc1028257633d1be1`.
+The exact linux/amd64 manifest is
+`sha256:881eed077c6b59e6abe43d53aa78680d359a88d988e82517538027c86404c72e`.
+The customer URL now runs this artifact; the earlier trial remains frozen.
 
-- [ ] **CR5 — Managed instance credentials:** the candidate adds write-only
-  password entry, public-key envelope encryption, revisioned rotation/revocation,
-  scoped private resolution and immutable audit. The API receives only the vault
-  public key; the root-owned private key stays outside API secrets and metadata
-  backups. Local crypto/API/upgrade tests pass, including dedicated writer selection and
-  rotation with the same binding and stream. The current runtime source adds a
-  fixed-policy controller and protected publication. Real UI
-  verification and deployment remain pending; do not claim a complete vault yet.
-- [ ] **CR6 — Maintainable Oracle runtime:** replace the private trial adapter with
-  shipped installation code, purpose-specific scoped principals, protected-schema
-  policy, native identity/TLS/grant/ledger/mutex checks and exact-image validation.
-  Keep ADMIN out of migration dispatch, retain existing HOLD/history, and qualify
-  supported migrations on Oracle 26. Oracle 19 remains unverified.
-- [ ] **CR8 — Live customer handoff:** preserve and back up existing customer
-  metadata, pass required CI, deploy the verified artifact, and exercise login,
-  credential entry, schema assignment, independent approval, execution/NOOP and
-  retained audit at the actual URL. CR7ALLGOALS_APP protection is mandatory.
+- [x] **CR5 — Managed instance credentials:** actual HTTPS password login,
+  write-only ADMIN credential entry and replacement pass in the customer UI.
+  AES-256-GCM/RSA-OAEP encryption binds the credential to its organization,
+  connection, username, purpose and endpoint. The API receives only the public
+  key; the private key/decryption remain in the root operator. Replacement advanced
+  connection revision 1 to 2, invalidated the old profile, and retained the same
+  instance, assignment, binding and migration stream with a fresh profile.
+  Crypto, scoped API, additive-upgrade and revocation tests pass; the retained live
+  credential was not revoked. Audit/response checks contain no password.
+- [x] **CR6 — Maintainable protected runtime:** the shipped fixed-policy controller
+  installs dedicated writer, ledger/mutex and observer accounts and explicit
+  schema-only owners. It validates identity, TLS pins, grants, protected native
+  objects, source/image identity and metadata generation. Source/credential refresh
+  reuses principals and history; no per-migration hash allowlist or private trial
+  adapter is needed. ADMIN never dispatches migrations. The initial 30-day Node
+  timer overflow was fixed in PR #143; the final artifact remains healthy with
+  the original 30-day policy. The Helm first-consumer PVC wave was fixed in chart
+  PR #12. Required source, CodeQL and native amd64/arm64 OCI checks passed.
+- [x] **CR8 — Live customer handoff:** the actual URL completed credential entry,
+  discovery, schema assignment/verification and credential replacement, then
+  immutable SQL Workspace V1/V2 releases, distinct approver decisions, browser
+  deployment requests and a fresh NOOP. V1 CREATE TABLE and V2 ADD COLUMN/CREATE
+  INDEX reached `VERIFIED_SUCCESS`; NOOP dispatched zero statements. Exact retries
+  returned the same jobs. All three receipts independently recompute against
+  persistent preimages and the 13-event native ledger. Versions 1 and 2 remain
+  applied on the same stream. The original 58 jobs, 12 HOLD records and 1,065 audit
+  rows are unchanged. Application-quiesced metadata/Secret backups and persistent
+  operator/witness state are retained privately. CR7ALLGOALS_APP metadata and
+  all-table data fingerprints remain unchanged: 166 objects, 45 tables, 7,785 rows.
+
+The verified native scope is one Autonomous Oracle 26ai `23.26.4.1.0` PDB,
+certificate-verified TCPS, node-oracledb 7.0.1 Thin and linux/amd64. The closed
+NUMBER/VARCHAR2 BYTE profile supports the three tested additive DDL forms; this is
+not general Flyway/Liquibase SQL parity. Discovery remains visibility-limited and
+offline catalog validation `UNVERIFIED`. Two incomplete identity observations
+remain retained; a later complete native observation enabled verification. A
+read-only probe confirmed catalog access; the transient failure cause was not
+proven. Oracle 19, arm64 Oracle execution, arbitrary SQL, HA and DR remain
+unqualified. Native qualification does not transfer to other source/image or
+server versions. See CUSTOMER-GUIDE.md for the ready project and next-change flow.
 
 Local validation also observed that the pre-vault PostgreSQL fixture's schema
 fingerprint already differs from the historical identity-backup constant. The
@@ -191,7 +217,7 @@ snapshot. Existing earlier evidence and backups remain unchanged.
 The release handoff for source `58dfae5` freezes this exact source/image and reports
 the above native scope separately from the default governance-only installer.
 Documentation changes after that source do not inherit its Oracle qualification.
-The customer URL has not been deployed or upgraded.
+At that trial handoff, the customer URL had not been deployed or upgraded.
 
 The current credential UI accepts operator-provisioned references only. A customer
 expectation of entering an admin password directly is an implementation gap, not
