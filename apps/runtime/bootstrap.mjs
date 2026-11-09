@@ -1,3 +1,4 @@
+import { oracleVaultKeyId } from '../../packages/connectivity/credential-vault.mjs';
 import { constants } from 'node:fs';
 import { chown, chmod, lstat, mkdir, open, readdir, realpath, rename, unlink } from 'node:fs/promises';
 import path from 'node:path';
@@ -76,6 +77,8 @@ export async function prepareRuntime({ env = process.env, runtimeRoot = '/run/ke
   try { api.push({ name: 'identity-runtime.json', bytes: await readSource(source, 'identity-runtime.json', 131072) }); }
   catch (error) { if (error.code !== 'ENOENT') throw error; }
   try { api.push({ name: 'repositories.json', bytes: await readSource(source, 'repositories.json', 16384) }); }
+  catch (error) { if (error.code !== 'ENOENT') throw error; }
+  try { const bytes=await readSource(source, 'oracle-vault-public.pem', 16384); oracleVaultKeyId(bytes); api.push({ name: 'oracle-vault-public.pem', bytes }); }
   catch (error) { if (error.code !== 'ENOENT') throw error; }
   let installation = [];
   if (!apiOnly && (flags.execution || flags.discovery)) {

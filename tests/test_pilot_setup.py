@@ -42,6 +42,10 @@ class PilotSetupTests(unittest.TestCase):
             with patch.object(pilot.os, 'geteuid', return_value=0), patch.object(pilot.os, 'chown'), redirect_stdout(output):
                 pilot.prepare(home, 'kelryvo:pilot-2026-11-08', cert=cert, key=key)
                 self.assertEqual((home / 'secrets/tls.key').stat().st_mode & 0o777, 0o400)
+                self.assertEqual((home / 'vault/oracle-vault-private.pem').stat().st_mode & 0o777, 0o400)
+                self.assertEqual((home / 'secrets/oracle-vault-public.pem').stat().st_mode & 0o777, 0o400)
+                self.assertIn('BEGIN PUBLIC KEY', (home / 'secrets/oracle-vault-public.pem').read_text())
+                self.assertNotIn('PRIVATE KEY', (home / 'secrets/oracle-vault-public.pem').read_text())
                 self.assertEqual((home / 'pilot.env').stat().st_mode & 0o777, 0o600)
                 self.assertEqual(home.stat().st_mode & 0o777, 0o700)
                 self.assertNotEqual((home / 'secrets/developer-token').read_text(), (home / 'secrets/approver-token').read_text())

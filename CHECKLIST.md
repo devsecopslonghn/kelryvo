@@ -7,6 +7,35 @@ offline thành kết quả Oracle, hoặc chuyển nghiệm thu giữa các sour
 
 ## Current delivery goal — 2026-11-08
 
+### Customer runtime completion — 2026-11-09
+
+The owner explicitly requested completion of credential entry, a maintainable
+Oracle installation and deployment to the customer URL. This is a new active scope;
+the completed Oracle 26 trial below does not mark this delivery complete.
+
+- [ ] **CR5 — Managed instance credentials:** the candidate adds write-only
+  password entry, public-key envelope encryption, revisioned rotation/revocation,
+  scoped private resolution and immutable audit. The API receives only the vault
+  public key; the root-owned private key stays outside API secrets and metadata
+  backups. Local crypto/API/upgrade tests pass. Runtime integration, real UI
+  verification and deployment remain pending; do not claim a complete vault yet.
+- [ ] **CR6 — Maintainable Oracle runtime:** replace the private trial adapter with
+  shipped installation code, purpose-specific scoped principals, protected-schema
+  policy, native identity/TLS/grant/ledger/mutex checks and exact-image validation.
+  Keep ADMIN out of migration dispatch, retain existing HOLD/history, and qualify
+  supported migrations on Oracle 26. Oracle 19 remains unverified.
+- [ ] **CR8 — Live customer handoff:** preserve and back up existing customer
+  metadata, pass required CI, deploy the verified artifact, and exercise login,
+  credential entry, schema assignment, independent approval, execution/NOOP and
+  retained audit at the actual URL. CR7ALLGOALS_APP protection is mandatory.
+
+Local validation also observed that the pre-vault PostgreSQL fixture's schema
+fingerprint already differs from the historical identity-backup constant. The
+same fingerprint occurs in fresh pre-vault databases and the retained trial
+metadata; locale C/C.utf8 does not explain it. Existing fingerprint gates remain
+intact. The additive upgrade has its own verified schema fingerprint; historical
+backup restore is not newly qualified by these local tests.
+
 ### Customer rollout follow-up — 2026-11-08
 
 The customer identified `https://kelryvo.apps.drgdevlab.com/` as the affected

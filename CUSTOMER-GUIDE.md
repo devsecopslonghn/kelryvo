@@ -104,6 +104,29 @@ configure a reference-only Oracle profile under Project setup and use the Git
 release path below; offline syntax validation and review do not connect to Oracle.
 Do not enter database passwords into credential-reference fields.
 
+## Encrypted instance credentials (candidate)
+
+The current candidate adds an encrypted-password option to instance registration
+when the operator has installed the vault public key. An authorized database
+manager can enter a password once, replace it or revoke it with an audit reason.
+The application never returns the saved password. Rotation makes prior target
+verification stale; revocation disables the connection. Active or held executions
+block credential changes. Operator-managed references remain supported.
+
+New `pilot.py init` installations generate an RSA-3072 key pair: the public key is
+staged into API secrets; the private key remains in the root-owned `vault/`
+directory and is not mounted into the API. Passwords use a random AES-256-GCM data
+key wrapped with RSA-OAEP/SHA-256. Authentication binds organization, instance,
+credential ID, username, purpose and endpoint, so copying ciphertext or changing
+the endpoint cannot reuse the saved password. Back up the private installation
+including `vault/` separately from metadata. Losing that private key requires
+re-entering credentials; there is no password-reveal endpoint.
+
+This candidate is not yet deployed to the customer URL. Its encrypted credential
+entry does not by itself provision Oracle grants or enable execution. The shipped
+native runtime and complete live walkthrough are still being completed. Keep the
+frozen trial and release limitations below.
+
 ## Oracle rollout on an existing installation
 
 The customer rollout workflow is **instance → discover → assign schema to project
