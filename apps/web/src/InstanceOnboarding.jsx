@@ -2,9 +2,11 @@ import { isOracleApplicationOwner } from '../../../packages/execution/schema-sco
 import React, { useEffect, useRef, useState } from 'react';
 import { CONNECTION_PATTERNS } from './ConnectionConfiguration.jsx';
 
-const emptyInstance = { name: '', containerName: '', kind: 'PDB', environment: 'DEV', host: '', port: '1521', service: '', transport: 'TCP', username: '', credentialRef: '', reason: '' };
+const emptyInstance = { name: '', containerName: '', kind: 'PDB', environment: 'DEV', host: '', port: '1521', service: '', transport: 'TCP', username: '', credentialRef: '', password: '', reason: '' };
 const protectedSchema = owner => !isOracleApplicationOwner(owner);
 const explanations = {
+  ORACLE_CREDENTIAL_VAULT_UNAVAILABLE: 'Encrypted credential storage is unavailable. The operator must install the vault public key.',
+  CONNECTION_EXECUTION_ACTIVE: 'Credential changes are blocked while an execution is active or held. Inspect its retained evidence first.',
   DATABASE_MANAGEMENT_REQUIRED: 'Instance onboarding requires the workspace database management grant.',
   INSTANCE_MASTER_ALREADY_CONFIGURED: 'This Oracle container already has a master credential. Select the existing instance below.',
   INSTANCE_PHYSICAL_IDENTITY_CONFLICT: 'This physical Oracle database is already registered through another route, or this instance now resolves to a different database. Use the original instance and review its retained identity.',
@@ -30,6 +32,9 @@ const explanations = {
 const explain = error => `${explanations[error?.message] || 'Request failed. Refresh the workspace and check the current evidence.'} [${error?.message || 'UNKNOWN'}]`;
 
 export function InstanceOnboarding({ token, projectId, detail, api, actor, accessMode, metadataRecovery, onRefresh, onMissing }) {
+  const [credentialEntryAvailable, setCredentialEntryAvailable] = useState(false);
+  const [credentialInput, setCredentialInput] = useState('password');
+  const [replacementPassword, setReplacementPassword] = useState('');
   const [instanceForm, setInstanceForm] = useState(emptyInstance);
   const [rawData, setRawData] = useState(null), [dataScope, setDataScope] = useState('');
   const [workspaceMasters, setWorkspaceMasters] = useState([]), [reusableId, setReusableId] = useState(''), [attachReason, setAttachReason] = useState('');
@@ -59,7 +64,7 @@ export function InstanceOnboarding({ token, projectId, detail, api, actor, acces
   const loadWorkspaceMasters = async generation => {
     try {
       const result = await api(`/api/projects/${encodeURIComponent(projectId)}/database-instances/master`, token);
-      if (inScope(generation)) setWorkspaceMasters(result.instances || []);
+      if (inScope(generation)) { setWorkspaceMasters(result.instances || []); setCredentialEntryAvailable(result.credentialEntryAvailable === true); }
     } catch {
       if (inScope(generation)) setWorkspaceMasters([]);
     }
@@ -96,6 +101,7 @@ export function InstanceOnboarding({ token, projectId, detail, api, actor, acces
     setWorkspaceMasters([]); setReusableId(''); setAttachReason('');
     setSelectedId(''); setObservation(null); setOwners([]); setEnvironmentId(''); setError(''); setNotice(''); setBusy(false);
     preferredConnection.current = null; preferredBindings.current = [];
+    setInstanceForm(emptyInstance); setReplacementPassword(''); setCredentialEntryAvailable(false);
     if (projectId) { void load(generation); void loadBindings(generation); }
     return () => { if (epoch.current === generation) epoch.current++; };
   }, [token, projectId]);
@@ -162,14 +168,27 @@ export function InstanceOnboarding({ token, projectId, detail, api, actor, acces
 
   const createMaster = event => {
     event.preventDefault();
-    void run(() => request(`/api/projects/${encodeURIComponent(projectId)}/database-instances/master`, {
-      ...instanceForm, port: Number(instanceForm.port), name: instanceForm.name.trim(), containerName: instanceForm.containerName.trim(),
-      host: instanceForm.host.trim(), service: instanceForm.service.trim(), username: instanceForm.username.trim(),
-      credentialRef: instanceForm.credentialRef.trim(), reason: instanceForm.reason.trim(),
-    }), result => {
+    const { password, credentialRef, ...fields } = instanceForm;
+    const payload = { ...fields, port: Number(fields.port), name: fields.name.trim(), containerName: fields.containerName.trim(),
+      host: fields.host.trim(), service: fields.service.trim(), username: fields.username.trim(), reason: fields.reason.trim(),
+      ...(credentialEntryAvailable && credentialInput === 'password' ? { password } : { credentialRef: credentialRef.trim() }) };
+    setInstanceForm(previous => ({ ...previous, password: '' }));
+    void run(() => request(`/api/projects/${encodeURIComponent(projectId)}/database-instances/master`, payload), result => {
       setInstanceForm(emptyInstance); preferredConnection.current = result?.connection || null;
       setSelectedId(result?.connection?.id || '');
       setNotice('Instance connection configured. Discover schemas to test access and continue.');
+    });
+  };
+  const credentialAction = action => {
+    if (!selected) return;
+    const password = replacementPassword; setReplacementPassword('');
+    void run(() => request(`${endpoint}/${encodeURIComponent(selected.id)}/credentials`, {
+      action, expectedRevision: String(selected.revision), reason: reason.trim(), ...(action === 'ROTATE' ? { password } : {}),
+    }), result => {
+      preferredConnection.current = result?.connection || null;
+      setObservation(null); setOwners([]);
+      setNotice(action === 'ROTATE' ? 'Credential replaced. Discover and verify fresh targets before preparing another plan.'
+        : 'Credential revoked and connection disabled. Existing history is retained.');
     });
   };
 
@@ -234,7 +253,7 @@ export function InstanceOnboarding({ token, projectId, detail, api, actor, acces
   if (!loaded) return <section className="panel instance-onboarding" aria-label="Oracle instance onboarding"><h2>Connect an Oracle instance</h2><p>Select a project to manage database instances and assigned schemas.</p></section>;
 
   return <section className="panel instance-onboarding" aria-label="Oracle instance onboarding">
-    <div className="panel-heading"><div><p className="eyebrow">ORACLE INSTANCE</p><h2>Connect, discover, and assign schemas</h2><p>One master credential reference serves discovery and authorized schema onboarding. Discovery checks connectivity; passwords are never entered or returned here.</p></div>
+    <div className="panel-heading"><div><p className="eyebrow">ORACLE INSTANCE</p><h2>Connect, discover, and assign schemas</h2><p>Connect once and assign schemas to projects. Stored passwords are encrypted and never returned; schema access and migration approval remain separate.</p></div>
       <button type="button" className="secondary" disabled={busy} onClick={() => void reload(epoch.current)}>Refresh</button></div>
     {metadataRecovery?.state && metadataRecovery.state !== 'ACTIVE' && <p className="banner warning" role="status">Metadata recovery is {metadataRecovery.state}. Instance changes are disabled.</p>}
     {dataScope === scope && rawData?.canManage === false && <p className="banner warning" role="status">{actor?.role === 'developer'
@@ -255,7 +274,10 @@ export function InstanceOnboarding({ token, projectId, detail, api, actor, acces
         <label>Service name<input required maxLength="128" pattern={CONNECTION_PATTERNS.service} value={instanceForm.service} onChange={e => setInstanceForm({ ...instanceForm, service: e.target.value })}/></label>
         <label>Transport<select value={instanceForm.transport} onChange={e => setInstanceForm({ ...instanceForm, transport: e.target.value })}><option value="TCP">TCP</option><option value="TCPS">TCPS</option></select></label>
         <label>Master username<input required maxLength="128" pattern={CONNECTION_PATTERNS.username} value={instanceForm.username} onChange={e => setInstanceForm({ ...instanceForm, username: e.target.value })}/></label>
-        <label>Master credential reference<input required maxLength="512" pattern={CONNECTION_PATTERNS.credentialRef} placeholder="vault://team/oracle-master" value={instanceForm.credentialRef} onChange={e => setInstanceForm({ ...instanceForm, credentialRef: e.target.value })}/><small>Reference only. Never enter a password.</small></label>
+        {credentialEntryAvailable && <label>Credential storage<select value={credentialInput} onChange={e => { setCredentialInput(e.target.value); setInstanceForm(previous => ({ ...previous, password: '' })); }}><option value="password">Encrypted password</option><option value="reference">Operator-managed reference</option></select></label>}
+        {credentialEntryAvailable && credentialInput === 'password'
+          ? <label>Master password<input required type="password" autoComplete="new-password" maxLength="4096" value={instanceForm.password} onChange={e => setInstanceForm({ ...instanceForm, password: e.target.value })}/><small>Encrypted before storage. The saved password cannot be displayed.</small></label>
+          : <label>Master credential reference<input required maxLength="512" pattern={CONNECTION_PATTERNS.credentialRef} placeholder="vault://team/oracle-master" value={instanceForm.credentialRef} onChange={e => setInstanceForm({ ...instanceForm, credentialRef: e.target.value })}/><small>Reference only. Never enter a password.</small></label>}
         <label className="wide">Reason<textarea required maxLength="500" value={instanceForm.reason} onChange={e => setInstanceForm({ ...instanceForm, reason: e.target.value })}/></label>
       </fieldset><button type="submit" className="primary" disabled={busy || !manageable}>Register instance</button></form>
     </details>}
@@ -273,7 +295,7 @@ export function InstanceOnboarding({ token, projectId, detail, api, actor, acces
 
     {masterConnections.length > 0 && <>
       <section className="connection-grid" aria-label="Discover and assign instance schemas">
-        <label>Oracle instance<select value={selectedId} onChange={e => { setSelectedId(e.target.value); setObservation(null); setOwners([]); }} disabled={busy}>
+        <label>Oracle instance<select value={selectedId} onChange={e => { setSelectedId(e.target.value); setObservation(null); setOwners([]); setReplacementPassword(''); }} disabled={busy}>
           <option value="">Choose an instance</option>{masterConnections.map(item => <option key={item.id} value={item.id}>{item.name} · {item.host}:{item.port}/{item.service}</option>)}
         </select></label>
         <label>Project environment<select value={environmentId} onChange={e => setEnvironmentId(e.target.value)} disabled={busy}><option value="">Choose project environment</option>{environments.map(env => <option key={env.id} value={env.id}>{env.name}</option>)}</select></label>
@@ -285,6 +307,12 @@ export function InstanceOnboarding({ token, projectId, detail, api, actor, acces
           <div><dt>Credential mode</dt><dd>{selected.credentialMode}</dd></div></dl>
         <label>Reason for discovery or assignment<textarea required maxLength="500" value={reason} onChange={e => setReason(e.target.value)} disabled={busy}/></label>
         <button type="button" className="secondary" disabled={busy || !manageable || !reason.trim()} onClick={discover}>Discover schemas</button>
+        {manageable && credentialEntryAvailable && <details className="connection-form"><summary>Manage saved credential</summary>
+          <label>Replacement password<input type="password" autoComplete="new-password" maxLength="4096" value={replacementPassword} onChange={e => setReplacementPassword(e.target.value)} disabled={busy}/></label>
+          <p>Replacing the credential makes previous target verification stale. Revoking disables this connection. History is retained.</p>
+          <button type="button" className="secondary" disabled={busy || !reason.trim() || !replacementPassword} onClick={() => credentialAction('ROTATE')}>Replace credential</button>
+          {selected.credentialStorage === 'ENCRYPTED' && <button type="button" className="danger" disabled={busy || !reason.trim() || selected.enabled === false} onClick={() => credentialAction('REVOKE')}>Revoke credential and disable</button>}
+        </details>}
         {currentObservation && <section className="target-observation" aria-label="Discovered schemas">
           <h3>Discovery · {currentObservation.status || 'UNKNOWN'} · {currentObservation.currentness || 'UNKNOWN'}</h3>
           <p>Identity: {currentObservation.identityState || 'UNKNOWN'} · Provenance: {currentObservation.provenance || 'unavailable'}

@@ -46,7 +46,7 @@ def prepare(directory, image, repository=None, cert=None, key=None, port=8443):
         if Path(result.stdout.strip()) != repository:
             raise ValueError('Repository must be the root of a local Git checkout.')
     directory.mkdir(mode=0o700)
-    for name in ['secrets', 'postgresql', 'init', 'repositories']:
+    for name in ['secrets', 'vault', 'postgresql', 'init', 'repositories']:
         (directory / name).mkdir(mode=0o700)
     os.chown(directory / 'postgresql', 0, 999)
     os.chmod(directory / 'postgresql', 0o750)
@@ -100,6 +100,14 @@ unset app_password
                     os.chmod(file, 0o644)
         private_write(directory / 'secrets/repositories.json', json.dumps({
             'format': 1, 'paths': ['/run/kelryvo/repositories/customer']}) + '\n')
+    run(['openssl', 'genpkey', '-algorithm', 'RSA', '-pkeyopt', 'rsa_keygen_bits:3072',
+         '-out', str(directory / 'vault/oracle-vault-private.pem')],
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    run(['openssl', 'pkey', '-in', str(directory / 'vault/oracle-vault-private.pem'), '-pubout',
+         '-out', str(directory / 'secrets/oracle-vault-public.pem')],
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    os.chmod(directory / 'vault/oracle-vault-private.pem', 0o400)
+    os.chmod(directory / 'secrets/oracle-vault-public.pem', 0o400)
     shutil.copyfile(ROOT / 'compose.pilot.yaml', directory / 'compose.yaml')
     os.chmod(directory / 'compose.yaml', 0o600)
     private_write(directory / 'pilot.env', f'KELRYVO_HOME={directory}\nKELRYVO_IMAGE={image}\nKELRYVO_HOST_PORT={port}\n', 0o600)

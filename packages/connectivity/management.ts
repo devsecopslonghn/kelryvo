@@ -15,7 +15,7 @@ export function publicConnection(c:any,kind:string) {
     username:c.username,environmentId:c.environment_id,environment:c.environment,containerId:c.container_id,routeId:c.route_id,
     transport:c.transport,description:c.description,revision:String(c.revision),enabled:c.enabled,purpose:kind,
     status:c.retired_at?'RETIRED':c.enabled?'ENABLED':'DISABLED',credentialAlias:credentialAlias(c.id),
-    credentialConfigured:!!c.credential_ref,credentialMode:c.credential_mode??'LEGACY_SEPARATE',createdAt:c.created_at,retiredAt:c.retired_at,retirementReason:c.retirement_reason};
+    credentialConfigured:!!c.credential_ref,credentialStorage:c.credential_ref?.startsWith('vault://kelryvo/')?'ENCRYPTED':'OPERATOR_REFERENCE',credentialMode:c.credential_mode??'LEGACY_SEPARATE',createdAt:c.created_at,retiredAt:c.retired_at,retirementReason:c.retirement_reason};
 }
 
 /** A changed-and-restored configuration must never revive earlier approvals. */
@@ -143,6 +143,7 @@ export function registerConnectionManagement(app:any,{sql,authenticate}:any) {
       if(active)throw fail('CONNECTION_EXECUTION_ACTIVE');
       let updated,action;
       if(operation==='configuration'){
+        if(b.credentialRef?.startsWith('vault://kelryvo/') && b.credentialRef!==c.credential_ref)throw fail('MANAGED_CREDENTIAL_REQUIRED',400);
         if(!safeText(b.name,kind==='DEPLOY'?200:120) || !validDescription(b.description) || !validServiceKind(b.serviceKind)
           || typeof b.host!=='string' || b.host.length>253 || !/^(?:[A-Za-z0-9](?:[A-Za-z0-9.-]*[A-Za-z0-9])?|\[[0-9A-Fa-f:]+\])$/.test(b.host)
           || !Number.isInteger(b.port) || b.port<1 || b.port>65535 || !/^[A-Za-z0-9_$#.-]{1,128}$/.test(b.service??'')

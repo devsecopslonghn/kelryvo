@@ -102,6 +102,7 @@ export function createApp(options: {
   https?: any;
   identityRuntime?: any;
   identityAdapters?: any;
+  oracleVaultPublicKey?: string | Buffer;
   discoveryRuntime?: any;
   discoveryTimeoutMs?: number;
   discoverySchemaTimeoutMs?: number;
@@ -198,7 +199,7 @@ export function createApp(options: {
   const schemaTimeoutMs=options.discoverySchemaTimeoutMs
     ?? (options.discoveryTimeoutMs===undefined?35_000:options.discoveryTimeoutMs);
   registerConnectivity(app, {sql,authenticate,runtime:options.discoveryRuntime,timeoutMs:options.discoveryTimeoutMs,
-    schemaTimeoutMs});
+    schemaTimeoutMs,oracleVaultPublicKey:options.oracleVaultPublicKey});
   registerConnectionManagement(app, {sql,authenticate});
   registerSqlValidation(app,{sql,authenticate});
   registerSqlWorkspace(app,{sql,authenticate,releaseParser:options.releaseParser});
