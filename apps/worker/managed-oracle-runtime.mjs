@@ -33,6 +33,18 @@ export async function createManagedExecutionWorker() {
     return await create();
   }catch{throw reject();}
 }
+// Node timers overflow above 2^31-1 milliseconds. Re-arm long installations
+// in bounded chunks; only the actual protected deadline aborts execution.
+export function createOracleRuntimeExpiry(expiresAt) {
+  const deadline=Date.parse(expiresAt);if(!Number.isFinite(deadline))throw reject();
+  const stop=new AbortController();let timer;
+  const arm=()=>{
+    const remaining=deadline-Date.now();
+    if(remaining<=0){stop.abort();return;}
+    timer=setTimeout(arm,Math.min(remaining,2147483647));timer.unref();
+  };
+  arm();return {signal:stop.signal,close:()=>clearTimeout(timer)};
+}
 export async function createManagedExecutionService() {
   // Control-plane startup must not depend on a credential that the user has not
   // registered yet. The waiting state cannot dispatch or attest Oracle work.
@@ -54,8 +66,8 @@ export async function createManagedExecutionService() {
           recoveryFactory:{factoryUrl:new URL('./expiry-recovery-factory.mjs',import.meta.url).href,workerId:'installed-expiry-recovery'}});
         if(service.scope!=='TRUSTED_VALIDATED'||service.generationId!==config.metadataGenerationId){await service.close();throw reject();}
         const remaining=Date.parse(config.expiresAt)-Date.now();if(remaining<=0){await service.close();service=null;continue;}
-        const expiry=AbortSignal.timeout(remaining),combined=signal?AbortSignal.any([signal,expiry]):expiry;
-        return service.run(combined);
+        const expiry=createOracleRuntimeExpiry(config.expiresAt),combined=signal?AbortSignal.any([signal,expiry.signal]):expiry.signal;
+        try{return await service.run(combined);}finally{expiry.close();}
       }
       return {status:'STOPPED',scope:'TRUSTED_VALIDATED',results:[]};
     },close:async()=>{closing=true;await service?.close();}});
