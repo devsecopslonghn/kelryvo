@@ -8,6 +8,7 @@ import { projectAccessMode } from '../database/project-membership.ts';
 import { MAX_STDOUT_BYTES } from '../../experiments/db-devops-wp0/parser-envelope.mjs';
 import { targetRequestConflict } from './admission.ts';
 import { profilePlanCurrent } from '../connectivity/management.ts';
+import { checkManagedPlanSqlProfile } from './managed-sql-profile.mjs';
 
 const uuid = (value: unknown) => typeof value === 'string'
   && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
@@ -70,7 +71,7 @@ export function registerExecutionReadiness(app: any, sql: any, authenticate: any
         const projectCurrent = !plan.archived_at && plan.source_repository_id && plan.source_folder
           && String(plan.source_binding_generation) === String(plan.project_source_generation)
           && (intent?.format < 3 || intent?.target?.sourceBindingGeneration === plan.project_source_generation);
-        let sourceCurrent = false;
+        let sourceCurrent = false,retainedForProfile:any=null;
         if (intent && projectCurrent) {
           const bounds = await preflightRetainedRelease(tx, { id: plan.release_id, projectId: plan.project_id,
             organizationId, repositoryId: plan.source_repository_id, folder: plan.source_folder,
@@ -79,6 +80,7 @@ export function registerExecutionReadiness(app: any, sql: any, authenticate: any
             const release = (await tx`SELECT id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,
               parser_profile,files FROM sf_releases WHERE id=${plan.release_id} AND project_id=${plan.project_id}
                 AND organization_id=${organizationId}`)[0];
+            retainedForProfile=release;
             sourceCurrent = Boolean(release && release.validation_status === 'VALID' && verifyRetainedRelease(release)
               && release.commit_id === intent.commit && release.object_format === intent.objectFormat
               && release.manifest_digest === intent.manifestDigest && release.parser_profile === intent.parserProfile
@@ -99,6 +101,11 @@ export function registerExecutionReadiness(app: any, sql: any, authenticate: any
           && intent.service === profile.service && intent.username === profile.username
           && JSON.parse(plan.envelope)[19] === profile.credential_ref);
         checks.push(check('PROFILE_CURRENT', profileCurrent ? 'PASS' : 'BLOCKED'));
+        if(profileCurrent&&sourceCurrent){
+          const installedSql=await checkManagedPlanSqlProfile(tx,{organizationId,projectId:plan.project_id,authorId:plan.author_id,
+            profileId:plan.profile_id,envelope:plan.envelope,intentDigest:plan.offline_intent_digest,release:retainedForProfile});
+          if(installedSql.applicable)checks.push(check('ORACLE_SQL_PROFILE_SUPPORTED',installedSql.supported?'PASS':'BLOCKED'));
+        }
 
         let targetStatus: Status = intent?.format === 2 ? 'UNVERIFIED' : 'BLOCKED';
         if (intent?.format >= 3 && profileCurrent && projectCurrent) {

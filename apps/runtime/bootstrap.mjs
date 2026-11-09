@@ -33,7 +33,21 @@ async function sourceDirectory(file) {
 }
 
 async function readSource(root, name, limit) {
-  const handle = await open(path.join(root, name), constants.O_RDONLY | constants.O_NOFOLLOW);
+  // Kubernetes projected Secrets use root-owned symlinks into timestamped
+  // directories. Resolve only inside this trusted source, then open the final
+  // regular file without following another symlink. Never permit mount escapes
+  // or a child-owned/writable directory in the resolved path.
+  const file = await realpath(path.join(root, name));
+  if (!file.startsWith(root + path.sep)) throw reject();
+  let parent = path.dirname(file);
+  while (true) {
+    const stat = await lstat(parent);
+    if (!stat.isDirectory() || stat.isSymbolicLink() || stat.uid !== 0 || (stat.mode & 0o022)) throw reject();
+    if (parent === root) break;
+    parent = path.dirname(parent);
+    if (!parent.startsWith(root + path.sep) && parent !== root) throw reject();
+  }
+  const handle = await open(file, constants.O_RDONLY | constants.O_NOFOLLOW);
   try {
     const stat = await handle.stat();
     if (!stat.isFile() || stat.uid !== 0 || stat.nlink !== 1 || (stat.mode & 0o077)

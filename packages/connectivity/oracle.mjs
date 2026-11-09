@@ -8,6 +8,7 @@ import { fork } from 'node:child_process';
 import oracledb from 'oracledb';
 import { exactOracleIdentity, evidenceDigest, acceptedOracleObservation } from './evidence.mjs';
 import { normalizeSchema } from '../schema-baselines/contracts.mjs';
+import { isOracleApplicationOwner } from '../execution/schema-scope.mjs';
 
 const LIMITATIONS = Object.freeze({
   MANIFEST: 'ENDPOINT_NOT_AUTHORIZED', DESTINATION: 'ENDPOINT_NOT_AUTHORIZED', CREDENTIAL: 'SECRET_UNAVAILABLE',
@@ -106,10 +107,13 @@ async function authorize(manifestPath, secretDirectory, c) {
   const matches=manifest.targets.filter(x=>entryMatches(x,c));
   if (matches.length>1) return null;
   const e=matches[0];
-  if (e && Object.keys(e).some(k=>!['engine','host','port','service','transport','username','credentialRef','pinnedIps','secretFile','liveAcceptance','expectedIdentity','acceptedSchemaOwners','serverCertificateDN'].includes(k))) return null;
+  if (e && Object.keys(e).some(k=>!['engine','host','port','service','transport','username','credentialRef','pinnedIps','secretFile','liveAcceptance','expectedIdentity','acceptedSchemaOwners','serverCertificateDN','observerUsername'].includes(k))) return null;
   if (!e || !Array.isArray(e.pinnedIps) || !e.pinnedIps.length || e.pinnedIps.length > 16
       || e.pinnedIps.some(ip => net.isIP(ip) === 0) || !/^[A-Za-z0-9_.-]{1,128}$/.test(e.secretFile)) return null;
   if(e.serverCertificateDN!==undefined && (normalizedTransport(c.transport)!=='tcps' || !nonEmpty(e.serverCertificateDN)))return null;
+  if(e.observerUsername!==undefined && (!/^[A-Z][A-Z0-9_]{0,29}$/.test(e.observerUsername)
+    || !isOracleApplicationOwner(e.observerUsername) || ['ADMIN','ADBSNMP','GGADMIN'].includes(e.observerUsername)))return null;
+  if(c.credentialRef.startsWith('vault://kelryvo/') && !e.observerUsername)return null;
   const liveAcceptance=e.liveAcceptance===undefined?null:validatedAcceptance(e.liveAcceptance);
   if(e.liveAcceptance!==undefined && !liveAcceptance)return null;
   const expectedIdentity=e.expectedIdentity===undefined?null:exactOracleIdentity(e.expectedIdentity);
@@ -133,7 +137,7 @@ async function authorize(manifestPath, secretDirectory, c) {
       if (!st.isFile() || !secureMode(st.mode) || st.size > 8192 || (st.uid !== process.getuid?.() && st.uid !== 0)) return null;
       const password = (await handle.readFile({encoding:'utf8'})).replace(/[\r\n]+$/, '');
       if (!password || password.length > 4096 || /[\u0000\r\n]/.test(password)) return null;
-      return { destination:true, password, pinnedIps:e.pinnedIps, liveAcceptance:acceptance, expectedIdentity, serverCertificateDN:e.serverCertificateDN };
+      return { destination:true, password, username:e.observerUsername??c.username, pinnedIps:e.pinnedIps, liveAcceptance:acceptance, expectedIdentity, serverCertificateDN:e.serverCertificateDN };
     } finally { await handle.close(); }
   } catch { return { credential:false }; }
 }
@@ -160,20 +164,26 @@ function identityFrom(db, session, container, version) {
     containerDbid:str(container.container_dbid),containerName:str(session.container_name),serviceName:str(session.service_name),version:str(version.version) },root:false };
 }
 
-function installSocketAllowlist(ips, port) {
+export function installOracleSocketAllowlist(ips, port, metadataRoutes = []) {
+  if(!Array.isArray(ips)||!ips.length||ips.some(ip=>net.isIP(ip)===0)||!Number.isInteger(port)||port<1||port>65535
+    ||!Array.isArray(metadataRoutes)||metadataRoutes.length>16||metadataRoutes.some(r=>!r||!hostnameOK(r.host)
+      ||!Number.isInteger(r.port)||r.port<1||r.port>65535))throw new Error('Invalid installed socket policy');
   const proto=net.Socket.prototype; const original=proto.connect;
   proto.connect=function(...args) {
     const first=Array.isArray(args[0]) ? args[0][0] : args[0];
     let host, remotePort;
     if (first && typeof first==='object') { host=first.host ?? first.hostname; remotePort=first.port; }
     else { remotePort=first; host=typeof args[1]==='string' ? args[1] : undefined; }
-    if (!Number.isInteger(Number(remotePort)) || Number(remotePort)!==port || !ips.includes(host)) {
+    const authorized=Number(remotePort)===port && ips.includes(host)
+      || metadataRoutes.some(r=>r.host===host&&r.port===Number(remotePort));
+    if (!Number.isInteger(Number(remotePort)) || !authorized) {
       const error=new Error('ORACLE_SOCKET_DESTINATION_DENIED'); error.code='EACCES'; throw error;
     }
     return original.apply(this,args);
   };
   return ()=>{ proto.connect=original; };
 }
+const installSocketAllowlist=installOracleSocketAllowlist;
 
 export async function probeOracleSocketGuard({pinnedIps,port,targetHost,targetPort}) {
   const restore=installSocketAllowlist(pinnedIps,port); const socket=new net.Socket();
@@ -226,7 +236,7 @@ export function createOracleDiscoveryRuntime({ manifestPath, secretDirectory, dr
       const pinnedAddress=net.isIP(authorization.pinnedIps[0])===6?`[${authorization.pinnedIps[0]}]`:authorization.pinnedIps[0];
       const connectString = `${transport==='tcps'?'tcps://':''}${pinnedAddress}:${connection.port}/${connection.service}`;
       const callBudget = Math.max(250, Math.floor(operationTimeoutMs/8));
-      conn = await selectedDriver.getConnection({ user:connection.username, password:authorization.password, connectString, connectTimeout:Math.min(5,Math.floor(operationTimeoutMs/1000)), transportConnectTimeout:Math.min(5,Math.floor(operationTimeoutMs/1000)),
+      conn = await selectedDriver.getConnection({ user:authorization.username, password:authorization.password, connectString, connectTimeout:Math.min(5,Math.floor(operationTimeoutMs/1000)), transportConnectTimeout:Math.min(5,Math.floor(operationTimeoutMs/1000)),
         ...(transport==='tcps'?{sslServerDNMatch:true,sslAllowWeakDNMatch:false,...(authorization.serverCertificateDN?{sslServerCertDN:authorization.serverCertificateDN}:{})}:{}) });
       conn.callTimeout = callBudget;
       const test = one(await conn.execute(SQL.test,{}, { autoCommit:false, outFormat:selectedDriver.OUT_FORMAT_OBJECT, maxRows:1 }));

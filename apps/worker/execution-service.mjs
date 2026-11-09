@@ -54,9 +54,10 @@ export async function createInstalledExecutionService(value) {
   };
   try {
     const binding = snapshot(value, ['databaseUrl', 'scope', 'executionFactory', 'recoveryFactory'],
-      ['allowUnitSynthetic', 'openMetadata', 'pageSize', 'pollMs']);
+      ['allowUnitSynthetic', 'openMetadata', 'pageSize', 'pollMs', 'connectionId']);
     const { databaseUrl, scope } = binding;
-    if (typeof databaseUrl !== 'string' || databaseUrl.length > 4096) throw reject();
+    if (typeof databaseUrl !== 'string' || databaseUrl.length > 4096
+      ||binding.connectionId!==undefined&&!executionUuid(binding.connectionId)) throw reject();
     const url = new URL(databaseUrl);
     if (!['postgres:', 'postgresql:'].includes(url.protocol) || !url.hostname
         || !['TRUSTED_VALIDATED', 'UNIT_SYNTHETIC'].includes(scope)
@@ -117,19 +118,25 @@ export async function createInstalledExecutionService(value) {
         if (!await current()) return held(results);
         const expired = await reader`SELECT j.id FROM sf_execution_jobs j JOIN sf_execution_attempts a ON a.job_id=j.id
           WHERE j.organization_id=${ORG} AND j.state='ADMITTED' AND j.admission_scope=${scope}
+            AND (${binding.connectionId??null}::uuid IS NULL OR EXISTS(SELECT 1 FROM sf_plans p JOIN sf_instance_profile_sources s
+              ON s.profile_id=p.profile_id WHERE p.id=j.plan_id AND s.connection_id=${binding.connectionId??null}::uuid))
             AND a.state='CLAIMED' AND a.lease_until<=clock_timestamp() ORDER BY a.lease_until,j.id LIMIT ${pageSize}`;
         for (const job of expired) if (!await invoke(recoverer, 'RECOVERY', job.id, results)) break;
         if (fault) return held(results);
         if (closing) return Object.freeze({ status: 'STOPPED', scope, results: Object.freeze(results) });
         if (!await current()) return held(results);
-        const pending = (await reader`SELECT EXISTS(SELECT 1 FROM sf_execution_jobs
-          WHERE organization_id=${ORG} AND state='ADMITTED' AND admission_scope=${scope}) AS pending`)[0]?.pending;
+        const pending = (await reader`SELECT EXISTS(SELECT 1 FROM sf_execution_jobs j
+          WHERE j.organization_id=${ORG} AND j.state='ADMITTED' AND j.admission_scope=${scope}
+            AND (${binding.connectionId??null}::uuid IS NULL OR EXISTS(SELECT 1 FROM sf_plans p JOIN sf_instance_profile_sources s
+              ON s.profile_id=p.profile_id WHERE p.id=j.plan_id AND s.connection_id=${binding.connectionId??null}::uuid))) AS pending`)[0]?.pending;
         if (pending) return Object.freeze({ status: 'WAITING_FOR_RECOVERY', scope, results: Object.freeze(results) });
         // Bind text first: the driver's timestamptz serializer truncates microseconds.
-        const rows = await reader`SELECT id,created_at::text AS "createdAt" FROM sf_execution_jobs
-          WHERE organization_id=${ORG} AND state='WAITING_VALIDATION' AND admission_scope='PRODUCT_REQUEST'
-            AND (${cursor === null} OR (created_at,id)>(${cursor?.createdAt ?? '1970-01-01 00:00:00+00'}::text::timestamptz,${cursor?.id ?? nil}::uuid))
-          ORDER BY created_at,id LIMIT ${pageSize}`;
+        const rows = await reader`SELECT j.id,j.created_at::text AS "createdAt" FROM sf_execution_jobs j
+          WHERE j.organization_id=${ORG} AND j.state='WAITING_VALIDATION' AND j.admission_scope='PRODUCT_REQUEST'
+            AND (${binding.connectionId??null}::uuid IS NULL OR EXISTS(SELECT 1 FROM sf_plans p JOIN sf_instance_profile_sources s
+              ON s.profile_id=p.profile_id WHERE p.id=j.plan_id AND s.connection_id=${binding.connectionId??null}::uuid))
+            AND (${cursor === null} OR (j.created_at,j.id)>(${cursor?.createdAt ?? '1970-01-01 00:00:00+00'}::text::timestamptz,${cursor?.id ?? nil}::uuid))
+          ORDER BY j.created_at,j.id LIMIT ${pageSize}`;
         for (const row of rows) {
           if (closing || fault) break;
           if (!executionUuid(row.id) || typeof row.createdAt !== 'string' || row.createdAt.length > 64) throw reject();

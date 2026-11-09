@@ -123,7 +123,7 @@ export async function prepareDemoRepository() {
   try { await access(path.join(repository, '.git')); return repository; } catch { /* first startup */ }
   await mkdir(path.join(repository, 'migrations'), { recursive: true, mode: 0o700 });
   await writeFile(path.join(repository, 'migrations/V001__create_widget.sql'),
-    'CREATE TABLE widget (id NUMBER PRIMARY KEY, name VARCHAR2(100));\n');
+    'CREATE TABLE widget (id NUMBER, name VARCHAR2(100 BYTE));\n');
   await writeFile(path.join(repository, 'migrations/V002__add_description.sql'),
     'ALTER TABLE widget ADD (description VARCHAR2(200));\n');
   command('git', ['init', '--initial-branch=main', repository]);

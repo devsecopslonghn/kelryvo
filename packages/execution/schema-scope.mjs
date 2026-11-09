@@ -68,8 +68,11 @@ function lex(sql) {
   return out;
 }
 
-function parser(tokens, exactOwner) {
+function parser(tokens, exactOwner, describe = false) {
   let i = 0;
+  const detail = { columns: [], indexColumns: [], unique: false };
+  const result = (target, existingTable = null) => describe
+    ? { ...accept(target, existingTable), description: detail } : accept(target, existingTable);
   const peek = value => tokens[i]?.value === value
     && (value.length === 1 && '(),.;+-'.includes(value) ? tokens[i]?.type === 'punct' : tokens[i]?.type === 'word');
   const take = value => { if (!peek(value)) return false; i++; return true; };
@@ -112,9 +115,17 @@ function parser(tokens, exactOwner) {
   };
   const column = () => {
     const columnName = id();
+    const typeStart = i;
     if (columnName == null || !type()) return null;
-    if (take('DEFAULT') && !literal()) return false;
-    if (take('NOT')) { if (!take('NULL')) return false; }
+    const typeTokens = tokens.slice(typeStart, i).map(t => t.value);
+    let defaultTokens = null, nullable = true;
+    if (take('DEFAULT')) {
+      const start = i;
+      if (!literal()) return false;
+      defaultTokens = tokens.slice(start, i).map(t => ({ type: t.type, value: t.value }));
+    }
+    if (take('NOT')) { if (!take('NULL')) return false; nullable = false; }
+    detail.columns.push({ name: columnName, typeTokens, defaultTokens, nullable });
     return columnName;
   };
   const columns = () => {
@@ -129,14 +140,16 @@ function parser(tokens, exactOwner) {
     if (take('TABLE')) {
       if (unique) return false;
       const target = name(); if (!local(target) || !columns()) return false;
-      return i === tokens.length ? accept({ owner: exactOwner, name: target.name, objectType: 'TABLE', operation: 'CREATE' }) : false;
+      return i === tokens.length ? result({ owner: exactOwner, name: target.name, objectType: 'TABLE', operation: 'CREATE' }) : false;
     }
     if (take('INDEX')) {
       const index = name(); if (!local(index) || !take('ON')) return false;
-      const table = name(); if (!local(table) || !take('(') || id() == null) return false;
-      while (take(',')) if (id() == null) return false;
+      const table = name(); if (!local(table) || !take('(')) return false;
+      const first = id(); if (first == null) return false; detail.indexColumns.push(first);
+      while (take(',')) { const next = id(); if (next == null) return false; detail.indexColumns.push(next); }
       if (!take(')') || i !== tokens.length) return false;
-      return accept({ owner: exactOwner, name: index.name, objectType: 'INDEX', operation: 'CREATE' },
+      detail.unique = unique;
+      return result({ owner: exactOwner, name: index.name, objectType: 'INDEX', operation: 'CREATE' },
         { owner: exactOwner, name: table.name });
     }
     return false;
@@ -146,7 +159,7 @@ function parser(tokens, exactOwner) {
     const target = name(); if (!local(target) || !take('ADD')) return false;
     if (peek('(')) { if (!columns()) return false; }
     else if (typeof column() !== 'string') return false;
-    return i === tokens.length ? accept({ owner: exactOwner, name: target.name, objectType: 'TABLE', operation: 'ALTER' },
+    return i === tokens.length ? result({ owner: exactOwner, name: target.name, objectType: 'TABLE', operation: 'ALTER' },
       { owner: exactOwner, name: target.name }) : false;
   }
   return false;
@@ -165,12 +178,16 @@ export function isOracleApplicationOwner(exactOwner) {
     && !/[\u0000-\u001f\u007f]/.test(exactOwner) && exactOwner.isWellFormed() && !protectedOwner(exactOwner);
 }
 
-export function assessOracleSchemaScope(text, exactOwner) {
+function assess(text, exactOwner, describe) {
   if (!isOracleApplicationOwner(exactOwner))
     return reject('SCHEMA_OWNER_INVALID');
   const tokens = lex(text);
   if (!tokens) return reject();
   if (tokens.at(-1)?.type === 'punct' && tokens.at(-1)?.value === ';') tokens.pop();
   if (!tokens.length || tokens.some(t => t.type==='punct' && t.value === ';')) return reject('MULTIPLE_OR_TERMINATED_STATEMENTS');
-  return parser(tokens, exactOwner) || reject();
+  return parser(tokens, exactOwner, describe) || reject();
 }
+export const assessOracleSchemaScope = (text, exactOwner) => assess(text, exactOwner, false);
+/** Describe only the same closed grammar. This does not split or rewrite SQL;
+ * the pinned parser still supplies every execution statement and byte digest. */
+export const describeOracleSchemaScope = (text, exactOwner) => assess(text, exactOwner, true);

@@ -196,11 +196,12 @@ export async function listTargetOptions(sql: any, projectId: string, assignmentI
 export async function listTargetBindings(sql: any, projectId: string, after?: string) {
   if (!uuid.test(projectId) || (after !== undefined && !uuid.test(after))) throw fail();
   const rows = await sql.unsafe(`SELECT b.id AS binding_id,b.current_revision::text AS binding_revision,
-      r.*, a.closed_at, e.name AS current_environment_name
+      r.*, a.closed_at, e.name AS current_environment_name,s.connection_revision::text AS instance_connection_revision
     FROM sf_target_bindings b JOIN sf_target_binding_revisions r
       ON r.binding_id=b.id AND r.revision=b.current_revision
     JOIN sf_reference_assignments a ON a.id=b.assignment_id AND a.project_id=b.project_id
     JOIN sf_environments e ON e.id=b.environment_id AND e.project_id=b.project_id
+    LEFT JOIN sf_instance_profile_sources s ON s.profile_id=r.profile_id
     WHERE b.project_id=$1 AND ($2::uuid IS NULL OR b.id>$2::uuid) ORDER BY b.id LIMIT 51`, [projectId, after ?? null]);
   const page = rows.slice(0, 50);
   return { bindings: page.map((row: any) => bindingProjection(row)), nextCursor: rows.length > 50 ? page.at(-1).binding_id : null };
@@ -213,6 +214,7 @@ function bindingProjection(r: any) {
     environmentId: r.environment_id, environmentName: r.environment_name,
     targetOptionId: r.target_option_id, targetOptionRevision: asRevision(r.target_option_revision),
     profileId: r.profile_id, profileName: r.profile_name,
+    instanceConnectionRevision:r.instance_connection_revision??null,
     lineageId: r.lineage_id, identityState: r.identity_state, observationDigest: r.observation_digest,
     observedAt: r.observed_at, streamId: r.stream_id, streamState: r.stream_state,
     migrationNamespace: r.migration_namespace, exactOwner: r.exact_owner, routeId: r.route_id,
@@ -247,8 +249,9 @@ export async function getTargetBinding(sql: any, projectId: string, bindingId: s
     }
     const target = await loadBindingTarget(tx, projectId, bindingId);
     if (!target) throw fail('NOT_FOUND', 404);
-    const revisions = await tx`SELECT b.id AS binding_id,r.revision::text AS binding_revision,r.*
+    const revisions = await tx`SELECT b.id AS binding_id,r.revision::text AS binding_revision,r.*,s.connection_revision::text AS instance_connection_revision
       FROM sf_target_binding_revisions r JOIN sf_target_bindings b ON b.id=r.binding_id
+      LEFT JOIN sf_instance_profile_sources s ON s.profile_id=r.profile_id
       WHERE b.id=${bindingId} AND b.project_id=${projectId}
       ORDER BY r.revision DESC LIMIT 50`;
     const currentness = await checkTargetCurrentness(tx, projectId, target);
@@ -341,7 +344,8 @@ export async function createTargetBinding(tx: any, input: any) {
     })})`;
   const target = { ...rev, binding_id: binding.id, binding_revision: next, source_binding_generation: project.source_binding_generation };
   const currentness = await checkTargetCurrentness(tx, input.projectId, toLoadedTarget(target), project.source_binding_generation);
-  return { binding: bindingProjection(target), currentness };
+  const source=(await tx`SELECT connection_revision::text FROM sf_instance_profile_sources WHERE profile_id=${target.profile_id}`)[0];
+  return { binding: bindingProjection({...target,instance_connection_revision:source?.connection_revision}), currentness };
 }
 
 export async function loadBindingTarget(tx: any, projectId: string, bindingId: string) {

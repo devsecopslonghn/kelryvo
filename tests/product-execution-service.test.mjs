@@ -209,6 +209,35 @@ test('durable service discovers approved jobs, executes only V2 suffix and recor
   } finally { await service?.close(); await f.close(); }
 });
 
+test('installed connection filter leaves unrelated queued work untouched and selects only its bound profile for admission', {
+  skip: !enabled, timeout: 120000,
+}, async () => {
+  const f=await pipelineFixture();let service;
+  try {
+    const requested=await f.request(),connectionId=randomUUID();
+    service=await createInstalledExecutionService({...f.binding,connectionId});
+    const before=(await f.db.sql`SELECT state,revision FROM sf_execution_jobs WHERE id=${requested.jobId}`)[0];
+    assert.equal((await service.runCycle()).status,'IDLE');
+    assert.deepEqual((await f.db.sql`SELECT state,revision FROM sf_execution_jobs WHERE id=${requested.jobId}`)[0],before);
+    assert.equal((await f.target()).execute_calls,0);
+    const profile=(await f.db.sql`SELECT * FROM sf_profiles WHERE id=${f.profile.id}`)[0];
+    const reference=(await f.db.sql`SELECT s.container_id,r.id AS route_id FROM sf_reference_assignments a
+      JOIN sf_reference_schemas s ON s.id=a.schema_id JOIN sf_reference_services r ON r.container_id=s.container_id
+      WHERE a.id=${f.assignmentId} LIMIT 1`)[0];
+    const c=(await f.db.sql`INSERT INTO sf_database_connections(id,organization_id,container_id,route_id,name,engine,host,port,service,
+      transport,username,credential_ref,actor_id,reason)
+      VALUES(${connectionId},${profile.organization_id},${reference.container_id},${reference.route_id},'UNIT bound connection','oracle',
+        ${profile.host},${profile.port},${profile.service},'TCP',${profile.username},${profile.credential_ref},${f.actors[0].id},'UNIT connection filter') RETURNING revision`)[0];
+    await f.db.sql`INSERT INTO sf_instance_profile_sources(profile_id,connection_id,connection_revision)
+      VALUES(${profile.id},${connectionId},${c.revision})`;
+    const result=await service.runCycle();
+    assert.equal(result.status,'PROCESSED');
+    assert.equal(result.results[0].jobId,requested.jobId);
+    assert.equal(result.results[0].workerResult,'ADMISSION_DECLINED','binding a profile does not authorize its earlier unbound plan');
+    assert.equal((await f.target()).execute_calls,0);
+  }finally{await service?.close();await f.close();}
+});
+
 test('service recovers expiry before dispatch, preserves history, and waits on unresolved live claims', {
   skip: !enabled, timeout: 600_000,
 }, async () => {

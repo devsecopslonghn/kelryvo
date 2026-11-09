@@ -1,4 +1,5 @@
 import { registerInstances } from './instances.ts';
+import { currentInstanceRuntime,instanceRuntimeSetupState } from './instance-runtime.mjs';
 import { registerSchemaBaselines } from '../schema-baselines/api.ts';
 import { randomUUID } from 'node:crypto';
 import { guardMutationAuthority } from '../database/mutation-authority.ts';
@@ -74,7 +75,10 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,oracleVau
   const projectConnection=async(tx:any,c:any,projectId:string,manage=false)=>{
     const latest=(await tx`SELECT * FROM sf_database_observations WHERE connection_id=${c.id} ORDER BY observed_at DESC,id DESC LIMIT 1`)[0];
     const container=(await tx`SELECT environment FROM sf_reference_containers WHERE id=${c.container_id}`)[0];
-    return {...publicConnection({...c,environment:container?.environment},'DISCOVERY'),readiness:await connectionReadiness(tx,c,'DISCOVERY',projectId),id:c.id,name:c.name,engine:c.engine,containerId:c.container_id,host:c.host,port:c.port,service:c.service,
+    const installed=await currentInstanceRuntime(tx,c);
+    return {...publicConnection({...c,environment:container?.environment},'DISCOVERY'),runtimeState:installed?'INSTALLED':c.credential_ref?.startsWith('vault://kelryvo/')?await instanceRuntimeSetupState(tx,c):'OPERATOR_MANAGED',
+      runtimeSqlProfile:installed?.sqlProfile??null,runtimeSchemaOwners:installed?.schemaOwners??[],protectedSchemaOwners:installed?.protectedOwners??[],
+      readiness:await connectionReadiness(tx,c,'DISCOVERY',projectId),id:c.id,name:c.name,engine:c.engine,containerId:c.container_id,host:c.host,port:c.port,service:c.service,
       transport:c.transport,username:c.username,credentialAlias:credentialAlias(c.id),retiredAt:c.retired_at,
       latestObservation:await observation(tx,latest,projectId,manage)};
   };

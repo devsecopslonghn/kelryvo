@@ -107,6 +107,12 @@ try {
   execFileSync('/usr/bin/openssl', ['req', '-x509', '-newkey', 'rsa:2048', '-nodes', '-days', '1', '-subj', '/CN=localhost',
     '-addext', 'subjectAltName=IP:127.0.0.1,DNS:localhost', '-keyout', path.join(secrets, 'tls.key'), '-out', path.join(secrets, 'tls.crt')], { stdio: 'ignore' });
   const ca = await readFile(path.join(secrets, 'tls.crt'));
+  stage = 'projected Secret bootstrap and protected runtime publication';
+  docker('run','--rm','--network','none','--read-only','--user','0:0','--cap-drop=ALL',
+    '--cap-add=CHOWN','--cap-add=DAC_OVERRIDE','--security-opt=no-new-privileges',
+    '--tmpfs','/tmp:rw,nosuid,noexec,size=32m,mode=1777','--entrypoint','node',
+    '--mount',`type=bind,src=${path.resolve('tests/runtime-projected-secrets.test.mjs')},dst=/opt/kelryvo/tests/runtime-projected-secrets.test.mjs,readonly`,
+    appImage,'--test','/opt/kelryvo/tests/runtime-projected-secrets.test.mjs');
   stage = 'customer-owned repository checkout';
   const checkout = docker('create', '--entrypoint', 'node', appImage);
   try { docker('cp', `${checkout}:/opt/kelryvo/repositories/demo`, customerRepository); }
