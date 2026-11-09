@@ -1,10 +1,75 @@
-# Kelryvo customer pilot
+# Kelryvo customer guide
 
-This guide is the customer installation and operations entry point. The pilot is
-for one operator-managed Linux host and a small developer/approver team. Start
-with SQL authoring, local Git releases, independent review and audit. Oracle
-execution and discovery stay disabled in this installation. See
-[CHECKLIST.md](CHECKLIST.md) for supported scope and current engineering status.
+## Managed Oracle customer deployment
+
+Open [Kelryvo](https://kelryvo.apps.drgdevlab.com/). Version
+`managed-oracle26-2026-11-09` uses runtime source
+`b14d9cf0c75ec67b8eb78aff5c7e921dd31ecefa` and verified OCI index
+`sha256:e53cc2111b27a5ca05ec398f2243cfbd6249ff7f339432acc1028257633d1be1`.
+The actual linux/amd64 deployment completed the workflow below on one Autonomous
+Oracle 26ai `23.26.4.1.0` PDB over certificate-verified TCPS. Oracle 19 and arm64
+Oracle execution are not qualified.
+
+The operator supplies separate developer and approver passwords privately.
+Existing customer accounts and history were retained. The ready project is
+**Oracle 26 managed rollout**, environment **Oracle26 DEV**, schema
+**KRV261109_APP_A**. Its saved SQL draft is **Managed Oracle versioned rollout**.
+V1 and V2 are applied; the later approved comparison is NOOP. Inspect
+**Plans & review**, **Migration history** and **Audit log** for the retained results.
+CR7ALLGOALS_APP remains protected and unassigned.
+
+To make the next change:
+
+1. Sign in as the developer and select the ready project. Under **Connections**,
+   enter a reason, **Discover schemas**, then refresh the existing schema's
+   verification if its evidence has expired. Keep the existing assignment/stream.
+2. Open **SQL Workspace** and the saved draft. Keep V1/V2 paths and SQL unchanged.
+   Use **Add SQL file** for a new version such as `V3__add_status.sql`, then
+   **Save draft**, **Review syntax**, **Validate against target** and
+   **Prepare immutable release**. Use **Create immutable plan** when enabled;
+   validation may need refreshing for the prepared release/current target.
+3. Sign in separately as the approver, inspect the exact plan, SQL and target,
+   then approve. The developer cannot approve their own plan.
+4. Return as the developer to **Plans & review**, open the approved plan, enter
+   a request reason and select **Request deployment**. Wait for `VERIFIED_SUCCESS`
+   or NOOP, then inspect its requests, history and audit. Retrying an identical
+   request returns its existing job.
+
+The initial execution profile accepts uppercase unquoted names and bounded
+NUMBER/VARCHAR2 BYTE CREATE TABLE, ADD COLUMN and CREATE INDEX. Example V3:
+`ALTER TABLE ROLLOUT_ITEM ADD STATUS_CODE NUMBER;`. It rejects unsupported forms
+before queuing. It does not provide arbitrary SQL or general Flyway/Liquibase
+parity. New project access and any expansion of the protected installation scope
+remain explicit operator actions. Existing populated owners cannot be adopted
+implicitly. A HOLD requires evidence inspection; never delete history, replace
+streams or replay ambiguous SQL to get past it.
+
+**Manage saved credential** under Connections replaces the encrypted instance
+password or revokes/disables it. Replacement preserves history but invalidates
+old target profiles: wait for installation to finish, discover, reassign the same
+schema/environment and verify again before preparing a fresh plan. The verified
+replacement retained the same instance, assignment, binding and stream. This
+updates the saved credential; it does not change the database server's password.
+Revocation has scoped crypto/API/PostgreSQL coverage and was not invoked on the
+retained live connection. Neither the API nor audit reveals the saved password.
+
+Three native receipts independently recompute; the native ledger has 13 events
+for versions 1 and 2. NOOP has zero receipts, dispatches or started statements.
+The original 58 customer jobs, 12 HOLD records and 1,065 audit rows are unchanged.
+Full CR7ALLGOALS_APP fingerprints match before/after: 166 objects, 45 tables and
+7,785 rows. Consistent metadata backups with the app stopped, private Secrets and
+the persistent operator/witness state are retained by the owner. These checks do
+not qualify disaster recovery. Catalog visibility remains limited, offline
+validation is `UNVERIFIED`, and incomplete observations remain in history; retry
+read-only discovery when it cannot establish identity. Do not assign from an
+incomplete observation. Known runtime dependency advisories remain open.
+
+## Default Compose pilot
+
+The default single-host Compose installer provides offline governance for a small
+developer/approver team. Oracle execution and discovery remain disabled by default.
+The managed Oracle controller and companion Helm deployment below are a separate
+opt-in installation path. See [CHECKLIST.md](CHECKLIST.md) for exact verified scope.
 
 ## Get the release
 
@@ -104,7 +169,7 @@ configure a reference-only Oracle profile under Project setup and use the Git
 release path below; offline syntax validation and review do not connect to Oracle.
 Do not enter database passwords into credential-reference fields.
 
-## Managed Oracle runtime (candidate)
+## Protected Oracle runtime installation
 
 The shipped runtime supports a policy-bound Oracle 26ai TCPS instance on
 Linux amd64. Installation is an operator action; after it is armed, users enter
@@ -124,6 +189,24 @@ policy only into this process. The API receives the public key. Share the protec
 execution directory with the runtime and retain operator state and the UID 10002
 witness on persistent storage; never put them in an ephemeral `/tmp` volume.
 The companion Helm chart provides these mounts and starts the waiting service.
+Its bootstrap installation Secret contains the protected metadata `database-url`,
+`execution-service.mjs` exporting `createManagedExecutionService as createExecutionService`
+from `/opt/kelryvo/apps/worker/managed-oracle-runtime.mjs`, and an empty discovery
+manifest with `readOnly: true`, `disposable: true`, the policy's `authorizationId`
+and `expiresAt`, and `targets: []`. The private operator Secret contains
+`policy.json`, `oracle-vault-private.pem` and `oracle-vault-public.pem`; only the
+public key is projected into app source secrets. Enable `oracleRuntime`, execution
+and discovery, choose an AMD64 node and explicit Oracle egress CIDRs in the
+companion Helm chart. Its new witness PVC shares the app's sync wave so
+WaitForFirstConsumer storage can bind. Preserve the existing PostgreSQL claim.
+
+For an authorized policy renewal, update the private policy, restart to load it,
+and replace the saved credential to advance its connection revision and trigger
+a fresh protected installation. Keep owners/principals/history unchanged. Scope
+expansion, failed setup and HOLD handling require operator review; there is no
+automatic reset or grant broadening. Always use an image with the PR #143 timer
+fix for policies longer than Node's single-timer limit.
+
 
 The policy schema is validated by
 `packages/connectivity/oracle-installation-policy.mjs`: exact host, service, IPv4
@@ -145,13 +228,13 @@ columns and indexes after each migration. NOOP uses the retained matching histor
 Plan, approval, target binding, immutable migration bytes and checksum rules remain
 mandatory; a changed credential invalidates stale target profiles until refreshed.
 
-The source checks do not qualify Oracle 19, arm64 Oracle execution, arbitrary SQL,
-HA or disaster recovery. The current candidate still requires exact-image native
-validation and the live customer walkthrough before handoff.
+Qualification above binds only the listed source/image, server and transport.
+Other installations require their own native validation. Source CI alone does
+not qualify Oracle 19, arm64 Oracle execution, arbitrary SQL, HA or disaster recovery.
 
-## Encrypted instance credentials (candidate)
+## Encrypted instance credentials
 
-The current candidate adds an encrypted-password option to instance registration
+Instance registration offers an encrypted-password option
 when the operator has installed the vault public key. An authorized database
 manager can enter a password once, replace it or revoke it with an audit reason.
 The application never returns the saved password. Rotation makes prior target
@@ -167,10 +250,9 @@ the endpoint cannot reuse the saved password. Back up the private installation
 including `vault/` separately from metadata. Losing that private key requires
 re-entering credentials; there is no password-reveal endpoint.
 
-This candidate is not yet deployed to the customer URL. Its encrypted credential
-entry does not by itself provision Oracle grants or enable execution. The shipped
-native runtime and complete live walkthrough are still being completed. Keep the
-frozen trial and release limitations below.
+The managed customer deployment above has verified entry and replacement through
+the actual HTTPS UI. Private key backup and operator policy ownership remain
+necessary; metadata backups alone cannot decrypt the saved credentials.
 
 ## Oracle rollout on an existing installation
 
@@ -288,10 +370,10 @@ Once those prerequisites are verified:
 
 1. Sign in as the developer, open the assigned project and add its environment
    under **Project setup**. Select **Connect an Oracle instance** from the overview.
-2. Register one instance master using the operator-provisioned credential reference,
-   or attach an existing workspace master. A reference field does not accept or
-   provision an admin password. Current releases require operator-managed secrets;
-   password entry and a self-service credential vault are not implemented.
+2. Register one instance master using **Encrypted password** when the vault public
+   key and protected runtime are installed, or attach an existing workspace master.
+   Operator-managed references remain available for legacy installations. Enter an
+   admin password only in its password field; the saved value is never returned.
 3. Discover schemas, select the project environment and assign the exact application
    owners. The assignments are provisional until each schema passes accepted live
    identity verification. Attaching an instance to another project never transfers
