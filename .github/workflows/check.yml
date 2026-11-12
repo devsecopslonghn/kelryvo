@@ -14,6 +14,98 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
+  rust:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Install pinned native and WASM toolchains
+        run: rustup toolchain install 1.99.1 --profile minimal --component rustfmt --component clippy --target wasm32-unknown-unknown
+      - name: Native system libraries and private PostgreSQL fixture
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libssl-dev pkg-config postgresql-16
+      - name: Native formatting and lint
+        run: |
+          cargo fmt --all --check
+          rustfmt --edition 2024 --check tests/support/contracts.rs
+          cargo clippy --workspace --all-targets --locked -- -D warnings
+          cargo clippy -p kelryvo-web --target wasm32-unknown-unknown --locked -- -D warnings
+      - name: Private PostgreSQL and native compatibility checks
+        run: |
+          export PATH="/usr/lib/postgresql/16/bin:$PATH"
+          bash scripts/test-rust.sh
+
+  rust-runtime:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+      - name: Install pinned native and WASM toolchains
+        run: rustup toolchain install 1.99.1 --profile minimal --target wasm32-unknown-unknown
+      - name: Native libraries and isolated runtime prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libssl-dev pkg-config postgresql-16 iproute2 util-linux curl
+          cargo install wasm-bindgen-cli --version 0.2.130 --locked
+      - name: Native UID, capability, TLS, WASM and metadata smoke
+        env:
+          KELRYVO_REVISION: ${{ github.sha }}
+        run: |
+          export PATH="/usr/lib/postgresql/16/bin:$PATH"
+          bash scripts/test-rust.sh --runtime-only
+
+  rust-image:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-24.04
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+      - name: Build the native application without publishing
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
+        with:
+          context: .
+          file: Dockerfile
+          target: app
+          platforms: linux/${{ matrix.arch }}
+          build-args: KELRYVO_REVISION=${{ github.sha }}
+          tags: kelryvo-rust:candidate
+          load: true
+          push: false
+          provenance: false
+          sbom: false
+      - name: Verify the exact local native image contract
+        env:
+          TARGET_ARCH: ${{ matrix.arch }}
+          SOURCE_REVISION: ${{ github.sha }}
+        run: node scripts/test-rust-container.mjs kelryvo-rust:candidate "$TARGET_ARCH" "$SOURCE_REVISION"
+
   foundation:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -27,9 +119,9 @@ jobs:
           cache: npm
           cache-dependency-path: package-lock.json
       - run: npm ci --ignore-scripts --no-audit --no-fund
-      - name: Delivery essentials (build, targeted invariants and dependency closure)
+      - name: Native source, fixed migration contracts and test dependency closure
         run: npm run check:delivery
-      - name: Verify installed dependency bytes and lock integrity
+      - name: Verify test dependency versions and lock integrity
         run: npm run dependencies:manifest > /tmp/kelryvo-dependencies.json
 
       # No credentials, Oracle targets, deployments, release publishing or remote mutations.

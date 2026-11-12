@@ -1,0 +1,23 @@
+[
+  {
+    "path": "migrations/V001__base.sql",
+    "version": "1",
+    "sha256": "1d74c8805f3447ac6ecb92685df59ed651bfbedd7d7695390cb6eec0d37165f5",
+    "bytes": 41,
+    "content": "CREATE TABLE native_git_item(id NUMBER);\n"
+  },
+  {
+    "path": "migrations/nested/V001_02__alter.sql",
+    "version": "1.2",
+    "sha256": "d0df54df50d8b7bafaf26fc254dd59e49d97e1899ae967dceaa011bf923ce417",
+    "bytes": 53,
+    "content": "ALTER TABLE native_git_item ADD(label VARCHAR2(80));\n"
+  },
+  {
+    "path": "migrations/V900719925474099312345__large_version.sql",
+    "version": "900719925474099312345",
+    "sha256": "36bc00d7f6d1930089b9c573aaf9c211bdfcb06e7454e97b5ac8b2082d811b64",
+    "bytes": 42,
+    "content": "CREATE TABLE native_git_other(id NUMBER);\n"
+  }
+]

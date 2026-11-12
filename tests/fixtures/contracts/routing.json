@@ -1,0 +1,601 @@
+[
+  {
+    "name": "DELETE /api/projects: empty untyped",
+    "body": "",
+    "contentType": null,
+    "expectedStatus": 404,
+    "method": "DELETE",
+    "path": "/api/projects",
+    "status": 404,
+    "response": {
+      "message": "Route DELETE:/api/projects not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "DELETE /api/projects: valid JSON",
+    "body": "{}",
+    "contentType": "application/json",
+    "expectedStatus": 404,
+    "method": "DELETE",
+    "path": "/api/projects",
+    "status": 404,
+    "response": {
+      "message": "Route DELETE:/api/projects not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "DELETE /api/projects: malformed JSON",
+    "body": "{",
+    "contentType": "application/json",
+    "expectedStatus": 400,
+    "method": "DELETE",
+    "path": "/api/projects",
+    "status": 400,
+    "response": {
+      "statusCode": 400,
+      "code": "FST_ERR_CTP_INVALID_JSON_BODY",
+      "error": "Bad Request",
+      "message": "Body is not valid JSON but content-type is set to 'application/json'"
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "DELETE /api/projects: empty JSON",
+    "body": "",
+    "contentType": "application/json",
+    "expectedStatus": 400,
+    "method": "DELETE",
+    "path": "/api/projects",
+    "status": 400,
+    "response": {
+      "statusCode": 400,
+      "code": "FST_ERR_CTP_EMPTY_JSON_BODY",
+      "error": "Bad Request",
+      "message": "Body cannot be empty when content-type is set to 'application/json'"
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "DELETE /api/projects: unsupported XML",
+    "body": "<fixture />",
+    "contentType": "application/xml",
+    "expectedStatus": 404,
+    "method": "DELETE",
+    "path": "/api/projects",
+    "status": 404,
+    "response": {
+      "message": "Route DELETE:/api/projects not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "DELETE /api/projects: untyped nonempty",
+    "body": "{",
+    "contentType": null,
+    "expectedStatus": 404,
+    "method": "DELETE",
+    "path": "/api/projects",
+    "status": 404,
+    "response": {
+      "message": "Route DELETE:/api/projects not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "OPTIONS /api/projects: empty untyped",
+    "body": "",
+    "contentType": null,
+    "expectedStatus": 404,
+    "method": "OPTIONS",
+    "path": "/api/projects",
+    "status": 404,
+    "response": {
+      "message": "Route OPTIONS:/api/projects not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "OPTIONS /api/projects: valid JSON",
+    "body": "{}",
+    "contentType": "application/json",
+    "expectedStatus": 404,
+    "method": "OPTIONS",
+    "path": "/api/projects",
+    "status": 404,
+    "response": {
+      "message": "Route OPTIONS:/api/projects not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "OPTIONS /api/projects: malformed JSON",
+    "body": "{",
+    "contentType": "application/json",
+    "expectedStatus": 400,
+    "method": "OPTIONS",
+    "path": "/api/projects",
+    "status": 400,
+    "response": {
+      "statusCode": 400,
+      "code": "FST_ERR_CTP_INVALID_JSON_BODY",
+      "error": "Bad Request",
+      "message": "Body is not valid JSON but content-type is set to 'application/json'"
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "OPTIONS /api/projects: empty JSON",
+    "body": "",
+    "contentType": "application/json",
+    "expectedStatus": 400,
+    "method": "OPTIONS",
+    "path": "/api/projects",
+    "status": 400,
+    "response": {
+      "statusCode": 400,
+      "code": "FST_ERR_CTP_EMPTY_JSON_BODY",
+      "error": "Bad Request",
+      "message": "Body cannot be empty when content-type is set to 'application/json'"
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "OPTIONS /api/projects: unsupported XML",
+    "body": "<fixture />",
+    "contentType": "application/xml",
+    "expectedStatus": 404,
+    "method": "OPTIONS",
+    "path": "/api/projects",
+    "status": 404,
+    "response": {
+      "message": "Route OPTIONS:/api/projects not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "OPTIONS /api/projects: untyped nonempty",
+    "body": "{",
+    "contentType": null,
+    "expectedStatus": 404,
+    "method": "OPTIONS",
+    "path": "/api/projects",
+    "status": 404,
+    "response": {
+      "message": "Route OPTIONS:/api/projects not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "PUT /api/session/logout: empty untyped",
+    "body": "",
+    "contentType": null,
+    "expectedStatus": 404,
+    "method": "PUT",
+    "path": "/api/session/logout",
+    "status": 404,
+    "response": {
+      "message": "Route PUT:/api/session/logout not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "PUT /api/session/logout: valid JSON",
+    "body": "{}",
+    "contentType": "application/json",
+    "expectedStatus": 404,
+    "method": "PUT",
+    "path": "/api/session/logout",
+    "status": 404,
+    "response": {
+      "message": "Route PUT:/api/session/logout not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "PUT /api/session/logout: malformed JSON",
+    "body": "{",
+    "contentType": "application/json",
+    "expectedStatus": 400,
+    "method": "PUT",
+    "path": "/api/session/logout",
+    "status": 400,
+    "response": {
+      "statusCode": 400,
+      "code": "FST_ERR_CTP_INVALID_JSON_BODY",
+      "error": "Bad Request",
+      "message": "Body is not valid JSON but content-type is set to 'application/json'"
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "PUT /api/session/logout: empty JSON",
+    "body": "",
+    "contentType": "application/json",
+    "expectedStatus": 400,
+    "method": "PUT",
+    "path": "/api/session/logout",
+    "status": 400,
+    "response": {
+      "statusCode": 400,
+      "code": "FST_ERR_CTP_EMPTY_JSON_BODY",
+      "error": "Bad Request",
+      "message": "Body cannot be empty when content-type is set to 'application/json'"
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "PUT /api/session/logout: unsupported XML",
+    "body": "<fixture />",
+    "contentType": "application/xml",
+    "expectedStatus": 404,
+    "method": "PUT",
+    "path": "/api/session/logout",
+    "status": 404,
+    "response": {
+      "message": "Route PUT:/api/session/logout not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "PUT /api/session/logout: untyped nonempty",
+    "body": "{",
+    "contentType": null,
+    "expectedStatus": 404,
+    "method": "PUT",
+    "path": "/api/session/logout",
+    "status": 404,
+    "response": {
+      "message": "Route PUT:/api/session/logout not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "GET /api/__absent_route: empty untyped",
+    "body": "",
+    "contentType": null,
+    "expectedStatus": 404,
+    "method": "GET",
+    "path": "/api/__absent_route",
+    "status": 404,
+    "response": {
+      "message": "Route GET:/api/__absent_route not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "GET /api/__absent_route: valid JSON",
+    "body": "{}",
+    "contentType": "application/json",
+    "expectedStatus": 404,
+    "method": "GET",
+    "path": "/api/__absent_route",
+    "status": 404,
+    "response": {
+      "message": "Route GET:/api/__absent_route not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "GET /api/__absent_route: malformed JSON",
+    "body": "{",
+    "contentType": "application/json",
+    "expectedStatus": 400,
+    "method": "GET",
+    "path": "/api/__absent_route",
+    "status": 404,
+    "response": {
+      "message": "Route GET:/api/__absent_route not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "GET /api/__absent_route: empty JSON",
+    "body": "",
+    "contentType": "application/json",
+    "expectedStatus": 400,
+    "method": "GET",
+    "path": "/api/__absent_route",
+    "status": 404,
+    "response": {
+      "message": "Route GET:/api/__absent_route not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "GET /api/__absent_route: unsupported XML",
+    "body": "<fixture />",
+    "contentType": "application/xml",
+    "expectedStatus": 404,
+    "method": "GET",
+    "path": "/api/__absent_route",
+    "status": 404,
+    "response": {
+      "message": "Route GET:/api/__absent_route not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "GET /api/__absent_route: untyped nonempty",
+    "body": "{",
+    "contentType": null,
+    "expectedStatus": 404,
+    "method": "GET",
+    "path": "/api/__absent_route",
+    "status": 404,
+    "response": {
+      "message": "Route GET:/api/__absent_route not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "POST /api/__absent_route: empty untyped",
+    "body": "",
+    "contentType": null,
+    "expectedStatus": 404,
+    "method": "POST",
+    "path": "/api/__absent_route",
+    "status": 404,
+    "response": {
+      "message": "Route POST:/api/__absent_route not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "POST /api/__absent_route: valid JSON",
+    "body": "{}",
+    "contentType": "application/json",
+    "expectedStatus": 404,
+    "method": "POST",
+    "path": "/api/__absent_route",
+    "status": 404,
+    "response": {
+      "message": "Route POST:/api/__absent_route not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "POST /api/__absent_route: malformed JSON",
+    "body": "{",
+    "contentType": "application/json",
+    "expectedStatus": 400,
+    "method": "POST",
+    "path": "/api/__absent_route",
+    "status": 400,
+    "response": {
+      "statusCode": 400,
+      "code": "FST_ERR_CTP_INVALID_JSON_BODY",
+      "error": "Bad Request",
+      "message": "Body is not valid JSON but content-type is set to 'application/json'"
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "POST /api/__absent_route: empty JSON",
+    "body": "",
+    "contentType": "application/json",
+    "expectedStatus": 400,
+    "method": "POST",
+    "path": "/api/__absent_route",
+    "status": 400,
+    "response": {
+      "statusCode": 400,
+      "code": "FST_ERR_CTP_EMPTY_JSON_BODY",
+      "error": "Bad Request",
+      "message": "Body cannot be empty when content-type is set to 'application/json'"
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "POST /api/__absent_route: unsupported XML",
+    "body": "<fixture />",
+    "contentType": "application/xml",
+    "expectedStatus": 404,
+    "method": "POST",
+    "path": "/api/__absent_route",
+    "status": 404,
+    "response": {
+      "message": "Route POST:/api/__absent_route not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "POST /api/__absent_route: untyped nonempty",
+    "body": "{",
+    "contentType": null,
+    "expectedStatus": 404,
+    "method": "POST",
+    "path": "/api/__absent_route",
+    "status": 404,
+    "response": {
+      "message": "Route POST:/api/__absent_route not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "QUERY /api/__absent_route: empty untyped",
+    "body": "",
+    "contentType": null,
+    "expectedStatus": 404,
+    "method": "QUERY",
+    "path": "/api/__absent_route",
+    "status": 400,
+    "response": {
+      "statusCode": 400,
+      "code": "FST_ERR_ROUTE_MISSING_CONTENT_TYPE",
+      "error": "Bad Request",
+      "message": "Method 'QUERY' must provide a 'Content-Type' header."
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "QUERY /api/__absent_route: valid JSON",
+    "body": "{}",
+    "contentType": "application/json",
+    "expectedStatus": 404,
+    "method": "QUERY",
+    "path": "/api/__absent_route",
+    "status": 404,
+    "response": {
+      "message": "Route QUERY:/api/__absent_route not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "QUERY /api/__absent_route: malformed JSON",
+    "body": "{",
+    "contentType": "application/json",
+    "expectedStatus": 400,
+    "method": "QUERY",
+    "path": "/api/__absent_route",
+    "status": 400,
+    "response": {
+      "statusCode": 400,
+      "code": "FST_ERR_CTP_INVALID_JSON_BODY",
+      "error": "Bad Request",
+      "message": "Body is not valid JSON but content-type is set to 'application/json'"
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "QUERY /api/__absent_route: empty JSON",
+    "body": "",
+    "contentType": "application/json",
+    "expectedStatus": 400,
+    "method": "QUERY",
+    "path": "/api/__absent_route",
+    "status": 400,
+    "response": {
+      "statusCode": 400,
+      "code": "FST_ERR_ROUTE_MISSING_CONTENT",
+      "error": "Bad Request",
+      "message": "Method 'QUERY' must provide a request body."
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "QUERY /api/__absent_route: unsupported XML",
+    "body": "<fixture />",
+    "contentType": "application/xml",
+    "expectedStatus": 404,
+    "method": "QUERY",
+    "path": "/api/__absent_route",
+    "status": 404,
+    "response": {
+      "message": "Route QUERY:/api/__absent_route not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "QUERY /api/__absent_route: untyped nonempty",
+    "body": "{",
+    "contentType": null,
+    "expectedStatus": 404,
+    "method": "QUERY",
+    "path": "/api/__absent_route",
+    "status": 400,
+    "response": {
+      "statusCode": 400,
+      "code": "FST_ERR_ROUTE_MISSING_CONTENT_TYPE",
+      "error": "Bad Request",
+      "message": "Method 'QUERY' must provide a 'Content-Type' header."
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "POST /api/__absent_route: plain text control",
+    "contentType": "text/plain",
+    "body": "{",
+    "method": "POST",
+    "path": "/api/__absent_route",
+    "status": 404,
+    "response": {
+      "message": "Route POST:/api/__absent_route not found",
+      "error": "Not Found",
+      "statusCode": 404
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "POST /api/__absent_route: raw JSON above root limit",
+    "contentType": "application/json",
+    "body": " ",
+    "repeat": 1048576,
+    "suffix": "{",
+    "method": "POST",
+    "path": "/api/__absent_route",
+    "status": 413,
+    "response": {
+      "statusCode": 413,
+      "code": "FST_ERR_CTP_BODY_TOO_LARGE",
+      "error": "Payload Too Large",
+      "message": "Request body is too large"
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "POST /api/__absent_route: decoded text above root limit",
+    "contentType": "text/plain",
+    "body": "",
+    "invalidUtf8Repeat": 349526,
+    "method": "POST",
+    "path": "/api/__absent_route",
+    "status": 413,
+    "response": {
+      "statusCode": 413,
+      "code": "FST_ERR_CTP_BODY_TOO_LARGE",
+      "error": "Payload Too Large",
+      "message": "Request body is too large"
+    },
+    "quotaLimit": null
+  }
+]

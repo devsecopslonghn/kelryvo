@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "scope": "DEVELOPMENT_AND_MIGRATION_TESTS_ONLY",
+  "packageLockSha256": "3e21a7afe0c4888b5d56f8f338fdf28eaa2eb3d86290d50c879385c44a8a2b89",
+  "packages": [
+    {
+      "path": "node_modules/oracledb",
+      "version": "7.0.1",
+      "integrity": "sha512-xlM0Ceh6A5stQLAdEfKf3pgCSkbOjQLo2ZPEi3+kXklz+KbZD3fLi/nsTSbQeZZNFBSFDNxdn1Ek3+bxG40M8w==",
+      "license": "(Apache-2.0 OR UPL-1.0)"
+    },
+    {
+      "path": "node_modules/playwright",
+      "version": "1.64.0",
+      "integrity": "sha512-kVzTnYFYEyQ9RGzBjNCd2+yEqWmVbxl3AHPynv3qQ6JTjv4a+kwRcnqQwIpuP3NnrnIrE/Q6wWAIAvMfIE2/Yg==",
+      "license": "Apache-2.0"
+    },
+    {
+      "path": "node_modules/playwright-core",
+      "version": "1.64.0",
+      "integrity": "sha512-T9r+MZkTECl2+oUcZ26YgZzTrYidTsIhYYkJix+6iDOymOb1FB2RLLSOxRGnZGv5DStt+aduIVbt+E8WygXYpg==",
+      "license": "Apache-2.0"
+    },
+    {
+      "path": "node_modules/postgres",
+      "version": "3.4.9",
+      "integrity": "sha512-GD3qdB0x1z9xgFI6cdRD6xu2Sp2WCOEoe3mtnyB5Ee0XrrL5Pe+e4CCnJrRMnL1zYtRDZmQQVbvOttLnKDLnaw==",
+      "license": "Unlicense"
+    }
+  ]
+}

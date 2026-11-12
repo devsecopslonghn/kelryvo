@@ -1,0 +1,678 @@
+[
+  {
+    "method": "GET",
+    "path": "/api/projects/:id/target-options"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:id/target-options"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:id/target-bindings"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:id/target-bindings"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:id/target-bindings/:bindingId"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:id/target-bindings/:bindingId"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:id/target-bindings"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/target-bindings/:bindingId/schema"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/target-bindings/:bindingId/schema"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/schema-snapshots/:snapshotId"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/schema-snapshots/:snapshotId"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/schema-comparison"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/schema-comparison"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/schema-baselines"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/target-bindings/:bindingId/schema/observe"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/plans/:planId/schema-drift"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/plans/:planId/schema-drift"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/database-instances/master"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/database-instances/master"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/database-instances/attach"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/database-instances/master"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/database-connections/:connectionId/credentials"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/database-connections/:connectionId/assign-schemas"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/database-connections"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/database-connections"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/target-identity-evidence/:digest"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/target-identity-evidence/:digest"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/database-instances"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/database-connections"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/database-connections/:connectionId/retire"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/database-connections/:connectionId/observations"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/database-connections/:connectionId/observations"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/database-connections/:connectionId/test"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/database-connections/:connectionId/discover"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/target-bindings/:bindingId/observe"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/target-bindings/:bindingId/verify"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/profiles/:connectionId"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/profiles/:connectionId"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/profiles/:connectionId/configuration"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/profiles/:connectionId/lifecycle"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/profiles/:connectionId/preflight"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/database-connections/:connectionId"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/database-connections/:connectionId"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/database-connections/:connectionId/configuration"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/database-connections/:connectionId/lifecycle"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/database-connections/:connectionId/preflight"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/releases/:releaseId/validations"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/validations/:validationId"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/validations/:validationId"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/releases/:releaseId/validations"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/releases/:releaseId/validations"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/sql-drafts"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/sql-drafts"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/releases/:releaseId/draft-origin"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/releases/:releaseId/draft-origin"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/sql-drafts"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/sql-drafts/:draftId"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/sql-drafts/:draftId"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/projects/:projectId/sql-drafts/:draftId"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/sql-drafts/:draftId/preview"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/sql-drafts/:draftId/validate"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/sql-drafts/:draftId/revisions/compare"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/sql-drafts/:draftId/revisions/compare"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/sql-drafts/:draftId/prepare-release"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/migration-history"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/migration-history"
+  },
+  {
+    "method": "GET",
+    "path": "/api/plans/:id/execution-readiness"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/plans/:id/execution-readiness"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/plans/:id/migration-analysis"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/plans/:id/migration-analysis"
+  },
+  {
+    "method": "POST",
+    "path": "/api/execution-jobs/:id/reconciliations"
+  },
+  {
+    "method": "GET",
+    "path": "/api/execution-jobs/:id/reconciliations"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/execution-jobs/:id/reconciliations"
+  },
+  {
+    "method": "POST",
+    "path": "/api/execution-jobs/:id/reconciliations/:reconciliationId/decision"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/plans/:id/record"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/plans/:id/record"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/plans/:id/comparisons"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/plans/:id/comparisons"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/plans/:id/comparisons"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/plans/:id/comparisons/:comparisonId"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/plans/:id/comparisons/:comparisonId"
+  },
+  {
+    "method": "GET",
+    "path": "/api/execution-jobs/:id/record"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/execution-jobs/:id/record"
+  },
+  {
+    "method": "POST",
+    "path": "/api/auth/setup"
+  },
+  {
+    "method": "POST",
+    "path": "/api/account/password"
+  },
+  {
+    "method": "POST",
+    "path": "/api/session"
+  },
+  {
+    "method": "POST",
+    "path": "/api/session/logout"
+  },
+  {
+    "method": "GET",
+    "path": "/api/account/login"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/account/login"
+  },
+  {
+    "method": "GET",
+    "path": "/api/account/access"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/account/access"
+  },
+  {
+    "method": "GET",
+    "path": "/api/account/sessions"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/account/sessions"
+  },
+  {
+    "method": "POST",
+    "path": "/api/account/sessions/:id/revoke"
+  },
+  {
+    "method": "GET",
+    "path": "/api/auth/methods"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/auth/methods"
+  },
+  {
+    "method": "GET",
+    "path": "/api/identity/access"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/identity/access"
+  },
+  {
+    "method": "GET",
+    "path": "/api/identity/providers"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/identity/providers"
+  },
+  {
+    "method": "POST",
+    "path": "/api/identity/providers"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/identity/providers/:id"
+  },
+  {
+    "method": "GET",
+    "path": "/api/identity/providers/:id/mappings"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/identity/providers/:id/mappings"
+  },
+  {
+    "method": "POST",
+    "path": "/api/identity/providers/:id/mappings"
+  },
+  {
+    "method": "POST",
+    "path": "/api/identity/providers/:id/mappings/:mid/revoke"
+  },
+  {
+    "method": "POST",
+    "path": "/api/identity/providers/:id/test"
+  },
+  {
+    "method": "POST",
+    "path": "/api/identity/providers/:id/lookup"
+  },
+  {
+    "method": "POST",
+    "path": "/api/auth/ldap/:id/session"
+  },
+  {
+    "method": "POST",
+    "path": "/api/auth/oidc/:id/start"
+  },
+  {
+    "method": "GET",
+    "path": "/api/auth/oidc/callback"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/auth/oidc/callback"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/profiles/:id/retire"
+  },
+  {
+    "method": "GET",
+    "path": "/api/recovery/status"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/recovery/status"
+  },
+  {
+    "method": "GET",
+    "path": "/api/livez"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/livez"
+  },
+  {
+    "method": "GET",
+    "path": "/api/readyz"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/readyz"
+  },
+  {
+    "method": "GET",
+    "path": "/api/health"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/health"
+  },
+  {
+    "method": "GET",
+    "path": "/api/session"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/session"
+  },
+  {
+    "method": "GET",
+    "path": "/api/repositories"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/repositories"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:id/git-refs"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:id/git-refs"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects"
+  },
+  {
+    "method": "GET",
+    "path": "/api/review-inbox"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/review-inbox"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:id/schema-references"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:id/schema-references"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:id"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:id"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:id/audit"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:id/audit"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:id/archive"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/projects/:id/source"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:id/environments"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:id/profiles"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:id/releases"
+  },
+  {
+    "method": "GET",
+    "path": "/api/releases/:id/statement-preview"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/releases/:id/statement-preview"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:id/releases/compare"
+  },
+  {
+    "method": "GET",
+    "path": "/api/releases/:id"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/releases/:id"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:id/plans"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/plans/:id/statement-envelope"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/plans/:id/statement-envelope"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/plans/:id/comments"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/plans/:id/comments"
+  },
+  {
+    "method": "POST",
+    "path": "/api/projects/:projectId/plans/:id/comments"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/plans/:id/reviewers"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/plans/:id/reviewers"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/projects/:projectId/plans/:id/reviewer"
+  },
+  {
+    "method": "POST",
+    "path": "/api/plans/:id/decision"
+  },
+  {
+    "method": "POST",
+    "path": "/api/plans/:id/approval-revocation"
+  },
+  {
+    "method": "POST",
+    "path": "/api/plans/:id/execution"
+  },
+  {
+    "method": "GET",
+    "path": "/api/execution-jobs/:id/attempts"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/execution-jobs/:id/attempts"
+  },
+  {
+    "method": "GET",
+    "path": "/api/execution-jobs/:id/attempts/:attemptId"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/execution-jobs/:id/attempts/:attemptId"
+  },
+  {
+    "method": "GET",
+    "path": "/api/projects/:projectId/execution-jobs"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/projects/:projectId/execution-jobs"
+  },
+  {
+    "method": "GET",
+    "path": "/api/execution-jobs/:id"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/execution-jobs/:id"
+  },
+  {
+    "method": "POST",
+    "path": "/api/execution-jobs/:id/cancel"
+  }
+]

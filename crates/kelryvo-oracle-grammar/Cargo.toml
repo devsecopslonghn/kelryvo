@@ -1,0 +1,17 @@
+[package]
+name = "kelryvo-oracle-grammar"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license-file = "../../LICENSE"
+publish.workspace = true
+
+[dependencies]
+antlr4_runtime = { package = "antlr-rust-runtime", version = "=0.34.0" }
+
+[dev-dependencies]
+serde_json.workspace = true
+kelryvo-core = { path = "../kelryvo-core" }
+
+[lints]
+workspace = true

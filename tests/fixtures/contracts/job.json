@@ -1,0 +1,333 @@
+[
+  {
+    "input": {
+      "workerId": "native-store-fixture",
+      "generationId": "384d6353-b7f7-4075-b16b-a410127a41e6",
+      "jobId": "b3cbfd16-1911-47b2-b9f3-07fec370d782",
+      "lease": "ca0328a1-22cd-4210-9c03-e137c8eedcee",
+      "operations": [
+        {
+          "kind": "start",
+          "ordinal": 1,
+          "statement": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        {
+          "kind": "ack",
+          "ordinal": 1,
+          "statement": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        {
+          "kind": "receipt",
+          "ordinal": 1,
+          "statement": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "receipt": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "central": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+          "kind": "start",
+          "ordinal": 2,
+          "statement": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        {
+          "kind": "ack",
+          "ordinal": 2,
+          "statement": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        {
+          "kind": "receipt",
+          "ordinal": 2,
+          "statement": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "receipt": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "central": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+          "kind": "validity",
+          "facts": {
+            "validity": "VALID",
+            "postconditions": "PASS",
+            "scope": "TRUSTED_VALIDATED",
+            "targetIdentityDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "historySnapshotDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "mutexAuthorityDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "validityDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "centralEvidenceDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        },
+        {
+          "kind": "finish",
+          "state": "VERIFIED_SUCCESS"
+        }
+      ]
+    },
+    "output": {
+      "results": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        {
+          "state": "VERIFIED_SUCCESS",
+          "revision": 1
+        }
+      ],
+      "summary": {
+        "state": "VERIFIED_SUCCESS",
+        "events": [
+          {
+            "phase": "CLAIMED",
+            "digest": null,
+            "ordinal": null,
+            "revision": 0
+          },
+          {
+            "phase": "STARTED",
+            "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "ordinal": 1,
+            "revision": 1
+          },
+          {
+            "phase": "ACKNOWLEDGED",
+            "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "ordinal": 1,
+            "revision": 2
+          },
+          {
+            "phase": "STARTED",
+            "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "ordinal": 2,
+            "revision": 3
+          },
+          {
+            "phase": "ACKNOWLEDGED",
+            "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "ordinal": 2,
+            "revision": 4
+          },
+          {
+            "phase": "VALIDITY_VERIFIED",
+            "digest": null,
+            "ordinal": null,
+            "revision": 5
+          },
+          {
+            "phase": "VERIFIED_SUCCESS",
+            "digest": null,
+            "ordinal": null,
+            "revision": 6
+          }
+        ],
+        "attempts": [
+          {
+            "state": "VERIFIED_SUCCESS",
+            "generation": 1
+          }
+        ],
+        "receipts": [
+          {
+            "central": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "ordinal": 1,
+            "receipt": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "statement": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          },
+          {
+            "central": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "ordinal": 2,
+            "receipt": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "statement": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          }
+        ],
+        "revision": 1
+      }
+    }
+  },
+  {
+    "input": {
+      "workerId": "native-store-fixture",
+      "generationId": "384d6353-b7f7-4075-b16b-a410127a41e6",
+      "jobId": "58000a75-1263-4697-9c95-db2753a3d0aa",
+      "lease": "755d5aaf-3dee-447b-885a-47fb07142e45",
+      "operations": [
+        {
+          "kind": "finish",
+          "state": "VERIFIED_SUCCESS"
+        }
+      ]
+    },
+    "output": {
+      "results": [
+        null
+      ],
+      "summary": {
+        "state": "VERIFIED_SUCCESS",
+        "events": [
+          {
+            "phase": "CLAIMED",
+            "digest": null,
+            "ordinal": null,
+            "revision": 0
+          },
+          {
+            "phase": "STARTED",
+            "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "ordinal": 1,
+            "revision": 1
+          },
+          {
+            "phase": "ACKNOWLEDGED",
+            "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "ordinal": 1,
+            "revision": 2
+          },
+          {
+            "phase": "STARTED",
+            "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "ordinal": 2,
+            "revision": 3
+          },
+          {
+            "phase": "ACKNOWLEDGED",
+            "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "ordinal": 2,
+            "revision": 4
+          },
+          {
+            "phase": "VALIDITY_VERIFIED",
+            "digest": null,
+            "ordinal": null,
+            "revision": 5
+          },
+          {
+            "phase": "VERIFIED_SUCCESS",
+            "digest": null,
+            "ordinal": null,
+            "revision": 6
+          }
+        ],
+        "attempts": [
+          {
+            "state": "VERIFIED_SUCCESS",
+            "generation": 1
+          }
+        ],
+        "receipts": [
+          {
+            "central": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "ordinal": 1,
+            "receipt": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "statement": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          },
+          {
+            "central": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "ordinal": 2,
+            "receipt": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "statement": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          }
+        ],
+        "revision": 1
+      }
+    }
+  },
+  {
+    "input": {
+      "workerId": "native-store-fixture",
+      "generationId": "384d6353-b7f7-4075-b16b-a410127a41e6",
+      "jobId": "27ae7201-8b0f-4ec4-8c9c-671335c4fc2d",
+      "lease": "67cce853-0f5f-4e8b-b406-d64f2e4cae51",
+      "operations": [
+        {
+          "kind": "noop"
+        },
+        {
+          "kind": "finish",
+          "state": "NOOP"
+        }
+      ]
+    },
+    "output": {
+      "results": [
+        true,
+        {
+          "state": "NOOP",
+          "revision": 1
+        }
+      ],
+      "summary": {
+        "state": "NOOP",
+        "events": [
+          {
+            "phase": "CLAIMED",
+            "digest": null,
+            "ordinal": null,
+            "revision": 0
+          },
+          {
+            "phase": "NOOP",
+            "digest": null,
+            "ordinal": null,
+            "revision": 1
+          },
+          {
+            "phase": "NOOP",
+            "digest": null,
+            "ordinal": null,
+            "revision": 2
+          }
+        ],
+        "attempts": [
+          {
+            "state": "NOOP",
+            "generation": 1
+          }
+        ],
+        "receipts": [],
+        "revision": 1
+      }
+    }
+  },
+  {
+    "input": {
+      "workerId": "native-store-fixture",
+      "generationId": "384d6353-b7f7-4075-b16b-a410127a41e6",
+      "jobId": "58b0c35f-5700-4555-ba1b-5f73d71054d6",
+      "lease": "940c6482-bb25-4421-a426-512420c8b016",
+      "operations": [
+        {
+          "kind": "recover"
+        }
+      ]
+    },
+    "output": {
+      "results": [
+        true
+      ],
+      "summary": {
+        "state": "HOLD",
+        "events": [
+          {
+            "phase": "CLAIMED",
+            "digest": null,
+            "ordinal": null,
+            "revision": 0
+          },
+          {
+            "phase": "HOLD",
+            "digest": null,
+            "ordinal": null,
+            "revision": 1
+          }
+        ],
+        "attempts": [
+          {
+            "state": "HOLD",
+            "generation": 1
+          }
+        ],
+        "receipts": [],
+        "revision": 1
+      }
+    }
+  }
+]

@@ -1,0 +1,961 @@
+{
+  "rows": {
+    "sf_database_connections": [
+      {
+        "id": "b53b47a3-ee6a-4e48-9daf-0a5f97aa2d91",
+        "host": "no-network.invalid",
+        "name": "Synthetic",
+        "port": 1521,
+        "engine": "oracle",
+        "reason": "Synthetic",
+        "enabled": true,
+        "service": "UNIT",
+        "actor_id": "unit-developer",
+        "revision": 1,
+        "route_id": "00000000-0000-4000-8000-000000000013",
+        "username": "UNIT_OBSERVER",
+        "transport": "TCPS",
+        "created_at": "2026-11-12T14:25:40.206498+07:00",
+        "retired_at": null,
+        "description": "",
+        "container_id": "798b3ca0-a897-4cfe-b1f3-8031d6d857f6",
+        "service_kind": "SERVICE_NAME",
+        "credential_ref": "secret://unit/observer",
+        "credential_mode": "LEGACY_SEPARATE",
+        "organization_id": "00000000-0000-4000-8000-000000000001",
+        "retirement_reason": null
+      }
+    ],
+    "sf_database_observations": [
+      {
+        "id": "cb33e17a-d1d4-4791-aad2-73947dbaf1f2",
+        "status": "AVAILABLE",
+        "schemas": [],
+        "actor_id": "unit-developer",
+        "identity": {
+          "cdb": true,
+          "dbid": "101",
+          "engine": "oracle",
+          "version": "Unit synthetic evidence",
+          "containerId": "3",
+          "serviceName": "UNIT",
+          "dbUniqueName": "UNIT",
+          "containerDbid": "102",
+          "containerGuid": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "containerName": "UNIT",
+          "resetlogsChange": "20"
+        },
+        "operation": "DISCOVER",
+        "expires_at": "2026-11-12T14:40:40.207138+07:00",
+        "provenance": "FIXTURE",
+        "limitations": [],
+        "observed_at": "2026-11-12T14:25:40.207138+07:00",
+        "connection_id": "b53b47a3-ee6a-4e48-9daf-0a5f97aa2d91",
+        "identity_digest": "63a65d3fccd70f18f5ccc963c7ffecac7df40c15f2d5da749d4ca817299d28b6",
+        "organization_id": "00000000-0000-4000-8000-000000000001",
+        "connection_revision": 1,
+        "verification_acceptance": null
+      }
+    ],
+    "sf_environments": [
+      {
+        "id": "00000000-0000-4000-8000-000000000004",
+        "name": "Synthetic",
+        "created_at": "2026-11-12T14:25:40.196319+07:00",
+        "project_id": "00000000-0000-4000-8000-000000000001",
+        "organization_id": "00000000-0000-4000-8000-000000000001"
+      }
+    ],
+    "sf_execution_admission_proofs": [
+      {
+        "scope": "UNIT_SYNTHETIC",
+        "job_id": "00000000-0000-4000-8000-000000000006",
+        "plan_id": "00000000-0000-4000-8000-000000000007",
+        "created_at": "2026-11-12T14:25:40.209115+07:00",
+        "profile_id": "00000000-0000-4000-8000-000000000002",
+        "project_id": "00000000-0000-4000-8000-000000000001",
+        "host_binding": {
+          "streamId": "00000000-0000-4000-8000-000000000012",
+          "targetKey": "oracle-container-v1:ff7b9da221bc474ebbad49629a4a80b02cab1e1387ea884b5f521abf53e77714",
+          "historyFormat": 1,
+          "statementCount": 2,
+          "targetBindingId": "00000000-0000-4000-8000-000000000008",
+          "migrationNamespace": "UNIT",
+          "targetBindingDigest": "b1e9dc665776a8d2aeb31f85735cbfd1072eab91075b7e0c0cfa5f7e0212b5df",
+          "appliedMigrationCount": 0,
+          "appliedStatementCount": 0,
+          "pendingManifestDigest": "5730e1757dbff5a2dd730a340f96ad826e0bd0f10e46b4cd849b582bac396082",
+          "targetBindingRevision": "1",
+          "statementManifestDigest": "4ea8cc9ed7fa8ec7e756d5f94643415eafaff41e3b639bf5e313f4f16d8e835f"
+        },
+        "intent_digest": "af8aec70820e4ef71bbdf1fee21b5e4194259828cacdc3589d3ec43cc752563d",
+        "profile_facts": {},
+        "organization_id": "00000000-0000-4000-8000-000000000001",
+        "validity_digest": "915f03836aeebc96dd744e016205849d6ab03d837b42f72f473adb09e8faebd9",
+        "approval_reference": "00000000-0000-4000-8000-000000000005",
+        "authorized_actor_id": "unit-developer",
+        "profile_facts_digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "target_assignment_id": "00000000-0000-4000-8000-000000000009",
+        "authorized_actor_role": "developer",
+        "mutex_authority_digest": "96cf2011749fea488db505bd53d1819e61a05ad5b4cddb9ff24a4334052ee226",
+        "source_manifest_digest": "a4d451ec23463726f72c43d64c710968f6b602cd653b4de8adee1b556240a829",
+        "target_identity_digest": "63a65d3fccd70f18f5ccc963c7ffecac7df40c15f2d5da749d4ca817299d28b6",
+        "central_evidence_digest": "8cb6279a8e1b12a9677497cc5c71e90337f2dfad637b35a9d1be0b0668a85f06",
+        "history_snapshot_digest": "259aa8ef98a8b91de574cd904138ef643240c23080cf24da4793a6f10a43fa9d",
+        "authorized_credential_id": "0fe3959c-ba0d-4034-82fa-f3d9cbb66954",
+        "source_binding_generation": 1
+      }
+    ],
+    "sf_execution_attempt_events": [
+      {
+        "id": "5e982ed4-18d9-4c5d-ab2c-4a5c7919d2fc",
+        "facts": {},
+        "phase": "CLAIMED",
+        "ordinal": null,
+        "revision": 0,
+        "attempt_id": "00000000-0000-4000-8000-000000000016",
+        "created_at": "2026-11-12T14:25:40.210236+07:00",
+        "statement_digest": null
+      },
+      {
+        "id": "effaeead-5745-4f83-b2c1-65546b85c955",
+        "facts": {},
+        "phase": "STARTED",
+        "ordinal": 1,
+        "revision": 1,
+        "attempt_id": "00000000-0000-4000-8000-000000000016",
+        "created_at": "2026-11-12T14:25:40.21059+07:00",
+        "statement_digest": "d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e"
+      },
+      {
+        "id": "1379b287-13d7-4e49-a080-986ee42e5b5e",
+        "facts": {},
+        "phase": "ACKNOWLEDGED",
+        "ordinal": 1,
+        "revision": 2,
+        "attempt_id": "00000000-0000-4000-8000-000000000016",
+        "created_at": "2026-11-12T14:25:40.210836+07:00",
+        "statement_digest": "d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e"
+      },
+      {
+        "id": "eba69ff3-7f1e-46a0-af73-b40a01450460",
+        "facts": {},
+        "phase": "STARTED",
+        "ordinal": 2,
+        "revision": 3,
+        "attempt_id": "00000000-0000-4000-8000-000000000016",
+        "created_at": "2026-11-12T14:25:40.211065+07:00",
+        "statement_digest": "d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e"
+      },
+      {
+        "id": "9f4d248b-adfc-4f30-b3ec-3fa49020edf1",
+        "facts": {},
+        "phase": "ACKNOWLEDGED",
+        "ordinal": 2,
+        "revision": 4,
+        "attempt_id": "00000000-0000-4000-8000-000000000016",
+        "created_at": "2026-11-12T14:25:40.211278+07:00",
+        "statement_digest": "d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e"
+      },
+      {
+        "id": "9aba7c6e-169d-458c-af24-dab00601423d",
+        "facts": {},
+        "phase": "HOLD",
+        "ordinal": null,
+        "revision": 5,
+        "attempt_id": "00000000-0000-4000-8000-000000000016",
+        "created_at": "2026-11-12T14:25:40.21151+07:00",
+        "statement_digest": null
+      }
+    ],
+    "sf_execution_attempts": [
+      {
+        "id": "00000000-0000-4000-8000-000000000016",
+        "state": "HOLD",
+        "job_id": "00000000-0000-4000-8000-000000000006",
+        "created_at": "2026-11-12T14:25:40.209806+07:00",
+        "generation": 1,
+        "lease_owner": "synthetic-worker",
+        "lease_token": "728ecb5e-f7db-4598-a088-f5c1b880af87",
+        "lease_until": "2026-11-12T13:25:40.198+07:00"
+      }
+    ],
+    "sf_execution_jobs": [
+      {
+        "id": "00000000-0000-4000-8000-000000000006",
+        "state": "HOLD",
+        "reason": "Synthetic held fixture",
+        "plan_id": "00000000-0000-4000-8000-000000000007",
+        "revision": 2,
+        "readiness": "ADMISSION_VALIDATED",
+        "created_at": "2026-11-12T14:25:40.208441+07:00",
+        "project_id": "00000000-0000-4000-8000-000000000001",
+        "updated_at": "2026-11-12T14:25:40.208441+07:00",
+        "requester_id": "unit-developer",
+        "intent_digest": "af8aec70820e4ef71bbdf1fee21b5e4194259828cacdc3589d3ec43cc752563d",
+        "payload_digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "admission_scope": "UNIT_SYNTHETIC",
+        "idempotency_key": "00000000-0000-4000-8000-000000000006",
+        "organization_id": "00000000-0000-4000-8000-000000000001",
+        "approval_reference": "00000000-0000-4000-8000-000000000005",
+        "request_credential_id": null,
+        "admission_statement_count": 2
+      }
+    ],
+    "sf_execution_receipts": [
+      {
+        "id": "e7adb20f-5b50-49ca-9ef2-632cd4934ba7",
+        "job_id": "00000000-0000-4000-8000-000000000006",
+        "ordinal": 1,
+        "attempt_id": "00000000-0000-4000-8000-000000000016",
+        "created_at": "2026-11-12T14:25:40.211754+07:00",
+        "generation": 1,
+        "receipt_digest": "7b0331c1e61c158ea9429abb60ec2ed82ab6d7c0c1c4ef731faa6c1384ff196e",
+        "statement_digest": "d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e",
+        "central_evidence_digest": "8cb6279a8e1b12a9677497cc5c71e90337f2dfad637b35a9d1be0b0668a85f06"
+      },
+      {
+        "id": "51be7e9d-d8b0-4a53-9d42-c18031aa9242",
+        "job_id": "00000000-0000-4000-8000-000000000006",
+        "ordinal": 2,
+        "attempt_id": "00000000-0000-4000-8000-000000000016",
+        "created_at": "2026-11-12T14:25:40.212364+07:00",
+        "generation": 1,
+        "receipt_digest": "00e1ce91819e3c80fba1d61765ed1be6d6b525b5ebbc9f17783dd2474a09be3d",
+        "statement_digest": "d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e",
+        "central_evidence_digest": "8cb6279a8e1b12a9677497cc5c71e90337f2dfad637b35a9d1be0b0668a85f06"
+      }
+    ],
+    "sf_local_actors": [
+      {
+        "id": "unit-developer",
+        "role": "developer",
+        "created_at": "2026-11-12T14:25:40.197419+07:00",
+        "display_name": "unit-developer",
+        "organization_id": "00000000-0000-4000-8000-000000000001"
+      },
+      {
+        "id": "unit-approver",
+        "role": "approver",
+        "created_at": "2026-11-12T14:25:40.198016+07:00",
+        "display_name": "unit-approver",
+        "organization_id": "00000000-0000-4000-8000-000000000001"
+      },
+      {
+        "id": "unit-reviewer",
+        "role": "approver",
+        "created_at": "2026-11-12T14:25:40.198291+07:00",
+        "display_name": "unit-reviewer",
+        "organization_id": "00000000-0000-4000-8000-000000000001"
+      }
+    ],
+    "sf_local_credentials": [
+      {
+        "id": "0fe3959c-ba0d-4034-82fa-f3d9cbb66954",
+        "actor_id": "unit-developer",
+        "issued_at": "2026-11-12T14:25:40.198+07:00",
+        "expires_at": "2026-11-13T14:25:40.198+07:00",
+        "revoked_at": null,
+        "token_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "credential_kind": "LOCAL",
+        "absolute_expires_at": null,
+        "parent_credential_id": null
+      }
+    ],
+    "sf_plans": [
+      {
+        "id": "00000000-0000-4000-8000-000000000007",
+        "items": [
+          {
+            "path": "migrations/V1__unit.sql",
+            "sha256": "3b9c358f36f0a31b6ad3e14f309c7cf198ac9246e8316f9ce543d5b19ac02b80",
+            "version": "1"
+          }
+        ],
+        "status": "APPROVED",
+        "decision": "APPROVE",
+        "author_id": "unit-developer",
+        "execution": "NOT_EXECUTED",
+        "created_at": "2026-11-12T14:25:40.196319+07:00",
+        "decided_at": "2026-11-12T14:25:40.198+07:00",
+        "decided_by": "unit-approver",
+        "profile_id": "00000000-0000-4000-8000-000000000002",
+        "project_id": "00000000-0000-4000-8000-000000000001",
+        "release_id": "00000000-0000-4000-8000-000000000003",
+        "reviewer_id": null,
+        "history_status": "NOT_OBSERVED",
+        "planning_scope": "OFFLINE_CANDIDATE",
+        "decided_by_name": null,
+        "decision_reason": "Synthetic independent review",
+        "organization_id": "00000000-0000-4000-8000-000000000001",
+        "reviewer_revision": 0,
+        "approval_reference": "00000000-0000-4000-8000-000000000005",
+        "offline_intent_digest": "af8aec70820e4ef71bbdf1fee21b5e4194259828cacdc3589d3ec43cc752563d",
+        "offline_intent_envelope": "[3,\"00000000-0000-4000-8000-000000000001\",\"00000000-0000-4000-8000-000000000001\",\"unit-developer\",\"00000000-0000-4000-8000-000000000003\",\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"sha1\",\"migrations\",\"unit-parser\",\"a4d451ec23463726f72c43d64c710968f6b602cd653b4de8adee1b556240a829\",\"00000000-0000-4000-8000-000000000002\",\"Unit\",\"00000000-0000-4000-8000-000000000004\",\"Unit\",\"oracle\",\"example.invalid\",1521,\"UNIT\",\"UNIT_MASTER\",\"secret://unit/writer\",[[\"migrations/V1__unit.sql\",\"1\",\"3b9c358f36f0a31b6ad3e14f309c7cf198ac9246e8316f9ce543d5b19ac02b80\"]],[[1,\"migrations/V1__unit.sql\",1,0,10,\"c4d5e43574893c3cc3d4baba65589248479a9fbfaf1f608eb1541ec0c6fe636f\",\"d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e\"],[2,\"migrations/V1__unit.sql\",2,10,20,\"992f4eb241ee6eefe4928025a2747db08b919834c93c5f5741725fa26b633841\",\"d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e\"]],[\"00000000-0000-4000-8000-000000000008\",\"1\",\"00000000-0000-4000-8000-000000000009\",\"1\",\"00000000-0000-4000-8000-000000000010\",\"1\",\"00000000-0000-4000-8000-000000000011\",\"VERIFIED\",\"772c6953848bf5b19aedf9a34ccb066f31eacca29bdbfcb1b9821765f1060149\",\"00000000-0000-4000-8000-000000000012\",\"PROVISIONAL\",\"UNIT\",\"UNIT_APP\",\"00000000-0000-4000-8000-000000000013\",\"1\",\"Unit route\",\"00000000-0000-4000-8000-000000000014\",\"1\",\"00000000-0000-4000-8000-000000000015\",\"DEPLOY\",\"secret://unit/writer\",\"Unit principal\",\"2026-11-01T00:00:00.000Z\",\"1\"]]",
+        "source_binding_generation": null
+      }
+    ],
+    "sf_profiles": [
+      {
+        "id": "00000000-0000-4000-8000-000000000002",
+        "host": "no-network.invalid",
+        "name": "Synthetic",
+        "port": 1521,
+        "engine": "oracle",
+        "enabled": true,
+        "service": "UNIT",
+        "revision": 1,
+        "username": "UNIT_MASTER",
+        "created_at": "2026-11-12T14:25:40.196319+07:00",
+        "project_id": "00000000-0000-4000-8000-000000000001",
+        "retired_at": null,
+        "retired_by": null,
+        "description": "",
+        "service_kind": "SERVICE_NAME",
+        "credential_ref": "secret://unit/writer",
+        "environment_id": "00000000-0000-4000-8000-000000000004",
+        "organization_id": "00000000-0000-4000-8000-000000000001",
+        "retirement_reason": null
+      }
+    ],
+    "sf_project_grants": [
+      {
+        "id": "e974fbdb-8ace-41c0-a2f6-5ed53cc98465",
+        "actor_id": "unit-developer",
+        "granted_at": "2026-11-12T14:25:40.199842+07:00",
+        "project_id": "00000000-0000-4000-8000-000000000001",
+        "revoked_at": null,
+        "grant_os_uid": 1000,
+        "revoke_os_uid": null,
+        "organization_id": "00000000-0000-4000-8000-000000000001"
+      },
+      {
+        "id": "fdc0ce7a-ba77-43e3-b13c-26119217d81d",
+        "actor_id": "unit-approver",
+        "granted_at": "2026-11-12T14:25:40.200329+07:00",
+        "project_id": "00000000-0000-4000-8000-000000000001",
+        "revoked_at": null,
+        "grant_os_uid": 1000,
+        "revoke_os_uid": null,
+        "organization_id": "00000000-0000-4000-8000-000000000001"
+      },
+      {
+        "id": "a4650dfa-d67f-407f-ab5c-cbd71f46e5b7",
+        "actor_id": "unit-reviewer",
+        "granted_at": "2026-11-12T14:25:40.200624+07:00",
+        "project_id": "00000000-0000-4000-8000-000000000001",
+        "revoked_at": null,
+        "grant_os_uid": 1000,
+        "revoke_os_uid": null,
+        "organization_id": "00000000-0000-4000-8000-000000000001"
+      }
+    ],
+    "sf_projects": [
+      {
+        "id": "00000000-0000-4000-8000-000000000001",
+        "name": "Synthetic recovery fixture",
+        "created_at": "2026-11-12T14:25:40.196319+07:00",
+        "archived_at": null,
+        "description": null,
+        "source_folder": null,
+        "organization_id": "00000000-0000-4000-8000-000000000001",
+        "source_updated_at": null,
+        "source_repository_id": null,
+        "source_binding_generation": 1
+      }
+    ],
+    "sf_reference_assignments": [
+      {
+        "id": "00000000-0000-4000-8000-000000000009",
+        "reason": "Synthetic recovery",
+        "closed_at": null,
+        "schema_id": "e947ff8c-c982-414d-9b39-03eb28997dd2",
+        "project_id": "00000000-0000-4000-8000-000000000001",
+        "started_at": "2026-11-12T14:25:40.206008+07:00",
+        "operator_os_uid": 1000,
+        "organization_id": "00000000-0000-4000-8000-000000000001"
+      }
+    ],
+    "sf_reference_containers": [
+      {
+        "id": "798b3ca0-a897-4cfe-b1f3-8031d6d857f6",
+        "kind": "PDB",
+        "name": "UNIT",
+        "created_at": "2026-11-12T14:25:40.204749+07:00",
+        "generation": 1,
+        "provenance": "MANUAL_REFERENCE",
+        "database_id": "9b8bda27-d553-4f91-b4a1-7a467f116aad",
+        "environment": "DEV",
+        "server_uuid": "3b085f8d-d435-46d6-a7a0-569b60f577f2",
+        "organization_id": "00000000-0000-4000-8000-000000000001",
+        "registration_key": "synthetic"
+      }
+    ],
+    "sf_reference_databases": [
+      {
+        "id": "9b8bda27-d553-4f91-b4a1-7a467f116aad",
+        "created_at": "2026-11-12T14:25:40.203917+07:00",
+        "generation": 1,
+        "provenance": "MANUAL_REFERENCE",
+        "server_uuid": "d7eef0d5-4477-4da2-a47e-ed91663a6d18",
+        "operator_key": "synthetic-recovery",
+        "display_label": "Synthetic",
+        "organization_id": "00000000-0000-4000-8000-000000000001"
+      }
+    ],
+    "sf_reference_schemas": [
+      {
+        "id": "e947ff8c-c982-414d-9b39-03eb28997dd2",
+        "revision": 0,
+        "created_at": "2026-11-12T14:25:40.205595+07:00",
+        "generation": 1,
+        "provenance": "MANUAL_REFERENCE",
+        "exact_owner": "UNIT_APP",
+        "container_id": "798b3ca0-a897-4cfe-b1f3-8031d6d857f6",
+        "organization_id": "00000000-0000-4000-8000-000000000001"
+      }
+    ],
+    "sf_reference_services": [
+      {
+        "id": "00000000-0000-4000-8000-000000000013",
+        "host": "no-network.invalid",
+        "port": 1521,
+        "service": "UNIT",
+        "transport": "TCPS",
+        "created_at": "2026-11-12T14:25:40.205201+07:00",
+        "container_id": "798b3ca0-a897-4cfe-b1f3-8031d6d857f6",
+        "organization_id": "00000000-0000-4000-8000-000000000001"
+      }
+    ],
+    "sf_releases": [
+      {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "files": [],
+        "folder": "migrations",
+        "commit_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "created_at": "2026-11-12T14:25:40.196319+07:00",
+        "project_id": "00000000-0000-4000-8000-000000000001",
+        "object_format": "sha1",
+        "repository_id": "fixture",
+        "parser_profile": "UNIT_ONLY",
+        "manifest_digest": "a4d451ec23463726f72c43d64c710968f6b602cd653b4de8adee1b556240a829",
+        "organization_id": "00000000-0000-4000-8000-000000000001",
+        "validation_code": null,
+        "validation_status": "UNAVAILABLE"
+      }
+    ],
+    "sf_target_identity_evidence": [
+      {
+        "digest": "772c6953848bf5b19aedf9a34ccb066f31eacca29bdbfcb1b9821765f1060149",
+        "reason": "Synthetic",
+        "actor_id": "unit-developer",
+        "identity": {
+          "cdb": true,
+          "dbid": "101",
+          "engine": "oracle",
+          "version": "Unit synthetic evidence",
+          "containerId": "3",
+          "serviceName": "UNIT",
+          "dbUniqueName": "UNIT",
+          "containerDbid": "102",
+          "containerGuid": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "containerName": "UNIT",
+          "resetlogsChange": "20"
+        },
+        "route_id": "00000000-0000-4000-8000-000000000013",
+        "schema_id": "e947ff8c-c982-414d-9b39-03eb28997dd2",
+        "created_at": "2026-11-12T14:25:40.207626+07:00",
+        "project_id": "00000000-0000-4000-8000-000000000001",
+        "exact_owner": "UNIT_APP",
+        "assignment_id": "00000000-0000-4000-8000-000000000009",
+        "connection_id": "b53b47a3-ee6a-4e48-9daf-0a5f97aa2d91",
+        "identity_state": "VERIFIED",
+        "observation_id": "cb33e17a-d1d4-4791-aad2-73947dbaf1f2",
+        "identity_digest": "63a65d3fccd70f18f5ccc963c7ffecac7df40c15f2d5da749d4ca817299d28b6",
+        "organization_id": "00000000-0000-4000-8000-000000000001",
+        "assignment_revision": 1
+      }
+    ]
+  },
+  "dependencies": [
+    {
+      "child": "sf_connection_plan_revisions",
+      "parent": "sf_plans"
+    },
+    {
+      "child": "sf_connection_plan_revisions",
+      "parent": "sf_connection_revisions"
+    },
+    {
+      "child": "sf_database_connections",
+      "parent": "sf_local_actors"
+    },
+    {
+      "child": "sf_database_connections",
+      "parent": "sf_reference_containers"
+    },
+    {
+      "child": "sf_database_connections",
+      "parent": "sf_reference_services"
+    },
+    {
+      "child": "sf_database_observations",
+      "parent": "sf_local_actors"
+    },
+    {
+      "child": "sf_database_observations",
+      "parent": "sf_database_connections"
+    },
+    {
+      "child": "sf_environments",
+      "parent": "sf_projects"
+    },
+    {
+      "child": "sf_execution_admission_proofs",
+      "parent": "sf_execution_jobs"
+    },
+    {
+      "child": "sf_execution_admission_proofs",
+      "parent": "sf_plans"
+    },
+    {
+      "child": "sf_execution_admission_proofs",
+      "parent": "sf_profiles"
+    },
+    {
+      "child": "sf_execution_admission_proofs",
+      "parent": "sf_local_actors"
+    },
+    {
+      "child": "sf_execution_admission_proofs",
+      "parent": "sf_local_credentials"
+    },
+    {
+      "child": "sf_execution_admission_proofs",
+      "parent": "sf_reference_assignments"
+    },
+    {
+      "child": "sf_execution_attempt_events",
+      "parent": "sf_execution_attempts"
+    },
+    {
+      "child": "sf_execution_attempts",
+      "parent": "sf_execution_jobs"
+    },
+    {
+      "child": "sf_execution_jobs",
+      "parent": "sf_projects"
+    },
+    {
+      "child": "sf_execution_jobs",
+      "parent": "sf_plans"
+    },
+    {
+      "child": "sf_execution_jobs",
+      "parent": "sf_local_actors"
+    },
+    {
+      "child": "sf_execution_jobs",
+      "parent": "sf_local_credentials"
+    },
+    {
+      "child": "sf_execution_receipts",
+      "parent": "sf_execution_attempts"
+    },
+    {
+      "child": "sf_execution_receipts",
+      "parent": "sf_execution_jobs"
+    },
+    {
+      "child": "sf_execution_receipts",
+      "parent": "sf_execution_attempts"
+    },
+    {
+      "child": "sf_execution_receipts",
+      "parent": "sf_execution_attempts"
+    },
+    {
+      "child": "sf_local_credentials",
+      "parent": "sf_local_actors"
+    },
+    {
+      "child": "sf_local_credentials",
+      "parent": "sf_local_credentials"
+    },
+    {
+      "child": "sf_plans",
+      "parent": "sf_projects"
+    },
+    {
+      "child": "sf_plans",
+      "parent": "sf_releases"
+    },
+    {
+      "child": "sf_plans",
+      "parent": "sf_profiles"
+    },
+    {
+      "child": "sf_profiles",
+      "parent": "sf_projects"
+    },
+    {
+      "child": "sf_profiles",
+      "parent": "sf_environments"
+    },
+    {
+      "child": "sf_project_grants",
+      "parent": "sf_projects"
+    },
+    {
+      "child": "sf_project_grants",
+      "parent": "sf_local_actors"
+    },
+    {
+      "child": "sf_reference_assignments",
+      "parent": "sf_reference_schemas"
+    },
+    {
+      "child": "sf_reference_assignments",
+      "parent": "sf_projects"
+    },
+    {
+      "child": "sf_reference_containers",
+      "parent": "sf_reference_databases"
+    },
+    {
+      "child": "sf_reference_schemas",
+      "parent": "sf_reference_containers"
+    },
+    {
+      "child": "sf_reference_services",
+      "parent": "sf_reference_containers"
+    },
+    {
+      "child": "sf_releases",
+      "parent": "sf_projects"
+    },
+    {
+      "child": "sf_target_identity_evidence",
+      "parent": "sf_local_actors"
+    },
+    {
+      "child": "sf_target_identity_evidence",
+      "parent": "sf_database_observations"
+    },
+    {
+      "child": "sf_target_identity_evidence",
+      "parent": "sf_reference_assignments"
+    }
+  ],
+  "output": {
+    "row": {
+      "job_id": "00000000-0000-4000-8000-000000000006",
+      "job_revision": "2",
+      "state": "HOLD",
+      "job_organization_id": "00000000-0000-4000-8000-000000000001",
+      "job_project_id": "00000000-0000-4000-8000-000000000001",
+      "job_plan_id": "00000000-0000-4000-8000-000000000007",
+      "job_scope": "UNIT_SYNTHETIC",
+      "job_admission_statement_count": 2,
+      "job_approval_reference": "00000000-0000-4000-8000-000000000005",
+      "organization_id": "00000000-0000-4000-8000-000000000001",
+      "project_id": "00000000-0000-4000-8000-000000000001",
+      "plan_id": "00000000-0000-4000-8000-000000000007",
+      "scope": "UNIT_SYNTHETIC",
+      "approval_reference": "00000000-0000-4000-8000-000000000005",
+      "plan_approval_reference": "00000000-0000-4000-8000-000000000005",
+      "intent_digest": "af8aec70820e4ef71bbdf1fee21b5e4194259828cacdc3589d3ec43cc752563d",
+      "plan_intent_digest": "af8aec70820e4ef71bbdf1fee21b5e4194259828cacdc3589d3ec43cc752563d",
+      "job_intent_digest": "af8aec70820e4ef71bbdf1fee21b5e4194259828cacdc3589d3ec43cc752563d",
+      "source_manifest_digest": "a4d451ec23463726f72c43d64c710968f6b602cd653b4de8adee1b556240a829",
+      "plan_manifest_digest": "a4d451ec23463726f72c43d64c710968f6b602cd653b4de8adee1b556240a829",
+      "profile_id": "00000000-0000-4000-8000-000000000002",
+      "plan_profile_id": "00000000-0000-4000-8000-000000000002",
+      "plan_release_id": "00000000-0000-4000-8000-000000000003",
+      "host_binding": {
+        "streamId": "00000000-0000-4000-8000-000000000012",
+        "targetKey": "oracle-container-v1:ff7b9da221bc474ebbad49629a4a80b02cab1e1387ea884b5f521abf53e77714",
+        "historyFormat": 1,
+        "statementCount": 2,
+        "targetBindingId": "00000000-0000-4000-8000-000000000008",
+        "migrationNamespace": "UNIT",
+        "targetBindingDigest": "b1e9dc665776a8d2aeb31f85735cbfd1072eab91075b7e0c0cfa5f7e0212b5df",
+        "appliedMigrationCount": 0,
+        "appliedStatementCount": 0,
+        "pendingManifestDigest": "5730e1757dbff5a2dd730a340f96ad826e0bd0f10e46b4cd849b582bac396082",
+        "targetBindingRevision": "1",
+        "statementManifestDigest": "4ea8cc9ed7fa8ec7e756d5f94643415eafaff41e3b639bf5e313f4f16d8e835f"
+      },
+      "envelope": "[3,\"00000000-0000-4000-8000-000000000001\",\"00000000-0000-4000-8000-000000000001\",\"unit-developer\",\"00000000-0000-4000-8000-000000000003\",\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"sha1\",\"migrations\",\"unit-parser\",\"a4d451ec23463726f72c43d64c710968f6b602cd653b4de8adee1b556240a829\",\"00000000-0000-4000-8000-000000000002\",\"Unit\",\"00000000-0000-4000-8000-000000000004\",\"Unit\",\"oracle\",\"example.invalid\",1521,\"UNIT\",\"UNIT_MASTER\",\"secret://unit/writer\",[[\"migrations/V1__unit.sql\",\"1\",\"3b9c358f36f0a31b6ad3e14f309c7cf198ac9246e8316f9ce543d5b19ac02b80\"]],[[1,\"migrations/V1__unit.sql\",1,0,10,\"c4d5e43574893c3cc3d4baba65589248479a9fbfaf1f608eb1541ec0c6fe636f\",\"d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e\"],[2,\"migrations/V1__unit.sql\",2,10,20,\"992f4eb241ee6eefe4928025a2747db08b919834c93c5f5741725fa26b633841\",\"d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e\"]],[\"00000000-0000-4000-8000-000000000008\",\"1\",\"00000000-0000-4000-8000-000000000009\",\"1\",\"00000000-0000-4000-8000-000000000010\",\"1\",\"00000000-0000-4000-8000-000000000011\",\"VERIFIED\",\"772c6953848bf5b19aedf9a34ccb066f31eacca29bdbfcb1b9821765f1060149\",\"00000000-0000-4000-8000-000000000012\",\"PROVISIONAL\",\"UNIT\",\"UNIT_APP\",\"00000000-0000-4000-8000-000000000013\",\"1\",\"Unit route\",\"00000000-0000-4000-8000-000000000014\",\"1\",\"00000000-0000-4000-8000-000000000015\",\"DEPLOY\",\"secret://unit/writer\",\"Unit principal\",\"2026-11-01T00:00:00.000Z\",\"1\"]]",
+      "target_identity_digest": "63a65d3fccd70f18f5ccc963c7ffecac7df40c15f2d5da749d4ca817299d28b6",
+      "central_evidence_digest": "8cb6279a8e1b12a9677497cc5c71e90337f2dfad637b35a9d1be0b0668a85f06",
+      "history_snapshot_digest": "259aa8ef98a8b91de574cd904138ef643240c23080cf24da4793a6f10a43fa9d",
+      "mutex_authority_digest": "96cf2011749fea488db505bd53d1819e61a05ad5b4cddb9ff24a4334052ee226",
+      "validity_digest": "915f03836aeebc96dd744e016205849d6ab03d837b42f72f473adb09e8faebd9"
+    },
+    "attempt": {
+      "id": "00000000-0000-4000-8000-000000000016",
+      "generation": "1",
+      "state": "HOLD"
+    },
+    "receipts": [
+      {
+        "job_id": "00000000-0000-4000-8000-000000000006",
+        "attempt_id": "00000000-0000-4000-8000-000000000016",
+        "generation": 1,
+        "ordinal": 1,
+        "statement_digest": "d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e",
+        "central_evidence_digest": "8cb6279a8e1b12a9677497cc5c71e90337f2dfad637b35a9d1be0b0668a85f06",
+        "receipt_digest": "7b0331c1e61c158ea9429abb60ec2ed82ab6d7c0c1c4ef731faa6c1384ff196e"
+      },
+      {
+        "job_id": "00000000-0000-4000-8000-000000000006",
+        "attempt_id": "00000000-0000-4000-8000-000000000016",
+        "generation": 1,
+        "ordinal": 2,
+        "statement_digest": "d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e",
+        "central_evidence_digest": "8cb6279a8e1b12a9677497cc5c71e90337f2dfad637b35a9d1be0b0668a85f06",
+        "receipt_digest": "00e1ce91819e3c80fba1d61765ed1be6d6b525b5ebbc9f17783dd2474a09be3d"
+      }
+    ],
+    "events": [
+      {
+        "phase": "CLAIMED",
+        "attempt_id": "00000000-0000-4000-8000-000000000016"
+      },
+      {
+        "phase": "STARTED",
+        "ordinal": 1,
+        "statement_digest": "d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e",
+        "attempt_id": "00000000-0000-4000-8000-000000000016"
+      },
+      {
+        "phase": "ACKNOWLEDGED",
+        "ordinal": 1,
+        "statement_digest": "d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e",
+        "attempt_id": "00000000-0000-4000-8000-000000000016"
+      },
+      {
+        "phase": "STARTED",
+        "ordinal": 2,
+        "statement_digest": "d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e",
+        "attempt_id": "00000000-0000-4000-8000-000000000016"
+      },
+      {
+        "phase": "ACKNOWLEDGED",
+        "ordinal": 2,
+        "statement_digest": "d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e",
+        "attempt_id": "00000000-0000-4000-8000-000000000016"
+      },
+      {
+        "phase": "HOLD",
+        "attempt_id": "00000000-0000-4000-8000-000000000016"
+      }
+    ],
+    "native": {
+      "identity": {
+        "engine": "oracle",
+        "dbid": "101",
+        "dbUniqueName": "UNIT",
+        "resetlogsChange": "20",
+        "cdb": true,
+        "containerId": "3",
+        "containerGuid": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "containerDbid": "102",
+        "containerName": "UNIT",
+        "serviceName": "UNIT",
+        "version": "Unit synthetic evidence"
+      },
+      "exactOwner": "UNIT_APP",
+      "streamId": "00000000-0000-4000-8000-000000000012",
+      "targetId": "41c83f54daa09d0576311ad72578c8b6588b659ef564bd8e09c700ddd4122347",
+      "headRows": [
+        {
+          "sequence_no": 8,
+          "checksum": "1e62685b8a3ce2a84c4b3a4046d24b31fc94a5f0d4b5c512ee0505ec8a369184"
+        }
+      ],
+      "ledgerRows": [
+        {
+          "event_type": "FILE_STARTED",
+          "file_ordinal": 1,
+          "statement_ordinal": null,
+          "path": "migrations/V1__unit.sql",
+          "migration_version": "1",
+          "source_digest": "3b9c358f36f0a31b6ad3e14f309c7cf198ac9246e8316f9ce543d5b19ac02b80",
+          "manifest_digest": "3074f29c6351332230c52549210f734aee83875100479851e052db9d318d2c6d",
+          "approval_reference": "00000000-0000-4000-8000-000000000005",
+          "intent_digest": "af8aec70820e4ef71bbdf1fee21b5e4194259828cacdc3589d3ec43cc752563d",
+          "planned_count": 2,
+          "planned_digest": "b59bb44b1d713092f49f96085a55383a4f4f1a3cbb76b27de0c3f18073bca607",
+          "statement_digest": null,
+          "receipt_digest": null,
+          "sequence_no": 1,
+          "previous_checksum": "0000000000000000000000000000000000000000000000000000000000000000",
+          "checksum": "7358ada7ad3f0e78bc214acb25804b3353c62a6fec04e1c11311b373db3f02d1"
+        },
+        {
+          "event_type": "STATEMENT_PLANNED",
+          "file_ordinal": 1,
+          "statement_ordinal": 1,
+          "path": null,
+          "migration_version": null,
+          "source_digest": null,
+          "manifest_digest": null,
+          "approval_reference": null,
+          "intent_digest": null,
+          "planned_count": null,
+          "planned_digest": null,
+          "statement_digest": "d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e",
+          "receipt_digest": null,
+          "sequence_no": 2,
+          "previous_checksum": "7358ada7ad3f0e78bc214acb25804b3353c62a6fec04e1c11311b373db3f02d1",
+          "checksum": "78daa0366639951c694011001be880e2bc7b9b52494c77da0b5478fbaf5b936b"
+        },
+        {
+          "event_type": "STATEMENT_PLANNED",
+          "file_ordinal": 1,
+          "statement_ordinal": 2,
+          "path": null,
+          "migration_version": null,
+          "source_digest": null,
+          "manifest_digest": null,
+          "approval_reference": null,
+          "intent_digest": null,
+          "planned_count": null,
+          "planned_digest": null,
+          "statement_digest": "d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e",
+          "receipt_digest": null,
+          "sequence_no": 3,
+          "previous_checksum": "78daa0366639951c694011001be880e2bc7b9b52494c77da0b5478fbaf5b936b",
+          "checksum": "d280375716aa27f4afa20f8b333d9755c887bd5404cfa3e37e7131b9512b6874"
+        },
+        {
+          "event_type": "STATEMENT_STARTED",
+          "file_ordinal": 1,
+          "statement_ordinal": 1,
+          "path": null,
+          "migration_version": null,
+          "source_digest": null,
+          "manifest_digest": null,
+          "approval_reference": null,
+          "intent_digest": null,
+          "planned_count": null,
+          "planned_digest": null,
+          "statement_digest": "d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e",
+          "receipt_digest": null,
+          "sequence_no": 4,
+          "previous_checksum": "d280375716aa27f4afa20f8b333d9755c887bd5404cfa3e37e7131b9512b6874",
+          "checksum": "90e47188d95fc11e668cf53cdd02ac5294bee630a5a66f1299d0a5ac5537f682"
+        },
+        {
+          "event_type": "STATEMENT_ACKNOWLEDGED",
+          "file_ordinal": 1,
+          "statement_ordinal": 1,
+          "path": null,
+          "migration_version": null,
+          "source_digest": null,
+          "manifest_digest": null,
+          "approval_reference": null,
+          "intent_digest": null,
+          "planned_count": null,
+          "planned_digest": null,
+          "statement_digest": "d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e",
+          "receipt_digest": "fd2be605db3d76ea480ebee8a042bb0c9212c10864fff973257a1eb5e92505c8",
+          "sequence_no": 5,
+          "previous_checksum": "90e47188d95fc11e668cf53cdd02ac5294bee630a5a66f1299d0a5ac5537f682",
+          "checksum": "90566b6ae2f70c16b14822e8f33a14e3081d11009e9d4871865909fbc3dcccfc"
+        },
+        {
+          "event_type": "STATEMENT_STARTED",
+          "file_ordinal": 1,
+          "statement_ordinal": 2,
+          "path": null,
+          "migration_version": null,
+          "source_digest": null,
+          "manifest_digest": null,
+          "approval_reference": null,
+          "intent_digest": null,
+          "planned_count": null,
+          "planned_digest": null,
+          "statement_digest": "d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e",
+          "receipt_digest": null,
+          "sequence_no": 6,
+          "previous_checksum": "90566b6ae2f70c16b14822e8f33a14e3081d11009e9d4871865909fbc3dcccfc",
+          "checksum": "1d52def8d0ed28047a616df052a696ad428214fb4462fc56b11f6da7608918de"
+        },
+        {
+          "event_type": "STATEMENT_ACKNOWLEDGED",
+          "file_ordinal": 1,
+          "statement_ordinal": 2,
+          "path": null,
+          "migration_version": null,
+          "source_digest": null,
+          "manifest_digest": null,
+          "approval_reference": null,
+          "intent_digest": null,
+          "planned_count": null,
+          "planned_digest": null,
+          "statement_digest": "d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e",
+          "receipt_digest": "b7d2b297c30213b028b50a3c0a6b3f485586b9d19f8b6b37e2c3ea1b9404792a",
+          "sequence_no": 7,
+          "previous_checksum": "1d52def8d0ed28047a616df052a696ad428214fb4462fc56b11f6da7608918de",
+          "checksum": "d777eb73b8e436430ee1f0bd4057fe08e135a56039b4a3ffbd1cb22bba3b28e0"
+        },
+        {
+          "event_type": "FILE_APPLIED",
+          "file_ordinal": 1,
+          "statement_ordinal": null,
+          "path": null,
+          "migration_version": null,
+          "source_digest": null,
+          "manifest_digest": null,
+          "approval_reference": null,
+          "intent_digest": null,
+          "planned_count": null,
+          "planned_digest": null,
+          "statement_digest": null,
+          "receipt_digest": "50a22c52cc95ca119e031e9349f396294b4a401f4ad42ac83fa053c3f385684e",
+          "sequence_no": 8,
+          "previous_checksum": "d777eb73b8e436430ee1f0bd4057fe08e135a56039b4a3ffbd1cb22bba3b28e0",
+          "checksum": "1e62685b8a3ce2a84c4b3a4046d24b31fc94a5f0d4b5c512ee0505ec8a369184"
+        }
+      ],
+      "dispatchPreimages": [
+        {
+          "jobId": "00000000-0000-4000-8000-000000000006",
+          "planId": "00000000-0000-4000-8000-000000000007",
+          "generation": 1,
+          "ordinal": 1,
+          "digest": "d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e",
+          "targetId": "41c83f54daa09d0576311ad72578c8b6588b659ef564bd8e09c700ddd4122347",
+          "dispatchId": "00000000-0000-4000-8000-000000000017"
+        },
+        {
+          "jobId": "00000000-0000-4000-8000-000000000006",
+          "planId": "00000000-0000-4000-8000-000000000007",
+          "generation": 1,
+          "ordinal": 2,
+          "digest": "d8054f2debd523e294406daf98477f0357812a1de2bd59d5707e3e96ddbeae9e",
+          "targetId": "41c83f54daa09d0576311ad72578c8b6588b659ef564bd8e09c700ddd4122347",
+          "dispatchId": "00000000-0000-4000-8000-000000000018"
+        }
+      ],
+      "gates": {
+        "identity": true,
+        "tls": true,
+        "grants": true,
+        "protectedObjects": true,
+        "exclusiveMutex": true,
+        "noOtherWriters": true,
+        "postconditions": true
+      },
+      "postconditionDigest": "888ad3a8bb06276a7824388d9c079bfc7122bb0cbd69a8123332ce6248185557",
+      "integrityDigest": "78587c41ed99a3375022dc28be882f72b1a608a0dac7aa900c61f48b2bb37be6"
+    },
+    "artifact": {
+      "sourceCommit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "imageDigest": "sha256:83c08641d0a48dc3f6dafcb412830006a232aeaa0f71468d7539dcb18e90606a"
+    }
+  }
+}

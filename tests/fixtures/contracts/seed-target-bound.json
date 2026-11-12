@@ -1,0 +1,379 @@
+{
+  "rows": {
+    "sf_audit": [
+      {
+        "id": "7dc35b1a-cdc2-48d6-89e1-fac1aec5ff17",
+        "facts": {
+          "reason": "Bind native compatibility fixture",
+          "bindingId": "9dd054bc-01af-4aaa-9cdc-b6256fa61b6c",
+          "assignmentId": "7f0cb402-38b7-4750-a3ed-20f3e6a044b8",
+          "environmentId": "168f9d16-7e28-4400-86c3-931aecdb9065",
+          "targetOptionId": "b3db828a-0b1f-489b-a611-a0f3c3e9c641",
+          "bindingRevision": "1",
+          "assignmentRevision": "1",
+          "targetOptionRevision": "1"
+        },
+        "action": "TARGET_BINDING_CREATED",
+        "actor_id": "rust-developer",
+        "created_at": "2026-11-12T14:23:11.654803+07:00",
+        "project_id": "d8651415-ed44-4de9-a1d8-4659ddd101c9",
+        "resource_id": "9dd054bc-01af-4aaa-9cdc-b6256fa61b6c",
+        "organization_id": "00000000-0000-4000-8000-000000000001"
+      }
+    ],
+    "sf_profiles": [
+      {
+        "id": "b66ec805-bb63-467c-b6e6-cec26cbd7046",
+        "host": "native.example.invalid",
+        "name": "Reference fixture profile",
+        "port": 1521,
+        "engine": "oracle",
+        "enabled": true,
+        "service": "Pd8651415ed444de9a1d84659ddd101c9",
+        "revision": 1,
+        "username": "APP",
+        "created_at": "2026-11-12T14:23:11.630222+07:00",
+        "project_id": "d8651415-ed44-4de9-a1d8-4659ddd101c9",
+        "retired_at": null,
+        "retired_by": null,
+        "description": "",
+        "service_kind": "SERVICE_NAME",
+        "credential_ref": "secret://native/fixture",
+        "environment_id": "168f9d16-7e28-4400-86c3-931aecdb9065",
+        "organization_id": "00000000-0000-4000-8000-000000000001",
+        "retirement_reason": null
+      }
+    ],
+    "sf_reference_assignments": [
+      {
+        "id": "7f0cb402-38b7-4750-a3ed-20f3e6a044b8",
+        "reason": "Native compatibility fixture",
+        "closed_at": null,
+        "schema_id": "1b20c368-e5c8-4967-86a6-facc0cef7725",
+        "project_id": "d8651415-ed44-4de9-a1d8-4659ddd101c9",
+        "started_at": "2026-11-12T14:23:11.643067+07:00",
+        "operator_os_uid": 1000,
+        "organization_id": "00000000-0000-4000-8000-000000000001"
+      }
+    ],
+    "sf_reference_containers": [
+      {
+        "id": "f7755944-e3fb-47dd-8bd4-f178b64e53d4",
+        "kind": "PDB",
+        "name": "Native PDB",
+        "created_at": "2026-11-12T14:23:11.637531+07:00",
+        "generation": 1,
+        "provenance": "MANUAL_REFERENCE",
+        "database_id": "b5cd0402-0401-4df5-ab9a-90a088905db2",
+        "environment": "DEV",
+        "server_uuid": "009ec28c-84da-4f2d-9fcc-72b012557e0d",
+        "organization_id": "00000000-0000-4000-8000-000000000001",
+        "registration_key": "pdb-d8651415-ed44-4de9-a1d8-4659ddd101c9"
+      }
+    ],
+    "sf_reference_databases": [
+      {
+        "id": "b5cd0402-0401-4df5-ab9a-90a088905db2",
+        "created_at": "2026-11-12T14:23:11.636773+07:00",
+        "generation": 1,
+        "provenance": "MANUAL_REFERENCE",
+        "server_uuid": "917d371d-78a9-4638-ba9a-16e691586e3c",
+        "operator_key": "native-d8651415-ed44-4de9-a1d8-4659ddd101c9",
+        "display_label": "Native fixture",
+        "organization_id": "00000000-0000-4000-8000-000000000001"
+      }
+    ],
+    "sf_reference_operator_audit": [
+      {
+        "id": "5f07399e-c9cc-4231-a887-c1608176f485",
+        "facts": {
+          "schemaId": "1b20c368-e5c8-4967-86a6-facc0cef7725",
+          "serviceId": "d0e67713-7aa9-479f-9cf0-d3dd12049cd4",
+          "databaseId": "b5cd0402-0401-4df5-ab9a-90a088905db2",
+          "generation": 1,
+          "provenance": "MANUAL_REFERENCE",
+          "containerId": "f7755944-e3fb-47dd-8bd4-f178b64e53d4"
+        },
+        "action": "REGISTER",
+        "schema_id": "1b20c368-e5c8-4967-86a6-facc0cef7725",
+        "created_at": "2026-11-12T14:23:11.639459+07:00",
+        "operator_os_uid": 1000,
+        "organization_id": "00000000-0000-4000-8000-000000000001"
+      },
+      {
+        "id": "f2c72e14-2ddb-47ce-8a41-ab5ddc9cff3f",
+        "facts": {
+          "reason": "Native compatibility fixture",
+          "revision": "1",
+          "toProjectId": "d8651415-ed44-4de9-a1d8-4659ddd101c9",
+          "fromProjectId": null
+        },
+        "action": "ASSIGN",
+        "schema_id": "1b20c368-e5c8-4967-86a6-facc0cef7725",
+        "created_at": "2026-11-12T14:23:11.643715+07:00",
+        "operator_os_uid": 1000,
+        "organization_id": "00000000-0000-4000-8000-000000000001"
+      }
+    ],
+    "sf_reference_schemas": [
+      {
+        "id": "1b20c368-e5c8-4967-86a6-facc0cef7725",
+        "revision": 1,
+        "created_at": "2026-11-12T14:23:11.639005+07:00",
+        "generation": 1,
+        "provenance": "MANUAL_REFERENCE",
+        "exact_owner": "APP",
+        "container_id": "f7755944-e3fb-47dd-8bd4-f178b64e53d4",
+        "organization_id": "00000000-0000-4000-8000-000000000001"
+      }
+    ],
+    "sf_reference_services": [
+      {
+        "id": "d0e67713-7aa9-479f-9cf0-d3dd12049cd4",
+        "host": "native.example.invalid",
+        "port": 1521,
+        "service": "Pd8651415ed444de9a1d84659ddd101c9",
+        "transport": "TCPS",
+        "created_at": "2026-11-12T14:23:11.63841+07:00",
+        "container_id": "f7755944-e3fb-47dd-8bd4-f178b64e53d4",
+        "organization_id": "00000000-0000-4000-8000-000000000001"
+      }
+    ],
+    "sf_target_binding_revisions": [
+      {
+        "reason": "Bind native compatibility fixture",
+        "actor_id": "rust-developer",
+        "revision": 1,
+        "route_id": "d0e67713-7aa9-479f-9cf0-d3dd12049cd4",
+        "policy_id": "b992e138-c2ac-4975-bfba-75f961fc5ec4",
+        "schema_id": "1b20c368-e5c8-4967-86a6-facc0cef7725",
+        "stream_id": "45d4c413-bd3c-4976-a8b9-70bfd1c18088",
+        "binding_id": "9dd054bc-01af-4aaa-9cdc-b6256fa61b6c",
+        "created_at": "2026-11-12T14:23:11.659173+07:00",
+        "lineage_id": "23fdda3f-0dfb-4e78-be61-8da362c75052",
+        "profile_id": "b66ec805-bb63-467c-b6e6-cec26cbd7046",
+        "project_id": "d8651415-ed44-4de9-a1d8-4659ddd101c9",
+        "exact_owner": "APP",
+        "observed_at": null,
+        "route_alias": "Native fixture route",
+        "container_id": "f7755944-e3fb-47dd-8bd4-f178b64e53d4",
+        "profile_name": "Reference fixture profile",
+        "stream_state": "PROVISIONAL",
+        "assignment_id": "7f0cb402-38b7-4750-a3ed-20f3e6a044b8",
+        "environment_id": "168f9d16-7e28-4400-86c3-931aecdb9065",
+        "identity_state": "PROVISIONAL",
+        "organization_id": "00000000-0000-4000-8000-000000000001",
+        "policy_revision": 1,
+        "principal_alias": "Native fixture writer",
+        "environment_name": "Private request environment",
+        "target_option_id": "b3db828a-0b1f-489b-a611-a0f3c3e9c641",
+        "principal_purpose": "DEPLOY",
+        "observation_digest": null,
+        "profile_retired_at": null,
+        "assignment_revision": 1,
+        "migration_namespace": "NATIVE_FIXTURE",
+        "private_principal_ref": "secret://native/fixture",
+        "route_config_revision": 1,
+        "target_option_revision": 1,
+        "deployment_principal_id": "57f72d16-43fb-4a15-841a-d330cd97562e"
+      }
+    ],
+    "sf_target_bindings": [
+      {
+        "id": "9dd054bc-01af-4aaa-9cdc-b6256fa61b6c",
+        "project_id": "d8651415-ed44-4de9-a1d8-4659ddd101c9",
+        "assignment_id": "7f0cb402-38b7-4750-a3ed-20f3e6a044b8",
+        "environment_id": "168f9d16-7e28-4400-86c3-931aecdb9065",
+        "organization_id": "00000000-0000-4000-8000-000000000001",
+        "current_revision": 1
+      }
+    ],
+    "sf_target_lineages": [
+      {
+        "id": "23fdda3f-0dfb-4e78-be61-8da362c75052",
+        "provenance": "MANUAL_REFERENCE",
+        "declared_at": "2026-11-12T14:23:11.650293+07:00",
+        "container_id": "f7755944-e3fb-47dd-8bd4-f178b64e53d4",
+        "organization_id": "00000000-0000-4000-8000-000000000001"
+      }
+    ],
+    "sf_target_option_revisions": [
+      {
+        "reason": "Configure native compatibility fixture",
+        "revision": 1,
+        "route_id": "d0e67713-7aa9-479f-9cf0-d3dd12049cd4",
+        "option_id": "b3db828a-0b1f-489b-a611-a0f3c3e9c641",
+        "policy_id": "b992e138-c2ac-4975-bfba-75f961fc5ec4",
+        "schema_id": "1b20c368-e5c8-4967-86a6-facc0cef7725",
+        "stream_id": "45d4c413-bd3c-4976-a8b9-70bfd1c18088",
+        "created_at": "2026-11-12T14:23:11.651981+07:00",
+        "lineage_id": "23fdda3f-0dfb-4e78-be61-8da362c75052",
+        "profile_id": "b66ec805-bb63-467c-b6e6-cec26cbd7046",
+        "project_id": "d8651415-ed44-4de9-a1d8-4659ddd101c9",
+        "route_host": "native.example.invalid",
+        "route_port": 1521,
+        "exact_owner": "APP",
+        "observed_at": null,
+        "route_alias": "Native fixture route",
+        "container_id": "f7755944-e3fb-47dd-8bd4-f178b64e53d4",
+        "profile_host": "native.example.invalid",
+        "profile_name": "Reference fixture profile",
+        "profile_port": 1521,
+        "stream_state": "PROVISIONAL",
+        "assignment_id": "7f0cb402-38b7-4750-a3ed-20f3e6a044b8",
+        "route_service": "Pd8651415ed444de9a1d84659ddd101c9",
+        "environment_id": "168f9d16-7e28-4400-86c3-931aecdb9065",
+        "identity_state": "PROVISIONAL",
+        "operator_os_uid": 1000,
+        "organization_id": "00000000-0000-4000-8000-000000000001",
+        "policy_revision": 1,
+        "principal_alias": "Native fixture writer",
+        "profile_service": "Pd8651415ed444de9a1d84659ddd101c9",
+        "profile_revision": 1,
+        "profile_username": "APP",
+        "principal_purpose": "DEPLOY",
+        "observation_digest": null,
+        "migration_namespace": "NATIVE_FIXTURE",
+        "private_principal_ref": "secret://native/fixture",
+        "route_config_revision": 1,
+        "profile_credential_ref": "secret://native/fixture",
+        "deployment_principal_id": "57f72d16-43fb-4a15-841a-d330cd97562e"
+      }
+    ],
+    "sf_target_options": [
+      {
+        "id": "b3db828a-0b1f-489b-a611-a0f3c3e9c641",
+        "enabled": true,
+        "schema_id": "1b20c368-e5c8-4967-86a6-facc0cef7725",
+        "project_id": "d8651415-ed44-4de9-a1d8-4659ddd101c9",
+        "updated_at": "2026-11-12T14:23:11.651353+07:00",
+        "container_id": "f7755944-e3fb-47dd-8bd4-f178b64e53d4",
+        "assignment_id": "7f0cb402-38b7-4750-a3ed-20f3e6a044b8",
+        "organization_id": "00000000-0000-4000-8000-000000000001",
+        "current_revision": 1
+      }
+    ],
+    "sf_target_streams": [
+      {
+        "id": "45d4c413-bd3c-4976-a8b9-70bfd1c18088",
+        "state": "PROVISIONAL",
+        "created_at": "2026-11-12T14:23:11.650801+07:00",
+        "lineage_id": "23fdda3f-0dfb-4e78-be61-8da362c75052",
+        "exact_owner": "APP",
+        "container_id": "f7755944-e3fb-47dd-8bd4-f178b64e53d4",
+        "organization_id": "00000000-0000-4000-8000-000000000001",
+        "migration_namespace": "NATIVE_FIXTURE"
+      }
+    ]
+  },
+  "dependencies": [
+    {
+      "child": "sf_reference_assignments",
+      "parent": "sf_reference_schemas"
+    },
+    {
+      "child": "sf_reference_containers",
+      "parent": "sf_reference_databases"
+    },
+    {
+      "child": "sf_reference_operator_audit",
+      "parent": "sf_reference_schemas"
+    },
+    {
+      "child": "sf_reference_schemas",
+      "parent": "sf_reference_containers"
+    },
+    {
+      "child": "sf_reference_services",
+      "parent": "sf_reference_containers"
+    },
+    {
+      "child": "sf_target_binding_revisions",
+      "parent": "sf_target_bindings"
+    },
+    {
+      "child": "sf_target_binding_revisions",
+      "parent": "sf_reference_assignments"
+    },
+    {
+      "child": "sf_target_binding_revisions",
+      "parent": "sf_reference_schemas"
+    },
+    {
+      "child": "sf_target_binding_revisions",
+      "parent": "sf_profiles"
+    },
+    {
+      "child": "sf_target_binding_revisions",
+      "parent": "sf_target_option_revisions"
+    },
+    {
+      "child": "sf_target_binding_revisions",
+      "parent": "sf_target_streams"
+    },
+    {
+      "child": "sf_target_bindings",
+      "parent": "sf_reference_assignments"
+    },
+    {
+      "child": "sf_target_bindings",
+      "parent": "sf_target_binding_revisions"
+    },
+    {
+      "child": "sf_target_lineages",
+      "parent": "sf_reference_containers"
+    },
+    {
+      "child": "sf_target_option_revisions",
+      "parent": "sf_target_options"
+    },
+    {
+      "child": "sf_target_option_revisions",
+      "parent": "sf_reference_assignments"
+    },
+    {
+      "child": "sf_target_option_revisions",
+      "parent": "sf_reference_schemas"
+    },
+    {
+      "child": "sf_target_option_revisions",
+      "parent": "sf_reference_containers"
+    },
+    {
+      "child": "sf_target_option_revisions",
+      "parent": "sf_profiles"
+    },
+    {
+      "child": "sf_target_option_revisions",
+      "parent": "sf_reference_services"
+    },
+    {
+      "child": "sf_target_option_revisions",
+      "parent": "sf_target_lineages"
+    },
+    {
+      "child": "sf_target_option_revisions",
+      "parent": "sf_target_streams"
+    },
+    {
+      "child": "sf_target_options",
+      "parent": "sf_reference_assignments"
+    },
+    {
+      "child": "sf_target_options",
+      "parent": "sf_reference_schemas"
+    },
+    {
+      "child": "sf_target_options",
+      "parent": "sf_reference_containers"
+    },
+    {
+      "child": "sf_target_options",
+      "parent": "sf_target_option_revisions"
+    },
+    {
+      "child": "sf_target_streams",
+      "parent": "sf_target_lineages"
+    }
+  ]
+}

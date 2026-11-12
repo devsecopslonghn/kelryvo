@@ -1,0 +1,2856 @@
+[
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "snapshotId": "9bbb843f-1a95-4f17-9964-90b2180e0e1f"
+    },
+    "output": {
+      "id": "9bbb843f-1a95-4f17-9964-90b2180e0e1f",
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "bindingId": "d97ef191-4093-4f11-b24e-99921d779439",
+      "bindingRevision": "1",
+      "assignmentRevision": "1",
+      "streamId": "16887157-e309-4038-a90d-33ec3814a7c0",
+      "routeId": "9a69df8d-a649-42dd-8a90-0b5a9c737d65",
+      "connectionId": "032c1b27-53ad-4a13-bbc8-b74877c230db",
+      "connectionRevision": "1",
+      "owner": "NATIVE_APP",
+      "identity": {
+        "cdb": true,
+        "dbid": "100",
+        "engine": "oracle",
+        "version": "26.1",
+        "containerId": "3",
+        "serviceName": "NATIVEPDB",
+        "dbUniqueName": "NATIVE_DISCOVERY",
+        "containerDbid": "200",
+        "containerGuid": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "containerName": "NATIVEPDB",
+        "resetlogsChange": "1000"
+      },
+      "identityDigest": "8ec0acf1c30a069766aabae3e5dd5577ab087946d299877de779921393a1e3ed",
+      "contentDigest": "f2c192eb2f53b776fc73c90d78c177dcfb3641c1c4817a05ac022fc2096fcd81",
+      "provenance": "FIXTURE",
+      "liveAccepted": false,
+      "observedAt": "2026-11-12T07:23:14.069Z",
+      "reason": "Observe bounded native schema",
+      "actorId": "rust-developer",
+      "coverage": {
+        "VIEW": "COMPLETE",
+        "INDEX": "COMPLETE",
+        "TABLE": "COMPLETE",
+        "SEQUENCE": "COMPLETE",
+        "DEPENDENCY": "COMPLETE"
+      },
+      "limitations": [],
+      "objectCount": 1,
+      "schema": {
+        "owner": "NATIVE_APP",
+        "objects": [
+          {
+            "name": "ITEM",
+            "type": "TABLE",
+            "owner": "NATIVE_APP",
+            "checksum": "4f7cd49c379407cf00946c802c84135a7d347d1f430db90410258895f3ce12f4",
+            "definition": {
+              "columns": [
+                {
+                  "name": "ID",
+                  "type": "NUMBER"
+                }
+              ],
+              "numeric": 1
+            }
+          }
+        ],
+        "coverage": {
+          "VIEW": "COMPLETE",
+          "INDEX": "COMPLETE",
+          "TABLE": "COMPLETE",
+          "SEQUENCE": "COMPLETE",
+          "DEPENDENCY": "COMPLETE"
+        },
+        "limitations": [],
+        "contentDigest": "f2c192eb2f53b776fc73c90d78c177dcfb3641c1c4817a05ac022fc2096fcd81"
+      }
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "bindingId": "d97ef191-4093-4f11-b24e-99921d779439"
+    },
+    "output": {
+      "latest": {
+        "id": "e061be70-21cc-4a0e-882e-a6afa36e360e",
+        "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+        "bindingId": "d97ef191-4093-4f11-b24e-99921d779439",
+        "bindingRevision": "1",
+        "assignmentRevision": "1",
+        "streamId": "16887157-e309-4038-a90d-33ec3814a7c0",
+        "routeId": "9a69df8d-a649-42dd-8a90-0b5a9c737d65",
+        "connectionId": "032c1b27-53ad-4a13-bbc8-b74877c230db",
+        "connectionRevision": "1",
+        "owner": "NATIVE_APP",
+        "identity": {
+          "cdb": true,
+          "dbid": "100",
+          "engine": "oracle",
+          "version": "26.1",
+          "containerId": "3",
+          "serviceName": "NATIVEPDB",
+          "dbUniqueName": "NATIVE_DISCOVERY",
+          "containerDbid": "200",
+          "containerGuid": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "containerName": "NATIVEPDB",
+          "resetlogsChange": "1000"
+        },
+        "identityDigest": "8ec0acf1c30a069766aabae3e5dd5577ab087946d299877de779921393a1e3ed",
+        "contentDigest": "e453ad9456004f02edc6dc43cbc180a201a8fea178a38eacb35c729c51e527d9",
+        "provenance": "FIXTURE",
+        "liveAccepted": false,
+        "observedAt": "2026-11-12T07:23:14.240Z",
+        "reason": "Observe bounded native schema",
+        "actorId": "rust-developer",
+        "coverage": {
+          "VIEW": "COMPLETE",
+          "INDEX": "COMPLETE",
+          "TABLE": "PARTIAL",
+          "SEQUENCE": "COMPLETE",
+          "DEPENDENCY": "COMPLETE"
+        },
+        "limitations": [],
+        "objectCount": 0
+      },
+      "baseline": {
+        "id": "78e9386f-671d-4d98-923c-733fac4607fd",
+        "name": "Baseline Tiếng Việt 😀",
+        "snapshotId": "9bbb843f-1a95-4f17-9964-90b2180e0e1f"
+      },
+      "comparison": {
+        "state": "UNVERIFIED",
+        "changes": [
+          {
+            "owner": "NATIVE_APP",
+            "type": "TABLE",
+            "name": "ITEM",
+            "before": {
+              "name": "ITEM",
+              "type": "TABLE",
+              "owner": "NATIVE_APP",
+              "checksum": "4f7cd49c379407cf00946c802c84135a7d347d1f430db90410258895f3ce12f4",
+              "definition": {
+                "columns": [
+                  {
+                    "name": "ID",
+                    "type": "NUMBER"
+                  }
+                ],
+                "numeric": 1
+              }
+            },
+            "after": null,
+            "kind": "UNVERIFIED",
+            "details": [
+              "OBJECT_ABSENCE_UNVERIFIED"
+            ]
+          }
+        ],
+        "summary": {
+          "added": 0,
+          "removed": 0,
+          "modified": 0,
+          "unverified": 1
+        },
+        "limitations": [
+          "INCOMPLETE_METADATA_COVERAGE",
+          "OBJECT_ABSENCE_UNVERIFIED"
+        ]
+      },
+      "retainedSnapshot": null,
+      "executionAuthority": false
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "target": {
+        "bindingId": "41a4e1cc-808a-4ec1-8a62-7da15ed9ea15",
+        "bindingRevision": "1",
+        "assignmentId": "6415c379-c764-41a3-8223-413bac74c554",
+        "assignmentRevision": "1",
+        "targetOptionId": "c2461192-6265-476e-bd0b-04949560d9b5",
+        "targetOptionRevision": "1",
+        "lineageId": "0b4295fa-ebf2-4510-91dd-9819aa73f867",
+        "identityState": "PROVISIONAL",
+        "observationDigest": null,
+        "streamId": "2d8061df-7a81-4fd4-b583-1eaddf5c4167",
+        "streamState": "PROVISIONAL",
+        "migrationNamespace": "KELRYVO",
+        "exactOwner": "NATIVE_VERIFY_APP",
+        "routeId": "3a329f73-861a-4796-9bde-dd482dc363d6",
+        "routeConfigRevision": "1",
+        "routeAlias": "Native verification fixture",
+        "policyId": "3651ad06-465e-4e4e-80c6-de4161145c1f",
+        "policyRevision": "1",
+        "deploymentPrincipalId": "3651ad06-465e-4e4e-80c6-de4161145c1f",
+        "principalPurpose": "DEPLOY",
+        "privatePrincipalRef": "secret://native-verification/master",
+        "principalAlias": "Instance migration principal",
+        "createdAt": "2026-11-12T07:23:14.725Z",
+        "sourceBindingGeneration": "1",
+        "profileId": "37bf02c5-ec0e-44f8-bbae-c3603725e2f0",
+        "profileName": "Native verification fixture",
+        "environmentId": "c715fb6e-ac80-4d0b-ac91-ca6f68674665",
+        "environmentName": "Development"
+      }
+    },
+    "output": {
+      "state": "CURRENT",
+      "reasons": []
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "target": {
+        "bindingId": "41a4e1cc-808a-4ec1-8a62-7da15ed9ea15",
+        "bindingRevision": "1",
+        "assignmentId": "6415c379-c764-41a3-8223-413bac74c554",
+        "assignmentRevision": "1",
+        "targetOptionId": "c2461192-6265-476e-bd0b-04949560d9b5",
+        "targetOptionRevision": "1",
+        "lineageId": "0b4295fa-ebf2-4510-91dd-9819aa73f867",
+        "identityState": "PROVISIONAL",
+        "observationDigest": null,
+        "streamId": "2d8061df-7a81-4fd4-b583-1eaddf5c4167",
+        "streamState": "PROVISIONAL",
+        "migrationNamespace": "KELRYVO",
+        "exactOwner": "NATIVE_VERIFY_APP",
+        "routeId": "3a329f73-861a-4796-9bde-dd482dc363d6",
+        "routeConfigRevision": "1",
+        "routeAlias": "Native verification fixture",
+        "policyId": "3651ad06-465e-4e4e-80c6-de4161145c1f",
+        "policyRevision": "1",
+        "deploymentPrincipalId": "3651ad06-465e-4e4e-80c6-de4161145c1f",
+        "principalPurpose": "DEPLOY",
+        "privatePrincipalRef": "secret://forged/principal",
+        "principalAlias": "Instance migration principal",
+        "createdAt": "2026-11-12T07:23:14.725Z",
+        "sourceBindingGeneration": "1",
+        "profileId": "37bf02c5-ec0e-44f8-bbae-c3603725e2f0",
+        "profileName": "Native verification fixture",
+        "environmentId": "c715fb6e-ac80-4d0b-ac91-ca6f68674665",
+        "environmentName": "Development"
+      }
+    },
+    "output": {
+      "state": "UNKNOWN",
+      "reasons": [
+        "INTEGRITY_UNAVAILABLE"
+      ]
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "target": {
+        "bindingId": "41a4e1cc-808a-4ec1-8a62-7da15ed9ea15",
+        "bindingRevision": "1",
+        "assignmentId": "6415c379-c764-41a3-8223-413bac74c554",
+        "assignmentRevision": "1",
+        "targetOptionId": "c2461192-6265-476e-bd0b-04949560d9b5",
+        "targetOptionRevision": "1",
+        "lineageId": "0b4295fa-ebf2-4510-91dd-9819aa73f867",
+        "identityState": "PROVISIONAL",
+        "observationDigest": null,
+        "streamId": "2d8061df-7a81-4fd4-b583-1eaddf5c4167",
+        "streamState": "PROVISIONAL",
+        "migrationNamespace": "KELRYVO",
+        "exactOwner": "NATIVE_VERIFY_APP",
+        "routeId": "3a329f73-861a-4796-9bde-dd482dc363d6",
+        "routeConfigRevision": "1",
+        "routeAlias": "Native verification fixture",
+        "policyId": "3651ad06-465e-4e4e-80c6-de4161145c1f",
+        "policyRevision": "1",
+        "deploymentPrincipalId": "3651ad06-465e-4e4e-80c6-de4161145c1f",
+        "principalPurpose": "DEPLOY",
+        "privatePrincipalRef": "secret://native-verification/master",
+        "principalAlias": "Instance migration principal",
+        "createdAt": "2026-11-12T07:23:14.725Z",
+        "sourceBindingGeneration": "1",
+        "profileId": "37bf02c5-ec0e-44f8-bbae-c3603725e2f0",
+        "profileName": "Native verification fixture",
+        "environmentId": "c715fb6e-ac80-4d0b-ac91-ca6f68674665",
+        "environmentName": "Development"
+      }
+    },
+    "output": {
+      "state": "STALE",
+      "reasons": [
+        "BINDING_SUPERSEDED",
+        "OPTION_SUPERSEDED"
+      ]
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "target": {
+        "bindingId": "41a4e1cc-808a-4ec1-8a62-7da15ed9ea15",
+        "bindingRevision": "2",
+        "assignmentId": "6415c379-c764-41a3-8223-413bac74c554",
+        "assignmentRevision": "1",
+        "targetOptionId": "c2461192-6265-476e-bd0b-04949560d9b5",
+        "targetOptionRevision": "2",
+        "lineageId": "0b4295fa-ebf2-4510-91dd-9819aa73f867",
+        "identityState": "OBSERVED",
+        "observationDigest": "562e952f0b8cac48fec5811092d8d7fe15c6a261be476930e7c819b12f27b092",
+        "streamId": "2d8061df-7a81-4fd4-b583-1eaddf5c4167",
+        "streamState": "PROVISIONAL",
+        "migrationNamespace": "KELRYVO",
+        "exactOwner": "NATIVE_VERIFY_APP",
+        "routeId": "3a329f73-861a-4796-9bde-dd482dc363d6",
+        "routeConfigRevision": "1",
+        "routeAlias": "Native verification fixture",
+        "policyId": "3651ad06-465e-4e4e-80c6-de4161145c1f",
+        "policyRevision": "1",
+        "deploymentPrincipalId": "3651ad06-465e-4e4e-80c6-de4161145c1f",
+        "principalPurpose": "DEPLOY",
+        "privatePrincipalRef": "secret://native-verification/master",
+        "principalAlias": "Instance migration principal",
+        "createdAt": "2026-11-12T07:23:15.064Z",
+        "sourceBindingGeneration": "1",
+        "profileId": "37bf02c5-ec0e-44f8-bbae-c3603725e2f0",
+        "profileName": "Native verification fixture",
+        "environmentId": "c715fb6e-ac80-4d0b-ac91-ca6f68674665",
+        "environmentName": "Development"
+      }
+    },
+    "output": {
+      "state": "STALE",
+      "reasons": [
+        "OBSERVATION_SUPERSEDED"
+      ]
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "target": {
+        "bindingId": "41a4e1cc-808a-4ec1-8a62-7da15ed9ea15",
+        "bindingRevision": "3",
+        "assignmentId": "6415c379-c764-41a3-8223-413bac74c554",
+        "assignmentRevision": "1",
+        "targetOptionId": "c2461192-6265-476e-bd0b-04949560d9b5",
+        "targetOptionRevision": "3",
+        "lineageId": "0b4295fa-ebf2-4510-91dd-9819aa73f867",
+        "identityState": "VERIFIED",
+        "observationDigest": "fd3c8d5389ecd269f21c5c9ae93ea3564ba4ca0594c1af655e8541e15a262987",
+        "streamId": "2d8061df-7a81-4fd4-b583-1eaddf5c4167",
+        "streamState": "PROVISIONAL",
+        "migrationNamespace": "KELRYVO",
+        "exactOwner": "NATIVE_VERIFY_APP",
+        "routeId": "3a329f73-861a-4796-9bde-dd482dc363d6",
+        "routeConfigRevision": "1",
+        "routeAlias": "Native verification fixture",
+        "policyId": "3651ad06-465e-4e4e-80c6-de4161145c1f",
+        "policyRevision": "1",
+        "deploymentPrincipalId": "3651ad06-465e-4e4e-80c6-de4161145c1f",
+        "principalPurpose": "DEPLOY",
+        "privatePrincipalRef": "secret://native-verification/master",
+        "principalAlias": "Instance migration principal",
+        "createdAt": "2026-11-12T07:23:15.739Z",
+        "sourceBindingGeneration": "1",
+        "profileId": "37bf02c5-ec0e-44f8-bbae-c3603725e2f0",
+        "profileName": "Native verification fixture",
+        "environmentId": "c715fb6e-ac80-4d0b-ac91-ca6f68674665",
+        "environmentName": "Development"
+      }
+    },
+    "output": {
+      "state": "STALE",
+      "reasons": [
+        "OBSERVATION_UNAVAILABLE",
+        "OBSERVATION_SUPERSEDED"
+      ]
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "target": {
+        "bindingId": "41a4e1cc-808a-4ec1-8a62-7da15ed9ea15",
+        "bindingRevision": "3",
+        "assignmentId": "6415c379-c764-41a3-8223-413bac74c554",
+        "assignmentRevision": "1",
+        "targetOptionId": "c2461192-6265-476e-bd0b-04949560d9b5",
+        "targetOptionRevision": "3",
+        "lineageId": "0b4295fa-ebf2-4510-91dd-9819aa73f867",
+        "identityState": "VERIFIED",
+        "observationDigest": "fd3c8d5389ecd269f21c5c9ae93ea3564ba4ca0594c1af655e8541e15a262987",
+        "streamId": "2d8061df-7a81-4fd4-b583-1eaddf5c4167",
+        "streamState": "PROVISIONAL",
+        "migrationNamespace": "KELRYVO",
+        "exactOwner": "NATIVE_VERIFY_APP",
+        "routeId": "3a329f73-861a-4796-9bde-dd482dc363d6",
+        "routeConfigRevision": "1",
+        "routeAlias": "Native verification fixture",
+        "policyId": "3651ad06-465e-4e4e-80c6-de4161145c1f",
+        "policyRevision": "1",
+        "deploymentPrincipalId": "3651ad06-465e-4e4e-80c6-de4161145c1f",
+        "principalPurpose": "DEPLOY",
+        "privatePrincipalRef": "secret://native-verification/master",
+        "principalAlias": "Instance migration principal",
+        "createdAt": "2026-11-12T07:23:15.739Z",
+        "sourceBindingGeneration": "1",
+        "profileId": "37bf02c5-ec0e-44f8-bbae-c3603725e2f0",
+        "profileName": "Native verification fixture",
+        "environmentId": "c715fb6e-ac80-4d0b-ac91-ca6f68674665",
+        "environmentName": "Development"
+      }
+    },
+    "output": {
+      "state": "STALE",
+      "reasons": [
+        "OBSERVATION_SUPERSEDED"
+      ]
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "target": {
+        "bindingId": "41a4e1cc-808a-4ec1-8a62-7da15ed9ea15",
+        "bindingRevision": "3",
+        "assignmentId": "6415c379-c764-41a3-8223-413bac74c554",
+        "assignmentRevision": 1,
+        "targetOptionId": "c2461192-6265-476e-bd0b-04949560d9b5",
+        "targetOptionRevision": "3",
+        "lineageId": "0b4295fa-ebf2-4510-91dd-9819aa73f867",
+        "identityState": "VERIFIED",
+        "observationDigest": "fd3c8d5389ecd269f21c5c9ae93ea3564ba4ca0594c1af655e8541e15a262987",
+        "streamId": "2d8061df-7a81-4fd4-b583-1eaddf5c4167",
+        "streamState": "PROVISIONAL",
+        "migrationNamespace": "KELRYVO",
+        "exactOwner": "NATIVE_VERIFY_APP",
+        "routeId": "3a329f73-861a-4796-9bde-dd482dc363d6",
+        "routeConfigRevision": "1",
+        "routeAlias": "Native verification fixture",
+        "policyId": "3651ad06-465e-4e4e-80c6-de4161145c1f",
+        "policyRevision": "1",
+        "deploymentPrincipalId": "3651ad06-465e-4e4e-80c6-de4161145c1f",
+        "principalPurpose": "DEPLOY",
+        "privatePrincipalRef": "secret://native-verification/master",
+        "principalAlias": "Instance migration principal",
+        "createdAt": "2026-11-12T07:23:15.739Z",
+        "sourceBindingGeneration": "1",
+        "profileId": "37bf02c5-ec0e-44f8-bbae-c3603725e2f0",
+        "profileName": "Native verification fixture",
+        "environmentId": "c715fb6e-ac80-4d0b-ac91-ca6f68674665",
+        "environmentName": "Development"
+      }
+    },
+    "output": {
+      "state": "UNKNOWN",
+      "reasons": [
+        "INTEGRITY_UNAVAILABLE"
+      ]
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "target": {
+        "bindingId": "41a4e1cc-808a-4ec1-8a62-7da15ed9ea15",
+        "bindingRevision": "3",
+        "assignmentId": "6415c379-c764-41a3-8223-413bac74c554",
+        "assignmentRevision": "1",
+        "targetOptionId": "c2461192-6265-476e-bd0b-04949560d9b5",
+        "targetOptionRevision": "3",
+        "lineageId": "0b4295fa-ebf2-4510-91dd-9819aa73f867",
+        "identityState": "VERIFIED",
+        "observationDigest": "fd3c8d5389ecd269f21c5c9ae93ea3564ba4ca0594c1af655e8541e15a262987",
+        "streamId": "2d8061df-7a81-4fd4-b583-1eaddf5c4167",
+        "streamState": "PROVISIONAL",
+        "migrationNamespace": "KELRYVO",
+        "exactOwner": "NATIVE_VERIFY_APP",
+        "routeId": "3a329f73-861a-4796-9bde-dd482dc363d6",
+        "routeConfigRevision": "1",
+        "routeAlias": "Native verification fixture",
+        "policyId": "3651ad06-465e-4e4e-80c6-de4161145c1f",
+        "policyRevision": "1",
+        "deploymentPrincipalId": "3651ad06-465e-4e4e-80c6-de4161145c1f",
+        "principalPurpose": "DEPLOY",
+        "privatePrincipalRef": "secret://native-verification/master",
+        "principalAlias": "Instance migration principal",
+        "createdAt": "2026-11-12T07:23:15.739Z",
+        "sourceBindingGeneration": "1",
+        "profileId": "37bf02c5-ec0e-44f8-bbae-c3603725e2f0",
+        "profileName": "Native verification fixture",
+        "environmentId": "c715fb6e-ac80-4d0b-ac91-ca6f68674665",
+        "environmentName": "Development"
+      }
+    },
+    "output": {
+      "state": "STALE",
+      "reasons": [
+        "CONNECTION_REVISION_CHANGED",
+        "OBSERVATION_SUPERSEDED"
+      ]
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "target": {
+        "bindingId": "41a4e1cc-808a-4ec1-8a62-7da15ed9ea15",
+        "bindingRevision": "3",
+        "assignmentId": "6415c379-c764-41a3-8223-413bac74c554",
+        "assignmentRevision": "1",
+        "targetOptionId": "c2461192-6265-476e-bd0b-04949560d9b5",
+        "targetOptionRevision": "3",
+        "lineageId": "0b4295fa-ebf2-4510-91dd-9819aa73f867",
+        "identityState": "VERIFIED",
+        "observationDigest": "fd3c8d5389ecd269f21c5c9ae93ea3564ba4ca0594c1af655e8541e15a262987",
+        "streamId": "2d8061df-7a81-4fd4-b583-1eaddf5c4167",
+        "streamState": "PROVISIONAL",
+        "migrationNamespace": "KELRYVO",
+        "exactOwner": "NATIVE_VERIFY_APP",
+        "routeId": "3a329f73-861a-4796-9bde-dd482dc363d6",
+        "routeConfigRevision": "1",
+        "routeAlias": "Native verification fixture",
+        "policyId": "3651ad06-465e-4e4e-80c6-de4161145c1f",
+        "policyRevision": "1",
+        "deploymentPrincipalId": "3651ad06-465e-4e4e-80c6-de4161145c1f",
+        "principalPurpose": "DEPLOY",
+        "privatePrincipalRef": "secret://native-verification/master",
+        "principalAlias": "Instance migration principal",
+        "createdAt": "2026-11-12T07:23:15.739Z",
+        "sourceBindingGeneration": "1",
+        "profileId": "37bf02c5-ec0e-44f8-bbae-c3603725e2f0",
+        "profileName": "Native verification fixture",
+        "environmentId": "c715fb6e-ac80-4d0b-ac91-ca6f68674665",
+        "environmentName": "Development"
+      }
+    },
+    "output": {
+      "state": "STALE",
+      "reasons": [
+        "CONNECTION_REVISION_CHANGED",
+        "SOURCE_CHANGED",
+        "OBSERVATION_SUPERSEDED"
+      ]
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "target": {
+        "bindingId": "41a4e1cc-808a-4ec1-8a62-7da15ed9ea15",
+        "bindingRevision": "3",
+        "assignmentId": "6415c379-c764-41a3-8223-413bac74c554",
+        "assignmentRevision": "1",
+        "targetOptionId": "c2461192-6265-476e-bd0b-04949560d9b5",
+        "targetOptionRevision": "3",
+        "lineageId": "0b4295fa-ebf2-4510-91dd-9819aa73f867",
+        "identityState": "VERIFIED",
+        "observationDigest": "fd3c8d5389ecd269f21c5c9ae93ea3564ba4ca0594c1af655e8541e15a262987",
+        "streamId": "2d8061df-7a81-4fd4-b583-1eaddf5c4167",
+        "streamState": "PROVISIONAL",
+        "migrationNamespace": "KELRYVO",
+        "exactOwner": "NATIVE_VERIFY_APP",
+        "routeId": "3a329f73-861a-4796-9bde-dd482dc363d6",
+        "routeConfigRevision": "1",
+        "routeAlias": "Native verification fixture",
+        "policyId": "3651ad06-465e-4e4e-80c6-de4161145c1f",
+        "policyRevision": "1",
+        "deploymentPrincipalId": "3651ad06-465e-4e4e-80c6-de4161145c1f",
+        "principalPurpose": "DEPLOY",
+        "privatePrincipalRef": "secret://native-verification/master",
+        "principalAlias": "Instance migration principal",
+        "createdAt": "2026-11-12T07:23:15.739Z",
+        "sourceBindingGeneration": "1",
+        "profileId": "37bf02c5-ec0e-44f8-bbae-c3603725e2f0",
+        "profileName": "Native verification fixture",
+        "environmentId": "c715fb6e-ac80-4d0b-ac91-ca6f68674665",
+        "environmentName": "Development"
+      }
+    },
+    "output": {
+      "state": "STALE",
+      "reasons": [
+        "CONNECTION_REVISION_CHANGED",
+        "SOURCE_CHANGED",
+        "OBSERVATION_SUPERSEDED",
+        "SCHEMA_OBSERVATION_CHANGED"
+      ]
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "planId": "896a4218-c968-489f-9921-25c84eec96a2",
+      "comparisonId": "098fbbdd-a872-4a76-912d-9124d8d98803"
+    },
+    "output": {
+      "id": "098fbbdd-a872-4a76-912d-9124d8d98803",
+      "digest": "37de3d5b3e13c9a38220cb47d4b87c51e17556a167afc7e36524691a4f9afb17",
+      "evidence": {
+        "base": {
+          "id": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+          "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+          "folder": "migrations",
+          "objectFormat": "sha1",
+          "repositoryId": "native-reference",
+          "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+          "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20"
+        },
+        "files": [
+          {
+            "change": "UNCHANGED",
+            "version": "1",
+            "basePath": "migrations/V1__workspace.sql",
+            "statements": null,
+            "candidatePath": "migrations/V1__workspace.sql"
+          }
+        ],
+        "format": 2,
+        "planId": "896a4218-c968-489f-9921-25c84eec96a2",
+        "alignment": "VERSION_AND_STATEMENT_SOURCE",
+        "candidate": {
+          "id": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+          "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+          "folder": "migrations",
+          "objectFormat": "sha1",
+          "repositoryId": "native-reference",
+          "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+          "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20"
+        },
+        "intentDigest": "66e42e405c594d5fae406d0ea8f03c2e614b91afbd3ff2ccd9133d4bba48dc4c"
+      },
+      "createdBy": "rust-developer",
+      "createdAt": "2026-11-12T07:23:16.791Z",
+      "facts": [
+        {
+          "version": "1",
+          "change": "UNCHANGED",
+          "base": {
+            "path": "migrations/V1__workspace.sql",
+            "sha256": "2d73d520707306bb8c554688a7cb79261e0dfd6c8cc406e007ffdc157004e021",
+            "bytes": 76,
+            "content": "CREATE TABLE item(id NUMBER);\nALTER TABLE item ADD label VARCHAR2(40 BYTE);\n"
+          },
+          "candidate": {
+            "path": "migrations/V1__workspace.sql",
+            "sha256": "2d73d520707306bb8c554688a7cb79261e0dfd6c8cc406e007ffdc157004e021",
+            "bytes": 76,
+            "content": "CREATE TABLE item(id NUMBER);\nALTER TABLE item ADD label VARCHAR2(40 BYTE);\n"
+          }
+        }
+      ],
+      "offline": true,
+      "executionAuthority": false
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "planId": "896a4218-c968-489f-9921-25c84eec96a2",
+      "comparisonId": "7b5e1813-73d8-4587-b0fe-7ec0c9af91a9"
+    },
+    "output": {
+      "id": "7b5e1813-73d8-4587-b0fe-7ec0c9af91a9",
+      "digest": "df7a6a258b3cf14e9be000adbb8ff89b1eda47e6a1b046142b95630b46e0285b",
+      "evidence": {
+        "base": {
+          "id": "f56b935c-3b7c-48c0-9ab5-630ce79e28d1",
+          "commit": "dddddddddddddddddddddddddddddddddddddddd",
+          "folder": "migrations",
+          "objectFormat": "sha1",
+          "repositoryId": "native-reference",
+          "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+          "manifestDigest": "97bb7294d40af5046a6bd558f1cd655eeb2ae4f2fe3e14b9354e6734032af651"
+        },
+        "files": [
+          {
+            "change": "CHANGED",
+            "version": "1",
+            "basePath": "migrations/V1__workspace.sql",
+            "statements": [
+              {
+                "base": {
+                  "endByte": 42,
+                  "startByte": 0,
+                  "sourceSha256": "c9fea98a5a76864097aa6c19d9c9143f88f5550996ccf84acd6ccbc58eb5f44e",
+                  "executionSha256": "93255b43f15cb9c15e8c486c45f8f40c3d9027d974551d0280700801e3ade413"
+                },
+                "change": "AMBIGUOUS",
+                "ordinal": 1,
+                "ambiguity": "MULTIPLE_MODIFICATION_CANDIDATES",
+                "candidate": null
+              },
+              {
+                "base": null,
+                "change": "AMBIGUOUS",
+                "ordinal": 1,
+                "ambiguity": "MULTIPLE_MODIFICATION_CANDIDATES",
+                "candidate": {
+                  "endByte": 29,
+                  "startByte": 0,
+                  "sourceSha256": "426ce06b97aa94e7e732f08049cb33a1f8a3a9a9de5f78652eea7ce534a60f20",
+                  "executionSha256": "bc29a54a7940e16691b29be7a361b05faa86528cfa5668aa6297d4963d63b42e"
+                }
+              },
+              {
+                "base": null,
+                "change": "AMBIGUOUS",
+                "ordinal": 2,
+                "ambiguity": "MULTIPLE_MODIFICATION_CANDIDATES",
+                "candidate": {
+                  "endByte": 75,
+                  "startByte": 30,
+                  "sourceSha256": "9b3429efdebe1d471697a07994a04be5a2a5f8d017b2f19c7a05e07307df73d5",
+                  "executionSha256": "e3a961c1e0b62e6971b9a1a318dcab243b12e9fdfc0d50dcbca8013ca4b1d86d"
+                }
+              }
+            ],
+            "candidatePath": "migrations/V1__workspace.sql"
+          }
+        ],
+        "format": 2,
+        "planId": "896a4218-c968-489f-9921-25c84eec96a2",
+        "alignment": "VERSION_AND_STATEMENT_SOURCE",
+        "candidate": {
+          "id": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+          "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+          "folder": "migrations",
+          "objectFormat": "sha1",
+          "repositoryId": "native-reference",
+          "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+          "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20"
+        },
+        "intentDigest": "66e42e405c594d5fae406d0ea8f03c2e614b91afbd3ff2ccd9133d4bba48dc4c"
+      },
+      "createdBy": "rust-developer",
+      "createdAt": "2026-11-12T07:23:17.032Z",
+      "facts": [
+        {
+          "version": "1",
+          "change": "CHANGED",
+          "base": {
+            "path": "migrations/V1__workspace.sql",
+            "sha256": "863903914961f9bd7ad10854e0ce7c969aaaeeb216218aac9536bfb7226ef145",
+            "bytes": 43,
+            "content": "CREATE TABLE review_comparison(id NUMBER);\n"
+          },
+          "candidate": {
+            "path": "migrations/V1__workspace.sql",
+            "sha256": "2d73d520707306bb8c554688a7cb79261e0dfd6c8cc406e007ffdc157004e021",
+            "bytes": 76,
+            "content": "CREATE TABLE item(id NUMBER);\nALTER TABLE item ADD label VARCHAR2(40 BYTE);\n"
+          }
+        }
+      ],
+      "offline": true,
+      "executionAuthority": false
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "planId": "896a4218-c968-489f-9921-25c84eec96a2"
+    },
+    "output": {
+      "plan": {
+        "id": "896a4218-c968-489f-9921-25c84eec96a2",
+        "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+        "authorId": "rust-developer",
+        "createdAt": "2026-11-12T07:23:16.767703+00:00",
+        "sourceBindingGeneration": "3",
+        "status": "PENDING_APPROVAL",
+        "decision": null,
+        "decisionReason": null,
+        "decidedBy": null,
+        "decidedByName": null,
+        "decidedAt": null,
+        "approvalReference": null,
+        "revocation": null
+      },
+      "retainedIntent": {
+        "format": 3,
+        "digest": "66e42e405c594d5fae406d0ea8f03c2e614b91afbd3ff2ccd9133d4bba48dc4c",
+        "organizationId": "00000000-0000-4000-8000-000000000001",
+        "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+        "releaseId": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+        "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+        "objectFormat": "sha1",
+        "folder": "migrations",
+        "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+        "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20",
+        "requesterId": "rust-developer",
+        "profileId": "c134adfb-ace7-414b-a2f6-9493dae07494",
+        "profileName": "Reference fixture profile",
+        "environmentId": "c715fb6e-ac80-4d0b-ac91-ca6f68674665",
+        "environmentName": "Development",
+        "engine": "oracle",
+        "host": "native.example.invalid",
+        "port": 1521,
+        "service": "Pc03bcfb09433440f86b0f62a7860c1c8",
+        "username": "APP",
+        "items": [
+          {
+            "path": "migrations/V1__workspace.sql",
+            "version": "1",
+            "sha256": "2d73d520707306bb8c554688a7cb79261e0dfd6c8cc406e007ffdc157004e021"
+          }
+        ],
+        "statements": [
+          {
+            "ordinal": 1,
+            "path": "migrations/V1__workspace.sql",
+            "fileOrdinal": 1,
+            "startByte": 0,
+            "endByte": 29,
+            "sourceSha256": "426ce06b97aa94e7e732f08049cb33a1f8a3a9a9de5f78652eea7ce534a60f20",
+            "executionSha256": "bc29a54a7940e16691b29be7a361b05faa86528cfa5668aa6297d4963d63b42e"
+          },
+          {
+            "ordinal": 2,
+            "path": "migrations/V1__workspace.sql",
+            "fileOrdinal": 2,
+            "startByte": 30,
+            "endByte": 75,
+            "sourceSha256": "9b3429efdebe1d471697a07994a04be5a2a5f8d017b2f19c7a05e07307df73d5",
+            "executionSha256": "e3a961c1e0b62e6971b9a1a318dcab243b12e9fdfc0d50dcbca8013ca4b1d86d"
+          }
+        ],
+        "target": {
+          "bindingId": "db916244-8394-48f5-b9e5-99fe280f3622",
+          "bindingRevision": "1",
+          "assignmentId": "3c50628c-0db6-41c9-9130-c4fee61e80ea",
+          "assignmentRevision": "1",
+          "targetOptionId": "69a6fddd-12a4-4077-aaa9-110bc9cf1444",
+          "targetOptionRevision": "1",
+          "lineageId": "f6513179-0a2b-467e-8b8a-8192f79ed87a",
+          "identityState": "PROVISIONAL",
+          "observationDigest": null,
+          "streamId": "60fc9ff3-e8a5-4dd1-a221-bd0e28500856",
+          "streamState": "PROVISIONAL",
+          "migrationNamespace": "NATIVE_FIXTURE",
+          "exactOwner": "APP",
+          "routeId": "f552b24f-5711-4bd3-a205-bdc810ed9d7e",
+          "routeConfigRevision": "1",
+          "routeAlias": "Native fixture route",
+          "policyId": "e3fd4fad-f710-4664-af5e-9b29fd317246",
+          "policyRevision": "1",
+          "deploymentPrincipalId": "a0da448f-66e2-4a95-9526-660894046cc5",
+          "principalPurpose": "DEPLOY",
+          "principalAlias": "Native fixture writer",
+          "createdAt": "2026-11-12T07:23:16.779Z",
+          "sourceBindingGeneration": "3"
+        },
+        "sourceComparisons": [
+          {
+            "id": "098fbbdd-a872-4a76-912d-9124d8d98803",
+            "actorId": "rust-developer",
+            "createdAt": "2026-11-12T07:23:16.791Z",
+            "facts": {
+              "digest": "37de3d5b3e13c9a38220cb47d4b87c51e17556a167afc7e36524691a4f9afb17",
+              "evidence": {
+                "base": {
+                  "id": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+                  "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+                  "folder": "migrations",
+                  "objectFormat": "sha1",
+                  "repositoryId": "native-reference",
+                  "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+                  "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20"
+                },
+                "format": 2,
+                "planId": "896a4218-c968-489f-9921-25c84eec96a2",
+                "alignment": "VERSION_AND_STATEMENT_SOURCE",
+                "candidate": {
+                  "id": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+                  "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+                  "folder": "migrations",
+                  "objectFormat": "sha1",
+                  "repositoryId": "native-reference",
+                  "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+                  "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20"
+                },
+                "intentDigest": "66e42e405c594d5fae406d0ea8f03c2e614b91afbd3ff2ccd9133d4bba48dc4c"
+              }
+            }
+          },
+          {
+            "id": "546c9b57-f84b-4a50-a8c0-72376b5f1e73",
+            "actorId": "rust-developer",
+            "createdAt": "2026-11-12T07:23:16.961Z",
+            "facts": {
+              "digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+              "evidence": {
+                "base": {
+                  "id": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+                  "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+                  "folder": "migrations",
+                  "objectFormat": "sha1",
+                  "repositoryId": "native-reference",
+                  "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+                  "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20"
+                },
+                "format": 2,
+                "planId": "896a4218-c968-489f-9921-25c84eec96a2",
+                "alignment": "VERSION_AND_STATEMENT_SOURCE",
+                "candidate": {
+                  "id": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+                  "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+                  "folder": "migrations",
+                  "objectFormat": "sha1",
+                  "repositoryId": "native-reference",
+                  "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+                  "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20"
+                },
+                "intentDigest": "66e42e405c594d5fae406d0ea8f03c2e614b91afbd3ff2ccd9133d4bba48dc4c"
+              }
+            }
+          },
+          {
+            "id": "267d9a4b-407c-4333-be5f-55e78c3a81e8",
+            "actorId": "rust-approver",
+            "createdAt": "2026-11-12T07:23:17.009Z",
+            "facts": {
+              "commentId": "c2211b9c-f8ee-4399-ae6f-db2e14d27743",
+              "comparisonId": "098fbbdd-a872-4a76-912d-9124d8d98803",
+              "intentDigest": "66e42e405c594d5fae406d0ea8f03c2e614b91afbd3ff2ccd9133d4bba48dc4c",
+              "comparisonDigest": "37de3d5b3e13c9a38220cb47d4b87c51e17556a167afc7e36524691a4f9afb17",
+              "evidenceRefCount": 1
+            }
+          },
+          {
+            "id": "7b5e1813-73d8-4587-b0fe-7ec0c9af91a9",
+            "actorId": "rust-developer",
+            "createdAt": "2026-11-12T07:23:17.032Z",
+            "facts": {
+              "digest": "df7a6a258b3cf14e9be000adbb8ff89b1eda47e6a1b046142b95630b46e0285b",
+              "evidence": {
+                "base": {
+                  "id": "f56b935c-3b7c-48c0-9ab5-630ce79e28d1",
+                  "commit": "dddddddddddddddddddddddddddddddddddddddd",
+                  "folder": "migrations",
+                  "objectFormat": "sha1",
+                  "repositoryId": "native-reference",
+                  "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+                  "manifestDigest": "97bb7294d40af5046a6bd558f1cd655eeb2ae4f2fe3e14b9354e6734032af651"
+                },
+                "format": 2,
+                "planId": "896a4218-c968-489f-9921-25c84eec96a2",
+                "alignment": "VERSION_AND_STATEMENT_SOURCE",
+                "candidate": {
+                  "id": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+                  "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+                  "folder": "migrations",
+                  "objectFormat": "sha1",
+                  "repositoryId": "native-reference",
+                  "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+                  "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20"
+                },
+                "intentDigest": "66e42e405c594d5fae406d0ea8f03c2e614b91afbd3ff2ccd9133d4bba48dc4c"
+              }
+            }
+          },
+          {
+            "id": "4f83999a-bf2f-4ffc-a4d1-4f6299014318",
+            "actorId": "rust-developer",
+            "createdAt": "2026-11-12T07:23:17.208Z",
+            "facts": {
+              "commentId": "905a8c43-e1f2-4443-8717-5cd076aeafbe",
+              "comparisonId": "098fbbdd-a872-4a76-912d-9124d8d98803",
+              "intentDigest": "66e42e405c594d5fae406d0ea8f03c2e614b91afbd3ff2ccd9133d4bba48dc4c",
+              "comparisonDigest": "37de3d5b3e13c9a38220cb47d4b87c51e17556a167afc7e36524691a4f9afb17",
+              "evidenceRefCount": 1
+            }
+          }
+        ],
+        "sourceOrigin": {
+          "sourceKind": "AUTHORED_SQL_WORKSPACE",
+          "draftId": "535f4897-03f9-466b-a5aa-f5c676e40f2a",
+          "draftRevision": "2",
+          "draftSha256": "2d73d520707306bb8c554688a7cb79261e0dfd6c8cc406e007ffdc157004e021",
+          "draftManifestVersion": 1,
+          "sourceBindingGeneration": "1",
+          "preparedBy": "rust-developer",
+          "preparedAt": "2026-11-12T07:23:11.520Z"
+        },
+        "schemaObservation": {
+          "snapshotId": null,
+          "contentDigest": null,
+          "owner": null,
+          "identityDigest": null,
+          "provenance": null,
+          "observedAt": null,
+          "bindingRevision": null,
+          "connectionRevision": null,
+          "coverage": null,
+          "limitations": null
+        }
+      }
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "planId": "6cddbcae-4b5a-438e-8e98-488857aafd5a"
+    },
+    "output": {
+      "plan": {
+        "id": "6cddbcae-4b5a-438e-8e98-488857aafd5a",
+        "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+        "authorId": "rust-developer",
+        "createdAt": "2026-11-12T07:23:17.39657+00:00",
+        "sourceBindingGeneration": "3",
+        "status": "PENDING_APPROVAL",
+        "decision": null,
+        "decisionReason": null,
+        "decidedBy": null,
+        "decidedByName": null,
+        "decidedAt": null,
+        "approvalReference": null,
+        "revocation": null
+      },
+      "retainedIntent": {
+        "format": 2,
+        "digest": "5d1ad66dcbdd4a1a345ba4098a3f5c1d44f5fa6348b068ede1a0852c502959da",
+        "organizationId": "00000000-0000-4000-8000-000000000001",
+        "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+        "releaseId": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+        "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+        "objectFormat": "sha1",
+        "folder": "migrations",
+        "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+        "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20",
+        "requesterId": "rust-developer",
+        "profileId": "c134adfb-ace7-414b-a2f6-9493dae07494",
+        "profileName": "Reference fixture profile",
+        "environmentId": "c715fb6e-ac80-4d0b-ac91-ca6f68674665",
+        "environmentName": "Development",
+        "engine": "oracle",
+        "host": "native.example.invalid",
+        "port": 1521,
+        "service": "Pc03bcfb09433440f86b0f62a7860c1c8",
+        "username": "APP",
+        "items": [
+          {
+            "path": "migrations/V1__workspace.sql",
+            "version": "1",
+            "sha256": "2d73d520707306bb8c554688a7cb79261e0dfd6c8cc406e007ffdc157004e021"
+          }
+        ],
+        "statements": [
+          {
+            "ordinal": 1,
+            "path": "migrations/V1__workspace.sql",
+            "fileOrdinal": 1,
+            "startByte": 0,
+            "endByte": 29,
+            "sourceSha256": "426ce06b97aa94e7e732f08049cb33a1f8a3a9a9de5f78652eea7ce534a60f20",
+            "executionSha256": "bc29a54a7940e16691b29be7a361b05faa86528cfa5668aa6297d4963d63b42e"
+          },
+          {
+            "ordinal": 2,
+            "path": "migrations/V1__workspace.sql",
+            "fileOrdinal": 2,
+            "startByte": 30,
+            "endByte": 75,
+            "sourceSha256": "9b3429efdebe1d471697a07994a04be5a2a5f8d017b2f19c7a05e07307df73d5",
+            "executionSha256": "e3a961c1e0b62e6971b9a1a318dcab243b12e9fdfc0d50dcbca8013ca4b1d86d"
+          }
+        ],
+        "sourceOrigin": {
+          "sourceKind": "AUTHORED_SQL_WORKSPACE",
+          "draftId": "535f4897-03f9-466b-a5aa-f5c676e40f2a",
+          "draftRevision": "2",
+          "draftSha256": "2d73d520707306bb8c554688a7cb79261e0dfd6c8cc406e007ffdc157004e021",
+          "draftManifestVersion": 1,
+          "sourceBindingGeneration": "1",
+          "preparedBy": "rust-developer",
+          "preparedAt": "2026-11-12T07:23:11.520Z"
+        }
+      }
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "planId": "ea8fa16f-3828-45b9-ba89-a544e6be026f"
+    },
+    "output": {
+      "plan": {
+        "id": "ea8fa16f-3828-45b9-ba89-a544e6be026f",
+        "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+        "authorId": "rust-developer",
+        "createdAt": "2026-11-12T07:23:17.550913+00:00",
+        "sourceBindingGeneration": "3",
+        "status": "PENDING_APPROVAL",
+        "decision": null,
+        "decisionReason": null,
+        "decidedBy": null,
+        "decidedByName": null,
+        "decidedAt": null,
+        "approvalReference": null,
+        "revocation": null
+      },
+      "retainedIntent": {
+        "format": 1,
+        "digest": "a455f6cfcd2531a75ac1e90e08743b9841399144bbe0c1653e7570750e3c7572",
+        "organizationId": "00000000-0000-4000-8000-000000000001",
+        "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+        "releaseId": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+        "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+        "objectFormat": "sha1",
+        "folder": "migrations",
+        "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+        "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20",
+        "requesterId": "rust-developer",
+        "profileId": "c134adfb-ace7-414b-a2f6-9493dae07494",
+        "profileName": "Reference fixture profile",
+        "environmentId": "c715fb6e-ac80-4d0b-ac91-ca6f68674665",
+        "environmentName": "Development",
+        "engine": "oracle",
+        "host": "native.example.invalid",
+        "port": 1521,
+        "service": "Pc03bcfb09433440f86b0f62a7860c1c8",
+        "username": "APP",
+        "items": [
+          {
+            "path": "migrations/V1__workspace.sql",
+            "version": "1",
+            "sha256": "2d73d520707306bb8c554688a7cb79261e0dfd6c8cc406e007ffdc157004e021"
+          }
+        ],
+        "sourceOrigin": {
+          "sourceKind": "AUTHORED_SQL_WORKSPACE",
+          "draftId": "535f4897-03f9-466b-a5aa-f5c676e40f2a",
+          "draftRevision": "2",
+          "draftSha256": "2d73d520707306bb8c554688a7cb79261e0dfd6c8cc406e007ffdc157004e021",
+          "draftManifestVersion": 1,
+          "sourceBindingGeneration": "1",
+          "preparedBy": "rust-developer",
+          "preparedAt": "2026-11-12T07:23:11.520Z"
+        }
+      }
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "planId": "896a4218-c968-489f-9921-25c84eec96a2"
+    },
+    "output": {
+      "plan": {
+        "id": "896a4218-c968-489f-9921-25c84eec96a2",
+        "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+        "authorId": "rust-developer",
+        "createdAt": "2026-11-12T07:23:16.767703+00:00",
+        "sourceBindingGeneration": "3",
+        "status": "APPROVED",
+        "decision": "APPROVE",
+        "decisionReason": "Independent native review\nExact retained statement bytes",
+        "decidedBy": "rust-approver",
+        "decidedByName": "rust-approver",
+        "decidedAt": "2026-11-12T07:23:17.733905+00:00",
+        "approvalReference": "2f87e596-e04d-429b-9405-74820f18d7e3",
+        "revocation": null
+      },
+      "retainedIntent": {
+        "format": 3,
+        "digest": "66e42e405c594d5fae406d0ea8f03c2e614b91afbd3ff2ccd9133d4bba48dc4c",
+        "organizationId": "00000000-0000-4000-8000-000000000001",
+        "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+        "releaseId": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+        "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+        "objectFormat": "sha1",
+        "folder": "migrations",
+        "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+        "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20",
+        "requesterId": "rust-developer",
+        "profileId": "c134adfb-ace7-414b-a2f6-9493dae07494",
+        "profileName": "Reference fixture profile",
+        "environmentId": "c715fb6e-ac80-4d0b-ac91-ca6f68674665",
+        "environmentName": "Development",
+        "engine": "oracle",
+        "host": "native.example.invalid",
+        "port": 1521,
+        "service": "Pc03bcfb09433440f86b0f62a7860c1c8",
+        "username": "APP",
+        "items": [
+          {
+            "path": "migrations/V1__workspace.sql",
+            "version": "1",
+            "sha256": "2d73d520707306bb8c554688a7cb79261e0dfd6c8cc406e007ffdc157004e021"
+          }
+        ],
+        "statements": [
+          {
+            "ordinal": 1,
+            "path": "migrations/V1__workspace.sql",
+            "fileOrdinal": 1,
+            "startByte": 0,
+            "endByte": 29,
+            "sourceSha256": "426ce06b97aa94e7e732f08049cb33a1f8a3a9a9de5f78652eea7ce534a60f20",
+            "executionSha256": "bc29a54a7940e16691b29be7a361b05faa86528cfa5668aa6297d4963d63b42e"
+          },
+          {
+            "ordinal": 2,
+            "path": "migrations/V1__workspace.sql",
+            "fileOrdinal": 2,
+            "startByte": 30,
+            "endByte": 75,
+            "sourceSha256": "9b3429efdebe1d471697a07994a04be5a2a5f8d017b2f19c7a05e07307df73d5",
+            "executionSha256": "e3a961c1e0b62e6971b9a1a318dcab243b12e9fdfc0d50dcbca8013ca4b1d86d"
+          }
+        ],
+        "target": {
+          "bindingId": "db916244-8394-48f5-b9e5-99fe280f3622",
+          "bindingRevision": "1",
+          "assignmentId": "3c50628c-0db6-41c9-9130-c4fee61e80ea",
+          "assignmentRevision": "1",
+          "targetOptionId": "69a6fddd-12a4-4077-aaa9-110bc9cf1444",
+          "targetOptionRevision": "1",
+          "lineageId": "f6513179-0a2b-467e-8b8a-8192f79ed87a",
+          "identityState": "PROVISIONAL",
+          "observationDigest": null,
+          "streamId": "60fc9ff3-e8a5-4dd1-a221-bd0e28500856",
+          "streamState": "PROVISIONAL",
+          "migrationNamespace": "NATIVE_FIXTURE",
+          "exactOwner": "APP",
+          "routeId": "f552b24f-5711-4bd3-a205-bdc810ed9d7e",
+          "routeConfigRevision": "1",
+          "routeAlias": "Native fixture route",
+          "policyId": "e3fd4fad-f710-4664-af5e-9b29fd317246",
+          "policyRevision": "1",
+          "deploymentPrincipalId": "a0da448f-66e2-4a95-9526-660894046cc5",
+          "principalPurpose": "DEPLOY",
+          "principalAlias": "Native fixture writer",
+          "createdAt": "2026-11-12T07:23:16.779Z",
+          "sourceBindingGeneration": "3"
+        },
+        "sourceComparisons": [
+          {
+            "id": "098fbbdd-a872-4a76-912d-9124d8d98803",
+            "actorId": "rust-developer",
+            "createdAt": "2026-11-12T07:23:16.791Z",
+            "facts": {
+              "digest": "37de3d5b3e13c9a38220cb47d4b87c51e17556a167afc7e36524691a4f9afb17",
+              "evidence": {
+                "base": {
+                  "id": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+                  "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+                  "folder": "migrations",
+                  "objectFormat": "sha1",
+                  "repositoryId": "native-reference",
+                  "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+                  "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20"
+                },
+                "format": 2,
+                "planId": "896a4218-c968-489f-9921-25c84eec96a2",
+                "alignment": "VERSION_AND_STATEMENT_SOURCE",
+                "candidate": {
+                  "id": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+                  "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+                  "folder": "migrations",
+                  "objectFormat": "sha1",
+                  "repositoryId": "native-reference",
+                  "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+                  "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20"
+                },
+                "intentDigest": "66e42e405c594d5fae406d0ea8f03c2e614b91afbd3ff2ccd9133d4bba48dc4c"
+              }
+            }
+          },
+          {
+            "id": "546c9b57-f84b-4a50-a8c0-72376b5f1e73",
+            "actorId": "rust-developer",
+            "createdAt": "2026-11-12T07:23:16.961Z",
+            "facts": {
+              "digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+              "evidence": {
+                "base": {
+                  "id": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+                  "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+                  "folder": "migrations",
+                  "objectFormat": "sha1",
+                  "repositoryId": "native-reference",
+                  "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+                  "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20"
+                },
+                "format": 2,
+                "planId": "896a4218-c968-489f-9921-25c84eec96a2",
+                "alignment": "VERSION_AND_STATEMENT_SOURCE",
+                "candidate": {
+                  "id": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+                  "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+                  "folder": "migrations",
+                  "objectFormat": "sha1",
+                  "repositoryId": "native-reference",
+                  "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+                  "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20"
+                },
+                "intentDigest": "66e42e405c594d5fae406d0ea8f03c2e614b91afbd3ff2ccd9133d4bba48dc4c"
+              }
+            }
+          },
+          {
+            "id": "267d9a4b-407c-4333-be5f-55e78c3a81e8",
+            "actorId": "rust-approver",
+            "createdAt": "2026-11-12T07:23:17.009Z",
+            "facts": {
+              "commentId": "c2211b9c-f8ee-4399-ae6f-db2e14d27743",
+              "comparisonId": "098fbbdd-a872-4a76-912d-9124d8d98803",
+              "intentDigest": "66e42e405c594d5fae406d0ea8f03c2e614b91afbd3ff2ccd9133d4bba48dc4c",
+              "comparisonDigest": "37de3d5b3e13c9a38220cb47d4b87c51e17556a167afc7e36524691a4f9afb17",
+              "evidenceRefCount": 1
+            }
+          },
+          {
+            "id": "7b5e1813-73d8-4587-b0fe-7ec0c9af91a9",
+            "actorId": "rust-developer",
+            "createdAt": "2026-11-12T07:23:17.032Z",
+            "facts": {
+              "digest": "df7a6a258b3cf14e9be000adbb8ff89b1eda47e6a1b046142b95630b46e0285b",
+              "evidence": {
+                "base": {
+                  "id": "f56b935c-3b7c-48c0-9ab5-630ce79e28d1",
+                  "commit": "dddddddddddddddddddddddddddddddddddddddd",
+                  "folder": "migrations",
+                  "objectFormat": "sha1",
+                  "repositoryId": "native-reference",
+                  "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+                  "manifestDigest": "97bb7294d40af5046a6bd558f1cd655eeb2ae4f2fe3e14b9354e6734032af651"
+                },
+                "format": 2,
+                "planId": "896a4218-c968-489f-9921-25c84eec96a2",
+                "alignment": "VERSION_AND_STATEMENT_SOURCE",
+                "candidate": {
+                  "id": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+                  "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+                  "folder": "migrations",
+                  "objectFormat": "sha1",
+                  "repositoryId": "native-reference",
+                  "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+                  "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20"
+                },
+                "intentDigest": "66e42e405c594d5fae406d0ea8f03c2e614b91afbd3ff2ccd9133d4bba48dc4c"
+              }
+            }
+          },
+          {
+            "id": "4f83999a-bf2f-4ffc-a4d1-4f6299014318",
+            "actorId": "rust-developer",
+            "createdAt": "2026-11-12T07:23:17.208Z",
+            "facts": {
+              "commentId": "905a8c43-e1f2-4443-8717-5cd076aeafbe",
+              "comparisonId": "098fbbdd-a872-4a76-912d-9124d8d98803",
+              "intentDigest": "66e42e405c594d5fae406d0ea8f03c2e614b91afbd3ff2ccd9133d4bba48dc4c",
+              "comparisonDigest": "37de3d5b3e13c9a38220cb47d4b87c51e17556a167afc7e36524691a4f9afb17",
+              "evidenceRefCount": 1
+            }
+          },
+          {
+            "id": "2f87e596-e04d-429b-9405-74820f18d7e3",
+            "actorId": "rust-approver",
+            "createdAt": "2026-11-12T07:23:17.733Z",
+            "facts": {
+              "reason": "Independent native review\nExact retained statement bytes",
+              "comparisonId": "098fbbdd-a872-4a76-912d-9124d8d98803",
+              "intentDigest": "66e42e405c594d5fae406d0ea8f03c2e614b91afbd3ff2ccd9133d4bba48dc4c",
+              "comparisonDigest": "37de3d5b3e13c9a38220cb47d4b87c51e17556a167afc7e36524691a4f9afb17",
+              "approvalReference": "2f87e596-e04d-429b-9405-74820f18d7e3"
+            }
+          }
+        ],
+        "sourceOrigin": {
+          "sourceKind": "AUTHORED_SQL_WORKSPACE",
+          "draftId": "535f4897-03f9-466b-a5aa-f5c676e40f2a",
+          "draftRevision": "2",
+          "draftSha256": "2d73d520707306bb8c554688a7cb79261e0dfd6c8cc406e007ffdc157004e021",
+          "draftManifestVersion": 1,
+          "sourceBindingGeneration": "1",
+          "preparedBy": "rust-developer",
+          "preparedAt": "2026-11-12T07:23:11.520Z"
+        },
+        "schemaObservation": {
+          "snapshotId": null,
+          "contentDigest": null,
+          "owner": null,
+          "identityDigest": null,
+          "provenance": null,
+          "observedAt": null,
+          "bindingRevision": null,
+          "connectionRevision": null,
+          "coverage": null,
+          "limitations": null
+        }
+      }
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "planId": "896a4218-c968-489f-9921-25c84eec96a2"
+    },
+    "output": {
+      "plan": {
+        "id": "896a4218-c968-489f-9921-25c84eec96a2",
+        "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+        "authorId": "rust-developer",
+        "createdAt": "2026-11-12T07:23:16.767703+00:00",
+        "sourceBindingGeneration": "3",
+        "status": "REVOKED",
+        "decision": "APPROVE",
+        "decisionReason": "Independent native review\nExact retained statement bytes",
+        "decidedBy": "rust-approver",
+        "decidedByName": "rust-approver",
+        "decidedAt": "2026-11-12T07:23:17.733905+00:00",
+        "approvalReference": "2f87e596-e04d-429b-9405-74820f18d7e3",
+        "revocation": {
+          "id": "7ad727f5-5c99-4f22-9322-ce5ff096d8e0",
+          "reason": "Withdraw independent approval",
+          "actorId": "rust-second-approver",
+          "actorName": "rust-second-approver",
+          "createdAt": "2026-11-12T07:23:17.932487+00:00",
+          "approvalReference": "2f87e596-e04d-429b-9405-74820f18d7e3"
+        }
+      },
+      "retainedIntent": {
+        "format": 3,
+        "digest": "66e42e405c594d5fae406d0ea8f03c2e614b91afbd3ff2ccd9133d4bba48dc4c",
+        "organizationId": "00000000-0000-4000-8000-000000000001",
+        "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+        "releaseId": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+        "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+        "objectFormat": "sha1",
+        "folder": "migrations",
+        "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+        "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20",
+        "requesterId": "rust-developer",
+        "profileId": "c134adfb-ace7-414b-a2f6-9493dae07494",
+        "profileName": "Reference fixture profile",
+        "environmentId": "c715fb6e-ac80-4d0b-ac91-ca6f68674665",
+        "environmentName": "Development",
+        "engine": "oracle",
+        "host": "native.example.invalid",
+        "port": 1521,
+        "service": "Pc03bcfb09433440f86b0f62a7860c1c8",
+        "username": "APP",
+        "items": [
+          {
+            "path": "migrations/V1__workspace.sql",
+            "version": "1",
+            "sha256": "2d73d520707306bb8c554688a7cb79261e0dfd6c8cc406e007ffdc157004e021"
+          }
+        ],
+        "statements": [
+          {
+            "ordinal": 1,
+            "path": "migrations/V1__workspace.sql",
+            "fileOrdinal": 1,
+            "startByte": 0,
+            "endByte": 29,
+            "sourceSha256": "426ce06b97aa94e7e732f08049cb33a1f8a3a9a9de5f78652eea7ce534a60f20",
+            "executionSha256": "bc29a54a7940e16691b29be7a361b05faa86528cfa5668aa6297d4963d63b42e"
+          },
+          {
+            "ordinal": 2,
+            "path": "migrations/V1__workspace.sql",
+            "fileOrdinal": 2,
+            "startByte": 30,
+            "endByte": 75,
+            "sourceSha256": "9b3429efdebe1d471697a07994a04be5a2a5f8d017b2f19c7a05e07307df73d5",
+            "executionSha256": "e3a961c1e0b62e6971b9a1a318dcab243b12e9fdfc0d50dcbca8013ca4b1d86d"
+          }
+        ],
+        "target": {
+          "bindingId": "db916244-8394-48f5-b9e5-99fe280f3622",
+          "bindingRevision": "1",
+          "assignmentId": "3c50628c-0db6-41c9-9130-c4fee61e80ea",
+          "assignmentRevision": "1",
+          "targetOptionId": "69a6fddd-12a4-4077-aaa9-110bc9cf1444",
+          "targetOptionRevision": "1",
+          "lineageId": "f6513179-0a2b-467e-8b8a-8192f79ed87a",
+          "identityState": "PROVISIONAL",
+          "observationDigest": null,
+          "streamId": "60fc9ff3-e8a5-4dd1-a221-bd0e28500856",
+          "streamState": "PROVISIONAL",
+          "migrationNamespace": "NATIVE_FIXTURE",
+          "exactOwner": "APP",
+          "routeId": "f552b24f-5711-4bd3-a205-bdc810ed9d7e",
+          "routeConfigRevision": "1",
+          "routeAlias": "Native fixture route",
+          "policyId": "e3fd4fad-f710-4664-af5e-9b29fd317246",
+          "policyRevision": "1",
+          "deploymentPrincipalId": "a0da448f-66e2-4a95-9526-660894046cc5",
+          "principalPurpose": "DEPLOY",
+          "principalAlias": "Native fixture writer",
+          "createdAt": "2026-11-12T07:23:16.779Z",
+          "sourceBindingGeneration": "3"
+        },
+        "sourceComparisons": [
+          {
+            "id": "098fbbdd-a872-4a76-912d-9124d8d98803",
+            "actorId": "rust-developer",
+            "createdAt": "2026-11-12T07:23:16.791Z",
+            "facts": {
+              "digest": "37de3d5b3e13c9a38220cb47d4b87c51e17556a167afc7e36524691a4f9afb17",
+              "evidence": {
+                "base": {
+                  "id": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+                  "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+                  "folder": "migrations",
+                  "objectFormat": "sha1",
+                  "repositoryId": "native-reference",
+                  "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+                  "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20"
+                },
+                "format": 2,
+                "planId": "896a4218-c968-489f-9921-25c84eec96a2",
+                "alignment": "VERSION_AND_STATEMENT_SOURCE",
+                "candidate": {
+                  "id": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+                  "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+                  "folder": "migrations",
+                  "objectFormat": "sha1",
+                  "repositoryId": "native-reference",
+                  "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+                  "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20"
+                },
+                "intentDigest": "66e42e405c594d5fae406d0ea8f03c2e614b91afbd3ff2ccd9133d4bba48dc4c"
+              }
+            }
+          },
+          {
+            "id": "546c9b57-f84b-4a50-a8c0-72376b5f1e73",
+            "actorId": "rust-developer",
+            "createdAt": "2026-11-12T07:23:16.961Z",
+            "facts": {
+              "digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+              "evidence": {
+                "base": {
+                  "id": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+                  "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+                  "folder": "migrations",
+                  "objectFormat": "sha1",
+                  "repositoryId": "native-reference",
+                  "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+                  "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20"
+                },
+                "format": 2,
+                "planId": "896a4218-c968-489f-9921-25c84eec96a2",
+                "alignment": "VERSION_AND_STATEMENT_SOURCE",
+                "candidate": {
+                  "id": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+                  "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+                  "folder": "migrations",
+                  "objectFormat": "sha1",
+                  "repositoryId": "native-reference",
+                  "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+                  "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20"
+                },
+                "intentDigest": "66e42e405c594d5fae406d0ea8f03c2e614b91afbd3ff2ccd9133d4bba48dc4c"
+              }
+            }
+          },
+          {
+            "id": "267d9a4b-407c-4333-be5f-55e78c3a81e8",
+            "actorId": "rust-approver",
+            "createdAt": "2026-11-12T07:23:17.009Z",
+            "facts": {
+              "commentId": "c2211b9c-f8ee-4399-ae6f-db2e14d27743",
+              "comparisonId": "098fbbdd-a872-4a76-912d-9124d8d98803",
+              "intentDigest": "66e42e405c594d5fae406d0ea8f03c2e614b91afbd3ff2ccd9133d4bba48dc4c",
+              "comparisonDigest": "37de3d5b3e13c9a38220cb47d4b87c51e17556a167afc7e36524691a4f9afb17",
+              "evidenceRefCount": 1
+            }
+          },
+          {
+            "id": "7b5e1813-73d8-4587-b0fe-7ec0c9af91a9",
+            "actorId": "rust-developer",
+            "createdAt": "2026-11-12T07:23:17.032Z",
+            "facts": {
+              "digest": "df7a6a258b3cf14e9be000adbb8ff89b1eda47e6a1b046142b95630b46e0285b",
+              "evidence": {
+                "base": {
+                  "id": "f56b935c-3b7c-48c0-9ab5-630ce79e28d1",
+                  "commit": "dddddddddddddddddddddddddddddddddddddddd",
+                  "folder": "migrations",
+                  "objectFormat": "sha1",
+                  "repositoryId": "native-reference",
+                  "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+                  "manifestDigest": "97bb7294d40af5046a6bd558f1cd655eeb2ae4f2fe3e14b9354e6734032af651"
+                },
+                "format": 2,
+                "planId": "896a4218-c968-489f-9921-25c84eec96a2",
+                "alignment": "VERSION_AND_STATEMENT_SOURCE",
+                "candidate": {
+                  "id": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+                  "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+                  "folder": "migrations",
+                  "objectFormat": "sha1",
+                  "repositoryId": "native-reference",
+                  "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+                  "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20"
+                },
+                "intentDigest": "66e42e405c594d5fae406d0ea8f03c2e614b91afbd3ff2ccd9133d4bba48dc4c"
+              }
+            }
+          },
+          {
+            "id": "4f83999a-bf2f-4ffc-a4d1-4f6299014318",
+            "actorId": "rust-developer",
+            "createdAt": "2026-11-12T07:23:17.208Z",
+            "facts": {
+              "commentId": "905a8c43-e1f2-4443-8717-5cd076aeafbe",
+              "comparisonId": "098fbbdd-a872-4a76-912d-9124d8d98803",
+              "intentDigest": "66e42e405c594d5fae406d0ea8f03c2e614b91afbd3ff2ccd9133d4bba48dc4c",
+              "comparisonDigest": "37de3d5b3e13c9a38220cb47d4b87c51e17556a167afc7e36524691a4f9afb17",
+              "evidenceRefCount": 1
+            }
+          },
+          {
+            "id": "2f87e596-e04d-429b-9405-74820f18d7e3",
+            "actorId": "rust-approver",
+            "createdAt": "2026-11-12T07:23:17.733Z",
+            "facts": {
+              "reason": "Independent native review\nExact retained statement bytes",
+              "comparisonId": "098fbbdd-a872-4a76-912d-9124d8d98803",
+              "intentDigest": "66e42e405c594d5fae406d0ea8f03c2e614b91afbd3ff2ccd9133d4bba48dc4c",
+              "comparisonDigest": "37de3d5b3e13c9a38220cb47d4b87c51e17556a167afc7e36524691a4f9afb17",
+              "approvalReference": "2f87e596-e04d-429b-9405-74820f18d7e3"
+            }
+          }
+        ],
+        "sourceOrigin": {
+          "sourceKind": "AUTHORED_SQL_WORKSPACE",
+          "draftId": "535f4897-03f9-466b-a5aa-f5c676e40f2a",
+          "draftRevision": "2",
+          "draftSha256": "2d73d520707306bb8c554688a7cb79261e0dfd6c8cc406e007ffdc157004e021",
+          "draftManifestVersion": 1,
+          "sourceBindingGeneration": "1",
+          "preparedBy": "rust-developer",
+          "preparedAt": "2026-11-12T07:23:11.520Z"
+        },
+        "schemaObservation": {
+          "snapshotId": null,
+          "contentDigest": null,
+          "owner": null,
+          "identityDigest": null,
+          "provenance": null,
+          "observedAt": null,
+          "bindingRevision": null,
+          "connectionRevision": null,
+          "coverage": null,
+          "limitations": null
+        }
+      }
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "planId": "765aadf4-b1e3-4f6b-a7b3-8bac7983543d"
+    },
+    "output": {
+      "plan": {
+        "id": "765aadf4-b1e3-4f6b-a7b3-8bac7983543d",
+        "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+        "authorId": "rust-approver",
+        "createdAt": "2026-11-12T07:23:18.112647+00:00",
+        "sourceBindingGeneration": "3",
+        "status": "REJECTED",
+        "decision": "REJECT",
+        "decisionReason": "Independent native review\nExact retained statement bytes",
+        "decidedBy": "rust-second-approver",
+        "decidedByName": "rust-second-approver",
+        "decidedAt": "2026-11-12T07:23:18.156809+00:00",
+        "approvalReference": null,
+        "revocation": null
+      },
+      "retainedIntent": {
+        "format": 3,
+        "digest": "f227f66f6d512d6a57ff0acac79032c817279089f98099c0e7c7a194bba082d7",
+        "organizationId": "00000000-0000-4000-8000-000000000001",
+        "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+        "releaseId": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+        "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+        "objectFormat": "sha1",
+        "folder": "migrations",
+        "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+        "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20",
+        "requesterId": "rust-approver",
+        "profileId": "c134adfb-ace7-414b-a2f6-9493dae07494",
+        "profileName": "Reference fixture profile",
+        "environmentId": "c715fb6e-ac80-4d0b-ac91-ca6f68674665",
+        "environmentName": "Development",
+        "engine": "oracle",
+        "host": "native.example.invalid",
+        "port": 1521,
+        "service": "Pc03bcfb09433440f86b0f62a7860c1c8",
+        "username": "APP",
+        "items": [
+          {
+            "path": "migrations/V1__workspace.sql",
+            "version": "1",
+            "sha256": "2d73d520707306bb8c554688a7cb79261e0dfd6c8cc406e007ffdc157004e021"
+          }
+        ],
+        "statements": [
+          {
+            "ordinal": 1,
+            "path": "migrations/V1__workspace.sql",
+            "fileOrdinal": 1,
+            "startByte": 0,
+            "endByte": 29,
+            "sourceSha256": "426ce06b97aa94e7e732f08049cb33a1f8a3a9a9de5f78652eea7ce534a60f20",
+            "executionSha256": "bc29a54a7940e16691b29be7a361b05faa86528cfa5668aa6297d4963d63b42e"
+          },
+          {
+            "ordinal": 2,
+            "path": "migrations/V1__workspace.sql",
+            "fileOrdinal": 2,
+            "startByte": 30,
+            "endByte": 75,
+            "sourceSha256": "9b3429efdebe1d471697a07994a04be5a2a5f8d017b2f19c7a05e07307df73d5",
+            "executionSha256": "e3a961c1e0b62e6971b9a1a318dcab243b12e9fdfc0d50dcbca8013ca4b1d86d"
+          }
+        ],
+        "target": {
+          "bindingId": "db916244-8394-48f5-b9e5-99fe280f3622",
+          "bindingRevision": "1",
+          "assignmentId": "3c50628c-0db6-41c9-9130-c4fee61e80ea",
+          "assignmentRevision": "1",
+          "targetOptionId": "69a6fddd-12a4-4077-aaa9-110bc9cf1444",
+          "targetOptionRevision": "1",
+          "lineageId": "f6513179-0a2b-467e-8b8a-8192f79ed87a",
+          "identityState": "PROVISIONAL",
+          "observationDigest": null,
+          "streamId": "60fc9ff3-e8a5-4dd1-a221-bd0e28500856",
+          "streamState": "PROVISIONAL",
+          "migrationNamespace": "NATIVE_FIXTURE",
+          "exactOwner": "APP",
+          "routeId": "f552b24f-5711-4bd3-a205-bdc810ed9d7e",
+          "routeConfigRevision": "1",
+          "routeAlias": "Native fixture route",
+          "policyId": "e3fd4fad-f710-4664-af5e-9b29fd317246",
+          "policyRevision": "1",
+          "deploymentPrincipalId": "a0da448f-66e2-4a95-9526-660894046cc5",
+          "principalPurpose": "DEPLOY",
+          "principalAlias": "Native fixture writer",
+          "createdAt": "2026-11-12T07:23:18.123Z",
+          "sourceBindingGeneration": "3"
+        },
+        "sourceComparisons": [
+          {
+            "id": "048d8d31-72b4-430b-9c1a-2d757f07c0eb",
+            "actorId": "rust-second-approver",
+            "createdAt": "2026-11-12T07:23:18.151Z",
+            "facts": {
+              "digest": "d908ce86747fecf9b873517306fe43494498c385d80ae4525e29237fb6267f0e",
+              "evidence": {
+                "base": {
+                  "id": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+                  "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+                  "folder": "migrations",
+                  "objectFormat": "sha1",
+                  "repositoryId": "native-reference",
+                  "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+                  "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20"
+                },
+                "format": 2,
+                "planId": "765aadf4-b1e3-4f6b-a7b3-8bac7983543d",
+                "alignment": "VERSION_AND_STATEMENT_SOURCE",
+                "candidate": {
+                  "id": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+                  "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+                  "folder": "migrations",
+                  "objectFormat": "sha1",
+                  "repositoryId": "native-reference",
+                  "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+                  "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20"
+                },
+                "intentDigest": "f227f66f6d512d6a57ff0acac79032c817279089f98099c0e7c7a194bba082d7"
+              }
+            }
+          },
+          {
+            "id": "cbed31e5-d471-4936-ae04-20639379a8d5",
+            "actorId": "rust-second-approver",
+            "createdAt": "2026-11-12T07:23:18.156Z",
+            "facts": {
+              "reason": "Independent native review\nExact retained statement bytes",
+              "comparisonId": "048d8d31-72b4-430b-9c1a-2d757f07c0eb",
+              "intentDigest": "f227f66f6d512d6a57ff0acac79032c817279089f98099c0e7c7a194bba082d7",
+              "comparisonDigest": "d908ce86747fecf9b873517306fe43494498c385d80ae4525e29237fb6267f0e"
+            }
+          }
+        ],
+        "sourceOrigin": {
+          "sourceKind": "AUTHORED_SQL_WORKSPACE",
+          "draftId": "535f4897-03f9-466b-a5aa-f5c676e40f2a",
+          "draftRevision": "2",
+          "draftSha256": "2d73d520707306bb8c554688a7cb79261e0dfd6c8cc406e007ffdc157004e021",
+          "draftManifestVersion": 1,
+          "sourceBindingGeneration": "1",
+          "preparedBy": "rust-developer",
+          "preparedAt": "2026-11-12T07:23:11.520Z"
+        },
+        "schemaObservation": {
+          "snapshotId": null,
+          "contentDigest": null,
+          "owner": null,
+          "identityDigest": null,
+          "provenance": null,
+          "observedAt": null,
+          "bindingRevision": null,
+          "connectionRevision": null,
+          "coverage": null,
+          "limitations": null
+        }
+      }
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "validationId": "80f824e8-61cf-4c88-abeb-2afaa7e90a13"
+    },
+    "output": {
+      "state": "CURRENT",
+      "reasons": []
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "planId": "1811df6d-df63-486d-947b-62825e11c906"
+    },
+    "output": {
+      "plan": {
+        "id": "1811df6d-df63-486d-947b-62825e11c906",
+        "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+        "authorId": "rust-developer",
+        "createdAt": "2026-11-12T07:23:18.808455+00:00",
+        "sourceBindingGeneration": "5",
+        "status": "PENDING_APPROVAL",
+        "decision": null,
+        "decisionReason": null,
+        "decidedBy": null,
+        "decidedByName": null,
+        "decidedAt": null,
+        "approvalReference": null,
+        "revocation": null
+      },
+      "retainedIntent": {
+        "format": 4,
+        "digest": "267068026c333a2b2a54220205d9cf4fc39b69c5ce78972dab5cbcfec06225bc",
+        "organizationId": "00000000-0000-4000-8000-000000000001",
+        "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+        "releaseId": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+        "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+        "objectFormat": "sha1",
+        "folder": "migrations",
+        "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+        "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20",
+        "requesterId": "rust-developer",
+        "profileId": "c134adfb-ace7-414b-a2f6-9493dae07494",
+        "profileName": "Reference fixture profile",
+        "environmentId": "c715fb6e-ac80-4d0b-ac91-ca6f68674665",
+        "environmentName": "Development",
+        "engine": "oracle",
+        "host": "native.example.invalid",
+        "port": 1521,
+        "service": "Pc03bcfb09433440f86b0f62a7860c1c8",
+        "username": "APP",
+        "items": [
+          {
+            "path": "migrations/V1__workspace.sql",
+            "version": "1",
+            "sha256": "2d73d520707306bb8c554688a7cb79261e0dfd6c8cc406e007ffdc157004e021"
+          }
+        ],
+        "statements": [
+          {
+            "ordinal": 1,
+            "path": "migrations/V1__workspace.sql",
+            "fileOrdinal": 1,
+            "startByte": 0,
+            "endByte": 29,
+            "sourceSha256": "426ce06b97aa94e7e732f08049cb33a1f8a3a9a9de5f78652eea7ce534a60f20",
+            "executionSha256": "bc29a54a7940e16691b29be7a361b05faa86528cfa5668aa6297d4963d63b42e"
+          },
+          {
+            "ordinal": 2,
+            "path": "migrations/V1__workspace.sql",
+            "fileOrdinal": 2,
+            "startByte": 30,
+            "endByte": 75,
+            "sourceSha256": "9b3429efdebe1d471697a07994a04be5a2a5f8d017b2f19c7a05e07307df73d5",
+            "executionSha256": "e3a961c1e0b62e6971b9a1a318dcab243b12e9fdfc0d50dcbca8013ca4b1d86d"
+          }
+        ],
+        "target": {
+          "bindingId": "db916244-8394-48f5-b9e5-99fe280f3622",
+          "bindingRevision": "2",
+          "assignmentId": "3c50628c-0db6-41c9-9130-c4fee61e80ea",
+          "assignmentRevision": "1",
+          "targetOptionId": "69a6fddd-12a4-4077-aaa9-110bc9cf1444",
+          "targetOptionRevision": "2",
+          "lineageId": "f6513179-0a2b-467e-8b8a-8192f79ed87a",
+          "identityState": "OBSERVED",
+          "observationDigest": "5653b68e6c2edb47a5db0e4e9332e2554086bd59cf29c96cf063d89169a56786",
+          "streamId": "60fc9ff3-e8a5-4dd1-a221-bd0e28500856",
+          "streamState": "PROVISIONAL",
+          "migrationNamespace": "NATIVE_FIXTURE",
+          "exactOwner": "APP",
+          "routeId": "f552b24f-5711-4bd3-a205-bdc810ed9d7e",
+          "routeConfigRevision": "1",
+          "routeAlias": "Native fixture route",
+          "policyId": "e3fd4fad-f710-4664-af5e-9b29fd317246",
+          "policyRevision": "1",
+          "deploymentPrincipalId": "a0da448f-66e2-4a95-9526-660894046cc5",
+          "principalPurpose": "DEPLOY",
+          "principalAlias": "Native fixture writer",
+          "createdAt": "2026-11-12T07:23:18.822Z",
+          "sourceBindingGeneration": "5"
+        },
+        "validation": {
+          "id": "80f824e8-61cf-4c88-abeb-2afaa7e90a13",
+          "digest": "8d4118fcd6cddd4b9f5ae3483569bb869f158533832392b86f205532518cfe93"
+        },
+        "sourceOrigin": {
+          "sourceKind": "AUTHORED_SQL_WORKSPACE",
+          "draftId": "535f4897-03f9-466b-a5aa-f5c676e40f2a",
+          "draftRevision": "2",
+          "draftSha256": "2d73d520707306bb8c554688a7cb79261e0dfd6c8cc406e007ffdc157004e021",
+          "draftManifestVersion": 1,
+          "sourceBindingGeneration": "1",
+          "preparedBy": "rust-developer",
+          "preparedAt": "2026-11-12T07:23:11.520Z"
+        },
+        "targetObservation": {
+          "digest": "5653b68e6c2edb47a5db0e4e9332e2554086bd59cf29c96cf063d89169a56786",
+          "identity": {
+            "cdb": true,
+            "dbid": "92000",
+            "engine": "oracle",
+            "version": "26.1",
+            "containerId": "3",
+            "serviceName": "VALIDATIONPDB",
+            "dbUniqueName": "VALIDATION_PRIVATE",
+            "containerDbid": "92001",
+            "containerGuid": "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+            "containerName": "VALIDATIONPDB",
+            "resetlogsChange": "1000"
+          },
+          "identityDigest": "4a4a2acd81735c1b15bf1c262de64fdfc55b7fbc3484c940540cebdde48b9365",
+          "identityState": "OBSERVED",
+          "owner": "APP",
+          "observationId": "f77e0ade-6f4e-4809-b932-db95bc75aab4",
+          "provenance": "FIXTURE",
+          "observedAt": "2026-11-12T07:23:18.589Z",
+          "expiresAt": "2026-11-12T07:38:18.589Z"
+        },
+        "schemaValidation": {
+          "id": "80f824e8-61cf-4c88-abeb-2afaa7e90a13",
+          "digest": "8d4118fcd6cddd4b9f5ae3483569bb869f158533832392b86f205532518cfe93",
+          "actorId": "rust-developer",
+          "createdAt": "2026-11-12T07:23:18.623Z",
+          "report": {
+            "format": 1,
+            "profile": "kelryvo-schema-review-v1",
+            "reviewProfile": {
+              "engines": [
+                "oracle"
+              ],
+              "maxSourceChars": 200000,
+              "maxTokens": 20000,
+              "maxReferences": 100,
+              "maxBatchStatements": 4096,
+              "maxFindings": 20,
+              "objectCheck": "UNKNOWN"
+            },
+            "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+            "releaseId": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+            "sourceBindingGeneration": "5",
+            "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20",
+            "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+            "target": {
+              "bindingId": "db916244-8394-48f5-b9e5-99fe280f3622",
+              "bindingRevision": "2",
+              "assignmentId": "3c50628c-0db6-41c9-9130-c4fee61e80ea",
+              "assignmentRevision": "1",
+              "profileId": "c134adfb-ace7-414b-a2f6-9493dae07494",
+              "environmentId": "c715fb6e-ac80-4d0b-ac91-ca6f68674665",
+              "exactOwner": "APP",
+              "identityState": "OBSERVED",
+              "observationDigest": "5653b68e6c2edb47a5db0e4e9332e2554086bd59cf29c96cf063d89169a56786",
+              "policyId": "e3fd4fad-f710-4664-af5e-9b29fd317246",
+              "policyRevision": "1"
+            },
+            "metadata": {
+              "observationId": "f77e0ade-6f4e-4809-b932-db95bc75aab4",
+              "evidenceDigest": "5653b68e6c2edb47a5db0e4e9332e2554086bd59cf29c96cf063d89169a56786",
+              "identityDigest": "4a4a2acd81735c1b15bf1c262de64fdfc55b7fbc3484c940540cebdde48b9365",
+              "provenance": "FIXTURE",
+              "observedAt": "2026-11-12T07:23:18.589Z",
+              "expiresAt": "2026-11-12T07:38:18.589Z",
+              "owner": "APP",
+              "accessible": true,
+              "completeness": "OWNER_VISIBILITY_ONLY",
+              "objects": "NOT_OBSERVED",
+              "schemaSnapshot": null
+            },
+            "capabilities": {
+              "engine": "oracle",
+              "syntax": "PINNED_RUST_ORACLE",
+              "schema": "OWNER_VISIBILITY_AND_BOUNDED_REFERENCE_REVIEW",
+              "objects": "UNVERIFIED",
+              "semantics": "UNVERIFIED"
+            },
+            "syntax": "VALID",
+            "outcome": "UNVERIFIED",
+            "policy": {
+              "id": "e3fd4fad-f710-4664-af5e-9b29fd317246",
+              "revision": "1",
+              "decision": "INDEPENDENT_REVIEW_REQUIRED",
+              "executionAuthority": false
+            },
+            "findings": [
+              {
+                "code": "OBJECT_METADATA_UNAVAILABLE",
+                "severity": "UNKNOWN",
+                "rationale": "No object snapshot is retained. Existing objects, columns, constraints and privileges were not observed."
+              }
+            ],
+            "statements": [
+              {
+                "ordinal": 1,
+                "path": "migrations/V1__workspace.sql",
+                "fileOrdinal": 1,
+                "startByte": 0,
+                "endByte": 29,
+                "sourceSha256": "426ce06b97aa94e7e732f08049cb33a1f8a3a9a9de5f78652eea7ce534a60f20",
+                "executionSha256": "bc29a54a7940e16691b29be7a361b05faa86528cfa5668aa6297d4963d63b42e",
+                "classification": "CREATE_TABLE",
+                "references": [
+                  {
+                    "owner": "APP",
+                    "name": "ITEM",
+                    "role": "TARGET"
+                  }
+                ],
+                "schemaCheck": "MATCH",
+                "objectCheck": "UNKNOWN",
+                "findings": [],
+                "catalogReferences": [
+                  {
+                    "owner": "APP",
+                    "name": "ITEM",
+                    "role": "TARGET",
+                    "snapshotId": null,
+                    "state": "UNKNOWN",
+                    "matches": []
+                  }
+                ]
+              },
+              {
+                "ordinal": 2,
+                "path": "migrations/V1__workspace.sql",
+                "fileOrdinal": 2,
+                "startByte": 30,
+                "endByte": 75,
+                "sourceSha256": "9b3429efdebe1d471697a07994a04be5a2a5f8d017b2f19c7a05e07307df73d5",
+                "executionSha256": "e3a961c1e0b62e6971b9a1a318dcab243b12e9fdfc0d50dcbca8013ca4b1d86d",
+                "classification": "ALTER_TABLE",
+                "references": [
+                  {
+                    "owner": "APP",
+                    "name": "ITEM",
+                    "role": "TARGET"
+                  }
+                ],
+                "schemaCheck": "MATCH",
+                "objectCheck": "UNKNOWN",
+                "findings": [
+                  {
+                    "code": "DESTRUCTIVE_DDL",
+                    "severity": "HIGH",
+                    "rationale": "This statement changes or removes existing database objects."
+                  }
+                ],
+                "catalogReferences": [
+                  {
+                    "owner": "APP",
+                    "name": "ITEM",
+                    "role": "TARGET",
+                    "snapshotId": null,
+                    "state": "UNKNOWN",
+                    "matches": []
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "schemaObservation": {
+          "snapshotId": null,
+          "contentDigest": null,
+          "owner": null,
+          "identityDigest": null,
+          "provenance": null,
+          "observedAt": null,
+          "bindingRevision": null,
+          "connectionRevision": null,
+          "coverage": null,
+          "limitations": null
+        }
+      }
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "planId": "1811df6d-df63-486d-947b-62825e11c906"
+    },
+    "output": {
+      "plan": {
+        "id": "1811df6d-df63-486d-947b-62825e11c906",
+        "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+        "authorId": "rust-developer",
+        "createdAt": "2026-11-12T07:23:18.808455+00:00",
+        "sourceBindingGeneration": "5",
+        "status": "APPROVED",
+        "decision": "APPROVE",
+        "decisionReason": "Independent review of bound native validation",
+        "decidedBy": "rust-approver",
+        "decidedByName": "rust-approver",
+        "decidedAt": "2026-11-12T07:23:19.001137+00:00",
+        "approvalReference": "91c4fe8d-7553-4431-84de-d0a1cc126c06",
+        "revocation": null
+      },
+      "retainedIntent": {
+        "format": 4,
+        "digest": "267068026c333a2b2a54220205d9cf4fc39b69c5ce78972dab5cbcfec06225bc",
+        "organizationId": "00000000-0000-4000-8000-000000000001",
+        "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+        "releaseId": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+        "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+        "objectFormat": "sha1",
+        "folder": "migrations",
+        "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+        "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20",
+        "requesterId": "rust-developer",
+        "profileId": "c134adfb-ace7-414b-a2f6-9493dae07494",
+        "profileName": "Reference fixture profile",
+        "environmentId": "c715fb6e-ac80-4d0b-ac91-ca6f68674665",
+        "environmentName": "Development",
+        "engine": "oracle",
+        "host": "native.example.invalid",
+        "port": 1521,
+        "service": "Pc03bcfb09433440f86b0f62a7860c1c8",
+        "username": "APP",
+        "items": [
+          {
+            "path": "migrations/V1__workspace.sql",
+            "version": "1",
+            "sha256": "2d73d520707306bb8c554688a7cb79261e0dfd6c8cc406e007ffdc157004e021"
+          }
+        ],
+        "statements": [
+          {
+            "ordinal": 1,
+            "path": "migrations/V1__workspace.sql",
+            "fileOrdinal": 1,
+            "startByte": 0,
+            "endByte": 29,
+            "sourceSha256": "426ce06b97aa94e7e732f08049cb33a1f8a3a9a9de5f78652eea7ce534a60f20",
+            "executionSha256": "bc29a54a7940e16691b29be7a361b05faa86528cfa5668aa6297d4963d63b42e"
+          },
+          {
+            "ordinal": 2,
+            "path": "migrations/V1__workspace.sql",
+            "fileOrdinal": 2,
+            "startByte": 30,
+            "endByte": 75,
+            "sourceSha256": "9b3429efdebe1d471697a07994a04be5a2a5f8d017b2f19c7a05e07307df73d5",
+            "executionSha256": "e3a961c1e0b62e6971b9a1a318dcab243b12e9fdfc0d50dcbca8013ca4b1d86d"
+          }
+        ],
+        "target": {
+          "bindingId": "db916244-8394-48f5-b9e5-99fe280f3622",
+          "bindingRevision": "2",
+          "assignmentId": "3c50628c-0db6-41c9-9130-c4fee61e80ea",
+          "assignmentRevision": "1",
+          "targetOptionId": "69a6fddd-12a4-4077-aaa9-110bc9cf1444",
+          "targetOptionRevision": "2",
+          "lineageId": "f6513179-0a2b-467e-8b8a-8192f79ed87a",
+          "identityState": "OBSERVED",
+          "observationDigest": "5653b68e6c2edb47a5db0e4e9332e2554086bd59cf29c96cf063d89169a56786",
+          "streamId": "60fc9ff3-e8a5-4dd1-a221-bd0e28500856",
+          "streamState": "PROVISIONAL",
+          "migrationNamespace": "NATIVE_FIXTURE",
+          "exactOwner": "APP",
+          "routeId": "f552b24f-5711-4bd3-a205-bdc810ed9d7e",
+          "routeConfigRevision": "1",
+          "routeAlias": "Native fixture route",
+          "policyId": "e3fd4fad-f710-4664-af5e-9b29fd317246",
+          "policyRevision": "1",
+          "deploymentPrincipalId": "a0da448f-66e2-4a95-9526-660894046cc5",
+          "principalPurpose": "DEPLOY",
+          "principalAlias": "Native fixture writer",
+          "createdAt": "2026-11-12T07:23:18.822Z",
+          "sourceBindingGeneration": "5"
+        },
+        "validation": {
+          "id": "80f824e8-61cf-4c88-abeb-2afaa7e90a13",
+          "digest": "8d4118fcd6cddd4b9f5ae3483569bb869f158533832392b86f205532518cfe93"
+        },
+        "sourceOrigin": {
+          "sourceKind": "AUTHORED_SQL_WORKSPACE",
+          "draftId": "535f4897-03f9-466b-a5aa-f5c676e40f2a",
+          "draftRevision": "2",
+          "draftSha256": "2d73d520707306bb8c554688a7cb79261e0dfd6c8cc406e007ffdc157004e021",
+          "draftManifestVersion": 1,
+          "sourceBindingGeneration": "1",
+          "preparedBy": "rust-developer",
+          "preparedAt": "2026-11-12T07:23:11.520Z"
+        },
+        "targetObservation": {
+          "digest": "5653b68e6c2edb47a5db0e4e9332e2554086bd59cf29c96cf063d89169a56786",
+          "identity": {
+            "cdb": true,
+            "dbid": "92000",
+            "engine": "oracle",
+            "version": "26.1",
+            "containerId": "3",
+            "serviceName": "VALIDATIONPDB",
+            "dbUniqueName": "VALIDATION_PRIVATE",
+            "containerDbid": "92001",
+            "containerGuid": "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+            "containerName": "VALIDATIONPDB",
+            "resetlogsChange": "1000"
+          },
+          "identityDigest": "4a4a2acd81735c1b15bf1c262de64fdfc55b7fbc3484c940540cebdde48b9365",
+          "identityState": "OBSERVED",
+          "owner": "APP",
+          "observationId": "f77e0ade-6f4e-4809-b932-db95bc75aab4",
+          "provenance": "FIXTURE",
+          "observedAt": "2026-11-12T07:23:18.589Z",
+          "expiresAt": "2026-11-12T07:38:18.589Z"
+        },
+        "schemaValidation": {
+          "id": "80f824e8-61cf-4c88-abeb-2afaa7e90a13",
+          "digest": "8d4118fcd6cddd4b9f5ae3483569bb869f158533832392b86f205532518cfe93",
+          "actorId": "rust-developer",
+          "createdAt": "2026-11-12T07:23:18.623Z",
+          "report": {
+            "format": 1,
+            "profile": "kelryvo-schema-review-v1",
+            "reviewProfile": {
+              "engines": [
+                "oracle"
+              ],
+              "maxSourceChars": 200000,
+              "maxTokens": 20000,
+              "maxReferences": 100,
+              "maxBatchStatements": 4096,
+              "maxFindings": 20,
+              "objectCheck": "UNKNOWN"
+            },
+            "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+            "releaseId": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+            "sourceBindingGeneration": "5",
+            "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20",
+            "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+            "target": {
+              "bindingId": "db916244-8394-48f5-b9e5-99fe280f3622",
+              "bindingRevision": "2",
+              "assignmentId": "3c50628c-0db6-41c9-9130-c4fee61e80ea",
+              "assignmentRevision": "1",
+              "profileId": "c134adfb-ace7-414b-a2f6-9493dae07494",
+              "environmentId": "c715fb6e-ac80-4d0b-ac91-ca6f68674665",
+              "exactOwner": "APP",
+              "identityState": "OBSERVED",
+              "observationDigest": "5653b68e6c2edb47a5db0e4e9332e2554086bd59cf29c96cf063d89169a56786",
+              "policyId": "e3fd4fad-f710-4664-af5e-9b29fd317246",
+              "policyRevision": "1"
+            },
+            "metadata": {
+              "observationId": "f77e0ade-6f4e-4809-b932-db95bc75aab4",
+              "evidenceDigest": "5653b68e6c2edb47a5db0e4e9332e2554086bd59cf29c96cf063d89169a56786",
+              "identityDigest": "4a4a2acd81735c1b15bf1c262de64fdfc55b7fbc3484c940540cebdde48b9365",
+              "provenance": "FIXTURE",
+              "observedAt": "2026-11-12T07:23:18.589Z",
+              "expiresAt": "2026-11-12T07:38:18.589Z",
+              "owner": "APP",
+              "accessible": true,
+              "completeness": "OWNER_VISIBILITY_ONLY",
+              "objects": "NOT_OBSERVED",
+              "schemaSnapshot": null
+            },
+            "capabilities": {
+              "engine": "oracle",
+              "syntax": "PINNED_RUST_ORACLE",
+              "schema": "OWNER_VISIBILITY_AND_BOUNDED_REFERENCE_REVIEW",
+              "objects": "UNVERIFIED",
+              "semantics": "UNVERIFIED"
+            },
+            "syntax": "VALID",
+            "outcome": "UNVERIFIED",
+            "policy": {
+              "id": "e3fd4fad-f710-4664-af5e-9b29fd317246",
+              "revision": "1",
+              "decision": "INDEPENDENT_REVIEW_REQUIRED",
+              "executionAuthority": false
+            },
+            "findings": [
+              {
+                "code": "OBJECT_METADATA_UNAVAILABLE",
+                "severity": "UNKNOWN",
+                "rationale": "No object snapshot is retained. Existing objects, columns, constraints and privileges were not observed."
+              }
+            ],
+            "statements": [
+              {
+                "ordinal": 1,
+                "path": "migrations/V1__workspace.sql",
+                "fileOrdinal": 1,
+                "startByte": 0,
+                "endByte": 29,
+                "sourceSha256": "426ce06b97aa94e7e732f08049cb33a1f8a3a9a9de5f78652eea7ce534a60f20",
+                "executionSha256": "bc29a54a7940e16691b29be7a361b05faa86528cfa5668aa6297d4963d63b42e",
+                "classification": "CREATE_TABLE",
+                "references": [
+                  {
+                    "owner": "APP",
+                    "name": "ITEM",
+                    "role": "TARGET"
+                  }
+                ],
+                "schemaCheck": "MATCH",
+                "objectCheck": "UNKNOWN",
+                "findings": [],
+                "catalogReferences": [
+                  {
+                    "owner": "APP",
+                    "name": "ITEM",
+                    "role": "TARGET",
+                    "snapshotId": null,
+                    "state": "UNKNOWN",
+                    "matches": []
+                  }
+                ]
+              },
+              {
+                "ordinal": 2,
+                "path": "migrations/V1__workspace.sql",
+                "fileOrdinal": 2,
+                "startByte": 30,
+                "endByte": 75,
+                "sourceSha256": "9b3429efdebe1d471697a07994a04be5a2a5f8d017b2f19c7a05e07307df73d5",
+                "executionSha256": "e3a961c1e0b62e6971b9a1a318dcab243b12e9fdfc0d50dcbca8013ca4b1d86d",
+                "classification": "ALTER_TABLE",
+                "references": [
+                  {
+                    "owner": "APP",
+                    "name": "ITEM",
+                    "role": "TARGET"
+                  }
+                ],
+                "schemaCheck": "MATCH",
+                "objectCheck": "UNKNOWN",
+                "findings": [
+                  {
+                    "code": "DESTRUCTIVE_DDL",
+                    "severity": "HIGH",
+                    "rationale": "This statement changes or removes existing database objects."
+                  }
+                ],
+                "catalogReferences": [
+                  {
+                    "owner": "APP",
+                    "name": "ITEM",
+                    "role": "TARGET",
+                    "snapshotId": null,
+                    "state": "UNKNOWN",
+                    "matches": []
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "schemaObservation": {
+          "snapshotId": null,
+          "contentDigest": null,
+          "owner": null,
+          "identityDigest": null,
+          "provenance": null,
+          "observedAt": null,
+          "bindingRevision": null,
+          "connectionRevision": null,
+          "coverage": null,
+          "limitations": null
+        }
+      }
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "jobId": "35506322-2165-4108-932a-4e02cf278301"
+    },
+    "output": {
+      "completion": null
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "jobId": "35506322-2165-4108-932a-4e02cf278301"
+    },
+    "output": {
+      "completion": {
+        "evidence": {
+          "kind": "KELRYVO_COMPLETE_HELD_EXECUTION",
+          "jobId": "35506322-2165-4108-932a-4e02cf278301",
+          "scope": "UNIT_SYNTHETIC",
+          "format": 1,
+          "planId": "1811df6d-df63-486d-947b-62825e11c906",
+          "streamId": "60fc9ff3-e8a5-4dd1-a221-bd0e28500856",
+          "targetId": "bf561630d5ee1419bce10b4a237799cf2381e13976fc5e58f0f983a74a566dcf",
+          "attemptId": "ecdf120c-3828-4eea-a175-0db62d072f2f",
+          "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+          "targetKey": "oracle-container-v1:ad65e51305ee16eea2b3b18c96430a2178d997c13639ffc813a6a27fdc7be935",
+          "exactOwner": "APP",
+          "generation": "1",
+          "imageDigest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "jobRevision": "2",
+          "intentDigest": "267068026c333a2b2a54220205d9cf4fc39b69c5ce78972dab5cbcfec06225bc",
+          "sourceCommit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "ledgerChecksum": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "ledgerSequence": 8,
+          "statementCount": 2,
+          "integrityDigest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "receiptSetDigest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "approvalReference": "91c4fe8d-7553-4431-84de-d0a1cc126c06",
+          "postconditionDigest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "admissionProofDigest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "targetIdentityDigest": "4a4a2acd81735c1b15bf1c262de64fdfc55b7fbc3484c940540cebdde48b9365",
+          "centralSnapshotDigest": "9959a0c0024571cf0b046dff9c3aad44e7f20fb719660531866e03697a33936c"
+        },
+        "evidenceDigest": "23c636c54eb84bbb49972e3d0b3115f8a2138e4e735eb6da5592d4bcfe2f1a6b",
+        "reconciliationId": "bbec1cb7-9c02-4a54-9393-b5a05c89cdfe",
+        "decisionId": "16bc9e4d-11a5-4f9b-8b4b-eb211db2995f"
+      }
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "jobId": "35506322-2165-4108-932a-4e02cf278301"
+    },
+    "output": {
+      "completion": null
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "jobId": "35506322-2165-4108-932a-4e02cf278301"
+    },
+    "output": {
+      "completion": {
+        "evidence": {
+          "kind": "KELRYVO_COMPLETE_HELD_EXECUTION",
+          "jobId": "35506322-2165-4108-932a-4e02cf278301",
+          "scope": "UNIT_SYNTHETIC",
+          "format": 1,
+          "planId": "1811df6d-df63-486d-947b-62825e11c906",
+          "streamId": "60fc9ff3-e8a5-4dd1-a221-bd0e28500856",
+          "targetId": "bf561630d5ee1419bce10b4a237799cf2381e13976fc5e58f0f983a74a566dcf",
+          "attemptId": "ecdf120c-3828-4eea-a175-0db62d072f2f",
+          "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+          "targetKey": "oracle-container-v1:ad65e51305ee16eea2b3b18c96430a2178d997c13639ffc813a6a27fdc7be935",
+          "exactOwner": "APP",
+          "generation": "1",
+          "imageDigest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "jobRevision": "2",
+          "intentDigest": "267068026c333a2b2a54220205d9cf4fc39b69c5ce78972dab5cbcfec06225bc",
+          "sourceCommit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "ledgerChecksum": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "ledgerSequence": 8,
+          "statementCount": 2,
+          "integrityDigest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "receiptSetDigest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "approvalReference": "91c4fe8d-7553-4431-84de-d0a1cc126c06",
+          "postconditionDigest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "admissionProofDigest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "targetIdentityDigest": "4a4a2acd81735c1b15bf1c262de64fdfc55b7fbc3484c940540cebdde48b9365",
+          "centralSnapshotDigest": "9959a0c0024571cf0b046dff9c3aad44e7f20fb719660531866e03697a33936c"
+        },
+        "evidenceDigest": "23c636c54eb84bbb49972e3d0b3115f8a2138e4e735eb6da5592d4bcfe2f1a6b",
+        "reconciliationId": "bbec1cb7-9c02-4a54-9393-b5a05c89cdfe",
+        "decisionId": "16bc9e4d-11a5-4f9b-8b4b-eb211db2995f"
+      }
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "jobId": "35506322-2165-4108-932a-4e02cf278301"
+    },
+    "output": {
+      "completion": null
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "validationId": "80f824e8-61cf-4c88-abeb-2afaa7e90a13"
+    },
+    "output": {
+      "state": "STALE",
+      "reasons": [
+        "SCHEMA_OBSERVATION_CHANGED"
+      ]
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "planId": "6e285820-bbce-4260-b949-1b95250ccea0"
+    },
+    "output": {
+      "plan": {
+        "id": "6e285820-bbce-4260-b949-1b95250ccea0",
+        "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+        "authorId": "rust-developer",
+        "createdAt": "2026-11-12T07:23:27.934071+00:00",
+        "sourceBindingGeneration": "5",
+        "status": "PENDING_APPROVAL",
+        "decision": null,
+        "decisionReason": null,
+        "decidedBy": null,
+        "decidedByName": null,
+        "decidedAt": null,
+        "approvalReference": null,
+        "revocation": null
+      },
+      "retainedIntent": {
+        "format": 4,
+        "digest": "008f16ce94805b8c3f9bc82ac4ce049f25015341861ccb525429e552eae8db6a",
+        "organizationId": "00000000-0000-4000-8000-000000000001",
+        "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+        "releaseId": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+        "commit": "776dd4f67b5de628aae1603fb32a29d4a957d119",
+        "objectFormat": "sha1",
+        "folder": "migrations",
+        "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+        "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20",
+        "requesterId": "rust-developer",
+        "profileId": "c134adfb-ace7-414b-a2f6-9493dae07494",
+        "profileName": "Reference fixture profile",
+        "environmentId": "c715fb6e-ac80-4d0b-ac91-ca6f68674665",
+        "environmentName": "Development",
+        "engine": "oracle",
+        "host": "native.example.invalid",
+        "port": 1521,
+        "service": "Pc03bcfb09433440f86b0f62a7860c1c8",
+        "username": "APP",
+        "items": [
+          {
+            "path": "migrations/V1__workspace.sql",
+            "version": "1",
+            "sha256": "2d73d520707306bb8c554688a7cb79261e0dfd6c8cc406e007ffdc157004e021"
+          }
+        ],
+        "statements": [
+          {
+            "ordinal": 1,
+            "path": "migrations/V1__workspace.sql",
+            "fileOrdinal": 1,
+            "startByte": 0,
+            "endByte": 29,
+            "sourceSha256": "426ce06b97aa94e7e732f08049cb33a1f8a3a9a9de5f78652eea7ce534a60f20",
+            "executionSha256": "bc29a54a7940e16691b29be7a361b05faa86528cfa5668aa6297d4963d63b42e"
+          },
+          {
+            "ordinal": 2,
+            "path": "migrations/V1__workspace.sql",
+            "fileOrdinal": 2,
+            "startByte": 30,
+            "endByte": 75,
+            "sourceSha256": "9b3429efdebe1d471697a07994a04be5a2a5f8d017b2f19c7a05e07307df73d5",
+            "executionSha256": "e3a961c1e0b62e6971b9a1a318dcab243b12e9fdfc0d50dcbca8013ca4b1d86d"
+          }
+        ],
+        "target": {
+          "bindingId": "db916244-8394-48f5-b9e5-99fe280f3622",
+          "bindingRevision": "2",
+          "assignmentId": "3c50628c-0db6-41c9-9130-c4fee61e80ea",
+          "assignmentRevision": "1",
+          "targetOptionId": "69a6fddd-12a4-4077-aaa9-110bc9cf1444",
+          "targetOptionRevision": "2",
+          "lineageId": "f6513179-0a2b-467e-8b8a-8192f79ed87a",
+          "identityState": "OBSERVED",
+          "observationDigest": "5653b68e6c2edb47a5db0e4e9332e2554086bd59cf29c96cf063d89169a56786",
+          "streamId": "60fc9ff3-e8a5-4dd1-a221-bd0e28500856",
+          "streamState": "PROVISIONAL",
+          "migrationNamespace": "NATIVE_FIXTURE",
+          "exactOwner": "APP",
+          "routeId": "f552b24f-5711-4bd3-a205-bdc810ed9d7e",
+          "routeConfigRevision": "1",
+          "routeAlias": "Native fixture route",
+          "policyId": "e3fd4fad-f710-4664-af5e-9b29fd317246",
+          "policyRevision": "1",
+          "deploymentPrincipalId": "a0da448f-66e2-4a95-9526-660894046cc5",
+          "principalPurpose": "DEPLOY",
+          "principalAlias": "Native fixture writer",
+          "createdAt": "2026-11-12T07:23:27.948Z",
+          "sourceBindingGeneration": "5"
+        },
+        "validation": {
+          "id": "5c207258-50f4-404b-9a87-45853b1f6237",
+          "digest": "c841741130a3b5d0747b5b653bfbdbf26d74e3e2593f1d8799cdf2b77f9e247e"
+        },
+        "sourceOrigin": {
+          "sourceKind": "AUTHORED_SQL_WORKSPACE",
+          "draftId": "535f4897-03f9-466b-a5aa-f5c676e40f2a",
+          "draftRevision": "2",
+          "draftSha256": "2d73d520707306bb8c554688a7cb79261e0dfd6c8cc406e007ffdc157004e021",
+          "draftManifestVersion": 1,
+          "sourceBindingGeneration": "1",
+          "preparedBy": "rust-developer",
+          "preparedAt": "2026-11-12T07:23:11.520Z"
+        },
+        "targetObservation": {
+          "digest": "5653b68e6c2edb47a5db0e4e9332e2554086bd59cf29c96cf063d89169a56786",
+          "identity": {
+            "cdb": true,
+            "dbid": "92000",
+            "engine": "oracle",
+            "version": "26.1",
+            "containerId": "3",
+            "serviceName": "VALIDATIONPDB",
+            "dbUniqueName": "VALIDATION_PRIVATE",
+            "containerDbid": "92001",
+            "containerGuid": "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+            "containerName": "VALIDATIONPDB",
+            "resetlogsChange": "1000"
+          },
+          "identityDigest": "4a4a2acd81735c1b15bf1c262de64fdfc55b7fbc3484c940540cebdde48b9365",
+          "identityState": "OBSERVED",
+          "owner": "APP",
+          "observationId": "f77e0ade-6f4e-4809-b932-db95bc75aab4",
+          "provenance": "FIXTURE",
+          "observedAt": "2026-11-12T07:23:18.589Z",
+          "expiresAt": "2026-11-12T07:38:18.589Z"
+        },
+        "schemaValidation": {
+          "id": "5c207258-50f4-404b-9a87-45853b1f6237",
+          "digest": "c841741130a3b5d0747b5b653bfbdbf26d74e3e2593f1d8799cdf2b77f9e247e",
+          "actorId": "rust-developer",
+          "createdAt": "2026-11-12T07:23:27.928Z",
+          "report": {
+            "format": 1,
+            "profile": "kelryvo-schema-review-v1",
+            "reviewProfile": {
+              "engines": [
+                "oracle"
+              ],
+              "maxSourceChars": 200000,
+              "maxTokens": 20000,
+              "maxReferences": 100,
+              "maxBatchStatements": 4096,
+              "maxFindings": 20,
+              "objectCheck": "UNKNOWN"
+            },
+            "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+            "releaseId": "310ab1fa-dffb-45b0-b01a-8b51f74e9255",
+            "sourceBindingGeneration": "5",
+            "manifestDigest": "fa5c0e5efc4b3b539346525ae6b709b5c48f561dff1495c355402237eba03c20",
+            "parserProfile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+            "target": {
+              "bindingId": "db916244-8394-48f5-b9e5-99fe280f3622",
+              "bindingRevision": "2",
+              "assignmentId": "3c50628c-0db6-41c9-9130-c4fee61e80ea",
+              "assignmentRevision": "1",
+              "profileId": "c134adfb-ace7-414b-a2f6-9493dae07494",
+              "environmentId": "c715fb6e-ac80-4d0b-ac91-ca6f68674665",
+              "exactOwner": "APP",
+              "identityState": "OBSERVED",
+              "observationDigest": "5653b68e6c2edb47a5db0e4e9332e2554086bd59cf29c96cf063d89169a56786",
+              "policyId": "e3fd4fad-f710-4664-af5e-9b29fd317246",
+              "policyRevision": "1"
+            },
+            "metadata": {
+              "observationId": "f77e0ade-6f4e-4809-b932-db95bc75aab4",
+              "evidenceDigest": "5653b68e6c2edb47a5db0e4e9332e2554086bd59cf29c96cf063d89169a56786",
+              "identityDigest": "4a4a2acd81735c1b15bf1c262de64fdfc55b7fbc3484c940540cebdde48b9365",
+              "provenance": "FIXTURE",
+              "observedAt": "2026-11-12T07:23:18.589Z",
+              "expiresAt": "2026-11-12T07:38:18.589Z",
+              "owner": "APP",
+              "accessible": true,
+              "completeness": "OWNER_VISIBILITY_ONLY",
+              "objects": "NOT_OBSERVED",
+              "schemaSnapshot": {
+                "id": "9c721f10-c5e6-4926-be92-b2f906150c53",
+                "contentDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "identityDigest": "4a4a2acd81735c1b15bf1c262de64fdfc55b7fbc3484c940540cebdde48b9365",
+                "provenance": "FIXTURE",
+                "observedAt": "2026-11-12T07:23:27.753Z",
+                "liveAccepted": false,
+                "coverage": {
+                  "TABLE": "PARTIAL"
+                },
+                "limitations": [
+                  "MULTI_QUERY_CONSISTENCY_UNGUARANTEED"
+                ],
+                "objectCount": 2
+              }
+            },
+            "capabilities": {
+              "engine": "oracle",
+              "syntax": "PINNED_RUST_ORACLE",
+              "schema": "OWNER_VISIBILITY_AND_BOUNDED_REFERENCE_REVIEW",
+              "objects": "UNVERIFIED",
+              "semantics": "UNVERIFIED"
+            },
+            "syntax": "VALID",
+            "outcome": "UNVERIFIED",
+            "policy": {
+              "id": "e3fd4fad-f710-4664-af5e-9b29fd317246",
+              "revision": "1",
+              "decision": "INDEPENDENT_REVIEW_REQUIRED",
+              "executionAuthority": false
+            },
+            "findings": [
+              {
+                "code": "SCHEMA_STRUCTURE_OBSERVED",
+                "severity": "UNKNOWN",
+                "rationale": "Immutable schema snapshot 9c721f10-c5e6-4926-be92-b2f906150c53 provides structural context (FIXTURE). Visibility and collection consistency limitations remain; Oracle compilation and privileges are unverified."
+              }
+            ],
+            "statements": [
+              {
+                "ordinal": 1,
+                "path": "migrations/V1__workspace.sql",
+                "fileOrdinal": 1,
+                "startByte": 0,
+                "endByte": 29,
+                "sourceSha256": "426ce06b97aa94e7e732f08049cb33a1f8a3a9a9de5f78652eea7ce534a60f20",
+                "executionSha256": "bc29a54a7940e16691b29be7a361b05faa86528cfa5668aa6297d4963d63b42e",
+                "classification": "CREATE_TABLE",
+                "references": [
+                  {
+                    "owner": "APP",
+                    "name": "ITEM",
+                    "role": "TARGET"
+                  }
+                ],
+                "schemaCheck": "MATCH",
+                "objectCheck": "UNKNOWN",
+                "findings": [],
+                "catalogReferences": [
+                  {
+                    "owner": "APP",
+                    "name": "ITEM",
+                    "role": "TARGET",
+                    "snapshotId": "9c721f10-c5e6-4926-be92-b2f906150c53",
+                    "state": "OBSERVED",
+                    "matches": [
+                      {
+                        "type": "TABLE",
+                        "checksum": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "ordinal": 2,
+                "path": "migrations/V1__workspace.sql",
+                "fileOrdinal": 2,
+                "startByte": 30,
+                "endByte": 75,
+                "sourceSha256": "9b3429efdebe1d471697a07994a04be5a2a5f8d017b2f19c7a05e07307df73d5",
+                "executionSha256": "e3a961c1e0b62e6971b9a1a318dcab243b12e9fdfc0d50dcbca8013ca4b1d86d",
+                "classification": "ALTER_TABLE",
+                "references": [
+                  {
+                    "owner": "APP",
+                    "name": "ITEM",
+                    "role": "TARGET"
+                  }
+                ],
+                "schemaCheck": "MATCH",
+                "objectCheck": "UNKNOWN",
+                "findings": [
+                  {
+                    "code": "DESTRUCTIVE_DDL",
+                    "severity": "HIGH",
+                    "rationale": "This statement changes or removes existing database objects."
+                  }
+                ],
+                "catalogReferences": [
+                  {
+                    "owner": "APP",
+                    "name": "ITEM",
+                    "role": "TARGET",
+                    "snapshotId": "9c721f10-c5e6-4926-be92-b2f906150c53",
+                    "state": "OBSERVED",
+                    "matches": [
+                      {
+                        "type": "TABLE",
+                        "checksum": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "schemaObservation": {
+          "snapshotId": "9c721f10-c5e6-4926-be92-b2f906150c53",
+          "contentDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "owner": "APP",
+          "identityDigest": "4a4a2acd81735c1b15bf1c262de64fdfc55b7fbc3484c940540cebdde48b9365",
+          "provenance": "FIXTURE",
+          "observedAt": "2026-11-12T07:23:27.753Z",
+          "bindingRevision": "2",
+          "connectionRevision": "1",
+          "coverage": {
+            "TABLE": "PARTIAL"
+          },
+          "limitations": [
+            "MULTI_QUERY_CONSISTENCY_UNGUARANTEED"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "input": {
+      "projectId": "c03bcfb0-9433-440f-86b0-f62a7860c1c8",
+      "validationId": "5c207258-50f4-404b-9a87-45853b1f6237"
+    },
+    "output": {
+      "state": "STALE",
+      "reasons": [
+        "SCHEMA_OBSERVATION_CHANGED"
+      ]
+    }
+  }
+]

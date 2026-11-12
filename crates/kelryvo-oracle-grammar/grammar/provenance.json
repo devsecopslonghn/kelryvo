@@ -1,0 +1,51 @@
+{
+  "format": 1,
+  "profile": "kelryvo-oracle-rust-v2-antlr-0.34.0",
+  "upstreamGrammarCommit": "7df52be94698550d219d299d04105c6bafadd9c3",
+  "generator": {
+    "package": "antlr-rust-codegen",
+    "version": "0.34.0",
+    "scope": "DEVELOPER_REGENERATION_ONLY"
+  },
+  "runtime": {
+    "package": "antlr-rust-runtime",
+    "version": "0.34.0",
+    "license": "BSD-3-Clause",
+    "checksumSource": "Cargo.lock"
+  },
+  "inputs": [
+    {
+      "original": "crates/kelryvo-oracle-grammar/upstream/PlSqlLexer.g4",
+      "originalSha256": "fd82384ba3ba2f5a7b070a977cd77a05c01fefbfb52938d35dfaf472a2e6e59e",
+      "adapted": "grammar/PlSqlLexer.g4",
+      "adaptedSha256": "2d0a7e2ca0090b76f174cbf80f4a01d62161fc1ae5cd8f26f0950add2e715ed5"
+    },
+    {
+      "original": "crates/kelryvo-oracle-grammar/upstream/PlSqlParser.g4",
+      "originalSha256": "90c6cb500fec711ad7e1d3aa793638686f265e4ce1e02632e1eabd6fded502e3",
+      "adapted": "grammar/PlSqlParser.g4",
+      "adaptedSha256": "5dcfeffd0cf41d5942667f4329c8e02f6478f50ec4c9ce8baa8f0af8affa7fac"
+    }
+  ],
+  "semanticPatternsSha256": "c964f9d88588283bf00f47efbeb6d05885058b72ee862e2ad8841f12fb249544",
+  "unknownSemantics": "ERROR",
+  "repairs": [
+    "Rename generated grammar metadata static to GRAMMAR_METADATA and its two references; preserve Oracle METADATA token."
+  ],
+  "outputs": [
+    {
+      "path": "src/generated/pl_sql_lexer.rs",
+      "sha256": "7f290613888288eb670da0c1e192a2accb11259a0c8d670ce93473add3c24756"
+    },
+    {
+      "path": "src/generated/pl_sql_parser.rs",
+      "sha256": "f1a016ca921c5e9decdf60e21016be296f98c3d30740f5c979cab1f1c9425e56"
+    },
+    {
+      "path": "src/generated/semantics.json",
+      "sha256": "d631c2c4234e6bdd105ff054c5c24ce28053e1e7c1612b23f3e58a32012f2548"
+    }
+  ],
+  "executionApproved": false,
+  "productionApproved": false
+}

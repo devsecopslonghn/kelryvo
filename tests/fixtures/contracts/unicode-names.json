@@ -1,0 +1,14 @@
+[
+  {
+    "input": "﻿Tên dự án 😀﻿",
+    "expected": "Tên dự án 😀"
+  },
+  {
+    "input": "Tên dự án 😀",
+    "expected": "Tên dự án 😀"
+  },
+  {
+    "input": "  Tên dự án 😀 　",
+    "expected": "Tên dự án 😀"
+  }
+]

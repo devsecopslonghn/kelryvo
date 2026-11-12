@@ -1,0 +1,187 @@
+From 0d11a258302f2011d8952dae530172a8f08525dd Mon Sep 17 00:00:00 2001
+Subject: [PATCH] Add explicit native managed Oracle wiring
+
+Base-commit: 0d11a258302f2011d8952dae530172a8f08525dd
+This candidate changes no installed release or cluster. Native mode requires
+a separately reviewed Rust image, native policy/template and prerequisite PVCs.
+
+diff --git a/templates/app.yaml b/templates/app.yaml
+--- a/templates/app.yaml
++++ b/templates/app.yaml
+@@ -4,6 +4,12 @@
+ {{- if .Values.oracleRuntime.enabled }}
+ {{- if or (not .Values.execution.enabled) (not .Values.discovery.enabled) (empty .Values.oracleRuntime.secretName) }}
+ {{- fail "Managed Oracle requires execution, discovery and an existing oracleRuntime.secretName" }}
++{{- end }}
++{{- if and .Values.oracleRuntime.native (empty .Values.oracleRuntime.nativeStateClaimName) }}
++{{- fail "Native Oracle requires an explicit existing oracleRuntime.nativeStateClaimName; retained controller state is not implicitly upgraded" }}
++{{- end }}
++{{- if and .Values.oracleRuntime.native (empty .Values.oracleRuntime.nativeRuntimeClaimName) }}
++{{- fail "Native Oracle requires an existing oracleRuntime.nativeRuntimeClaimName with reviewed OCI client and private wallet" }}
+ {{- end }}
+ {{- if ne (index .Values.app.nodeSelector "kubernetes.io/arch" | default "") "amd64" }}
+ {{- fail "Managed Oracle execution requires app.nodeSelector kubernetes.io/arch=amd64" }}
+@@ -73,6 +79,10 @@
+       initContainers:
+         - name: oracle-state
+           image: {{ include "kelryvo.image" .Values.image | quote }}
++          {{- if .Values.oracleRuntime.native }}
++          command: [/opt/kelryvo/bin/kelryvo-worker, installation-init-state]
++          args: [/var/lib/kelryvo/operator, /opt/kelryvo/oracle]
++          {{- else }}
+           command: [node, --input-type=module, -e]
+           args:
+             - >-
+@@ -83,12 +93,16 @@
+               const s=fs.lstatSync(p);
+               if(!s.isDirectory()||s.isSymbolicLink()||s.uid!==0||(s.mode&0o077))throw Error('Invalid operator state');
+               await initializeOracleWitness('/var/lib/kelryvo/operator/witness');
++          {{- end }}
+           securityContext:
+             allowPrivilegeEscalation: false
+             readOnlyRootFilesystem: true
+             capabilities: {drop: [ALL], add: [CHOWN]}
+           volumeMounts:
+             - {name: oracle-state, mountPath: /var/lib/kelryvo/operator}
++            {{- if .Values.oracleRuntime.native }}
++            - {name: oracle-native-runtime, mountPath: /opt/kelryvo/oracle, readOnly: true}
++            {{- end }}
+       {{- end }}
+       containers:
+         - name: app
+@@ -139,11 +153,18 @@
+             - {name: tmp, mountPath: /tmp}
+             {{- if .Values.oracleRuntime.enabled }}
+             - {name: oracle-state, subPath: witness, mountPath: /run/kelryvo/witness}
++            {{- if .Values.oracleRuntime.native }}
++            - {name: oracle-native-runtime, mountPath: /opt/kelryvo/oracle, readOnly: true}
++            {{- end }}
+             {{- end }}
+         {{- if .Values.oracleRuntime.enabled }}
+         - name: oracle-operator
+           image: {{ include "kelryvo.image" .Values.image | quote }}
+           imagePullPolicy: IfNotPresent
++          {{- if .Values.oracleRuntime.native }}
++          command: [/opt/kelryvo/bin/kelryvo-worker, installation-watch]
++          args: [/run/kelryvo/operator/input/..data/controller.json]
++          {{- else }}
+           command: [node, scripts/oracle-runtime-controller.mjs, watch]
+           args:
+             - --state-directory
+@@ -158,6 +179,7 @@
+             - {{ .Values.image.digest | quote }}
+             - --witness-directory
+             - /run/kelryvo/witness
++          {{- end }}
+           securityContext:
+             runAsUser: 0
+             runAsGroup: 0
+@@ -172,6 +194,9 @@
+             - {name: oracle-private, mountPath: /run/kelryvo/operator/input, readOnly: true}
+             - {name: oracle-metadata, mountPath: /run/kelryvo/operator/metadata, readOnly: true}
+             - {name: oracle-state, mountPath: /var/lib/kelryvo/operator}
++            {{- if .Values.oracleRuntime.native }}
++            - {name: oracle-native-runtime, mountPath: /opt/kelryvo/oracle, readOnly: true}
++            {{- end }}
+             - {name: oracle-state, subPath: witness, mountPath: /run/kelryvo/witness}
+         {{- end }}
+       volumes:
+@@ -215,14 +240,31 @@
+             items:
+               - {key: policy.json, path: policy.json}
+               - {key: oracle-vault-private.pem, path: oracle-vault-private.pem}
++              {{- if .Values.oracleRuntime.native }}
++              - {key: controller.json, path: controller.json}
++              - {key: installation-template.json, path: installation-template.json}
++              {{- if .Values.oracleRuntime.nativeDiscoveryReview }}
++              - {key: discovery-review.json, path: discovery-review.json}
++              {{- end }}
++              {{- end }}
+         - name: oracle-metadata
+           secret:
+             secretName: {{ .Values.app.secretName }}
+             defaultMode: 0400
+             items:
+               - {key: database-url, path: database-url}
++        {{- if .Values.oracleRuntime.native }}
++        - name: oracle-native-runtime
++          persistentVolumeClaim:
++            claimName: {{ .Values.oracleRuntime.nativeRuntimeClaimName | quote }}
++            readOnly: true
++        {{- end }}
+         - name: oracle-state
++          {{- if .Values.oracleRuntime.native }}
++          persistentVolumeClaim: {claimName: {{ .Values.oracleRuntime.nativeStateClaimName | quote }}}
++          {{- else }}
+           persistentVolumeClaim: {claimName: kelryvo-oracle-state}
++          {{- end }}
+         {{- end }}
+         - name: tmp
+           emptyDir: {medium: Memory, sizeLimit: 128Mi}
+diff --git a/values.yaml b/values.yaml
+--- a/values.yaml
++++ b/values.yaml
+@@ -17,6 +17,14 @@
+   enabled: false
+ oracleRuntime:
+   enabled: false
++  # Opt in only with a separately reviewed native image/policy/template.
++  native: false
++  # Project an explicitly approved native discovery-review.json from the same Secret.
++  nativeDiscoveryReview: false
++  # Explicit native state/witness PVC; existing legacy state is not converted.
++  nativeStateClaimName: ''
++  # Existing read-only PVC: client/ and root:10002 wallet/ (0750), files 0440.
++  nativeRuntimeClaimName: ''
+   # Operator-managed Secret with policy.json, oracle-vault-private.pem and oracle-vault-public.pem.
+   secretName: ''
+   storageClass: longhorn-workers
+diff --git a/scripts/check-chart.py b/scripts/check-chart.py
+--- a/scripts/check-chart.py
++++ b/scripts/check-chart.py
+@@ -255,3 +255,45 @@
+ print('PASS: customer overlay enables the protected runtime while preserving the existing PostgreSQL claim')
+ 
+ assert named(managed,'PersistentVolumeClaim','kelryvo-oracle-state')['metadata']['annotations']['argocd.argoproj.io/sync-wave']==named(managed,'Deployment','kelryvo-app')['metadata']['annotations']['argocd.argoproj.io/sync-wave']
++
++# Native wiring is explicit; retained release overlays and gates stay unchanged.
++native_args = [*managed_args, '--set', 'oracleRuntime.native=true',
++               '--set', 'app.nodeSelector.kubernetes\\.io/arch=amd64']
++render(*native_args, success=False)  # no reviewed native prerequisites claim
++render(*native_args, '--set', 'oracleRuntime.nativeRuntimeClaimName=kelryvo-native-prerequisites', success=False)
++render(*native_args, '--set', 'oracleRuntime.nativeStateClaimName=kelryvo-native-state', success=False)
++native = render(*native_args, '--set', 'oracleRuntime.nativeRuntimeClaimName=kelryvo-native-prerequisites',
++                '--set', 'oracleRuntime.nativeStateClaimName=kelryvo-native-state')
++np = named(native, 'Deployment', 'kelryvo-app')['spec']['template']['spec']
++ni = np['initContainers'][0]
++assert ni['command'] == ['/opt/kelryvo/bin/kelryvo-worker', 'installation-init-state']
++assert ni['args'] == ['/var/lib/kelryvo/operator', '/opt/kelryvo/oracle']
++assert ni['securityContext']['capabilities'] == {'drop': ['ALL'], 'add': ['CHOWN']}
++nc = np['containers'][1]
++assert nc['command'] == ['/opt/kelryvo/bin/kelryvo-worker', 'installation-watch']
++assert nc['args'] == ['/run/kelryvo/operator/input/..data/controller.json']
++assert nc['securityContext'] == operator['securityContext']
++assert np['containers'][0]['securityContext'] == mp['containers'][0]['securityContext']
++assert np['automountServiceAccountToken'] is False
++assert next(v for v in np['volumes'] if v['name'] == 'oracle-state')['persistentVolumeClaim'] == {'claimName': 'kelryvo-native-state'}
++nv = next(v for v in np['volumes'] if v['name'] == 'oracle-native-runtime')
++assert nv['persistentVolumeClaim'] == {'claimName': 'kelryvo-native-prerequisites', 'readOnly': True}
++for role in [ni, *np['containers']]:
++    assert role['command'][0] in ['/opt/kelryvo/bin/kelryvo-worker', '/opt/kelryvo/bin/kelryvo-runtime']
++    assert {'name': 'oracle-native-runtime', 'mountPath': '/opt/kelryvo/oracle', 'readOnly': True} in role['volumeMounts']
++private = next(v for v in np['volumes'] if v['name'] == 'oracle-private')['secret']
++assert private['defaultMode'] == 0o400
++assert {i['key'] for i in private['items']} == {'policy.json', 'oracle-vault-private.pem', 'controller.json', 'installation-template.json'}
++assert all(m['name'] not in ['oracle-private', 'oracle-metadata'] for m in np['containers'][0]['volumeMounts'])
++assert named(native, 'PersistentVolumeClaim', 'kelryvo-postgresql-data') == pvc
++assert named(native, 'PersistentVolumeClaim', 'kelryvo-oracle-state') == named(managed, 'PersistentVolumeClaim', 'kelryvo-oracle-state')
++reviewed = render(*native_args, '--set', 'oracleRuntime.nativeRuntimeClaimName=kelryvo-native-prerequisites',
++                  '--set', 'oracleRuntime.nativeStateClaimName=kelryvo-native-state',
++                  '--set', 'oracleRuntime.nativeDiscoveryReview=true')
++rp = named(reviewed, 'Deployment', 'kelryvo-app')['spec']['template']['spec']
++review_secret = next(v for v in rp['volumes'] if v['name'] == 'oracle-private')['secret']
++assert review_secret['defaultMode'] == 0o400
++assert {i['key'] for i in review_secret['items']} == {i['key'] for i in private['items']} | {'discovery-review.json'}
++assert rp['containers'][0]['securityContext'] == np['containers'][0]['securityContext']
++assert all(m['name'] != 'oracle-private' for m in rp['containers'][0]['volumeMounts'])
++print('PASS: explicit native init/controller, read-only prerequisites and unchanged role/Secret/storage boundaries; rendering only, no Oracle qualification')

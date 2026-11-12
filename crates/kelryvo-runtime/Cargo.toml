@@ -1,0 +1,30 @@
+[package]
+name = "kelryvo-runtime"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license-file = "../../LICENSE"
+publish.workspace = true
+
+[dependencies]
+kelryvo-core = { path = "../kelryvo-core" }
+kelryvo-discovery = { path = "../kelryvo-discovery" }
+kelryvo-vault = { path = "../kelryvo-vault" }
+openssl.workspace = true
+oracle = "=0.6.3"
+rand = "0.8"
+nix = { version = "0.30", default-features = false, features = ["signal"] }
+regex.workspace = true
+serde.workspace = true
+chrono.workspace = true
+tokio = { version = "1", features = ["rt-multi-thread", "sync", "time", "process", "io-util", "io-std", "signal", "macros"] }
+serde_json.workspace = true
+zeroize.workspace = true
+sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio-rustls", "postgres", "json", "uuid"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+base64.workspace = true

@@ -1,0 +1,556 @@
+[
+  {
+    "name": "setup requires TLS before shape",
+    "tls": false,
+    "path": "/api/auth/setup",
+    "body": {},
+    "status": 403,
+    "response": {
+      "error": "HTTPS_REQUIRED"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "setup rejects origin before shape",
+    "tls": true,
+    "path": "/api/auth/setup",
+    "origin": "https://other.invalid",
+    "body": {},
+    "status": 403,
+    "response": {
+      "error": "ORIGIN_REJECTED"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "setup shape 0",
+    "tls": true,
+    "path": "/api/auth/setup",
+    "body": {},
+    "status": 400,
+    "response": {
+      "error": "INVALID_PASSWORD_SETUP"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "setup shape 1",
+    "tls": true,
+    "path": "/api/auth/setup",
+    "body": null,
+    "status": 400,
+    "response": {
+      "error": "INVALID_PASSWORD_SETUP"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "setup shape 2",
+    "tls": true,
+    "path": "/api/auth/setup",
+    "body": false,
+    "status": 400,
+    "response": {
+      "error": "INVALID_PASSWORD_SETUP"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "setup shape 3",
+    "tls": true,
+    "path": "/api/auth/setup",
+    "body": [
+      "native.user",
+      "Native verification passphrase 2026"
+    ],
+    "status": 400,
+    "response": {
+      "error": "INVALID_PASSWORD_SETUP"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "setup shape 4",
+    "tls": true,
+    "path": "/api/auth/setup",
+    "body": {
+      "username": "native.user",
+      "password": null
+    },
+    "status": 400,
+    "response": {
+      "error": "INVALID_PASSWORD_SETUP"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "setup shape 5",
+    "tls": true,
+    "path": "/api/auth/setup",
+    "body": {
+      "username": "native.user",
+      "password": "Native verification passphrase 2026",
+      "extra": true
+    },
+    "status": 400,
+    "response": {
+      "error": "INVALID_PASSWORD_SETUP"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "absent bearer is rejected before metadata",
+    "tls": true,
+    "path": "/api/session",
+    "status": 401,
+    "response": {
+      "error": "UNAUTHENTICATED"
+    },
+    "quotaLimit": "600"
+  },
+  {
+    "name": "null bearer is rejected before metadata",
+    "tls": true,
+    "path": "/api/session",
+    "body": null,
+    "status": 401,
+    "response": {
+      "error": "UNAUTHENTICATED"
+    },
+    "quotaLimit": "600"
+  },
+  {
+    "name": "login shape 0",
+    "tls": true,
+    "path": "/api/session",
+    "body": false,
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    },
+    "quotaLimit": "600"
+  },
+  {
+    "name": "login shape 1",
+    "tls": true,
+    "path": "/api/session",
+    "body": [
+      "native.user",
+      "Native verification passphrase 2026"
+    ],
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    },
+    "quotaLimit": "20"
+  },
+  {
+    "name": "login shape 2",
+    "tls": true,
+    "path": "/api/session",
+    "body": {
+      "username": "native.user",
+      "password": null
+    },
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    },
+    "quotaLimit": "20"
+  },
+  {
+    "name": "login shape 3",
+    "tls": true,
+    "path": "/api/session",
+    "body": {
+      "username": "native.user",
+      "password": "Native verification passphrase 2026",
+      "extra": true
+    },
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    },
+    "quotaLimit": "20"
+  },
+  {
+    "name": "/api/auth/setup TLS=false missing body",
+    "wirePayload": "",
+    "path": "/api/auth/setup",
+    "tls": false,
+    "status": 403,
+    "response": {
+      "error": "HTTPS_REQUIRED"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "/api/auth/setup TLS=false plain text",
+    "contentType": "text/plain",
+    "wirePayload": "fixture",
+    "path": "/api/auth/setup",
+    "tls": false,
+    "status": 403,
+    "response": {
+      "error": "HTTPS_REQUIRED"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "/api/auth/setup TLS=false empty plain text",
+    "contentType": "text/plain",
+    "wirePayload": "",
+    "path": "/api/auth/setup",
+    "tls": false,
+    "status": 403,
+    "response": {
+      "error": "HTTPS_REQUIRED"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "/api/auth/setup TLS=false large JSON number",
+    "contentType": "application/json",
+    "wirePayload": "1e400",
+    "path": "/api/auth/setup",
+    "tls": false,
+    "status": 403,
+    "response": {
+      "error": "HTTPS_REQUIRED"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "/api/auth/setup TLS=false JSON string",
+    "contentType": "application/json",
+    "wirePayload": "\"fixture\"",
+    "path": "/api/auth/setup",
+    "tls": false,
+    "status": 403,
+    "response": {
+      "error": "HTTPS_REQUIRED"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "/api/auth/setup TLS=false unsupported XML",
+    "contentType": "application/xml",
+    "wirePayload": "<fixture />",
+    "path": "/api/auth/setup",
+    "tls": false,
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "/api/auth/setup TLS=false prototype key",
+    "contentType": "application/json",
+    "wirePayload": "{\"__proto__\":{}}",
+    "path": "/api/auth/setup",
+    "tls": false,
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "/api/auth/setup TLS=false malformed JSON",
+    "contentType": "application/json",
+    "wirePayload": "{",
+    "path": "/api/auth/setup",
+    "tls": false,
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "/api/auth/setup TLS=true missing body",
+    "wirePayload": "",
+    "path": "/api/auth/setup",
+    "tls": true,
+    "status": 400,
+    "response": {
+      "error": "INVALID_PASSWORD_SETUP"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "/api/auth/setup TLS=true plain text",
+    "contentType": "text/plain",
+    "wirePayload": "fixture",
+    "path": "/api/auth/setup",
+    "tls": true,
+    "status": 400,
+    "response": {
+      "error": "INVALID_PASSWORD_SETUP"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "/api/auth/setup TLS=true empty plain text",
+    "contentType": "text/plain",
+    "wirePayload": "",
+    "path": "/api/auth/setup",
+    "tls": true,
+    "status": 400,
+    "response": {
+      "error": "INVALID_PASSWORD_SETUP"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "/api/auth/setup TLS=true large JSON number",
+    "contentType": "application/json",
+    "wirePayload": "1e400",
+    "path": "/api/auth/setup",
+    "tls": true,
+    "status": 400,
+    "response": {
+      "error": "INVALID_PASSWORD_SETUP"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "/api/auth/setup TLS=true JSON string",
+    "contentType": "application/json",
+    "wirePayload": "\"fixture\"",
+    "path": "/api/auth/setup",
+    "tls": true,
+    "status": 400,
+    "response": {
+      "error": "INVALID_PASSWORD_SETUP"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "/api/auth/setup TLS=true unsupported XML",
+    "contentType": "application/xml",
+    "wirePayload": "<fixture />",
+    "path": "/api/auth/setup",
+    "tls": true,
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "/api/auth/setup TLS=true prototype key",
+    "contentType": "application/json",
+    "wirePayload": "{\"__proto__\":{}}",
+    "path": "/api/auth/setup",
+    "tls": true,
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "/api/auth/setup TLS=true malformed JSON",
+    "contentType": "application/json",
+    "wirePayload": "{",
+    "path": "/api/auth/setup",
+    "tls": true,
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    },
+    "quotaLimit": "10"
+  },
+  {
+    "name": "/api/session TLS=false missing body",
+    "wirePayload": "",
+    "path": "/api/session",
+    "tls": false,
+    "status": 403,
+    "response": {
+      "error": "HTTPS_REQUIRED"
+    },
+    "quotaLimit": "600"
+  },
+  {
+    "name": "/api/session TLS=false plain text",
+    "contentType": "text/plain",
+    "wirePayload": "fixture",
+    "path": "/api/session",
+    "tls": false,
+    "status": 403,
+    "response": {
+      "error": "HTTPS_REQUIRED"
+    },
+    "quotaLimit": "20"
+  },
+  {
+    "name": "/api/session TLS=false empty plain text",
+    "contentType": "text/plain",
+    "wirePayload": "",
+    "path": "/api/session",
+    "tls": false,
+    "status": 403,
+    "response": {
+      "error": "HTTPS_REQUIRED"
+    },
+    "quotaLimit": "600"
+  },
+  {
+    "name": "/api/session TLS=false large JSON number",
+    "contentType": "application/json",
+    "wirePayload": "1e400",
+    "path": "/api/session",
+    "tls": false,
+    "status": 403,
+    "response": {
+      "error": "HTTPS_REQUIRED"
+    },
+    "quotaLimit": "20"
+  },
+  {
+    "name": "/api/session TLS=false JSON string",
+    "contentType": "application/json",
+    "wirePayload": "\"fixture\"",
+    "path": "/api/session",
+    "tls": false,
+    "status": 403,
+    "response": {
+      "error": "HTTPS_REQUIRED"
+    },
+    "quotaLimit": "20"
+  },
+  {
+    "name": "/api/session TLS=false unsupported XML",
+    "contentType": "application/xml",
+    "wirePayload": "<fixture />",
+    "path": "/api/session",
+    "tls": false,
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "/api/session TLS=false prototype key",
+    "contentType": "application/json",
+    "wirePayload": "{\"__proto__\":{}}",
+    "path": "/api/session",
+    "tls": false,
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "/api/session TLS=false malformed JSON",
+    "contentType": "application/json",
+    "wirePayload": "{",
+    "path": "/api/session",
+    "tls": false,
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "/api/session TLS=true missing body",
+    "wirePayload": "",
+    "path": "/api/session",
+    "tls": true,
+    "status": 401,
+    "response": {
+      "error": "UNAUTHENTICATED"
+    },
+    "quotaLimit": "600"
+  },
+  {
+    "name": "/api/session TLS=true plain text",
+    "contentType": "text/plain",
+    "wirePayload": "fixture",
+    "path": "/api/session",
+    "tls": true,
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    },
+    "quotaLimit": "20"
+  },
+  {
+    "name": "/api/session TLS=true empty plain text",
+    "contentType": "text/plain",
+    "wirePayload": "",
+    "path": "/api/session",
+    "tls": true,
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    },
+    "quotaLimit": "600"
+  },
+  {
+    "name": "/api/session TLS=true large JSON number",
+    "contentType": "application/json",
+    "wirePayload": "1e400",
+    "path": "/api/session",
+    "tls": true,
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    },
+    "quotaLimit": "20"
+  },
+  {
+    "name": "/api/session TLS=true JSON string",
+    "contentType": "application/json",
+    "wirePayload": "\"fixture\"",
+    "path": "/api/session",
+    "tls": true,
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    },
+    "quotaLimit": "20"
+  },
+  {
+    "name": "/api/session TLS=true unsupported XML",
+    "contentType": "application/xml",
+    "wirePayload": "<fixture />",
+    "path": "/api/session",
+    "tls": true,
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "/api/session TLS=true prototype key",
+    "contentType": "application/json",
+    "wirePayload": "{\"__proto__\":{}}",
+    "path": "/api/session",
+    "tls": true,
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    },
+    "quotaLimit": null
+  },
+  {
+    "name": "/api/session TLS=true malformed JSON",
+    "contentType": "application/json",
+    "wirePayload": "{",
+    "path": "/api/session",
+    "tls": true,
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    },
+    "quotaLimit": null
+  }
+]

@@ -23,7 +23,7 @@ jobs:
           - arch: arm64
             runner: ubuntu-24.04-arm
     runs-on: ${{ matrix.runner }}
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
@@ -33,10 +33,20 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
           cache-dependency-path: package-lock.json
+      - name: Enable OCI-preserving local image storage
+        run: |
+          sudo python3 - <<'PY'
+          import json
+          from pathlib import Path
+          config_path = Path('/etc/docker/daemon.json')
+          config = json.loads(config_path.read_text()) if config_path.exists() else {}
+          config.setdefault('features', {})['containerd-snapshotter'] = True
+          config_path.parent.mkdir(parents=True, exist_ok=True)
+          config_path.write_text(json.dumps(config) + '\n')
+          PY
+          sudo systemctl restart docker
       - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
       - run: npm ci --ignore-scripts --no-audit --no-fund
-      - name: Install OCI transfer tool
-        run: sudo apt-get update -qq && sudo apt-get install -y skopeo
       - run: mkdir -p dist/oci
       - name: Build the unified app image
         uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
@@ -51,12 +61,17 @@ jobs:
           cache-from: type=gha,scope=kelryvo-${{ matrix.arch }}
           # Cache writes are performance-only and reserved for trusted master.
           cache-to: ${{ github.event_name == 'push' && format('type=gha,scope=kelryvo-{0},mode=max,ignore-error=true,timeout=2m', matrix.arch) || '' }}
+      - name: Build the native verifier before importing any image
+        run: |
+          rustup toolchain install 1.99.1 --profile minimal
+          cargo build -p kelryvo-cli --locked
       - name: Smoke-test the exact platform artifacts
         env:
           TARGET_ARCH: ${{ matrix.arch }}
         run: |
           set -euo pipefail
-          skopeo copy "oci-archive:dist/oci/app-$TARGET_ARCH.tar" docker-daemon:kelryvo-app:test
+          node scripts/load-oci-platform.mjs "dist/oci/app-$TARGET_ARCH.tar" "$GITHUB_SHA" "$TARGET_ARCH"
+          node scripts/test-rust-container.mjs kelryvo-app:test "$TARGET_ARCH" "$GITHUB_SHA"
           node scripts/test-containers.mjs kelryvo-app:test "$TARGET_ARCH"
       - name: Install the customer Compose pilot and import its mounted repository
         run: node scripts/test-pilot.mjs kelryvo-app:test
@@ -81,16 +96,17 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version-file: .nvmrc
+      - name: Install the pinned native verification toolchain
+        run: rustup toolchain install 1.99.1 --profile minimal
+      - name: Build the native OCI verifier
+        run: cargo build -p kelryvo-cli --locked
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           pattern: platform-images-${{ github.sha }}-${{ github.run_attempt }}-*
           path: dist/oci
           merge-multiple: true
-      - name: Assemble and verify both OCI indexes from tested platforms
-        run: node scripts/container-oci.mjs assemble dist/oci "$GITHUB_SHA"
+      - name: Assemble and verify the OCI index from both tested platforms
+        run: target/debug/kelryvo oci assemble dist/oci "$GITHUB_SHA"
       # Export only indexes from a successful trusted master verification.
       - if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

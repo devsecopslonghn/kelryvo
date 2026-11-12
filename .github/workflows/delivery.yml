@@ -48,11 +48,12 @@ jobs:
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version-file: .nvmrc
+      - name: Build the pinned native publication gate
+        run: |
+          rustup toolchain install 1.99.1 --profile minimal
+          cargo build -p kelryvo-cli --locked
       - id: gate
-        run: node scripts/container-publication-gate.mjs
+        run: target/debug/kelryvo delivery gate
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -79,10 +80,11 @@ jobs:
         with:
           ref: ${{ needs.gate.outputs.sha }}
           persist-credentials: false
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version-file: .nvmrc
-      - run: node scripts/container-publication-gate.mjs --require
+      - name: Build the pinned native publication gate
+        run: |
+          rustup toolchain install 1.99.1 --profile minimal
+          cargo build -p kelryvo-cli --locked
+      - run: target/debug/kelryvo delivery gate --require
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: verified-images-${{ needs.gate.outputs.sha }}-${{ needs.gate.outputs.oci_attempt }}
@@ -92,14 +94,10 @@ jobs:
       - name: Install OCI transfer tool
         run: sudo apt-get update -qq && sudo apt-get install -y skopeo
       - name: Verify downloaded multi-platform indexes
-        run: node scripts/container-oci.mjs verify dist/oci "$SOURCE_SHA"
-      - name: Authenticate GHCR
-        run: printf '%s' "$GITHUB_TOKEN" | docker login ghcr.io --username "$GITHUB_ACTOR" --password-stdin
+        run: target/debug/kelryvo oci verify dist/oci/kelryvo-app.tar "$SOURCE_SHA"
       - id: publish
         name: Publish tested images and verify registry digests
-        run: node scripts/container-delivery.mjs
-      - if: always()
-        run: docker logout ghcr.io
+        run: target/debug/kelryvo delivery publish
 
   promote:
     needs: [gate, publish]
@@ -129,10 +127,11 @@ jobs:
         with:
           ref: ${{ needs.gate.outputs.sha }}
           persist-credentials: false
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version-file: .nvmrc
-      - run: node scripts/container-publication-gate.mjs --require
+      - name: Build the pinned native publication gate
+        run: |
+          rustup toolchain install 1.99.1 --profile minimal
+          cargo build -p kelryvo-cli --locked
+      - run: target/debug/kelryvo delivery gate --require
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           repository: devsecopslonghn/kelryvo-helm-chart
@@ -151,6 +150,6 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y python3-yaml
       - name: Verify registry image, validate chart and promote digest
-        run: node scripts/helm-promotion.mjs
+        run: target/debug/kelryvo delivery promote
         env:
           HELM_TOKEN: ${{ secrets.GITOPS_TOKEN }}

@@ -22,60 +22,22 @@ jobs:
           cache: npm
           cache-dependency-path: package-lock.json
       - run: npm ci --ignore-scripts --no-audit --no-fund
-      - name: Extended source, unit and dependency coverage (advisory)
-        run: npm run check:full
+      - name: Install pinned native and WASM toolchains
+        run: rustup toolchain install 1.99.1 --profile minimal --component rustfmt --component clippy --target wasm32-unknown-unknown
+      - name: Install native test prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libssl-dev pkg-config postgresql-16
+      - run: npm run check:delivery
+      - run: npm run parser:corpus
 
   acceptance:
     strategy:
       fail-fast: false
-      # Bound concurrent downloads of the same pinned public parser/JDK inputs.
-      max-parallel: 4
       matrix:
-        include:
-          - suite: api
-            shard: 1/8
-          - suite: api
-            shard: 2/8
-          - suite: api
-            shard: 3/8
-          - suite: api
-            shard: 4/8
-          - suite: api
-            shard: 5/8
-          - suite: api
-            shard: 6/8
-          - suite: api
-            shard: 7/8
-          - suite: api
-            shard: 8/8
-          - suite: browser
-            shard: 1/3
-          - suite: browser
-            shard: 2/3
-          - suite: browser
-            shard: 3/3
-          - suite: release
-            shard: 1/1
+        suite: [api, browser, release]
     runs-on: ubuntu-24.04
-    # Independent API files use two subprocesses; native Docker backup files run serially.
-    # Every partition has its own database; this optional run preserves the complete suites.
     timeout-minutes: 40
-    services:
-      postgres:
-        image: postgres:17.10-bookworm@sha256:9b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f
-        env:
-          POSTGRES_DB: kelryvo_test
-          POSTGRES_HOST_AUTH_METHOD: trust
-        ports:
-          - 127.0.0.1:5432:5432
-        options: >-
-          --health-cmd "pg_isready -U postgres"
-          --health-interval 5s --health-timeout 5s --health-retries 10
-    env:
-      KELRYVO_TEST_DATABASE_URL: postgres://postgres@127.0.0.1:5432/kelryvo_test
-      KELRYVO_JAVA_HOME: ${{ github.workspace }}/.cache/antlr/temurin
-      KELRYVO_REQUIRE_PRODUCT_TESTS: '1'
-      KELRYVO_TEST_SHARD: ${{ matrix.shard }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
@@ -86,39 +48,36 @@ jobs:
           cache: npm
           cache-dependency-path: package-lock.json
       - run: npm ci --ignore-scripts --no-audit --no-fund
-      - if: matrix.suite == 'release'
-        run: npm run dependencies:offline
-      - run: npm run parser:antlr:prepare
-      # The release suite builds the extracted source itself, after fresh npm ci.
-      - if: matrix.suite != 'release'
-        run: npm run parser:antlr:build
-      - if: matrix.suite != 'release'
-        # Full source/type/unit/dependency checks run once in offline. Each shard
-        # still builds its browser bundle; release builds the extracted source.
-        run: npm run build:web
-      - if: matrix.suite == 'api'
-        run: npm run test:product
-      - if: matrix.suite != 'api'
-        run: node node_modules/playwright/cli.js install --with-deps chromium
+      - name: Install pinned native and WASM toolchains
+        run: rustup toolchain install 1.99.1 --profile minimal --component rustfmt --component clippy --target wasm32-unknown-unknown
+      - name: Install native test prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libssl-dev pkg-config postgresql-16
+      - name: Install pinned WASM bundler
+        run: cargo install wasm-bindgen-cli --version 0.2.130 --locked
       - if: matrix.suite == 'browser'
-        run: node scripts/test-product.mjs --browser
+        run: node node_modules/playwright/cli.js install --with-deps chromium
+      - name: Native integration, browser or distribution acceptance
+        env:
+          TEST_SUITE: ${{ matrix.suite }}
+          KELRYVO_REVISION: ${{ github.sha }}
+        run: |
+          export PATH="/usr/lib/postgresql/16/bin:$PATH"
+          case "$TEST_SUITE" in
+            api) bash scripts/test-rust.sh ;;
+            browser) bash scripts/test-rust.sh --browser-only ;;
+            release) bash scripts/test-rust.sh --oci-only; bash scripts/test-rust.sh --runtime-only ;;
+            *) exit 1 ;;
+          esac
       - if: failure() && matrix.suite == 'browser'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: product-browser-${{ strategy.job-index }}
-          path: |
-            .cache/phase6-acceptance/
-            .cache/local-product/browser-failure.png
-            .cache/phase7-acceptance/
-            .cache/phase8-acceptance/
+          name: native-browser-failure-${{ github.run_attempt }}
+          path: .cache/rust-browser-*/failure.png
           if-no-files-found: ignore
           retention-days: 7
-      - if: matrix.suite == 'release'
-        run: npm run test:release
 
-      # Only disposable metadata PostgreSQL and local Git/parser; no Oracle or deployment.
-
-  # Report all failures truthfully; this scheduled/manual result does not gate publication.
   product:
     if: always()
     needs: [offline, acceptance]

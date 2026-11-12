@@ -1,0 +1,110 @@
+{
+  "platforms": {
+    "amd64": {
+      "image": "app",
+      "architecture": "amd64",
+      "descriptor": {
+        "mediaType": "application/vnd.oci.image.manifest.v1+json",
+        "digest": "sha256:ed8cad640b36915158ecf7fda637e12fd0fce12ac9c9958fda7781210c4a2623",
+        "size": 395,
+        "annotations": {
+          "org.opencontainers.image.created": "one"
+        }
+      },
+      "manifest": {
+        "schemaVersion": 2,
+        "mediaType": "application/vnd.oci.image.manifest.v1+json",
+        "config": {
+          "mediaType": "application/vnd.oci.image.config.v1+json",
+          "digest": "sha256:92774a001282fac5ebe221151ecfadc7dad064e65ac32a4760cfeba14e0d0cf0",
+          "size": 316
+        },
+        "layers": [
+          {
+            "mediaType": "application/vnd.oci.image.layer.v1.tar",
+            "digest": "sha256:99624b8bf60c4c7467fbe669f770244f9e1df60c2076b703fdd5f2203e58b2c4",
+            "size": 37
+          }
+        ]
+      },
+      "configDigest": "sha256:92774a001282fac5ebe221151ecfadc7dad064e65ac32a4760cfeba14e0d0cf0",
+      "manifestSize": 395,
+      "config": {
+        "architecture": "amd64",
+        "os": "linux",
+        "config": {
+          "User": "0:0",
+          "Entrypoint": [
+            "/opt/kelryvo/bin/kelryvo-runtime"
+          ],
+          "Labels": {
+            "org.opencontainers.image.revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "org.opencontainers.image.source": "https://github.com/devsecopslonghn/kelryvo",
+            "dev.kelryvo.implementation": "rust"
+          }
+        }
+      }
+    },
+    "arm64": {
+      "image": "app",
+      "architecture": "arm64",
+      "descriptor": {
+        "mediaType": "application/vnd.oci.image.manifest.v1+json",
+        "digest": "sha256:0d2017704f0adaef9c5fbbe1f7186d36cb34882b3c40b9c2479468cd0094ce0a",
+        "size": 395,
+        "annotations": {
+          "org.opencontainers.image.created": "one"
+        }
+      },
+      "manifest": {
+        "schemaVersion": 2,
+        "mediaType": "application/vnd.oci.image.manifest.v1+json",
+        "config": {
+          "mediaType": "application/vnd.oci.image.config.v1+json",
+          "digest": "sha256:e79c0cea2adebdbcbcbef75b6960648b52228155a7d5af8f5f2c0e1582a80e77",
+          "size": 316
+        },
+        "layers": [
+          {
+            "mediaType": "application/vnd.oci.image.layer.v1.tar",
+            "digest": "sha256:99624b8bf60c4c7467fbe669f770244f9e1df60c2076b703fdd5f2203e58b2c4",
+            "size": 37
+          }
+        ]
+      },
+      "configDigest": "sha256:e79c0cea2adebdbcbcbef75b6960648b52228155a7d5af8f5f2c0e1582a80e77",
+      "manifestSize": 395,
+      "config": {
+        "architecture": "arm64",
+        "os": "linux",
+        "config": {
+          "User": "0:0",
+          "Entrypoint": [
+            "/opt/kelryvo/bin/kelryvo-runtime"
+          ],
+          "Labels": {
+            "org.opencontainers.image.revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "org.opencontainers.image.source": "https://github.com/devsecopslonghn/kelryvo",
+            "dev.kelryvo.implementation": "rust"
+          }
+        }
+      }
+    }
+  },
+  "index": {
+    "image": "app",
+    "digest": "sha256:e52d064b3ceab746854d92c041fdcc12359ccac841f6f5bc9a0a0dbc75b8fd61",
+    "platforms": {
+      "amd64": {
+        "digest": "sha256:ed8cad640b36915158ecf7fda637e12fd0fce12ac9c9958fda7781210c4a2623",
+        "manifestSize": 395,
+        "configDigest": "sha256:92774a001282fac5ebe221151ecfadc7dad064e65ac32a4760cfeba14e0d0cf0"
+      },
+      "arm64": {
+        "digest": "sha256:0d2017704f0adaef9c5fbbe1f7186d36cb34882b3c40b9c2479468cd0094ce0a",
+        "manifestSize": 395,
+        "configDigest": "sha256:e79c0cea2adebdbcbcbef75b6960648b52228155a7d5af8f5f2c0e1582a80e77"
+      }
+    }
+  }
+}

@@ -64,7 +64,349 @@ validation is `UNVERIFIED`, and incomplete observations remain in history; retry
 read-only discovery when it cannot establish identity. Do not assign from an
 incomplete observation. Known runtime dependency advisories remain open.
 
-## Default Compose pilot
+## Native Rust checkout (unreleased)
+
+The current checkout's default Dockerfile builds the Rust API, worker, operators,
+parser and Rust/WASM UI. This does not replace the published images or transfer
+the managed Oracle qualification above to the rewrite. Native controller chart
+wiring is available as a review patch below; the companion checkout retains its
+published wiring until an explicit cutover. See RUST3–RUST6 in [CHECKLIST.md](CHECKLIST.md).
+
+For a locally built native image, extract its matching operator on the same
+architecture, then prepare a new private Compose installation:
+
+```sh
+docker create --name kelryvo-native-extract --entrypoint /bin/true kelryvo:rust-local
+docker cp kelryvo-native-extract:/opt/kelryvo/bin/kelryvo-operator ./kelryvo-operator
+docker rm kelryvo-native-extract
+sudo ./kelryvo-operator pilot init --directory /srv/kelryvo-native --image kelryvo:rust-local
+sudo docker compose --env-file /srv/kelryvo-native/pilot.env \
+  -f /srv/kelryvo-native/compose.yaml up -d
+sudo ./kelryvo-operator pilot bootstrap --directory /srv/kelryvo-native
+```
+
+Bootstrap asks for two distinct account names and hidden passwords. PostgreSQL
+must be healthy first. Metadata readiness becomes available after bootstrap;
+missing Oracle installation does not block the API. Native pilot `verify`,
+`status`, `grant`, `database-grant` and `deploy-grant` replace the Python installer
+commands for this image. Keep the operator binary with its matching image.
+The native container launcher supervises separate API and worker processes under
+different OS users. The API serves the Rust/WASM UI and records execution requests
+in PostgreSQL; the worker validates those requests before using its protected
+Oracle credentials. Read-only test/discovery uses a private Unix socket. There is
+no separate message broker. `/api/readyz` reports metadata readiness, including
+historical reads during RESTORE_HOLD; it does not certify Oracle connectivity or
+authorize execution. A worker awaiting installation can leave the API ready.
+Concurrent readiness probes share one unfinished metadata read. A probe returns
+unavailable after one second while that read remains in progress; its eventual
+result is not cached for later probes. Liveness remains independent of metadata.
+
+The API and execution worker are processes in the same application container,
+supervised by `kelryvo-runtime`; they are not separate worker Deployments.
+UID 10001 serves HTTP and has no private Oracle execution credentials. UID 10002
+handles execution and the read-only discovery socket. In managed Oracle mode,
+the optional root controller runs as the `oracle-operator` sidecar and prepares
+the protected installation; it does not dispatch migration jobs.
+Each prepare, refresh and publish step runs in a fresh instance of the same
+native installer executable so its OCI state is isolated from the controller
+and other steps. Shutdown waits for the active installer to terminate. An
+unfinished setup remains held for review; restarting does not replay its DDL.
+
+Native discovery stays unaccepted until an operator separately reviews native
+qualification evidence. Installation readiness does not create that review.
+For an existing prepared native installation, root-only
+`kelryvo-worker installation-observer-scope /absolute/prepared-directory` prints
+the review scope without contacting Oracle or creating acceptance. The private
+review JSON has exactly `format: 1`, `driverProfile`, `sourceCommit`,
+`authorizationId`, `expiresAt`, `acceptedAt`, `scopeDigest` and `evidenceDigest`.
+Use the emitted native scope and policy expiry, the actual review time and the
+digest of the separately reviewed native qualification evidence. Scope output
+alone is not a valid review; legacy Node/Thin acceptance cannot be imported.
+
+Root-only `installation-observer PRIVATE_REQUEST` reads a mode-0600 request
+containing `format: 1`, `sourceDirectory` and `acceptanceReviewFile`. It requires
+the explicit review, fresh Oracle catalog preflight and the current recorded
+native installation before publishing format-3 observer data. It does not
+provision or register an installation. For the controller, set its optional
+`discoveryReviewFile` to that protected review. In the native chart candidate,
+`oracleRuntime.nativeDiscoveryReview=true` projects `discovery-review.json` from
+the existing root-only operator Secret; the controller path is
+`/run/kelryvo/operator/input/..data/discovery-review.json`. The flag only mounts
+the file: the controller field, valid review and successful preflight are still
+required. Without a review, format-2 read-only discovery remains available and
+returns no verification acceptance. These native paths still require actual
+Oracle qualification; offline fixtures do not supply it.
+
+| Signal | Meaning | Effect on API readiness |
+| --- | --- | --- |
+| `/api/livez` reports `alive` | The HTTP process responds | Does not check metadata or Oracle |
+| `/api/readyz` reports `ready` | Metadata is ACTIVE or RESTORE_HOLD | The API can serve requests; HOLD still vetoes protected mutations |
+| `/api/readyz` reports `unavailable` (503) | Metadata is unavailable, uninitialized or did not respond within the probe deadline | The API is not ready |
+| Worker reports `WAITING_FOR_NATIVE_INSTALLATION` | Execution is enabled but no usable private native configuration is available yet | Waiting alone does not block readiness |
+| Controller reports `WAITING_FOR_INSTANCE` | No enabled instance matches its fixed Oracle policy | Waiting alone does not block readiness |
+| `targetAvailability: UNVERIFIED` | Readiness did not test Oracle | Does not make a ready API unavailable |
+
+The compatibility `/api/health` response retains `oracleValidation: BLOCKED` and
+`execution: NOT_EXECUTED`; these fields are not live Oracle measurements. Use
+`/api/readyz` for application readiness and the connection or execution views for
+their separately scoped checks. Neither a successful readiness probe nor a
+controller waiting state grants permission to execute SQL.
+
+For Kubernetes projected credentials, set `KELRYVO_SECRET_DIR` to the protected
+generation, for example `/run/kelryvo/secrets/..data`. The writable sticky volume
+root is not a valid secret source. Source contents remain private to bootstrap;
+the API and worker receive only their separately staged inputs.
+
+The native server checks its browser assets before listening and writes fixed
+JSON lifecycle records to stderr. Startup failures distinguish
+`configuration_unavailable`, `metadata_unavailable`, `web_assets_unavailable` and
+`listen_unavailable`. Records include startup ready and shutdown started/complete;
+they omit exception details and credentials. SIGTERM/SIGINT during startup stops
+preparation without announcing ready or releasing the worker's startup gate.
+This local path is offline governance; live native Oracle operation remains
+unqualified. The dated release instructions below describe the retained runtime.
+
+### Native Oracle client prerequisite
+
+A root operator can check a fully sealed, reviewed private native installation
+configuration before connecting to either database:
+
+```sh
+kelryvo-worker installation-client-check /absolute/private/installation.json
+```
+
+The command applies the normal private-file, artifact and source checks, starts
+with the verified client directory in the loader search path, and reports the
+client version with `CLIENT_READY_NO_DATABASE`. It reads no database credential,
+opens no database session and creates no installation or execution authority.
+It does not replace the separate catalog preflight or independent qualification.
+Native Oracle commands revalidate their inputs after startup replacement; IPC,
+checkpoints and metadata effects begin afterward. The API and waiting services
+receive no Oracle loader path. Use an absolute client directory without loader
+separators (`:` or `;`) or expansion tokens (`$`).
+
+### Native managed Oracle chart candidate
+
+`deploy/native-oracle-helm.patch` adds explicit native init/controller wiring to
+companion revision `0d11a258302f2011d8952dae530172a8f08525dd`. Validate a fresh
+private candidate without changing that checkout:
+
+```sh
+bash scripts/test-rust.sh --helm-only /absolute/kelryvo-helm-chart
+```
+
+The command verifies archived files against their Git blob identities, applies
+the patch only in `.cache/`, and runs all retained chart checks plus the native
+contracts. It does not install a chart, create Secrets/PVCs or qualify Oracle.
+
+For a separately reviewed native cutover, select a matching Rust image containing
+`installation-init-state`, set `oracleRuntime.native=true`, and supply explicit
+existing `oracleRuntime.nativeStateClaimName` and `nativeRuntimeClaimName` values.
+The native state claim supplies the private state/witness root; retained legacy
+controller journals and installation authority are not automatically upgraded.
+The retained legacy PVC object and PostgreSQL storage contracts remain unchanged.
+The prerequisite claim is mounted read-only at `/opt/kelryvo/oracle`, with
+root-owned `client/` libraries and a root-owned `wallet/` directory using GID
+10002 and mode 0750, allowing the worker to verify the complete wallet file set.
+Wallet files must be regular, single-link, root-owned,
+GID 10002 and mode 0440. The API UID cannot read this wallet. Initialization checks
+these permissions before creating state and never loads OCI or connects to Oracle.
+
+The existing operator Secret additionally needs a reviewed native
+`installation-template.json` and `controller.json`, alongside `policy.json` and
+`oracle-vault-private.pem`. The controller request contains paths only:
+
+```json
+{
+  "format": 1,
+  "stateDirectory": "/var/lib/kelryvo/operator/state",
+  "databaseUrlFile": "/run/kelryvo/operator/metadata/..data/database-url",
+  "policyFile": "/run/kelryvo/operator/input/..data/policy.json",
+  "installationTemplate": "/run/kelryvo/operator/input/..data/installation-template.json",
+  "vaultKeyFile": "/run/kelryvo/operator/input/..data/oracle-vault-private.pem"
+}
+```
+
+The native installation template binds the exact source/image, worker/client/
+wallet hashes, authorization, target and expiry. Its client/wallet paths must
+match the prerequisite mount and its witness path is `/run/kelryvo/witness`.
+Keep all private payloads in operator-managed Secrets, outside chart values.
+The controller retains hash checks after I/O, its exclusive lock and journal,
+and refuses unknown setup outcomes rather than provisioning again.
+
+### Native inventory and target bindings
+
+The native operator reads the protected metadata URL from
+`KELRYVO_SECRET_DIR/database-url`. Initialize the native metadata schema before
+using inventory commands. `inventory status` reads retained reference metadata;
+`declare`, `assign`, `release` and `target-option` read a JSON object of at most
+32 KiB from stdin and require ACTIVE metadata. Use private input files:
+
+```sh
+KELRYVO_SECRET_DIR=/absolute/native-runtime target/debug/kelryvo-operator inventory status
+KELRYVO_SECRET_DIR=/absolute/native-runtime target/debug/kelryvo-operator inventory declare < /private/declaration.json
+KELRYVO_SECRET_DIR=/absolute/native-runtime target/debug/kelryvo-operator inventory assign < /private/assignment.json
+```
+
+A declaration contains `databaseKey`, `databaseLabel`, `containerKey`,
+`containerName`, `containerKind` (`PDB` or `NON_CDB`), `environment` (`DEV`, `SIT`,
+`UAT` or `PROD`), `host`, numeric `port`, `service`, `transport` (`TCP` or `TCPS`)
+and literal `owner`. Exact retries reuse the same server-reference IDs. Existing
+labels, container facts and route ownership cannot be overwritten. These are
+manual references, with no physical Oracle identity claim.
+
+Assignment input contains `schemaId`, `projectId`, `expectedRevision` and
+`reason`; release input omits `projectId`. Revisions are decimal strings, starting
+at `"0"` for an unassigned declaration. Assignment changes advance the revision
+and retain the previous assignment and operator audit.
+
+Target-option input contains `projectId`, `assignmentId`, `environmentId`,
+`profileId`, `routeId`, `routeConfigRevision` (`"1"`), `routeAlias`,
+`migrationNamespace`, `policyId`, `policyRevision`, `exactOwner`,
+`deploymentPrincipalId`, `principalPurpose` (`DEPLOY`), `principalUsername`,
+`privatePrincipalRef`, `principalAlias`, `reason`, `lineageId` and
+`expectedOptionRevision`. `optionId` and boolean `enabled` are optional. The
+principal username and reference must match the current profile; the profile,
+environment, route and exact schema owner must agree. Reuse the container's
+existing lineage ID when one is already configured. Creating an option uses
+`expectedOptionRevision: "0"`; updates supply its `optionId` and current revision.
+The output omits private references. Options configured here remain provisional;
+observation and verification require their separate supported paths.
+
+For checkout installations, use `local-inventory ACTION /absolute/config.json`
+instead. Point `KELRYVO_SECRET_DIR` at the native runtime directory reported by
+`local-prepare`. The local command verifies the private config and matching
+loopback database URL, refusing socket/query overrides and remote databases.
+In the Rust UI, open **Targets**, choose an assigned schema, configured option
+and explicit environment, then give a binding reason. Select an existing binding
+to revise it. A revision conflict requires refreshing and reviewing the choices
+before submitting again. Reviewer, archived-project and RESTORE_HOLD views allow
+inspection without binding writes. Creating a binding grants no execution rights.
+
+The Rust **Account** page shows your local sign-in state, project access and active
+browser sessions. It can load further access/session pages and revoke another
+session you own; use **Sign out** for the current session. Self-service session
+revocation remains available during metadata recovery HOLD.
+
+Use **Connections** to choose a project, or open **Project connections** within a
+project. Register a manual reference first, then select its assigned schema/route
+to register a discovery connection. The page supports server-side inventory
+filters, further pages, configuration/preflight and observation history. Connection
+tests and discovery record their actual availability; they do not verify identity
+or authorize execution. Permanent retirement requires a reason and explicit
+confirmation. Database-management grants and active project/workspace state are
+required for these writes. Legacy discovery connection cards let you select a
+retained observation, an accessible assigned owner and a matching project target
+binding. Enter a reason to **Record observed target** or **Verify target**. Historical
+observations cannot establish current identity. Verification requires accepted
+Oracle evidence; recording an observation does not authorize execution. A revision
+conflict requires refreshing the facts and explicitly submitting again.
+
+Use **Review inbox** for pending plans across projects you can currently access.
+Choose all pending plans, your authored plans or plans eligible for your independent
+review, then load older pages as needed. **Open pending plan** rechecks its project
+and pending status before opening the project's Plans view. A failed page or
+changed membership clears the cached inbox; refresh to load current results.
+
+On a project's **Overview**, a developer can enter an **Archive reason** and select
+**Archive project**. Archiving preserves existing records and history, and prevents
+new project work or review decisions. Metadata recovery HOLD disables the archive
+and environment forms. Archived projects remain visible with a read-only banner.
+To retire a deployment profile, open **Configuration → Connection details**, enter
+a connection management reason, explicitly confirm permanent retirement, then
+select **Retire connection**. The profile's previous revisions remain readable.
+
+On **Plans**, filter by pending, assigned to you, approved, rejected or revoked
+status. **Assigned to me** includes only pending plans explicitly assigned to your
+actor. **Refresh plans** preserves the filter; changing it clears previous SQL
+previews and review selections without changing the retained plan.
+
+On **Audit**, choose an **Audit action**, select **Load older audit events** for
+further pages or **Refresh audit** for current results. The action list includes
+older history beyond the recent project snapshot. Retained migration states appear
+separately and do not prove database application. Archived/HOLD history remains
+readable, while failed continuations or lost membership clear cached audit rows.
+
+On **Projects**, search the projects assigned to your account or refresh their
+current status. Creating a project shows its UUID and a native operator grant
+command under **Project access handoff**. Give that UUID to your operator; creation
+does not grant membership. Multiple handoffs stay available while you navigate
+within the signed-in session. Copy them before reloading or signing out; they are
+not saved in browser storage or shown to another account.
+
+The project's **Overview** recommends a next step from current retained facts:
+access/recovery setup, held or active requests, independent review, target setup,
+release preparation or history inspection. Its button opens the relevant screen
+and plan when available. Recommendations are navigation only; approval and worker
+admission remain separate requirements for execution.
+
+Use **Active project** in the sidebar to switch between available projects. A
+project screen retains its tab while loading the newly selected project's data;
+other screens open the project overview. Refresh **Projects** to pick up membership
+changes. Switching projects, refreshing the workspace and signing out require
+saving or discarding any unsaved SQL draft first.
+
+**Toggle color theme** switches light/dark surfaces on sign-in and workspace
+screens. Theme changes preserve active form controls and remain local to the
+current page. On mobile, **Open navigation** opens the sidebar; select a screen,
+click outside the sidebar or press Escape to close it. Escape returns focus to
+the navigation button. Screen navigation returns to the top of the page.
+
+On **Instances**, choose a project and select **Manage instances** to inspect its
+deployment profiles. **Search profiles**, environment and status filters narrow
+the loaded inventory; **Refresh deployment profiles** retains those filters. A
+developer with active project access can add a profile here using an operator
+credential reference, then **Configure and inspect** its revisions and offline
+preflight. A reference or successful preflight does not prove Oracle connectivity.
+
+To retire a profile from this inventory, enter a **Profile retirement reason**,
+confirm permanent retirement and select **Retire deployment profile**. Existing
+plans/history remain readable. Reviewer, archived-project and recovery-HOLD views
+allow inspection with write controls unavailable. Reading profiles does not grant
+access to the separate master credentials. A stale configuration revision requires
+refresh and explicit resubmission; failed writes are not automatically retried.
+
+Open **Schema references** in a project to inspect the manual catalog assignments
+available to your account. Rows are grouped in DEV/SIT/UAT/PROD order and under
+each declared service. An assignment without a service has its own labelled
+group. Database/container/schema UUIDs identify reference records, not verified
+Oracle physical identity. These declarations do not bind a profile or authorize
+a plan.
+
+Use **Load more schema references** for further assignment pages or **Refresh
+schema references** to start again. Completeness text distinguishes loaded rows
+from the full inventory. Service references are bounded separately; an explicit
+note appears when additional services are omitted. Reviewers and archived/HOLD
+projects retain read access. Failed continuations or lost membership clear cached
+references. **Open project targets and environment bindings** opens the separate
+binding workflow without creating or changing a binding.
+
+Open **Schema baselines** to inspect retained schema evidence for a project
+target. Snapshot and baseline histories have separate **Load more** controls.
+Open a snapshot to inspect its identity, provenance, coverage and definitions;
+filter retained objects by owner/name and type. A filtered empty table does not
+establish that the schema is empty.
+
+A developer with current database-management access can capture the opened
+snapshot as an immutable baseline with a name and reason. Select an **Expected
+reference** and **Observed snapshot**, then **Compare** to inspect structural
+changes and limitations. Fixture evidence does not establish live drift.
+
+**Collect a schema observation** requires an authorized connection and reason.
+Unavailable Oracle collection is retained as an unavailable observation. Reviewer,
+archived-project and recovery-HOLD views allow retained reads with write controls
+unavailable. The navigation buttons open SQL Workspace, plans or migration history
+for the selected target; workspace changes still require saving or discarding
+before leaving the draft. These actions do not approve or execute migrations.
+
+The browser address retains the current screen/project and selected target,
+saved draft, release or plan. Copy the address to reopen that retained context;
+reload and sign-in recheck access through the native API. Saved drafts reopen at
+their current retained revision. Unsaved SQL and form secrets are not saved in
+the address. Sign-out clears its project/object context. Existing migration
+history query-string links remain supported and become fragment links after load.
+
+## Published Compose pilot
 
 The default single-host Compose installer provides offline governance for a small
 developer/approver team. Oracle execution and discovery remain disabled by default.
@@ -82,8 +424,9 @@ and source-access files with redistributed images. Validate downloads first:
 sha256sum -c SHA256SUMS
 ```
 
-The source archive contains this guide, `compose.pilot.yaml` and `scripts/pilot.py`.
-Extract it into an empty working directory. The OCI archive contains both native
+Use `bin/kelryvo` from the matching verified native distribution for the pilot
+commands below, or build the pinned Rust CLI from the reviewed source. This guide
+and `compose.pilot.yaml` describe its generated configuration. The OCI archive contains both native
 platforms and is the exact CI-built image, not a locally rebuilt substitute.
 Load your platform with skopeo (choose `arm64` on an arm64 host):
 
@@ -98,7 +441,7 @@ name above is an import alias. With a private registry, use its verified
 
 ## Install on a Linux host
 
-Requirements: Docker Engine with Compose v2, skopeo for OCI import, Python 3.11+, OpenSSL (and Git for
+Requirements: Docker Engine with Compose v2, skopeo for OCI import, the matching native `kelryvo` CLI, OpenSSL (and Git for
 customer checkout snapshots), at least two
 CPUs, 4 GiB available memory and 5 GiB free storage plus space for retained data.
 These are pilot starting values, not a measured capacity guarantee. No Node,
@@ -107,11 +450,11 @@ Docker must be able to pull the pinned PostgreSQL image. Keep the installation
 private and back it up. Use a new directory; init refuses to overwrite one.
 
 ```sh
-sudo python3 scripts/pilot.py init --directory /srv/kelryvo-pilot \
+sudo kelryvo pilot init --directory /srv/kelryvo-pilot \
   --image kelryvo:pilot-2026-11-08
 sudo docker compose --env-file /srv/kelryvo-pilot/pilot.env \
   -f /srv/kelryvo-pilot/compose.yaml up -d
-sudo python3 scripts/pilot.py status --directory /srv/kelryvo-pilot
+sudo kelryvo pilot status --directory /srv/kelryvo-pilot
 ```
 
 Init creates root-owned secrets, separate metadata admin/application passwords,
@@ -137,7 +480,7 @@ Wait for the app to become ready. Use your trusted certificate to check:
 ```sh
 sudo curl --cacert /srv/kelryvo-pilot/secrets/tls.crt \
   https://localhost:8443/api/readyz
-sudo python3 scripts/pilot.py bootstrap --directory /srv/kelryvo-pilot
+sudo kelryvo pilot bootstrap --directory /srv/kelryvo-pilot
 ```
 
 Bootstrap asks interactively for distinct developer and approver usernames and
@@ -153,7 +496,7 @@ reloading or signing out. The receipt remains visible during workspace refreshes
 it does not grant access. Explicitly grant both pilot actors:
 
 ```sh
-sudo python3 scripts/pilot.py grant --directory /srv/kelryvo-pilot \
+sudo kelryvo pilot grant --directory /srv/kelryvo-pilot \
   --project REPLACE_WITH_PROJECT_UUID
 ```
 
@@ -180,36 +523,26 @@ three dedicated accounts: a schema-scoped writer, ledger/mutex owner and observe
 Migration dispatch never uses ADMIN. Schema-only owners must be explicitly listed
 in the root-owned policy. Existing populated schemas cannot be adopted implicitly.
 
-Run the verified image with `scripts/oracle-runtime-controller.mjs watch`, passing
-only protected file paths via `--database-url-file`, `--vault-key-file`, `--policy`,
-`--state-directory`, `--witness-directory` and its exact `--image-digest`.
-The controller runs as UID 0 with CHOWN and DAC_OVERRIDE, a read-only root filesystem,
-no service-account token and no network listener. Mount its private RSA key and
-policy only into this process. The API receives the public key. Share the protected
-execution directory with the runtime and retain operator state and the UID 10002
-witness on persistent storage; never put them in an ephemeral `/tmp` volume.
-The companion Helm chart provides these mounts and starts the waiting service.
-Its bootstrap installation Secret contains the protected metadata `database-url`,
-`execution-service.mjs` exporting `createManagedExecutionService as createExecutionService`
-from `/opt/kelryvo/apps/worker/managed-oracle-runtime.mjs`, and an empty discovery
-manifest with `readOnly: true`, `disposable: true`, the policy's `authorizationId`
-and `expiresAt`, and `targets: []`. The private operator Secret contains
-`policy.json`, `oracle-vault-private.pem` and `oracle-vault-public.pem`; only the
-public key is projected into app source secrets. Enable `oracleRuntime`, execution
-and discovery, choose an AMD64 node and explicit Oracle egress CIDRs in the
-companion Helm chart. Its new witness PVC shares the app's sync wave so
-WaitForFirstConsumer storage can bind. Preserve the existing PostgreSQL claim.
+Run the verified native image with `kelryvo-worker installation-watch`, passing
+one protected controller configuration path. The controller runs as UID 0 with
+CHOWN and DAC_OVERRIDE, a read-only root filesystem, no service-account token
+and no network listener. Mount its private RSA key and policy only into this
+process. The API receives the public key. Share the protected execution directory
+with the runtime and retain operator state and the UID 10002 witness on persistent
+storage. The native companion Helm migration patch provides the matching mounts
+and native worker entrypoints; apply the pinned patch as described above before
+rendering the chart. Preserve the existing PostgreSQL claim and configure explicit
+Oracle egress CIDRs. No executable JavaScript factory is used.
 
 For an authorized policy renewal, update the private policy, restart to load it,
 and replace the saved credential to advance its connection revision and trigger
 a fresh protected installation. Keep owners/principals/history unchanged. Scope
 expansion, failed setup and HOLD handling require operator review; there is no
-automatic reset or grant broadening. Always use an image with the PR #143 timer
-fix for policies longer than Node's single-timer limit.
+automatic reset or grant broadening. Use a source-qualified native image and retain the exact artifact's installation evidence.
 
 
 The policy schema is validated by
-`packages/connectivity/oracle-installation-policy.mjs`: exact host, service, IPv4
+`crates/kelryvo-worker/src/preparation.rs`: exact host, service, IPv4
 pins, certificate DN, physical identity, allowed and protected owners, tablespace,
 quota, explicit new owners, authorization reference and expiry (at most 90 days).
 Protect `CR7ALLGOALS_APP`, all existing trial owners and service accounts. The
@@ -329,13 +662,12 @@ native ledger, fresh target identity/TLS/grant/object checks, an exclusive nativ
 mutex and verified postconditions. Missing receipts or partial/ambiguous files stay
 on HOLD. The published offline pilot does not install this capability automatically.
 
-1. In the protected execution role, run `node apps/worker/held-completion-main.mjs
-   preview JOB_UUID`. The fixed installation must provide a protected
-   `held-completion.mjs` factory; API input cannot select a module or credential.
+1. In the protected execution role, run `/opt/kelryvo/bin/kelryvo-worker held-preview JOB_UUID`. The fixed installation must provide a protected
+   native held-completion configuration; API input cannot select a credential.
 2. In the held request's reconciliation panel, retain the returned evidence digest
    as `TARGET_LEDGER`. A different project approver records `EVIDENCE_REVIEWED` for
    that exact digest. Copy the displayed reference ID.
-3. The operator runs `node apps/worker/held-completion-main.mjs confirm JOB_UUID
+3. The operator runs `/opt/kelryvo/bin/kelryvo-worker held-confirm JOB_UUID
    RECONCILIATION_UUID`. Native checks run again while the mutex is held. A successful
    result appends `EXECUTION_RECOVERED_APPLIED` to the existing immutable audit;
    the original job, attempt, HOLD events and idempotent response stay unchanged.
@@ -354,15 +686,14 @@ For an installation created with `pilot.py`, the operator can grant the develope
 database management and, separately, deployment to an explicit project:
 
 ```sh
-sudo python3 scripts/pilot.py database-grant --directory /srv/kelryvo-pilot
-sudo python3 scripts/pilot.py deploy-grant --directory /srv/kelryvo-pilot \
+sudo kelryvo pilot database-grant --directory /srv/kelryvo-pilot
+sudo kelryvo pilot deploy-grant --directory /srv/kelryvo-pilot \
   --project REPLACE_WITH_PROJECT_UUID
 ```
 
 These commands retain operator audit and do not enable Oracle runtimes, create
 database users, provision database grants, approve plans or execute SQL. In a
-Kubernetes installation, use `node scripts/container-membership.mjs database-grant
-kelryvo-developer` and `node scripts/container-membership.mjs deploy-grant
+Kubernetes installation, use `/opt/kelryvo/bin/kelryvo-operator database-grant kelryvo-developer` and `/opt/kelryvo/bin/kelryvo-operator deploy-grant
 PROJECT_UUID kelryvo-developer` inside the application container through the
 authorized operator process.
 
@@ -398,7 +729,7 @@ Only committed migrations are imported. Use standalone checkouts rather than a
 linked Git worktree whose object store is outside its directory.
 
 ```sh
-sudo python3 scripts/pilot.py init --directory /srv/kelryvo-pilot \
+sudo kelryvo pilot init --directory /srv/kelryvo-pilot \
   --image kelryvo:pilot-2026-11-08 --repository /absolute/customer-checkout
 ```
 
@@ -432,7 +763,7 @@ The application does not push to customer repositories.
 
 ## Operations and support
 
-- Inspect status with `pilot.py status`. Read bounded logs with
+- Inspect status with `kelryvo pilot status`. Read bounded logs with
   `docker compose --env-file /srv/kelryvo-pilot/pilot.env -f /srv/kelryvo-pilot/compose.yaml logs --tail=100 kelryvo`.
   Do not post tokens, passwords, private SQL, raw backups or private configuration
   in support issues. `/api/livez` checks process health; `/api/readyz` checks
@@ -442,7 +773,7 @@ The application does not push to customer repositories.
   to avoid exposing secrets. Failed initialization leaves its private directory
   available for inspection; use a different new directory for a retry.
 - For password recovery rerun bootstrap. For bearer-token recovery rotate with
-  `scripts/container-credentials.mjs` inside the container, following the operator
+  `/opt/kelryvo/bin/kelryvo-operator credential-rotate` inside the container, following the operator
   command help; retain independent developer/approver roles and project grants.
 - Report reproducible problems through
   [GitHub Issues](https://github.com/devsecopslonghn/kelryvo/issues). Include the

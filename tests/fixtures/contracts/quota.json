@@ -1,0 +1,644 @@
+[
+  {
+    "name": "global IPv6 subnet, forwarding headers and independent subnet",
+    "steps": [
+      {
+        "method": "GET",
+        "path": "/api/session",
+        "ip": "2001:db8:42:10::1",
+        "repeat": 600,
+        "first": {
+          "status": 401,
+          "quota": {
+            "x-ratelimit-limit": "600",
+            "x-ratelimit-remaining": "599",
+            "x-ratelimit-reset": "60"
+          }
+        },
+        "last": {
+          "status": 401,
+          "quota": {
+            "x-ratelimit-limit": "600",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60"
+          }
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/api/account/access",
+        "ip": "2001:db8:42:10::2",
+        "repeat": 1,
+        "headers": {
+          "x-forwarded-for": "198.51.100.9",
+          "x-real-ip": "198.51.100.9"
+        },
+        "first": {
+          "status": 429,
+          "quota": {
+            "x-ratelimit-limit": "600",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60",
+            "retry-after": "60"
+          }
+        },
+        "last": {
+          "status": 429,
+          "quota": {
+            "x-ratelimit-limit": "600",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60",
+            "retry-after": "60"
+          }
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/api/session",
+        "ip": "2001:db8:42:11::1",
+        "repeat": 1,
+        "first": {
+          "status": 401,
+          "quota": {
+            "x-ratelimit-limit": "600",
+            "x-ratelimit-remaining": "599",
+            "x-ratelimit-reset": "60"
+          }
+        },
+        "last": {
+          "status": 401,
+          "quota": {
+            "x-ratelimit-limit": "600",
+            "x-ratelimit-remaining": "599",
+            "x-ratelimit-reset": "60"
+          }
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/api/livez",
+        "ip": "2001:db8:42:10::1",
+        "repeat": 1,
+        "first": {
+          "status": 200,
+          "quota": {}
+        },
+        "last": {
+          "status": 200,
+          "quota": {}
+        }
+      }
+    ]
+  },
+  {
+    "name": "mapped IPv4 shares the original IPv4 budget",
+    "steps": [
+      {
+        "method": "GET",
+        "path": "/api/session",
+        "ip": "192.0.2.1",
+        "repeat": 600,
+        "first": {
+          "status": 401,
+          "quota": {
+            "x-ratelimit-limit": "600",
+            "x-ratelimit-remaining": "599",
+            "x-ratelimit-reset": "60"
+          }
+        },
+        "last": {
+          "status": 401,
+          "quota": {
+            "x-ratelimit-limit": "600",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60"
+          }
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/api/session",
+        "ip": "::ffff:192.0.2.1",
+        "repeat": 1,
+        "first": {
+          "status": 429,
+          "quota": {
+            "x-ratelimit-limit": "600",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60",
+            "retry-after": "60"
+          }
+        },
+        "last": {
+          "status": 429,
+          "quota": {
+            "x-ratelimit-limit": "600",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60",
+            "retry-after": "60"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "setup budget remains separate from the business API",
+    "steps": [
+      {
+        "method": "POST",
+        "path": "/api/auth/setup",
+        "ip": "2001:db8:42:10::1",
+        "repeat": 11,
+        "body": "{}",
+        "contentType": "application/json",
+        "first": {
+          "status": 403,
+          "quota": {
+            "x-ratelimit-limit": "10",
+            "x-ratelimit-remaining": "9",
+            "x-ratelimit-reset": "60"
+          }
+        },
+        "last": {
+          "status": 429,
+          "quota": {
+            "x-ratelimit-limit": "10",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60",
+            "retry-after": "60"
+          }
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/api/session",
+        "ip": "2001:db8:42:10::1",
+        "repeat": 1,
+        "first": {
+          "status": 401,
+          "quota": {
+            "x-ratelimit-limit": "600",
+            "x-ratelimit-remaining": "599",
+            "x-ratelimit-reset": "60"
+          }
+        },
+        "last": {
+          "status": 401,
+          "quota": {
+            "x-ratelimit-limit": "600",
+            "x-ratelimit-remaining": "599",
+            "x-ratelimit-reset": "60"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "password change budget",
+    "steps": [
+      {
+        "method": "POST",
+        "path": "/api/account/password",
+        "ip": "2001:db8:42:10::1",
+        "repeat": 6,
+        "body": "{}",
+        "contentType": "application/json",
+        "first": {
+          "status": 401,
+          "quota": {
+            "x-ratelimit-limit": "5",
+            "x-ratelimit-remaining": "4",
+            "x-ratelimit-reset": "60"
+          }
+        },
+        "last": {
+          "status": 429,
+          "quota": {
+            "x-ratelimit-limit": "5",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60",
+            "retry-after": "60"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "provider diagnostics have independent route budgets shared across provider IDs",
+    "steps": [
+      {
+        "method": "POST",
+        "path": "/api/identity/providers/11111111-1111-4111-8111-111111111111/test",
+        "ip": "2001:db8:42:10::1",
+        "repeat": 10,
+        "body": "{}",
+        "contentType": "application/json",
+        "first": {
+          "status": 401,
+          "quota": {
+            "x-ratelimit-limit": "10",
+            "x-ratelimit-remaining": "9",
+            "x-ratelimit-reset": "60"
+          }
+        },
+        "last": {
+          "status": 401,
+          "quota": {
+            "x-ratelimit-limit": "10",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60"
+          }
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/api/identity/providers/22222222-2222-4222-8222-222222222222/test",
+        "ip": "2001:db8:42:10::1",
+        "repeat": 1,
+        "body": "{}",
+        "contentType": "application/json",
+        "first": {
+          "status": 429,
+          "quota": {
+            "x-ratelimit-limit": "10",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60",
+            "retry-after": "60"
+          }
+        },
+        "last": {
+          "status": 429,
+          "quota": {
+            "x-ratelimit-limit": "10",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60",
+            "retry-after": "60"
+          }
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/api/identity/providers/11111111-1111-4111-8111-111111111111/lookup",
+        "ip": "2001:db8:42:10::1",
+        "repeat": 11,
+        "body": "{}",
+        "contentType": "application/json",
+        "first": {
+          "status": 401,
+          "quota": {
+            "x-ratelimit-limit": "10",
+            "x-ratelimit-remaining": "9",
+            "x-ratelimit-reset": "60"
+          }
+        },
+        "last": {
+          "status": 429,
+          "quota": {
+            "x-ratelimit-limit": "10",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60",
+            "retry-after": "60"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "LDAP and OIDC have separate budgets",
+    "steps": [
+      {
+        "method": "POST",
+        "path": "/api/auth/ldap/11111111-1111-4111-8111-111111111111/session",
+        "ip": "2001:db8:42:10::1",
+        "repeat": 20,
+        "body": "{}",
+        "contentType": "application/json",
+        "first": {
+          "status": 403,
+          "quota": {
+            "x-ratelimit-limit": "20",
+            "x-ratelimit-remaining": "19",
+            "x-ratelimit-reset": "60"
+          }
+        },
+        "last": {
+          "status": 403,
+          "quota": {
+            "x-ratelimit-limit": "20",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60"
+          }
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/ldap/22222222-2222-4222-8222-222222222222/session",
+        "ip": "2001:db8:42:10::1",
+        "repeat": 1,
+        "body": "{}",
+        "contentType": "application/json",
+        "first": {
+          "status": 429,
+          "quota": {
+            "x-ratelimit-limit": "20",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60",
+            "retry-after": "60"
+          }
+        },
+        "last": {
+          "status": 429,
+          "quota": {
+            "x-ratelimit-limit": "20",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60",
+            "retry-after": "60"
+          }
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/oidc/11111111-1111-4111-8111-111111111111/start",
+        "ip": "2001:db8:42:10::1",
+        "repeat": 21,
+        "body": "{}",
+        "contentType": "application/json",
+        "first": {
+          "status": 403,
+          "quota": {
+            "x-ratelimit-limit": "20",
+            "x-ratelimit-remaining": "19",
+            "x-ratelimit-reset": "60"
+          }
+        },
+        "last": {
+          "status": 429,
+          "quota": {
+            "x-ratelimit-limit": "20",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60",
+            "retry-after": "60"
+          }
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/api/auth/oidc/callback",
+        "ip": "2001:db8:42:10::1",
+        "repeat": 1,
+        "first": {
+          "status": 303,
+          "quota": {
+            "x-ratelimit-limit": "20",
+            "x-ratelimit-remaining": "19",
+            "x-ratelimit-reset": "60"
+          }
+        },
+        "last": {
+          "status": 303,
+          "quota": {
+            "x-ratelimit-limit": "20",
+            "x-ratelimit-remaining": "19",
+            "x-ratelimit-reset": "60"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "readiness HEAD shares exhausted GET quota and liveness stays available",
+    "steps": [
+      {
+        "method": "GET",
+        "path": "/api/readyz",
+        "ip": "2001:db8:42:10::1",
+        "repeat": 120,
+        "first": {
+          "status": 503,
+          "quota": {
+            "x-ratelimit-limit": "120",
+            "x-ratelimit-remaining": "119",
+            "x-ratelimit-reset": "60"
+          }
+        },
+        "last": {
+          "status": 503,
+          "quota": {
+            "x-ratelimit-limit": "120",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60"
+          }
+        }
+      },
+      {
+        "method": "HEAD",
+        "path": "/api/readyz",
+        "ip": "2001:db8:42:10::1",
+        "repeat": 1,
+        "first": {
+          "status": 429,
+          "quota": {
+            "x-ratelimit-limit": "120",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60",
+            "retry-after": "60"
+          }
+        },
+        "last": {
+          "status": 429,
+          "quota": {
+            "x-ratelimit-limit": "120",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60",
+            "retry-after": "60"
+          }
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/api/livez",
+        "ip": "2001:db8:42:10::1",
+        "repeat": 1,
+        "first": {
+          "status": 200,
+          "quota": {}
+        },
+        "last": {
+          "status": 200,
+          "quota": {}
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/api/session",
+        "ip": "2001:db8:42:10::1",
+        "repeat": 1,
+        "first": {
+          "status": 401,
+          "quota": {
+            "x-ratelimit-limit": "600",
+            "x-ratelimit-remaining": "599",
+            "x-ratelimit-reset": "60"
+          }
+        },
+        "last": {
+          "status": 401,
+          "quota": {
+            "x-ratelimit-limit": "600",
+            "x-ratelimit-remaining": "599",
+            "x-ratelimit-reset": "60"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "password and token login budgets are separate after JSON parsing",
+    "steps": [
+      {
+        "method": "POST",
+        "path": "/api/session",
+        "ip": "2001:db8:42:10::1",
+        "repeat": 21,
+        "body": "{}",
+        "contentType": "application/json",
+        "first": {
+          "status": 403,
+          "quota": {
+            "x-ratelimit-limit": "20",
+            "x-ratelimit-remaining": "19",
+            "x-ratelimit-reset": "60"
+          }
+        },
+        "last": {
+          "status": 429,
+          "quota": {
+            "x-ratelimit-limit": "20",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60",
+            "retry-after": "60"
+          }
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/api/session",
+        "ip": "2001:db8:42:10::2",
+        "repeat": 600,
+        "first": {
+          "status": 403,
+          "quota": {
+            "x-ratelimit-limit": "600",
+            "x-ratelimit-remaining": "599",
+            "x-ratelimit-reset": "60"
+          }
+        },
+        "last": {
+          "status": 403,
+          "quota": {
+            "x-ratelimit-limit": "600",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60"
+          }
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/api/session",
+        "ip": "2001:db8:42:10::1",
+        "repeat": 1,
+        "body": "null",
+        "contentType": "application/json",
+        "first": {
+          "status": 429,
+          "quota": {
+            "x-ratelimit-limit": "600",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60",
+            "retry-after": "60"
+          }
+        },
+        "last": {
+          "status": 429,
+          "quota": {
+            "x-ratelimit-limit": "600",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60",
+            "retry-after": "60"
+          }
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/api/session",
+        "ip": "2001:db8:42:10::1",
+        "repeat": 1,
+        "body": "false",
+        "contentType": "application/json",
+        "first": {
+          "status": 429,
+          "quota": {
+            "x-ratelimit-limit": "600",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60",
+            "retry-after": "60"
+          }
+        },
+        "last": {
+          "status": 429,
+          "quota": {
+            "x-ratelimit-limit": "600",
+            "x-ratelimit-remaining": "0",
+            "x-ratelimit-reset": "60",
+            "retry-after": "60"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "malformed session JSON never consumes a parsed login budget",
+    "steps": [
+      {
+        "method": "POST",
+        "path": "/api/session",
+        "ip": "2001:db8:42:10::1",
+        "repeat": 21,
+        "body": "{",
+        "contentType": "application/json",
+        "first": {
+          "status": 400,
+          "quota": {}
+        },
+        "last": {
+          "status": 400,
+          "quota": {}
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/api/session",
+        "ip": "2001:db8:42:10::1",
+        "repeat": 1,
+        "body": "{}",
+        "contentType": "application/json",
+        "first": {
+          "status": 403,
+          "quota": {
+            "x-ratelimit-limit": "20",
+            "x-ratelimit-remaining": "19",
+            "x-ratelimit-reset": "60"
+          }
+        },
+        "last": {
+          "status": 403,
+          "quota": {
+            "x-ratelimit-limit": "20",
+            "x-ratelimit-remaining": "19",
+            "x-ratelimit-reset": "60"
+          }
+        }
+      }
+    ]
+  }
+]

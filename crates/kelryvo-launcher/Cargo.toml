@@ -1,0 +1,33 @@
+[package]
+name = "kelryvo-launcher"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license-file = "../../LICENSE"
+publish.workspace = true
+
+[[bin]]
+name = "kelryvo-runtime"
+path = "src/main.rs"
+
+[[test]]
+name = "lifecycle"
+path = "tests/lifecycle.rs"
+harness = false
+
+[dependencies]
+kelryvo-core = { path = "../kelryvo-core" }
+caps = "0.5.6"
+libc = "0.2"
+nix = { version = "0.30", default-features = false, features = ["fs", "process", "resource", "signal", "user"] }
+serde_json.workspace = true
+signal-hook = "0.3"
+uuid = { version = "1", features = ["v4"] }
+zeroize.workspace = true
+
+[dev-dependencies]
+kelryvo-discovery = { path = "../kelryvo-discovery" }
+tokio = { version = "1", features = ["macros", "rt"] }
+
+[lints]
+workspace = true

@@ -1,0 +1,60 @@
+[
+  {
+    "name": "unsupported XML",
+    "contentType": "application/xml",
+    "body": "<setup />",
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    }
+  },
+  {
+    "name": "unsupported binary",
+    "contentType": "application/octet-stream",
+    "body": "fixture",
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    }
+  },
+  {
+    "name": "truncated JSON",
+    "contentType": "application/json",
+    "body": "{",
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    }
+  },
+  {
+    "name": "empty JSON",
+    "contentType": "application/json",
+    "body": "",
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    }
+  },
+  {
+    "name": "JSON at body limit",
+    "contentType": "application/json",
+    "body": " ",
+    "repeat": 1048575,
+    "suffix": "{",
+    "status": 400,
+    "response": {
+      "error": "INVALID_REQUEST"
+    }
+  },
+  {
+    "name": "JSON above body limit",
+    "contentType": "application/json",
+    "body": " ",
+    "repeat": 1048576,
+    "suffix": "{",
+    "status": 413,
+    "response": {
+      "error": "REQUEST_TOO_LARGE"
+    }
+  }
+]

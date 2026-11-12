@@ -1,0 +1,2234 @@
+[
+  {
+    "input": {
+      "method": "GET",
+      "path": "/api/identity/access",
+      "body": null,
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 200,
+      "body": {
+        "canManage": false
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "GET",
+      "path": "/api/identity/providers",
+      "body": null,
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 403,
+      "body": {
+        "error": "IDENTITY_ADMIN_REQUIRED"
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "GET",
+      "path": "/api/identity/access",
+      "body": null,
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 200,
+      "body": {
+        "canManage": true
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "GET",
+      "path": "/api/identity/providers",
+      "body": null,
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 200,
+      "body": {
+        "providers": [],
+        "routes": [
+          {
+            "id": "directory",
+            "kind": "LDAP",
+            "name": "Private directory",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "secretRefs": [
+              "ldap-reader"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "kind": "LDAP",
+            "name": "Private directory",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "secretRefs": [
+              "ldap-reader"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ]
+          }
+        ],
+        "actors": [
+          {
+            "id": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+            "name": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+            "role": "developer"
+          },
+          {
+            "id": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-other",
+            "name": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-other",
+            "role": "approver"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "GET",
+      "path": "/api/identity/providers",
+      "body": null,
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-other",
+      "token": "d30672d3155fbad9b6b8ec650ff447a15893aef05bb1e10841b4a23bd32a12ee",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 403,
+      "body": {
+        "error": "IDENTITY_ADMIN_REQUIRED"
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "POST",
+      "path": "/api/identity/providers",
+      "body": {
+        "name": "  Native identity 😀  ",
+        "kind": "LDAP",
+        "enabled": true,
+        "config": {
+          "routeId": "directory",
+          "baseDN": "ou=people,dc=kelryvo,dc=test",
+          "bindDN": "cn=reader,dc=kelryvo,dc=test",
+          "bindSecretRef": "ldap-reader",
+          "loginAttribute": "uid",
+          "subjectAttribute": "entryUUID"
+        },
+        "reason": "Create explicit identity source"
+      },
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 400,
+      "body": {
+        "error": "INVALID_IDENTITY_CONFIG"
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "POST",
+      "path": "/api/identity/providers",
+      "body": {
+        "name": "invalid\nname",
+        "kind": "LDAP",
+        "enabled": false,
+        "config": {
+          "routeId": "directory",
+          "baseDN": "ou=people,dc=kelryvo,dc=test",
+          "bindDN": "cn=reader,dc=kelryvo,dc=test",
+          "bindSecretRef": "ldap-reader",
+          "loginAttribute": "uid",
+          "subjectAttribute": "entryUUID"
+        },
+        "reason": "Create explicit identity source"
+      },
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 400,
+      "body": {
+        "error": "INVALID_IDENTITY_CONFIG"
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "POST",
+      "path": "/api/identity/providers",
+      "body": {
+        "name": "  Native identity 😀  ",
+        "kind": "LDAP",
+        "enabled": false,
+        "config": {
+          "routeId": "directory",
+          "baseDN": "ou=people,dc=kelryvo,dc=test",
+          "bindDN": "cn=reader,dc=kelryvo,dc=test",
+          "bindSecretRef": "ldap-reader",
+          "loginAttribute": "uid",
+          "subjectAttribute": "entryUUID"
+        },
+        "reason": ""
+      },
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 400,
+      "body": {
+        "error": "INVALID_IDENTITY_CONFIG"
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "POST",
+      "path": "/api/identity/providers",
+      "body": {
+        "name": "  Native identity 😀  ",
+        "kind": "LDAP",
+        "enabled": false,
+        "config": {
+          "routeId": "directory",
+          "baseDN": "ou=people,dc=kelryvo,dc=test",
+          "bindDN": "cn=reader,dc=kelryvo,dc=test",
+          "bindSecretRef": "ldap-reader",
+          "loginAttribute": "uid",
+          "subjectAttribute": "entryUUID"
+        },
+        "reason": "Create explicit identity source"
+      },
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 201,
+      "body": {
+        "provider": {
+          "id": "5023b8cc-b6bc-4a2c-9f85-cbc57670839b",
+          "name": "Native identity 😀",
+          "kind": "LDAP",
+          "enabled": false,
+          "revision": "1",
+          "config": {
+            "baseDN": "ou=people,dc=kelryvo,dc=test",
+            "bindDN": "cn=reader,dc=kelryvo,dc=test",
+            "routeId": "directory",
+            "bindSecretRef": "ldap-reader",
+            "loginAttribute": "uid",
+            "subjectAttribute": "entryUUID"
+          }
+        }
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "PATCH",
+      "path": "/api/identity/providers/69cd1ba7-e666-43eb-9255-b4160b1f1e5c",
+      "body": {
+        "name": "Native identity 😀",
+        "expectedRevision": "1",
+        "enabled": true,
+        "config": {
+          "baseDN": "ou=people,dc=kelryvo,dc=test",
+          "bindDN": "cn=reader,dc=kelryvo,dc=test",
+          "routeId": "directory",
+          "bindSecretRef": "ldap-reader",
+          "loginAttribute": "uid",
+          "subjectAttribute": "entryUUID"
+        },
+        "reason": "Native identity compatibility"
+      },
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 409,
+      "body": {
+        "error": "IDENTITY_MAPPING_REQUIRED"
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "POST",
+      "path": "/api/identity/providers/69cd1ba7-e666-43eb-9255-b4160b1f1e5c/mappings",
+      "body": {
+        "expectedProviderRevision": "1",
+        "subject": "immutable-native-subject",
+        "actorId": "missing-actor",
+        "reason": "Explicit identity linkage"
+      },
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 409,
+      "body": {
+        "error": "IDENTITY_ACTOR_UNAVAILABLE"
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "POST",
+      "path": "/api/identity/providers/69cd1ba7-e666-43eb-9255-b4160b1f1e5c/mappings",
+      "body": {
+        "expectedProviderRevision": "1",
+        "subject": "immutable-native-subject",
+        "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+        "reason": "Explicit identity linkage"
+      },
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 201,
+      "body": {
+        "mapping": {
+          "id": "698c9efb-62fd-46a9-b6c1-d5c46acf9dd6"
+        }
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "POST",
+      "path": "/api/identity/providers/69cd1ba7-e666-43eb-9255-b4160b1f1e5c/mappings",
+      "body": {
+        "expectedProviderRevision": "1",
+        "subject": "immutable-native-subject",
+        "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+        "reason": "Explicit identity linkage"
+      },
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 409,
+      "body": {
+        "error": "CONFLICT"
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "GET",
+      "path": "/api/identity/providers/69cd1ba7-e666-43eb-9255-b4160b1f1e5c/mappings",
+      "body": null,
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 200,
+      "body": {
+        "mappings": [
+          {
+            "id": "fb606086-4ec9-4ce4-a601-a111b63bb006",
+            "subject": "immutable-native-subject",
+            "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+            "actorName": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+            "role": "developer",
+            "revokedAt": null
+          }
+        ]
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "PATCH",
+      "path": "/api/identity/providers/69cd1ba7-e666-43eb-9255-b4160b1f1e5c",
+      "body": {
+        "name": "Native identity 😀",
+        "expectedRevision": "1",
+        "enabled": true,
+        "config": {
+          "baseDN": "ou=people,dc=kelryvo,dc=test",
+          "bindDN": "cn=reader,dc=kelryvo,dc=test",
+          "routeId": "directory",
+          "bindSecretRef": "ldap-reader",
+          "loginAttribute": "uid",
+          "subjectAttribute": "entryUUID"
+        },
+        "reason": "Native identity compatibility"
+      },
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 200,
+      "body": {
+        "provider": {
+          "id": "69cd1ba7-e666-43eb-9255-b4160b1f1e5c",
+          "name": "Native identity 😀",
+          "kind": "LDAP",
+          "enabled": true,
+          "revision": "2",
+          "config": {
+            "baseDN": "ou=people,dc=kelryvo,dc=test",
+            "bindDN": "cn=reader,dc=kelryvo,dc=test",
+            "routeId": "directory",
+            "bindSecretRef": "ldap-reader",
+            "loginAttribute": "uid",
+            "subjectAttribute": "entryUUID"
+          }
+        }
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "GET",
+      "path": "/api/auth/methods",
+      "body": null,
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 200,
+      "body": {
+        "password": true,
+        "accessToken": true,
+        "firstSetup": true,
+        "sso": false,
+        "providers": [
+          {
+            "id": "69cd1ba7-e666-43eb-9255-b4160b1f1e5c",
+            "name": "Native identity 😀",
+            "kind": "LDAP"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "PATCH",
+      "path": "/api/identity/providers/69cd1ba7-e666-43eb-9255-b4160b1f1e5c",
+      "body": {
+        "name": "Native identity 😀",
+        "expectedRevision": "1",
+        "enabled": true,
+        "config": {
+          "baseDN": "ou=people,dc=kelryvo,dc=test",
+          "bindDN": "cn=reader,dc=kelryvo,dc=test",
+          "routeId": "directory",
+          "bindSecretRef": "ldap-reader",
+          "loginAttribute": "uid",
+          "subjectAttribute": "entryUUID"
+        },
+        "reason": "Native identity compatibility"
+      },
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 409,
+      "body": {
+        "error": "IDENTITY_REVISION_CONFLICT"
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "PATCH",
+      "path": "/api/identity/providers/69cd1ba7-e666-43eb-9255-b4160b1f1e5c",
+      "body": {
+        "name": "Native identity 😀",
+        "expectedRevision": "2",
+        "enabled": true,
+        "config": {
+          "baseDN": "ou=people,dc=kelryvo,dc=test",
+          "bindDN": "cn=reader,dc=kelryvo,dc=test",
+          "routeId": "alternate-directory",
+          "bindSecretRef": "ldap-reader",
+          "loginAttribute": "uid",
+          "subjectAttribute": "entryUUID"
+        },
+        "reason": "Native identity compatibility"
+      },
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 409,
+      "body": {
+        "error": "IDENTITY_SOURCE_IMMUTABLE"
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "POST",
+      "path": "/api/identity/providers/69cd1ba7-e666-43eb-9255-b4160b1f1e5c/mappings",
+      "body": {
+        "expectedProviderRevision": "2",
+        "subject": "other-native-subject",
+        "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-other",
+        "reason": "Separate approved identity"
+      },
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 201,
+      "body": {
+        "mapping": {
+          "id": "f46c1223-3178-42cf-a006-6f4a1af7e048"
+        }
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "PATCH",
+      "path": "/api/identity/providers/69cd1ba7-e666-43eb-9255-b4160b1f1e5c",
+      "body": {
+        "name": "Native identity 😀",
+        "expectedRevision": "2",
+        "enabled": true,
+        "config": {
+          "baseDN": "ou=people,dc=kelryvo,dc=test",
+          "bindDN": "cn=reader,dc=kelryvo,dc=test",
+          "routeId": "directory",
+          "bindSecretRef": "ldap-reader",
+          "loginAttribute": "uid",
+          "subjectAttribute": "entryUUID"
+        },
+        "reason": "Native identity compatibility"
+      },
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 200,
+      "body": {
+        "provider": {
+          "id": "69cd1ba7-e666-43eb-9255-b4160b1f1e5c",
+          "name": "Native identity 😀",
+          "kind": "LDAP",
+          "enabled": true,
+          "revision": "3",
+          "config": {
+            "baseDN": "ou=people,dc=kelryvo,dc=test",
+            "bindDN": "cn=reader,dc=kelryvo,dc=test",
+            "routeId": "directory",
+            "bindSecretRef": "ldap-reader",
+            "loginAttribute": "uid",
+            "subjectAttribute": "entryUUID"
+          }
+        }
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "POST",
+      "path": "/api/identity/providers/69cd1ba7-e666-43eb-9255-b4160b1f1e5c/mappings/fb606086-4ec9-4ce4-a601-a111b63bb006/revoke",
+      "body": {
+        "reason": "Revoke one identity"
+      },
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 204,
+      "body": null
+    }
+  },
+  {
+    "input": {
+      "method": "GET",
+      "path": "/api/identity/providers/69cd1ba7-e666-43eb-9255-b4160b1f1e5c/mappings",
+      "body": null,
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 200,
+      "body": {
+        "mappings": [
+          {
+            "id": "21e212f5-64a5-4d6a-9c84-400ab0af8575",
+            "subject": "other-native-subject",
+            "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-other",
+            "actorName": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-other",
+            "role": "approver",
+            "revokedAt": null
+          },
+          {
+            "id": "fb606086-4ec9-4ce4-a601-a111b63bb006",
+            "subject": "immutable-native-subject",
+            "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+            "actorName": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+            "role": "developer",
+            "revokedAt": "2026-11-12T07:21:39.592Z"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "GET",
+      "path": "/api/identity/providers",
+      "body": null,
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 200,
+      "body": {
+        "providers": [
+          {
+            "id": "69cd1ba7-e666-43eb-9255-b4160b1f1e5c",
+            "name": "Native identity 😀",
+            "kind": "LDAP",
+            "enabled": true,
+            "revision": "3",
+            "config": {
+              "baseDN": "ou=people,dc=kelryvo,dc=test",
+              "bindDN": "cn=reader,dc=kelryvo,dc=test",
+              "routeId": "directory",
+              "bindSecretRef": "ldap-reader",
+              "loginAttribute": "uid",
+              "subjectAttribute": "entryUUID"
+            }
+          }
+        ],
+        "routes": [
+          {
+            "id": "directory",
+            "kind": "LDAP",
+            "name": "Private directory",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "secretRefs": [
+              "ldap-reader"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "kind": "LDAP",
+            "name": "Private directory",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "secretRefs": [
+              "ldap-reader"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ]
+          }
+        ],
+        "actors": [
+          {
+            "id": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+            "name": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+            "role": "developer"
+          },
+          {
+            "id": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-other",
+            "name": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-other",
+            "role": "approver"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "GET",
+      "path": "/api/auth/methods",
+      "body": null,
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 200,
+      "body": {
+        "password": true,
+        "accessToken": true,
+        "firstSetup": true,
+        "sso": false,
+        "providers": []
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "GET",
+      "path": "/api/identity/providers",
+      "body": null,
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 200,
+      "body": {
+        "providers": [
+          {
+            "id": "69cd1ba7-e666-43eb-9255-b4160b1f1e5c",
+            "name": "Native identity 😀",
+            "kind": "LDAP",
+            "enabled": true,
+            "revision": "3",
+            "config": {
+              "baseDN": "ou=people,dc=kelryvo,dc=test",
+              "bindDN": "cn=reader,dc=kelryvo,dc=test",
+              "routeId": "directory",
+              "bindSecretRef": "ldap-reader",
+              "loginAttribute": "uid",
+              "subjectAttribute": "entryUUID"
+            }
+          }
+        ],
+        "routes": [
+          {
+            "id": "directory",
+            "kind": "LDAP",
+            "name": "Private directory",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "secretRefs": [
+              "ldap-reader"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "kind": "LDAP",
+            "name": "Private directory",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "secretRefs": [
+              "ldap-reader"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ]
+          }
+        ],
+        "actors": [
+          {
+            "id": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+            "name": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+            "role": "developer"
+          },
+          {
+            "id": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-other",
+            "name": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-other",
+            "role": "approver"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "PATCH",
+      "path": "/api/identity/providers/69cd1ba7-e666-43eb-9255-b4160b1f1e5c",
+      "body": {
+        "name": "Native identity 😀",
+        "expectedRevision": "3",
+        "enabled": true,
+        "config": {
+          "baseDN": "ou=people,dc=kelryvo,dc=test",
+          "bindDN": "cn=reader,dc=kelryvo,dc=test",
+          "routeId": "directory",
+          "bindSecretRef": "ldap-reader",
+          "loginAttribute": "uid",
+          "subjectAttribute": "entryUUID"
+        },
+        "reason": "Native identity compatibility"
+      },
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 409,
+      "body": {
+        "error": "METADATA_RESTORE_HOLD"
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "GET",
+      "path": "/api/identity/providers",
+      "body": null,
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 403,
+      "body": {
+        "error": "IDENTITY_ADMIN_REQUIRED"
+      }
+    }
+  },
+  {
+    "input": {
+      "method": "GET",
+      "path": "/api/identity/access",
+      "body": null,
+      "actorId": "rust-identity-95c11d87-2f1c-441a-9fa8-e5e64b5a50a6-admin",
+      "token": "789bfffa605e74c4fd4b14f61af0df4d24ed11685a54206fe0264b0b5bee5b09",
+      "runtime": {
+        "format": 1,
+        "publicOrigin": "https://localhost",
+        "key": "1111111111111111111111111111111111111111111111111111111111111111",
+        "routes": [
+          {
+            "id": "directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          },
+          {
+            "id": "alternate-directory",
+            "name": "Private directory",
+            "kind": "LDAP",
+            "host": "directory.kelryvo.test",
+            "port": 636,
+            "transport": "LDAPS",
+            "pinnedIPs": [
+              "127.0.0.1"
+            ],
+            "baseDNs": [
+              "ou=people,dc=kelryvo,dc=test"
+            ],
+            "bindDNs": [
+              "cn=reader,dc=kelryvo,dc=test"
+            ],
+            "secretRefs": [
+              "ldap-reader"
+            ]
+          }
+        ],
+        "secrets": {
+          "ldap-reader": "private-reference-canary"
+        }
+      }
+    },
+    "output": {
+      "status": 200,
+      "body": {
+        "canManage": false
+      }
+    }
+  }
+]

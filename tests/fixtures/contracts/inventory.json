@@ -1,0 +1,127 @@
+[
+  {
+    "input": {
+      "action": "declare",
+      "input": {
+        "databaseKey": "native-inventory",
+        "databaseLabel": "Native inventory Tiếng Việt 😀",
+        "containerKey": "native-pdb",
+        "containerName": "Native PDB",
+        "containerKind": "PDB",
+        "environment": "DEV",
+        "host": "Native-Inventory.Example.Invalid",
+        "port": 1521,
+        "service": "NATIVEPDB",
+        "transport": "TCPS",
+        "owner": "APP"
+      }
+    },
+    "output": {
+      "databaseId": "ac4051b9-0de9-447a-ad94-11a16660eae5",
+      "databaseServerId": "52188a30-f0c1-4c39-8f1c-b1eeea31197d",
+      "containerId": "959b5023-afb4-4077-ae14-34b0b702a706",
+      "containerServerId": "6fe7d5ac-7950-4bd3-855c-17dda2724ff7",
+      "serviceId": "4557549c-6225-4322-b4ec-7828157fa87c",
+      "schemaId": "0cc728a6-c0f0-4cba-bbdc-1d4720de1fd8",
+      "generation": 1,
+      "provenance": "MANUAL_REFERENCE"
+    }
+  },
+  {
+    "input": {
+      "action": "assign",
+      "input": {
+        "schemaId": "0cc728a6-c0f0-4cba-bbdc-1d4720de1fd8",
+        "projectId": "c2afd92d-45a7-4f61-bc11-50cf1ff7323a",
+        "expectedRevision": "1",
+        "reason": "Assign declared owner Tiếng Việt 😀"
+      }
+    },
+    "output": {
+      "revision": "1",
+      "changed": false
+    }
+  },
+  {
+    "input": {
+      "action": "options",
+      "input": {
+        "projectId": "c2afd92d-45a7-4f61-bc11-50cf1ff7323a",
+        "assignmentId": "4d7a0748-4077-4ede-a16d-3db44414ebdb"
+      }
+    },
+    "output": {
+      "options": [
+        {
+          "optionId": "ab04279e-6fda-4cb0-b330-6593f2c53ce8",
+          "optionRevision": "1",
+          "assignmentId": "4d7a0748-4077-4ede-a16d-3db44414ebdb",
+          "projectId": "c2afd92d-45a7-4f61-bc11-50cf1ff7323a",
+          "environmentId": "5a06997b-d822-44ce-9478-bf4cb4cbf73d",
+          "profileId": "6a8331f9-1747-43c7-9721-62677a49053c",
+          "routeId": "4557549c-6225-4322-b4ec-7828157fa87c",
+          "routeConfigRevision": "1",
+          "routeAlias": "Native inventory route",
+          "lineageId": "ea2eae60-8722-4a9c-9b6a-5d4cb56ab6be",
+          "identityState": "PROVISIONAL",
+          "observationDigest": null,
+          "observedAt": null,
+          "streamId": "abfb0729-be73-432c-bf36-ecc2e0a1ba4d",
+          "streamState": "PROVISIONAL",
+          "migrationNamespace": "NATIVE_INVENTORY",
+          "policyId": "25ce8a6f-44c0-41e2-ad11-ed9a9708deab",
+          "policyRevision": "1",
+          "exactOwner": "APP",
+          "deploymentPrincipalId": "154be2fd-ca55-4014-8ed6-4dff329cbd57",
+          "principalPurpose": "DEPLOY",
+          "principalAlias": "Inventory writer",
+          "reason": "Provisional operator metadata",
+          "enabled": true,
+          "createdAt": "2026-11-12T07:21:11.942Z"
+        }
+      ],
+      "nextCursor": null
+    }
+  },
+  {
+    "input": {
+      "action": "options",
+      "input": {
+        "projectId": "c2afd92d-45a7-4f61-bc11-50cf1ff7323a",
+        "assignmentId": "4d7a0748-4077-4ede-a16d-3db44414ebdb"
+      }
+    },
+    "output": {
+      "options": [
+        {
+          "optionId": "ab04279e-6fda-4cb0-b330-6593f2c53ce8",
+          "optionRevision": "2",
+          "assignmentId": "4d7a0748-4077-4ede-a16d-3db44414ebdb",
+          "projectId": "c2afd92d-45a7-4f61-bc11-50cf1ff7323a",
+          "environmentId": "5a06997b-d822-44ce-9478-bf4cb4cbf73d",
+          "profileId": "6a8331f9-1747-43c7-9721-62677a49053c",
+          "routeId": "4557549c-6225-4322-b4ec-7828157fa87c",
+          "routeConfigRevision": "1",
+          "routeAlias": "Explicit next option",
+          "lineageId": "ea2eae60-8722-4a9c-9b6a-5d4cb56ab6be",
+          "identityState": "PROVISIONAL",
+          "observationDigest": null,
+          "observedAt": null,
+          "streamId": "abfb0729-be73-432c-bf36-ecc2e0a1ba4d",
+          "streamState": "PROVISIONAL",
+          "migrationNamespace": "NATIVE_INVENTORY",
+          "policyId": "25ce8a6f-44c0-41e2-ad11-ed9a9708deab",
+          "policyRevision": "1",
+          "exactOwner": "APP",
+          "deploymentPrincipalId": "154be2fd-ca55-4014-8ed6-4dff329cbd57",
+          "principalPurpose": "DEPLOY",
+          "principalAlias": "Inventory writer",
+          "reason": "Provisional operator metadata",
+          "enabled": true,
+          "createdAt": "2026-11-12T07:21:12.121Z"
+        }
+      ],
+      "nextCursor": null
+    }
+  }
+]

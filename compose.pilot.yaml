@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD_FILE: /run/kelryvo/postgresql/admin-password
     volumes:
       - metadata:/var/lib/postgresql/data
-      - ${KELRYVO_HOME:?Run scripts/pilot.py init}/postgresql:/run/kelryvo/postgresql:ro
+      - ${KELRYVO_HOME:?Run kelryvo pilot init}/postgresql:/run/kelryvo/postgresql:ro
       - ${KELRYVO_HOME}/init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: [CMD-SHELL, 'pg_isready -U postgres -d kelryvo']

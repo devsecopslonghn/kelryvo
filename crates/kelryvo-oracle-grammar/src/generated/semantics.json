@@ -1,0 +1,385 @@
+{
+  "version": 2,
+  "policy": "error",
+  "note": "unknown coordinates currently default to assume-true; a future minor release changes the default to error",
+  "options": [
+    {
+      "name": "caseInsensitive",
+      "value": "true",
+      "line": 29,
+      "column": 4,
+      "disposition": "metadata"
+    },
+    {
+      "name": "superClass",
+      "value": "PlSqlLexerBase",
+      "line": 28,
+      "column": 4,
+      "disposition": "hooked"
+    },
+    {
+      "name": "superClass",
+      "value": "PlSqlParserBase",
+      "line": 28,
+      "column": 4,
+      "disposition": "hooked"
+    },
+    {
+      "name": "tokenVocab",
+      "value": "PlSqlLexer",
+      "line": 27,
+      "column": 4,
+      "disposition": "metadata"
+    }
+  ],
+  "grammars": [
+    {
+      "kind": "lexer",
+      "name": "PlSqlLexer",
+      "coordinates": [
+        {
+          "kind": "lexer-predicate",
+          "rule": "REMARK_COMMENT",
+          "rule_index": 2490,
+          "index": 0,
+          "atn_state": null,
+          "line": 2598,
+          "column": 10,
+          "body": "this.is_newline_at_pos(-4)",
+          "disposition": "hooked",
+          "template": "Hook"
+        },
+        {
+          "kind": "lexer-predicate",
+          "rule": "PROMPT_MESSAGE",
+          "rule_index": 2491,
+          "index": 1,
+          "atn_state": null,
+          "line": 2602,
+          "column": 22,
+          "body": "this.is_newline_at_pos(-4)",
+          "disposition": "hooked",
+          "template": "Hook"
+        }
+      ]
+    },
+    {
+      "kind": "parser",
+      "name": "PlSqlParser",
+      "coordinates": [
+        {
+          "kind": "parser-action",
+          "rule": "script_unit",
+          "rule_index": 1,
+          "index": 0,
+          "atn_state": 2460,
+          "line": 42,
+          "column": 17,
+          "body": "this.set_last_unit_plsql();",
+          "disposition": "hooked",
+          "template": "Hook(set_last_unit_plsql)"
+        },
+        {
+          "kind": "parser-action",
+          "rule": "script_unit",
+          "rule_index": 1,
+          "index": 1,
+          "atn_state": 2463,
+          "line": 43,
+          "column": 15,
+          "body": "this.set_last_unit_sql();",
+          "disposition": "hooked",
+          "template": "Hook(set_last_unit_sql)"
+        },
+        {
+          "kind": "parser-action",
+          "rule": "script_unit",
+          "rule_index": 1,
+          "index": 2,
+          "atn_state": 2466,
+          "line": 44,
+          "column": 23,
+          "body": "this.set_last_unit_sql();",
+          "disposition": "hooked",
+          "template": "Hook(set_last_unit_sql)"
+        },
+        {
+          "kind": "parser-predicate",
+          "rule": "terminator",
+          "rule_index": 2,
+          "index": 0,
+          "atn_state": null,
+          "line": 54,
+          "column": 16,
+          "body": "this.is_solidus_separator()",
+          "disposition": "hooked",
+          "template": "Hook"
+        },
+        {
+          "kind": "parser-predicate",
+          "rule": "terminator",
+          "rule_index": 2,
+          "index": 1,
+          "atn_state": null,
+          "line": 55,
+          "column": 6,
+          "body": "this.is_last_sql_solidus()",
+          "disposition": "hooked",
+          "template": "Hook"
+        },
+        {
+          "kind": "parser-predicate",
+          "rule": "unified_auditing",
+          "rule_index": 364,
+          "index": 2,
+          "atn_state": null,
+          "line": 2339,
+          "column": 6,
+          "body": "this.is_version_12()",
+          "disposition": "hooked",
+          "template": "Hook"
+        },
+        {
+          "kind": "parser-predicate",
+          "rule": "audit_direct_path",
+          "rule_index": 367,
+          "index": 3,
+          "atn_state": null,
+          "line": 2364,
+          "column": 6,
+          "body": "this.is_version_12()",
+          "disposition": "hooked",
+          "template": "Hook"
+        },
+        {
+          "kind": "parser-predicate",
+          "rule": "audit_container_clause",
+          "rule_index": 368,
+          "index": 4,
+          "atn_state": null,
+          "line": 2368,
+          "column": 6,
+          "body": "this.is_version_12()",
+          "disposition": "hooked",
+          "template": "Hook"
+        },
+        {
+          "kind": "parser-predicate",
+          "rule": "auditing_on_clause",
+          "rule_index": 374,
+          "index": 5,
+          "atn_state": null,
+          "line": 2412,
+          "column": 10,
+          "body": "this.is_version_12()",
+          "disposition": "hooked",
+          "template": "Hook"
+        },
+        {
+          "kind": "parser-predicate",
+          "rule": "sql_statement_shortcut",
+          "rule_index": 378,
+          "index": 6,
+          "atn_state": null,
+          "line": 2440,
+          "column": 6,
+          "body": "this.is_version_12()",
+          "disposition": "hooked",
+          "template": "Hook"
+        },
+        {
+          "kind": "parser-predicate",
+          "rule": "library_editionable",
+          "rule_index": 410,
+          "index": 7,
+          "atn_state": null,
+          "line": 2682,
+          "column": 6,
+          "body": "this.is_version_12()",
+          "disposition": "hooked",
+          "template": "Hook"
+        },
+        {
+          "kind": "parser-predicate",
+          "rule": "library_debug",
+          "rule_index": 411,
+          "index": 8,
+          "atn_state": null,
+          "line": 2686,
+          "column": 6,
+          "body": "this.is_version_12()",
+          "disposition": "hooked",
+          "template": "Hook"
+        },
+        {
+          "kind": "parser-predicate",
+          "rule": "alter_view_editionable",
+          "rule_index": 423,
+          "index": 9,
+          "atn_state": null,
+          "line": 2764,
+          "column": 6,
+          "body": "this.is_version_12()",
+          "disposition": "hooked",
+          "template": "Hook"
+        },
+        {
+          "kind": "parser-action",
+          "rule": "external_table_condition_clause",
+          "rule_index": 631,
+          "index": 3,
+          "atn_state": 12530,
+          "line": null,
+          "column": null,
+          "body": null,
+          "disposition": "synthetic",
+          "template": null
+        },
+        {
+          "kind": "parser-predicate",
+          "rule": "partial_database_recovery_10g",
+          "rule_index": 700,
+          "index": 11,
+          "atn_state": null,
+          "line": 4604,
+          "column": 6,
+          "body": "this.is_version_10()",
+          "disposition": "hooked",
+          "template": "Hook"
+        },
+        {
+          "kind": "parser-predicate",
+          "rule": "period_definition",
+          "rule_index": 839,
+          "index": 12,
+          "atn_state": null,
+          "line": 5534,
+          "column": 6,
+          "body": "this.is_version_12()",
+          "disposition": "hooked",
+          "template": "Hook"
+        },
+        {
+          "kind": "parser-predicate",
+          "rule": "table_ref_aux",
+          "rule_index": 965,
+          "index": 13,
+          "atn_state": null,
+          "line": 6273,
+          "column": 54,
+          "body": "this.is_not_start_of_join()",
+          "disposition": "hooked",
+          "template": "Hook"
+        },
+        {
+          "kind": "parser-predicate",
+          "rule": "dml_table_expression_clause",
+          "rule_index": 1040,
+          "index": 14,
+          "atn_state": null,
+          "line": 6622,
+          "column": 6,
+          "body": "this.is_version_11()",
+          "disposition": "hooked",
+          "template": "Hook"
+        },
+        {
+          "kind": "parser-action",
+          "rule": "logical_expression",
+          "rule_index": 1049,
+          "index": 4,
+          "atn_state": 18287,
+          "line": null,
+          "column": null,
+          "body": null,
+          "disposition": "synthetic",
+          "template": null
+        },
+        {
+          "kind": "parser-action",
+          "rule": "multiset_expression",
+          "rule_index": 1053,
+          "index": 5,
+          "atn_state": 18354,
+          "line": null,
+          "column": null,
+          "body": null,
+          "disposition": "synthetic",
+          "template": null
+        },
+        {
+          "kind": "parser-action",
+          "rule": "relational_expression",
+          "rule_index": 1054,
+          "index": 6,
+          "atn_state": 18378,
+          "line": null,
+          "column": null,
+          "body": null,
+          "disposition": "synthetic",
+          "template": null
+        },
+        {
+          "kind": "parser-action",
+          "rule": "concatenation",
+          "rule_index": 1059,
+          "index": 7,
+          "atn_state": 18454,
+          "line": null,
+          "column": null,
+          "body": null,
+          "disposition": "synthetic",
+          "template": null
+        },
+        {
+          "kind": "parser-predicate",
+          "rule": "unary_expression_core",
+          "rule_index": 1066,
+          "index": 25,
+          "atn_state": null,
+          "line": 6787,
+          "column": 6,
+          "body": "this.is_not_numeric_function()",
+          "disposition": "hooked",
+          "template": "Hook"
+        },
+        {
+          "kind": "parser-predicate",
+          "rule": "standard_function",
+          "rule_index": 1082,
+          "index": 26,
+          "atn_state": null,
+          "line": 6883,
+          "column": 6,
+          "body": "this.is_not_numeric_function()",
+          "disposition": "hooked",
+          "template": "Hook"
+        },
+        {
+          "kind": "parser-action",
+          "rule": "string_delimiter",
+          "rule_index": 1118,
+          "index": 8,
+          "atn_state": 20075,
+          "line": null,
+          "column": null,
+          "body": null,
+          "disposition": "synthetic",
+          "template": null
+        },
+        {
+          "kind": "parser-action",
+          "rule": "general_element",
+          "rule_index": 1200,
+          "index": 9,
+          "atn_state": 20923,
+          "line": null,
+          "column": null,
+          "body": null,
+          "disposition": "synthetic",
+          "template": null
+        }
+      ]
+    }
+  ]
+}

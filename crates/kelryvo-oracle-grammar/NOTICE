@@ -1,0 +1,28 @@
+The PL/SQL lexer and parser grammars derive from the project's pinned
+antlr/grammars-v4 source, commit 7df52be94698550d219d299d04105c6bafadd9c3.
+Original grammar copyright headers and Apache-2.0 terms are preserved in
+grammar/ and LICENSE-GRAMMAR-APACHE-2.0.txt.
+The grammar-derived recognizers retain those grammar copyright and Apache-2.0
+terms. Project-authored adapter and hook code follows the repository license.
+
+The native adaptations rename project-authored helper callbacks and express
+the existing combined last-unit/slash predicate as one Rust hook. The hooks
+preserve the retained Java adapter's behavior; they do not certify Oracle
+server compatibility, target effects, approval or production qualification.
+
+The committed Rust recognizers are generated with antlr-rust-codegen 0.34.0
+and use antlr-rust-runtime 0.34.0 (BSD-3-Clause). Both projects' dependency
+archives retain their own copyright and license notices. No Java generator,
+JVM or RustPython interpreter is needed by this crate at build or runtime.
+Regeneration is an explicit separate developer operation.
+
+Run `cargo run --locked -p kelryvo-oracle-grammar --example regenerate --
+/absolute/path/to/antlr4-rust-gen --check` to reproduce the pinned sources.
+Use --write only when intentionally updating generated files and provenance.
+The generator executable must report version 0.34.0. Regeneration verifies the
+original grammar hashes against docs/dependencies/antlr-parser-lock.json and
+requires every semantic coordinate to be handled. A guarded mechanical repair
+renames the generated grammar metadata static to GRAMMAR_METADATA because the
+Oracle METADATA token otherwise collides with it; token identities are unchanged.
+grammar/provenance.json records adapted and generated source hashes. This does
+not change historical parser profiles, approval envelopes or Oracle qualification.

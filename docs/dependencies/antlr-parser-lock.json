@@ -5,13 +5,13 @@
   "grammar_commit": "7df52be94698550d219d299d04105c6bafadd9c3",
   "grammar_files": [
     {
-      "path": "experiments/db-devops-wp0/antlr-helper/grammar/PlSqlLexer.g4",
+      "path": "crates/kelryvo-oracle-grammar/upstream/PlSqlLexer.g4",
       "sha256": "fd82384ba3ba2f5a7b070a977cd77a05c01fefbfb52938d35dfaf472a2e6e59e",
       "license": "Apache-2.0",
       "source_url": "https://raw.githubusercontent.com/antlr/grammars-v4/7df52be94698550d219d299d04105c6bafadd9c3/sql/plsql/PlSqlLexer.g4"
     },
     {
-      "path": "experiments/db-devops-wp0/antlr-helper/grammar/PlSqlParser.g4",
+      "path": "crates/kelryvo-oracle-grammar/upstream/PlSqlParser.g4",
       "sha256": "90c6cb500fec711ad7e1d3aa793638686f265e4ce1e02632e1eabd6fded502e3",
       "license": "Apache-2.0",
       "source_url": "https://raw.githubusercontent.com/antlr/grammars-v4/7df52be94698550d219d299d04105c6bafadd9c3/sql/plsql/PlSqlParser.g4"

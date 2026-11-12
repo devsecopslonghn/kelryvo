@@ -1,2 +1,5 @@
 * text=auto eol=lf
-experiments/db-devops-wp0/fixtures/** -text
+tests/fixtures/parser/** -text
+
+# Blank unified-diff context lines must retain their leading marker.
+deploy/*.patch whitespace=-blank-at-eol
