@@ -74,3 +74,10 @@ pub fn fixture() -> (PathBuf, Value) {
     );
     (root, config)
 }
+/// Unit fixtures bootstrap one shared private catalog. Keep their catalog DDL
+/// and retained-generation checks independent of other fixture initializers.
+#[allow(dead_code)] // Filesystem-only integration fixtures share this module.
+pub async fn metadata_catalog() -> tokio::sync::MutexGuard<'static, ()> {
+    static CATALOG: tokio::sync::Mutex<()> = tokio::sync::Mutex::const_new(());
+    CATALOG.lock().await
+}

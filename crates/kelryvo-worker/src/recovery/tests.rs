@@ -28,6 +28,7 @@ impl Target for Synthetic {
 #[tokio::test]
 #[ignore = "requires kelryvo-test --recovery-only private PostgreSQL fixture"]
 async fn independent_review_appends_one_witness_and_preserves_hold() {
+    let _catalog = crate::installation_test_support::metadata_catalog().await;
     let url = std::env::var("KELRYVO_RUST_TEST_DATABASE_URL").unwrap();
     assert!(url.starts_with("postgresql:///kelryvo_rust_test?host="));
     let pool = kelryvo_server::connect(&url).await.unwrap();

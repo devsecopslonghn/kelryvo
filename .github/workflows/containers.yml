@@ -19,6 +19,38 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  verifier:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      binary-sha256: ${{ steps.binary.outputs.sha256 }}
+      artifact-id: ${{ steps.upload.outputs.artifact-id }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/native-rust
+        with:
+          key: source-oci-verifier
+      - name: Build and freeze the verifier before any untrusted image input
+        id: binary
+        run: |
+          KELRYVO_SOURCE_SHA="$GITHUB_SHA" cargo build -p kelryvo-cli --bin kelryvo --locked
+          mkdir -p .cache/source-oci-verifier
+          cp target/debug/kelryvo .cache/source-oci-verifier/kelryvo
+          .cache/source-oci-verifier/kelryvo --build-info | jq -e --arg source "$GITHUB_SHA" '.implementation == "RUST" and .sourceSha == $source and .architecture == "x86_64"'
+          verifier_sha=$(sha256sum .cache/source-oci-verifier/kelryvo | cut -d ' ' -f 1)
+          printf 'sha256=%s\n' "$verifier_sha" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        id: upload
+        with:
+          name: source-oci-verifier-${{ github.sha }}-${{ github.run_attempt }}
+          path: .cache/source-oci-verifier/kelryvo
+          if-no-files-found: error
+          retention-days: 3
+      # This separate job never imports or executes an image. The digest and
+      # immutable artifact ID are independent of both platform test machines.
+
   platform:
     strategy:
       fail-fast: false
@@ -102,29 +134,40 @@ jobs:
 
   verify:
     if: always()
-    needs: platform
+    needs: [platform, verifier]
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - name: Require both native platform checks
         env:
           PLATFORM_RESULT: ${{ needs.platform.result }}
-        run: test "$PLATFORM_RESULT" = success
+          VERIFIER_RESULT: ${{ needs.verifier.result }}
+        run: |
+          test "$PLATFORM_RESULT" = success
+          test "$VERIFIER_RESULT" = success
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
-      - uses: ./.github/actions/native-rust
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
-          key: host-image-amd64
-      - name: Build the native OCI verifier
-        run: cargo build -p kelryvo-cli -p kelryvo-test-tools --locked
+          artifact-ids: ${{ needs.verifier.outputs.artifact-id }}
+          path: .cache/source-oci-verifier
+          merge-multiple: true
+      - name: Authenticate the source-built verifier before execution or image input
+        env:
+          EXPECTED_VERIFIER_SHA: ${{ needs.verifier.outputs.binary-sha256 }}
+        run: |
+          [[ "$EXPECTED_VERIFIER_SHA" =~ ^[a-f0-9]{64}$ ]]
+          printf '%s  %s\n' "$EXPECTED_VERIFIER_SHA" .cache/source-oci-verifier/kelryvo | sha256sum --check --strict
+          chmod 500 .cache/source-oci-verifier/kelryvo
+          .cache/source-oci-verifier/kelryvo --build-info | jq -e --arg source "$GITHUB_SHA" '.implementation == "RUST" and .sourceSha == $source and .architecture == "x86_64"'
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           pattern: platform-images-${{ github.sha }}-${{ github.run_attempt }}-*
           path: dist/oci
           merge-multiple: true
       - name: Assemble and verify the OCI index from both tested platforms
-        run: target/debug/kelryvo oci assemble dist/oci "$GITHUB_SHA"
+        run: .cache/source-oci-verifier/kelryvo oci assemble dist/oci "$GITHUB_SHA"
       # Export only indexes from a successful trusted master verification.
       - if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
