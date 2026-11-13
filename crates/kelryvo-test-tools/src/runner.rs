@@ -178,14 +178,27 @@ impl Drop for Context {
 }
 
 pub async fn run(args: Vec<String>) -> Result<()> {
-    let mode = args.first().map(String::as_str).unwrap_or("");
+    let browser_group = match args.as_slice() {
+        [mode, group] if mode == "--ci-browser" => {
+            if !crate::product_browser::GROUPS.contains(&group.as_str()) {
+                return Err("Unknown native browser CI group".into());
+            }
+            Some(group.as_str())
+        }
+        _ => None,
+    };
+    let mode = if browser_group.is_some() {
+        "--browser-product-only"
+    } else {
+        args.first().map(String::as_str).unwrap_or("")
+    };
     if let [mode, group] = args.as_slice()
         && mode == "--ci-tests"
     {
         let packages = crate::ci::source_packages(group)?;
         let mut context = Context::new()?;
         context.private_postgres().await?;
-        if group == "server" {
+        if matches!(group.as_str(), "server" | "worker") {
             context
                 .cargo(&[
                     "build",
@@ -459,7 +472,7 @@ pub async fn run(args: Vec<String>) -> Result<()> {
         }
         _ => {}
     }
-    if args.len() > 1 {
+    if args.len() > 1 && browser_group.is_none() {
         return Err("Unexpected native test runner arguments".into());
     }
     context.private_postgres().await?;
@@ -675,7 +688,9 @@ pub async fn run(args: Vec<String>) -> Result<()> {
                         .environment
                         .insert("KELRYVO_RUST_BROWSER_FOCUS".into(), focus.into());
                 }
-                if mode == "--composite-browser-only" {
+                if let Some(group) = browser_group {
+                    crate::product_browser::run_group(&context, group).await?;
+                } else if mode == "--composite-browser-only" {
                     crate::product_browser::composite(&context).await?;
                 } else if mode == "--reviews-browser-only" {
                     crate::reviews::run(&context).await?;

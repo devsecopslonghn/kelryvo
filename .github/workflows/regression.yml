@@ -63,7 +63,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [browser, release]
+        suite: [browser-access, browser-metadata, browser-schema, browser-composite, browser-auth, release]
     runs-on: ubuntu-24.04
     timeout-minutes: 40
     steps:
@@ -72,12 +72,17 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/native-rust
         with:
-          key: regression-${{ matrix.suite }}
+          key: regression-${{ startsWith(matrix.suite, 'browser-') && 'browser' || matrix.suite }}
       - name: Install native test prerequisites
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends libssl-dev pkg-config postgresql-16
-      - if: matrix.suite == 'browser'
+      - if: startsWith(matrix.suite, 'browser-')
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+        with:
+          path: .cache/native-browser/chrome-linux64-*.zip
+          key: native-browser-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('docs/dependencies/test-browser.json') }}
+      - if: startsWith(matrix.suite, 'browser-')
         name: Install the reviewed browser prerequisites and pinned native browser
         run: |
           sudo apt-get update
@@ -99,10 +104,10 @@ jobs:
         run: |
           export PATH="/usr/lib/postgresql/16/bin:$PATH"
           cargo run --locked -p kelryvo-test-tools --bin kelryvo-test -- --ci regression
-      - if: failure() && matrix.suite == 'browser'
+      - if: failure() && startsWith(matrix.suite, 'browser-')
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: native-browser-failure-${{ github.run_attempt }}
+          name: native-browser-failure-${{ matrix.suite }}-${{ github.run_attempt }}
           path: .cache/rust-browser-*/failure.png
           if-no-files-found: ignore
           retention-days: 7

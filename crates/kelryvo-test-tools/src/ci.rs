@@ -76,7 +76,21 @@ fn suites(value: &str) -> Result<Vec<Vec<String>>> {
     Ok(match value {
         "api" => vec![vec![]],
         "browser" => vec![vec!["--browser-only".into()]],
+        "browser-auth" => vec![
+            vec!["--password-only".into()],
+            vec!["--identity-only".into()],
+        ],
         "release" => vec![vec!["--oci-only".into()], vec!["--runtime-only".into()]],
+        value
+            if value
+                .strip_prefix("browser-")
+                .is_some_and(|group| crate::product_browser::GROUPS.contains(&group)) =>
+        {
+            vec![vec![
+                "--ci-browser".into(),
+                value["browser-".len()..].into(),
+            ]]
+        }
         _ => return Err("Unknown native regression suite".into()),
     })
 }
@@ -282,11 +296,27 @@ mod tests {
     fn closed_suites_preserve_release_order_and_stop_unknown_dispatch() {
         assert_eq!(suites("api").unwrap(), vec![Vec::<String>::new()]);
         assert_eq!(suites("browser").unwrap(), vec![vec!["--browser-only"]]);
+        for group in crate::product_browser::GROUPS {
+            assert_eq!(
+                suites(&format!("browser-{group}")).unwrap(),
+                vec![vec!["--ci-browser", *group]]
+            );
+        }
+        assert_eq!(
+            suites("browser-auth").unwrap(),
+            vec![vec!["--password-only"], vec!["--identity-only"]]
+        );
         assert_eq!(
             suites("release").unwrap(),
             vec![vec!["--oci-only"], vec!["--runtime-only"]]
         );
-        for value in ["", "release;true", "--runtime-only", "API"] {
+        for value in [
+            "",
+            "release;true",
+            "--runtime-only",
+            "API",
+            "browser-unknown",
+        ] {
             assert!(suites(value).is_err());
         }
     }

@@ -410,7 +410,19 @@ pub async fn composite(context: &Context) -> Result<()> {
     result?;
     verified
 }
+pub const GROUPS: &[&str] = &["access", "metadata", "schema", "composite"];
+
 pub async fn run(context: &Context) -> Result<()> {
+    for group in GROUPS {
+        run_group(context, group).await?;
+    }
+    Ok(())
+}
+
+pub async fn run_group(context: &Context, group: &str) -> Result<()> {
+    if !GROUPS.contains(&group) {
+        return Err("Unknown native browser CI group".into());
+    }
     verify_selected(context).await?;
     let result: Result<()> = async {
         let web = std::env::var_os("KELRYVO_RUST_WEB_DIRECTORY")
@@ -427,20 +439,32 @@ pub async fn run(context: &Context) -> Result<()> {
                 crate::$module::run(&child).await?;
             }};
         }
-        independent!(target_bindings);
-        independent!(account);
-        independent!(project_access);
-        independent!(project_lifecycle);
-        independent!(instance_profiles);
-        independent!(schema_references);
-        independent!(audit);
-        independent!(connections);
-        independent!(connection_observations);
-        independent!(shell);
-        independent!(schema_baselines);
-        independent!(workflows);
-        let child = context.child()?;
-        composite_in(&child).await
+        match group {
+            "access" => {
+                independent!(target_bindings);
+                independent!(account);
+                independent!(project_access);
+                independent!(project_lifecycle);
+            }
+            "metadata" => {
+                independent!(instance_profiles);
+                independent!(schema_references);
+                independent!(audit);
+                independent!(connections);
+                independent!(connection_observations);
+            }
+            "schema" => {
+                independent!(shell);
+                independent!(schema_baselines);
+                independent!(workflows);
+            }
+            "composite" => {
+                let child = context.child()?;
+                composite_in(&child).await?;
+            }
+            _ => return Err("Unknown native browser CI group".into()),
+        }
+        Ok(())
     }
     .await;
     let verified = verify_selected(context).await;
