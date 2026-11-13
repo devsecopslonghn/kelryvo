@@ -31,14 +31,14 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/native-rust
         with:
-          key: source-oci-verifier
+          key: foundation
       - name: Build and freeze the verifier before any untrusted image input
         id: binary
         run: |
           KELRYVO_SOURCE_SHA="$GITHUB_SHA" cargo build -p kelryvo-cli --bin kelryvo --locked
           mkdir -p .cache/source-oci-verifier
           cp target/debug/kelryvo .cache/source-oci-verifier/kelryvo
-          .cache/source-oci-verifier/kelryvo --build-info | jq -e --arg source "$GITHUB_SHA" '.implementation == "RUST" and .sourceSha == $source and .architecture == "x86_64"'
+          .cache/source-oci-verifier/kelryvo --build-info | jq -e -s --arg source "$GITHUB_SHA" 'length == 1 and .[0].implementation == "RUST" and .[0].sourceSha == $source and .[0].architecture == "x86_64"'
           verifier_sha=$(sha256sum .cache/source-oci-verifier/kelryvo | cut -d ' ' -f 1)
           printf 'sha256=%s\n' "$verifier_sha" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -160,7 +160,7 @@ jobs:
           [[ "$EXPECTED_VERIFIER_SHA" =~ ^[a-f0-9]{64}$ ]]
           printf '%s  %s\n' "$EXPECTED_VERIFIER_SHA" .cache/source-oci-verifier/kelryvo | sha256sum --check --strict
           chmod 500 .cache/source-oci-verifier/kelryvo
-          .cache/source-oci-verifier/kelryvo --build-info | jq -e --arg source "$GITHUB_SHA" '.implementation == "RUST" and .sourceSha == $source and .architecture == "x86_64"'
+          .cache/source-oci-verifier/kelryvo --build-info | jq -e -s --arg source "$GITHUB_SHA" 'length == 1 and .[0].implementation == "RUST" and .[0].sourceSha == $source and .[0].architecture == "x86_64"'
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           pattern: platform-images-${{ github.sha }}-${{ github.run_attempt }}-*

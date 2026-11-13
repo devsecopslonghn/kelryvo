@@ -72,7 +72,9 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/native-rust
         with:
-          key: regression-${{ startsWith(matrix.suite, 'browser-') && 'browser' || matrix.suite }}
+          # The runtime baseline contains the same native application graph.
+          # Cargo independently checks freshness before every suite executes.
+          key: native-runtime
       - name: Install native test prerequisites
         run: |
           sudo apt-get update

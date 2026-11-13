@@ -24,7 +24,7 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/native-rust
         with:
-          key: parser
+          key: source-tests-core-parser
       - name: Native grammar, retained corpus and authored compatibility cases
         run: cargo test --locked -p kelryvo-oracle-grammar -p kelryvo-parser
 

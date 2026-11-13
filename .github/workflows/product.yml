@@ -35,7 +35,9 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/native-rust
         with:
-          key: focused-${{ matrix.mode }}
+          # Reuse the source group's artifacts instead of storing another
+          # complete Cargo target directory for each focused test filter.
+          key: source-tests-${{ (matrix.mode == 'worker-only' || matrix.mode == 'recovery-only') && 'worker' || matrix.mode == 'product-and-json-objects-only' && 'server' || 'operator' }}
       - name: Install native test prerequisites
         run: |
           sudo apt-get update
