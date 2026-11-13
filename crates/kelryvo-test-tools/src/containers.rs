@@ -495,6 +495,7 @@ pub async fn run(image: &str, architecture: &str) -> Result<()> {
         let mut api = Api::new(&origin, &certificate, None)?;
         stage = "app startup";
         fixture.ready(&mut api).await?;
+        stage = "worker installation wait";
         let mut waiting = false;
         for _ in 0..=40 {
             let output = docker::invoke(&words(&["logs", &fixture.app]), None).await?;
@@ -502,7 +503,8 @@ pub async fn run(image: &str, architecture: &str) -> Result<()> {
             tokio::time::sleep(Duration::from_millis(100)).await;
         }
         require(waiting, "worker waits for a trusted installation")?;
-        fixture.probe("no-worker-config", &[]).await?;
+        stage = "dormant worker configuration";
+        docker::run(&words(&["exec", "--user", "10002:10002", &fixture.app, PROBE, "--container-probe", "no-worker-config"]), None).await?;
         stage = "runtime process isolation";
         fixture.processes().await?;
         fixture.owner().await?;

@@ -6,9 +6,9 @@ use sqlx::PgPool;
 use std::{
     collections::BTreeMap,
     fs::{self, OpenOptions},
-    io::Write,
+    io::{Read, Write},
     os::unix::fs::{OpenOptionsExt, PermissionsExt},
-    path::Path,
+    path::{Path, PathBuf},
     process::Command,
 };
 use uuid::Uuid;
@@ -18,6 +18,56 @@ mod root_cli;
 // These scenarios assert the number of databases in their shared private
 // cluster. Serialize only the test scenarios, not production backup operations.
 static BACKUP_TESTS: tokio::sync::Mutex<()> = tokio::sync::Mutex::const_new(());
+
+fn native_tools(path: &std::ffi::OsStr) -> Option<(PathBuf, PathBuf)> {
+    std::env::split_paths(path).find_map(|directory| {
+        let dump = directory.join("pg_dump").canonicalize().ok()?;
+        let restore = directory.join("pg_restore").canonicalize().ok()?;
+        for tool in [&dump, &restore] {
+            let mut magic = [0; 4];
+            fs::File::open(tool).ok()?.read_exact(&mut magic).ok()?;
+            if magic != *b"\x7fELF" {
+                return None;
+            }
+        }
+        Some((dump, restore))
+    })
+}
+fn postgres_tools() -> (PathBuf, PathBuf) {
+    // CI prepends its selected PostgreSQL server's bin directory. Ubuntu's
+    // /usr/bin aliases are pg_wrapper scripts and cannot be native attestations.
+    // The operator still verifies ownership, paths, hashes and exact versions.
+    native_tools(&std::env::var_os("PATH").expect("PostgreSQL tool PATH"))
+        .expect("Put the matching native PostgreSQL pg_dump/pg_restore pair on PATH")
+}
+
+#[test]
+fn backup_fixture_selects_a_native_pair_without_attesting_distribution_wrappers() {
+    let cache = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../.cache");
+    fs::create_dir_all(&cache).unwrap();
+    let root = cache.join(format!("native-backup-tools-{}", Uuid::new_v4()));
+    fs::create_dir(&root).unwrap();
+    fs::set_permissions(&root, fs::Permissions::from_mode(0o700)).unwrap();
+    let wrappers = root.join("wrappers");
+    let binaries = root.join("binaries");
+    fs::create_dir(&wrappers).unwrap();
+    fs::create_dir(&binaries).unwrap();
+    for name in ["pg_dump", "pg_restore"] {
+        fs::write(wrappers.join(name), b"#!/usr/bin/perl\n").unwrap();
+    }
+    let path = std::env::join_paths([&wrappers, &binaries]).unwrap();
+    assert!(native_tools(&path).is_none());
+    fs::write(binaries.join("pg_dump"), b"\x7fELFfixture-only").unwrap();
+    assert!(native_tools(&path).is_none(), "both tools must be native");
+    fs::write(binaries.join("pg_restore"), b"\x7fELFfixture-only").unwrap();
+    assert_eq!(
+        native_tools(&path),
+        Some((
+            binaries.join("pg_dump").canonicalize().unwrap(),
+            binaries.join("pg_restore").canonicalize().unwrap()
+        ))
+    );
+}
 
 fn private(path: &Path, bytes: &[u8]) {
     let mut f = OpenOptions::new()
@@ -53,6 +103,7 @@ async fn data(pool: &PgPool) -> BTreeMap<String, Value> {
 #[ignore = "requires kelryvo-test --operator-only private PostgreSQL fixture"]
 async fn retained_identity_schema_upgrades_under_restore_hold() {
     let _serial = BACKUP_TESTS.lock().await;
+    let (pg_dump, pg_restore) = postgres_tools();
     let base = std::env::var("KELRYVO_RUST_TEST_DATABASE_URL").expect("private fixture");
     assert!(base.starts_with("postgresql:///kelryvo_rust_test?host="));
     let admin = connect(&base).await.unwrap();
@@ -104,8 +155,8 @@ async fn retained_identity_schema_upgrades_under_restore_hold() {
     };
     let attested = run(&[
         "metadata-attest",
-        "/usr/bin/pg_dump",
-        "/usr/bin/pg_restore",
+        pg_dump.to_str().unwrap(),
+        pg_restore.to_str().unwrap(),
         root.join("postgresql-backup-policy").to_str().unwrap(),
     ]);
     assert!(
@@ -165,6 +216,7 @@ async fn retained_identity_schema_upgrades_under_restore_hold() {
 #[ignore = "requires kelryvo-test --operator-only private PostgreSQL fixture"]
 async fn witnessed_native_restore_preserves_data_and_quarantines_jobs_and_credentials() {
     let _serial = BACKUP_TESTS.lock().await;
+    let (pg_dump, pg_restore) = postgres_tools();
     let base = std::env::var("KELRYVO_RUST_TEST_DATABASE_URL").expect("private test fixture");
     assert!(base.starts_with("postgresql:///kelryvo_rust_test?host="));
     let admin = connect(&base).await.unwrap();
@@ -217,8 +269,8 @@ async fn witnessed_native_restore_preserves_data_and_quarantines_jobs_and_creden
     let source = connect(&source_url).await.unwrap();
     let attested = run(&[
         "metadata-attest",
-        "/usr/bin/pg_dump",
-        "/usr/bin/pg_restore",
+        pg_dump.to_str().unwrap(),
+        pg_restore.to_str().unwrap(),
         root.join("postgresql-backup-policy").to_str().unwrap(),
     ]);
     assert!(
@@ -230,7 +282,7 @@ async fn witnessed_native_restore_preserves_data_and_quarantines_jobs_and_creden
     let mut invalid_policy: Value = serde_json::from_slice(&original_policy).unwrap();
     assert_eq!(
         invalid_policy["pgDump"]["sha256"],
-        sha256(fs::read("/usr/bin/pg_dump").unwrap())
+        sha256(fs::read(&pg_dump).unwrap())
     );
     invalid_policy["pgDump"]["sha256"] = "0".repeat(64).into();
     private(

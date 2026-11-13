@@ -53,6 +53,15 @@ fn mode(path: &Path, uid: u32, gid: u32, permissions: u32) -> Result<()> {
         "container path owner and permissions",
     )
 }
+fn worker_configuration_absent(directory: &Path) -> Result<()> {
+    // An inaccessible or dangling configuration must not be reported absent.
+    // This runs as the execution directory's owner, with no DAC override.
+    match fs::symlink_metadata(directory.join("worker.json")) {
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(()),
+        Err(error) => Err(error.into()),
+        Ok(_) => Err("dormant worker unexpectedly has execution configuration".into()),
+    }
+}
 fn prepare(source: &str, success: bool) -> Result<()> {
     let output = Command::new("/opt/kelryvo/bin/kelryvo-runtime")
         .arg("--prepare")
@@ -174,10 +183,15 @@ pub fn run(args: &[String]) -> Result<()> {
             10001,
             0o600,
         )?,
-        ("no-worker-config", []) => require(
-            !Path::new("/run/kelryvo/runtime/execution/worker.json").try_exists()?,
-            "dormant worker has no execution configuration",
-        )?,
+        ("no-worker-config", []) => {
+            require(
+                nix::unistd::getuid().as_raw() == 10002,
+                "worker state probe requires the execution principal",
+            )?;
+            let directory = Path::new("/run/kelryvo/runtime/execution");
+            mode(directory, 10002, 10002, 0o700)?;
+            worker_configuration_absent(directory)?;
+        }
         ("api-owner", []) => {
             let metadata = fs::metadata("/run/kelryvo/runtime/api/secrets")?;
             println!("{}", json!({"uid":metadata.uid(),"gid":metadata.gid()}));
@@ -308,6 +322,27 @@ fn processes() -> Result<Vec<Value>> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn dormant_worker_probe_refuses_present_dangling_and_inaccessible_configuration() {
+        let directory = tempfile::tempdir().unwrap();
+        worker_configuration_absent(directory.path()).unwrap();
+        let config = directory.path().join("worker.json");
+        fs::write(&config, b"synthetic fixture").unwrap();
+        assert!(worker_configuration_absent(directory.path()).is_err());
+        fs::remove_file(&config).unwrap();
+        symlink("missing", &config).unwrap();
+        assert!(worker_configuration_absent(directory.path()).is_err());
+        fs::remove_file(&config).unwrap();
+        if !nix::unistd::getuid().is_root() {
+            fs::set_permissions(directory.path(), fs::Permissions::from_mode(0o600)).unwrap();
+            let result = worker_configuration_absent(directory.path());
+            fs::set_permissions(directory.path(), fs::Permissions::from_mode(0o700)).unwrap();
+            assert!(
+                result.is_err(),
+                "permission errors cannot prove configuration absence"
+            );
+        }
+    }
     #[test]
     fn image_inventory_refuses_executable_interpreters_aliases_and_ambiguous_paths() {
         let directory = tempfile::tempdir().unwrap();
