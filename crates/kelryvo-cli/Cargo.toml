@@ -7,6 +7,9 @@ license-file = "../../LICENSE"
 publish.workspace = true
 default-run = "kelryvo"
 
+[lib]
+path = "src/lib.rs"
+
 [[bin]]
 name = "kelryvo"
 path = "src/main.rs"

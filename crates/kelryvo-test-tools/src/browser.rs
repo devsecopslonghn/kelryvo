@@ -886,8 +886,8 @@ impl Browser {
                 thread::sleep(Duration::from_millis(25));
                 continue;
             }
-            let hit=self.dom(page,node,"async function(x,y){this.scrollIntoView({block:'center',inline:'center',behavior:'instant'});await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));const r=this.getBoundingClientRect();x=r.x+(x??r.width/2);y=r.y+(y??r.height/2);const hit=document.elementFromPoint(x,y);return {inside:hit!==null&&(hit===this||this.contains(hit)),x,y,tag:hit?.tagName,target:this.tagName,rect:{left:r.left,top:r.top,width:r.width,height:r.height},width:innerWidth,height:innerHeight}}",vec![json!({"value":position.map(|p|p.0)}),json!({"value":position.map(|p|p.1)})])?;
-            if hit["inside"] == true {
+            let hit=self.dom(page,node,"async function(x,y){this.scrollIntoView({block:'center',inline:'center',behavior:'instant'});await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));const r=this.getBoundingClientRect();x=r.x+(x??r.width/2);y=r.y+(y??r.height/2);const hit=document.elementFromPoint(x,y);return {inside:hit!==null&&(hit===this||this.contains(hit)),enabled:!this.matches(':disabled')&&!this.closest('[aria-disabled=\"true\"]'),x,y,tag:hit?.tagName,target:this.tagName,rect:{left:r.left,top:r.top,width:r.width,height:r.height},width:innerWidth,height:innerHeight}}",vec![json!({"value":position.map(|p|p.0)}),json!({"value":position.map(|p|p.1)})])?;
+            if hit["inside"] == true && hit["enabled"] == true {
                 break (
                     hit["x"].as_f64().ok_or("Browser viewport x")?,
                     hit["y"].as_f64().ok_or("Browser viewport y")?,
@@ -1421,6 +1421,16 @@ pub fn protocol_smoke() -> Result<()> {
         || !browser.enabled(&page, &Locator::css("#value"))?
     {
         return Err("Native browser disabled fieldset/ARIA semantics differ".into());
+    }
+    // Schedule a DOM-only readiness transition. The driver must wait before
+    // sending its single trusted click, just as it does for a busy app button.
+    browser.evaluate(
+        &page,
+        "setTimeout(()=>document.querySelector('fieldset').disabled=false,250);0",
+    )?;
+    browser.click(&page, &Locator::css("#disabled"))?;
+    if browser.evaluate(&page, "document.activeElement.id")? != "disabled" {
+        return Err("Native browser clicked before its fieldset became enabled".into());
     }
     let children = Locator::css(".child").within(&Locator::css(".scope"));
     if browser.count(&page, &children)? != 2

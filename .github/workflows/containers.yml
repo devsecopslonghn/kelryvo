@@ -49,6 +49,8 @@ jobs:
           sudo -n --preserve-env=CI,GITHUB_ACTIONS target/debug/kelryvo-test --configure-ci-docker
           sudo systemctl restart docker
       - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+        with:
+          cleanup: false # The hosted runner is disposable; save teardown latency.
       - uses: ./.github/actions/native-image-cache
         id: image-cache
         with:
@@ -82,17 +84,14 @@ jobs:
           sbom: false
           outputs: type=local,dest=.cache/native-container-tools
           cache-from: type=gha,scope=${{ steps.image-cache.outputs.scope }}
-      - name: Smoke-test the exact platform artifacts
+      - name: Verify the exact platform, runtime boundaries and installed customer pilot
         env:
           TARGET_ARCH: ${{ matrix.arch }}
           KELRYVO_CONTAINER_PROBE: ${{ github.workspace }}/.cache/native-container-tools/kelryvo-container-probe
         run: |
           set -euo pipefail
           target/debug/kelryvo oci load-platform "dist/oci/app-$TARGET_ARCH.tar" "$GITHUB_SHA" "$TARGET_ARCH"
-          target/debug/kelryvo-test --container kelryvo-app:test "$TARGET_ARCH" "$GITHUB_SHA"
-          target/debug/kelryvo-test --containers kelryvo-app:test "$TARGET_ARCH"
-      - name: Install the customer Compose pilot and import its mounted repository
-        run: target/debug/kelryvo-test --pilot-container kelryvo-app:test
+          target/debug/kelryvo-test --ci-image kelryvo-app:test "$TARGET_ARCH" "$GITHUB_SHA"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: platform-images-${{ github.sha }}-${{ github.run_attempt }}-${{ matrix.arch }}

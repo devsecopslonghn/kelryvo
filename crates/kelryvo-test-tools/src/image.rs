@@ -28,7 +28,7 @@ pub async fn container(
     image: &str,
     architecture: &str,
     revision: &str,
-) -> Result<()> {
+) -> Result<String> {
     if !regex::Regex::new(r"^[A-Za-z0-9][A-Za-z0-9._:/@-]{0,255}$")?.is_match(image)
         || !["amd64", "arm64"].contains(&architecture)
         || !regex::Regex::new(r"^[a-f0-9]{40}$")?.is_match(revision)
@@ -182,5 +182,5 @@ pub async fn container(
     println!(
         "PASS: native image architecture, release source identity, exact bundle inventory, prerequisites, unprivileged role guards and missing-secret rejection. TLS/PID1/Oracle qualification remains separate."
     );
-    Ok(())
+    Ok(selected)
 }

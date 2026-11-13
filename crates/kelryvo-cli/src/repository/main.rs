@@ -49,7 +49,7 @@ fn run(root: &Path, args: &[String]) -> Result<()> {
             run(root,&["lint".into()])?;
             source::format(root,false)?;
             contracts::check(root)?;
-            cargo_check(root,&["test","--locked","-p","kelryvo-cli","--bin","kelryvo","oci::loader::tests"])?;
+            cargo_check(root,&["test","--locked","-p","kelryvo-cli","--lib","oci::loader::tests"])?;
             cargo_check(root,&["test","--locked","-p","kelryvo-test-tools","--lib"])?;
             dependencies::check(root,false)
         }

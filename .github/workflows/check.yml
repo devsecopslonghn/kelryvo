@@ -116,6 +116,8 @@ jobs:
         with:
           persist-credentials: false
       - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+        with:
+          cleanup: false # The hosted runner is disposable; save teardown latency.
       - uses: ./.github/actions/native-rust
         with:
           key: host-image-${{ matrix.arch }}
@@ -145,7 +147,7 @@ jobs:
           provenance: false
           sbom: false
           cache-from: type=gha,scope=${{ steps.image-cache.outputs.scope }}
-          cache-to: type=gha,scope=${{ steps.image-cache.outputs.scope }},mode=max,ignore-error=true,timeout=1m
+          # OCI verification owns writes; parallel source checks only read cache.
       - name: Build the disposable native inventory probe against the image libc
         uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
         with:

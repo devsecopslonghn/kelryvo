@@ -363,12 +363,21 @@ pub async fn run(args: Vec<String>) -> Result<()> {
     {
         return crate::containers::run(image, architecture).await;
     }
-    if mode == "--container" {
+    if matches!(mode, "--container" | "--ci-image") {
         let context = Context::new()?;
         let [_, image, architecture, revision] = args.as_slice() else {
             return Err("Usage: kelryvo-test --container IMAGE amd64|arm64 SOURCE_SHA".into());
         };
-        return crate::image::container(&context, image, architecture, revision).await;
+        let selected = crate::image::container(&context, image, architecture, revision).await?;
+        if mode == "--ci-image" {
+            // Both drivers own separate UUID-named databases, networks and
+            // directories, and consume the same already verified immutable ID.
+            tokio::try_join!(
+                crate::containers::run(&selected, architecture),
+                crate::pilot_container::run(&context, &selected)
+            )?;
+        }
+        return Ok(());
     }
     let mut context = Context::new()?;
     if let [mode, database] = args.as_slice()
