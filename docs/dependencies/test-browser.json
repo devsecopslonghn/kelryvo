@@ -1,0 +1,13 @@
+{
+  "format": 1,
+  "scope": "EXTERNAL_TEST_BROWSER_ONLY_NOT_SHIPPED",
+  "version": "156.0.8078.4",
+  "platform": "linux64",
+  "url": "https://storage.googleapis.com/chrome-for-testing-public/156.0.8078.4/linux64/chrome-linux64.zip",
+  "bytes": 200345244,
+  "sha256": "43fd31766c7533a02dda2ded5ad50c2f861cd5400be7509c0abad71129f79d79",
+  "executable": "chrome-linux64/chrome",
+  "executableBytes": 301186376,
+  "executableSha256": "377a9fc07b495c3b8d0ab8ec1fdfd153641759f9756fea34d8dfce4de82f5025",
+  "notices": "Preserve the vendor notices in the downloaded archive. The browser is an external development/test tool and is not part of the application distribution."
+}

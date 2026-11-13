@@ -1,0 +1,24 @@
+[package]
+name = "kelryvo-grammar-codegen"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.99"
+license-file = "../../LICENSE"
+publish = false
+
+# Isolate generator Unicode tables and host ABI dependencies from application
+# dependencies. Updating URL/IDNA libraries must not change SQL lexer bytes.
+[workspace]
+
+[dependencies]
+antlr-rust-codegen = "=0.34.0"
+libc = "=0.2.186"
+serde_json = "1"
+hmac-sha256 = "1"
+
+[profile.dev]
+debug = 0
+incremental = false
+
+[lints.rust]
+unsafe_code = "forbid"

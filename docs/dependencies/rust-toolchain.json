@@ -1,0 +1,89 @@
+{
+  "format": 1,
+  "version": "1.99.1",
+  "date": "2026-10-15",
+  "manifestUrl": "https://static.rust-lang.org/dist/channel-rust-1.99.1.toml",
+  "installedManifestSha256": "48419307eb32e389a25ac360b6bccd4d196f3c4f35ce9d67a223319eff017c6c",
+  "wasmBindgenCli": "0.2.130",
+  "sccache": "0.19.0",
+  "platforms": {
+    "amd64": {
+      "triple": "x86_64-unknown-linux-gnu",
+      "sccacheArchive": {
+        "target": "x86_64-unknown-linux-musl",
+        "url": "https://github.com/mozilla/sccache/releases/download/v0.19.0/sccache-v0.19.0-x86_64-unknown-linux-musl.tar.gz",
+        "sha256": "aa73c7270c997894038c0d8f0d297865f57569e1687883322bc431713d4bb9dd"
+      },
+      "wasmBindgenArchive": {
+        "target": "x86_64-unknown-linux-musl",
+        "url": "https://github.com/wasm-bindgen/wasm-bindgen/releases/download/0.2.130/wasm-bindgen-0.2.130-x86_64-unknown-linux-musl.tar.gz",
+        "sha256": "9687f3bb551b9f66f37ed32a40d7913a00f7962db653054e56857bc306c3227f"
+      },
+      "archives": [
+        {
+          "component": "rustc",
+          "target": "x86_64-unknown-linux-gnu",
+          "url": "https://static.rust-lang.org/dist/2026-10-15/rustc-1.99.1-x86_64-unknown-linux-gnu.tar.xz",
+          "sha256": "2ff05ff9c08a90861e7f6e4065b40a8b87463b4576186fd613871c3e37f2091f"
+        },
+        {
+          "component": "cargo",
+          "target": "x86_64-unknown-linux-gnu",
+          "url": "https://static.rust-lang.org/dist/2026-10-15/cargo-1.99.1-x86_64-unknown-linux-gnu.tar.xz",
+          "sha256": "53f3521949404d595efb06a55c12c5658d4ed1c75566f33d3d514eaebe70bd8a"
+        },
+        {
+          "component": "rust-std",
+          "target": "x86_64-unknown-linux-gnu",
+          "url": "https://static.rust-lang.org/dist/2026-10-15/rust-std-1.99.1-x86_64-unknown-linux-gnu.tar.xz",
+          "sha256": "109b074225bf5b9ea3820890876bfdf4ed161adbfaf94b2b4b5984c85ee5d958"
+        },
+        {
+          "component": "rust-std",
+          "target": "wasm32-unknown-unknown",
+          "url": "https://static.rust-lang.org/dist/2026-10-15/rust-std-1.99.1-wasm32-unknown-unknown.tar.xz",
+          "sha256": "5f628f857dd00a8aa3fcac2e275665d2782066a5795274ed124c5b560f46423c"
+        }
+      ]
+    },
+    "arm64": {
+      "triple": "aarch64-unknown-linux-gnu",
+      "sccacheArchive": {
+        "target": "aarch64-unknown-linux-musl",
+        "url": "https://github.com/mozilla/sccache/releases/download/v0.19.0/sccache-v0.19.0-aarch64-unknown-linux-musl.tar.gz",
+        "sha256": "3e47fc4a71b1ddd1b4294a0de9d34498922fdf41e3cd0bda5df3954e3d6deb9d"
+      },
+      "wasmBindgenArchive": {
+        "target": "aarch64-unknown-linux-musl",
+        "url": "https://github.com/wasm-bindgen/wasm-bindgen/releases/download/0.2.130/wasm-bindgen-0.2.130-aarch64-unknown-linux-musl.tar.gz",
+        "sha256": "99ffc93ce80081b91632e2b539b782821a8f3439ab0fddc645287462b2f55d3d"
+      },
+      "archives": [
+        {
+          "component": "rustc",
+          "target": "aarch64-unknown-linux-gnu",
+          "url": "https://static.rust-lang.org/dist/2026-10-15/rustc-1.99.1-aarch64-unknown-linux-gnu.tar.xz",
+          "sha256": "acdcdfe09ae1f103aa9a2b7f88903a9588bc2e99288af10e6fbf5514e2e49f25"
+        },
+        {
+          "component": "cargo",
+          "target": "aarch64-unknown-linux-gnu",
+          "url": "https://static.rust-lang.org/dist/2026-10-15/cargo-1.99.1-aarch64-unknown-linux-gnu.tar.xz",
+          "sha256": "5156832e0c1254e9b49a79edabdc6d4c35f32f8fc1cf3ca700f268ff96087ab0"
+        },
+        {
+          "component": "rust-std",
+          "target": "aarch64-unknown-linux-gnu",
+          "url": "https://static.rust-lang.org/dist/2026-10-15/rust-std-1.99.1-aarch64-unknown-linux-gnu.tar.xz",
+          "sha256": "e25668477083d6a9ddb87b9beb9c00742225f38233ccb4bfba3afa7a07427f52"
+        },
+        {
+          "component": "rust-std",
+          "target": "wasm32-unknown-unknown",
+          "url": "https://static.rust-lang.org/dist/2026-10-15/rust-std-1.99.1-wasm32-unknown-unknown.tar.xz",
+          "sha256": "5f628f857dd00a8aa3fcac2e275665d2782066a5795274ed124c5b560f46423c"
+        }
+      ]
+    }
+  }
+}

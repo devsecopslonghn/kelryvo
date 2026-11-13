@@ -1,0 +1,190 @@
+{
+  "config": {
+    "format": "kelryvo-managed-postgresql-operator-v1",
+    "clusterContext": "k8s-admin-public",
+    "apiServer": "https://kubernetes.example.test:6443",
+    "clusterCaSha256": "99272edcb30f92b157736bc359dc22d2b8e34587e55f7389b998dde0c3bfcae2",
+    "namespace": "kelryvo",
+    "statefulSet": "kelryvo-postgresql",
+    "statefulSetUid": "00000000-0000-4000-8000-000000000001",
+    "service": "kelryvo-postgresql",
+    "serviceUid": "00000000-0000-4000-8000-000000000002",
+    "pod": "kelryvo-postgresql-0",
+    "podUid": "00000000-0000-4000-8000-000000000003",
+    "pvc": "kelryvo-postgresql-data",
+    "pvcUid": "00000000-0000-4000-8000-000000000004",
+    "pv": "pvc-00000000-0000-4000-8000-000000000004",
+    "pvUid": "00000000-0000-4000-8000-000000000005",
+    "secret": "kelryvo-postgresql",
+    "secretUid": "00000000-0000-4000-8000-000000000006",
+    "image": "postgres:17.10-bookworm@sha256:9b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f",
+    "imageId": "docker-pullable://docker.io/library/postgres@sha256:9b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f",
+    "serverVersionNum": 170010
+  },
+  "resources": {
+    "statefulset/kelryvo-postgresql": {
+      "metadata": {
+        "uid": "00000000-0000-4000-8000-000000000001"
+      },
+      "spec": {
+        "replicas": 1,
+        "serviceName": "kelryvo-postgresql",
+        "selector": {
+          "matchLabels": {
+            "app.kubernetes.io/component": "postgresql",
+            "app.kubernetes.io/instance": "kelryvo"
+          }
+        },
+        "template": {
+          "spec": {
+            "containers": [
+              {
+                "name": "postgresql",
+                "image": "postgres:17.10-bookworm@sha256:9b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f"
+              }
+            ]
+          }
+        }
+      },
+      "status": {
+        "readyReplicas": 1
+      }
+    },
+    "service/kelryvo-postgresql": {
+      "metadata": {
+        "uid": "00000000-0000-4000-8000-000000000002"
+      },
+      "spec": {
+        "type": "ClusterIP",
+        "selector": {
+          "app.kubernetes.io/component": "postgresql",
+          "app.kubernetes.io/instance": "kelryvo"
+        },
+        "ports": [
+          {
+            "port": 5432,
+            "targetPort": "postgresql",
+            "protocol": "TCP"
+          }
+        ]
+      }
+    },
+    "pod/kelryvo-postgresql-0": {
+      "metadata": {
+        "uid": "00000000-0000-4000-8000-000000000003",
+        "namespace": "kelryvo",
+        "ownerReferences": [
+          {
+            "kind": "StatefulSet",
+            "name": "kelryvo-postgresql",
+            "uid": "00000000-0000-4000-8000-000000000001"
+          }
+        ]
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "postgresql",
+            "image": "postgres:17.10-bookworm@sha256:9b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f",
+            "ports": [
+              {
+                "name": "postgresql",
+                "containerPort": 5432,
+                "protocol": "TCP"
+              }
+            ]
+          }
+        ],
+        "volumes": [
+          {
+            "name": "data",
+            "persistentVolumeClaim": {
+              "claimName": "kelryvo-postgresql-data"
+            }
+          },
+          {
+            "name": "secrets",
+            "secret": {
+              "secretName": "kelryvo-postgresql"
+            }
+          }
+        ]
+      },
+      "status": {
+        "phase": "Running",
+        "podIP": "10.0.0.8",
+        "containerStatuses": [
+          {
+            "name": "postgresql",
+            "image": "postgres:17.10-bookworm@sha256:9b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f",
+            "imageID": "docker-pullable://docker.io/library/postgres@sha256:9b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f",
+            "ready": true
+          }
+        ]
+      }
+    },
+    "pv/pvc-00000000-0000-4000-8000-000000000004": {
+      "metadata": {
+        "uid": "00000000-0000-4000-8000-000000000005"
+      },
+      "spec": {
+        "persistentVolumeReclaimPolicy": "Retain",
+        "claimRef": {
+          "namespace": "kelryvo",
+          "name": "kelryvo-postgresql-data",
+          "uid": "00000000-0000-4000-8000-000000000004"
+        }
+      }
+    },
+    "pvc/kelryvo-postgresql-data": {
+      "metadata": {
+        "uid": "00000000-0000-4000-8000-000000000004"
+      },
+      "spec": {
+        "volumeName": "pvc-00000000-0000-4000-8000-000000000004"
+      },
+      "status": {
+        "phase": "Bound"
+      }
+    },
+    "secret/kelryvo-postgresql": {
+      "metadata": {
+        "uid": "00000000-0000-4000-8000-000000000006"
+      },
+      "type": "Opaque",
+      "data": {
+        "app-password": "YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYQ==",
+        "admin-password": "YmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYg=="
+      }
+    },
+    "endpoints/kelryvo-postgresql": {
+      "subsets": [
+        {
+          "addresses": [
+            {
+              "ip": "10.0.0.8",
+              "targetRef": {
+                "uid": "00000000-0000-4000-8000-000000000003"
+              }
+            }
+          ],
+          "ports": [
+            {
+              "port": 5432,
+              "protocol": "TCP"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "clusterConfig": {
+    "server": "https://kubernetes.example.test:6443",
+    "caData": "bWFuYWdlZC1wZy10ZXN0LWNh",
+    "caPath": "",
+    "insecure": ""
+  },
+  "secretUid": "00000000-0000-4000-8000-000000000006",
+  "podUid": "00000000-0000-4000-8000-000000000003",
+  "statefulSetUid": "00000000-0000-4000-8000-000000000001"
+}

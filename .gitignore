@@ -27,3 +27,12 @@ coverage.xml
 junit.xml
 lcov.info
 __pycache__/
+
+# Derived parser output belongs to Cargo OUT_DIR, never source control.
+crates/kelryvo-oracle-grammar/src/generated/
+crates/kelryvo-oracle-grammar/grammar/PlSqlLexer.g4
+crates/kelryvo-oracle-grammar/grammar/PlSqlParser.g4
+crates/kelryvo-oracle-grammar/grammar/provenance.json
+# Frozen contract inputs are stored as hash-verified gzip archives.
+tests/fixtures/contracts/*.json
+!tests/fixtures/contracts/provenance.json

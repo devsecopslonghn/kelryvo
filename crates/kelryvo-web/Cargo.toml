@@ -1,0 +1,23 @@
+[package]
+name = "kelryvo-web"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license-file = "../../LICENSE"
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+kelryvo-core = { path = "../kelryvo-core" }
+serde_json.workspace = true
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+js-sys = "=0.3.107"
+wasm-bindgen = "=0.2.130"
+wasm-bindgen-futures = "=0.4.80"
+web-sys = { version = "=0.3.107", features = ["Window", "Crypto", "Document", "Element", "HtmlElement", "HtmlInputElement", "HtmlTextAreaElement", "HtmlSelectElement", "HtmlAnchorElement", "Blob", "BlobPropertyBag", "Url", "UrlSearchParams", "Node", "NodeList", "Event", "KeyboardEvent", "BeforeUnloadEvent", "EventTarget", "Request", "RequestInit", "RequestCredentials", "RequestRedirect", "Response", "Headers", "Location", "History", "DomTokenList"] }
+
+[lints]
+workspace = true

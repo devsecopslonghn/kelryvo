@@ -1,0 +1,60 @@
+[[helper]]
+kind = "parser-predicate"
+name = "is_last_sql_solidus"
+returns = "bool"
+lower = "hook"
+
+[[helper]]
+kind = "parser-predicate"
+name = "is_solidus_separator"
+returns = "bool"
+lower = "hook"
+
+[[helper]]
+kind = "parser-predicate"
+name = "is_version_10"
+returns = "bool"
+lower = "hook"
+
+[[helper]]
+kind = "parser-predicate"
+name = "is_version_11"
+returns = "bool"
+lower = "hook"
+
+[[helper]]
+kind = "parser-predicate"
+name = "is_version_12"
+returns = "bool"
+lower = "hook"
+
+[[helper]]
+kind = "parser-predicate"
+name = "is_not_numeric_function"
+returns = "bool"
+lower = "hook"
+
+[[helper]]
+kind = "parser-predicate"
+name = "is_not_start_of_join"
+returns = "bool"
+lower = "hook"
+
+[[helper]]
+kind = "parser-action"
+name = "set_last_unit_sql"
+returns = "unit"
+lower = "hook"
+
+[[helper]]
+kind = "parser-action"
+name = "set_last_unit_plsql"
+returns = "unit"
+lower = "hook"
+
+[[helper]]
+kind = "lexer-predicate"
+name = "is_newline_at_pos"
+arguments = "integer"
+returns = "bool"
+lower = "hook"

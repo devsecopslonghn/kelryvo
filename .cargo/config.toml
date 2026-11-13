@@ -1,0 +1,7 @@
+[alias]
+repository = "run --locked -p kelryvo-cli --bin kelryvo-repository --"
+check-delivery = "run --locked -p kelryvo-cli --bin kelryvo-repository -- check-delivery"
+native-test = "run --locked -p kelryvo-test-tools --bin kelryvo-test --"
+build-web = "run --locked -p kelryvo-cli --bin kelryvo -- build-web"
+parser-compatibility = "test --locked -p kelryvo-parser -p kelryvo-oracle-grammar"
+parser-performance = "test --release --locked -p kelryvo-parser --test performance -- --ignored --nocapture"

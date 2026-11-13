@@ -1,0 +1,45 @@
+[package]
+name = "kelryvo-server"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license-file = "../../LICENSE"
+publish.workspace = true
+
+[dependencies]
+axum = "0.8"
+axum-server = { version = "0.8", default-features = false, features = ["tls-rustls-no-provider"] }
+chrono.workspace = true
+kelryvo-core = { path = "../kelryvo-core" }
+kelryvo-discovery = { path = "../kelryvo-discovery" }
+kelryvo-parser = { path = "../kelryvo-parser" }
+kelryvo-vault = { path = "../kelryvo-vault" }
+libc = "0.2"
+base64.workspace = true
+openssl.workspace = true
+openidconnect = { version = "=4.0.1", default-features = false }
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "stream"] }
+ldap3 = { version = "=0.12.1", default-features = false, features = ["tls-native"] }
+native-tls = "0.2"
+rand = "0.8"
+rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12"] }
+scrypt = { version = "0.11", default-features = false, features = ["std"] }
+serde.workspace = true
+serde_json = { workspace = true, features = ["raw_value"] }
+sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio-rustls", "postgres", "json", "uuid", "chrono"] }
+subtle = "2"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "signal", "fs", "sync", "time", "process", "io-util"] }
+tower-http = { version = "0.6", features = ["fs", "limit"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+url = "2"
+regex.workspace = true
+zeroize.workspace = true
+
+
+[dev-dependencies]
+kelryvo-fixtures = { path = "../kelryvo-fixtures" }
+tower = { version = "0.5", features = ["util"] }
+kelryvo-runtime = { path = "../kelryvo-runtime" }
+
+[lints]
+workspace = true

@@ -1,0 +1,38 @@
+[package]
+name = "kelryvo-operator"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license-file = "../../LICENSE"
+publish.workspace = true
+
+[dependencies]
+kelryvo-core = { path = "../kelryvo-core" }
+kelryvo-server = { path = "../kelryvo-server" }
+kelryvo-runtime = { path = "../kelryvo-runtime" }
+kelryvo-vault = { path = "../kelryvo-vault" }
+serde_json.workspace = true
+serde.workspace = true
+chrono.workspace = true
+sha2.workspace = true
+libc = "0.2"
+base64.workspace = true
+nix = { version = "0.30", default-features = false, features = ["signal", "process", "fs", "term", "user"] }
+rand = "0.8"
+openssl.workspace = true
+url = "2"
+percent-encoding = "2"
+sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio-rustls", "postgres", "uuid", "json"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "process", "io-util", "time", "sync"] }
+uuid = "1"
+zeroize.workspace = true
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+kelryvo-fixtures = { path = "../kelryvo-fixtures" }
+regex.workspace = true
+axum = "0.8"
+tower = { version = "0.5", features = ["util"] }
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"] }

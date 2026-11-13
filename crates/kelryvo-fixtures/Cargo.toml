@@ -1,0 +1,15 @@
+[package]
+name = "kelryvo-fixtures"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license-file = "../../LICENSE"
+publish.workspace = true
+
+[dependencies]
+flate2 = { version = "=1.1.11", default-features = false, features = ["rust_backend"] }
+kelryvo-core = { path = "../kelryvo-core" }
+serde_json.workspace = true
+
+[lints]
+workspace = true

@@ -3,21 +3,28 @@
 Self-hosted Database DevOps and governance, with Oracle as the initial target.
 
 Install a customer pilot with [CUSTOMER-GUIDE.md](CUSTOMER-GUIDE.md).
-Read [CHECKLIST.md](CHECKLIST.md) for scope, delivery policy and engineering status.
+Read [CHECKLIST.md](CHECKLIST.md) for scope, delivery policy and migration status.
 
-Engineering checkout requires Node 22.23.3, npm 10.9.9 and Python 3.11+:
+The application lives in `crates/`: native Rust API, workers, operators, parser
+and Rust/WASM UI. The Dockerfile builds the native runtime. The companion Helm
+migration patch is in `deploy/`; release and Oracle qualification remain scoped
+as recorded in the checklist.
 
 ```sh
-npm ci --ignore-scripts --no-audit --no-fund
-npm run check
-npm run next
+cargo build --workspace --locked
+cargo run --locked -p kelryvo-test-tools --bin kelryvo-test --
 ```
 
-`npm run check` runs bounded delivery checks without PostgreSQL, JDK or Chromium.
-Full offline coverage is explicit: `npm run check:full`. Broad API/browser/parser
-and install acceptance run separately on schedule or manually and do not gate
-routine delivery. Exact-image smoke, security and artifact integrity remain required.
-See the checklist for source-install commands and the Oracle support boundary.
+Use the pinned Rust toolchain, PostgreSQL tools and Git for native checks.
+Run `cargo fetch --locked`, then `cargo check-delivery` for source/contracts/dependency
+checks. `cargo native-test --browser-product-only` runs the Rust browser fixture;
+install its pinned browser with `cargo native-test --install-browser`.
+Development, browser and opt-in lab drivers use Rust.
+Hash-verified compressed contracts are in `tests/fixtures/contracts/`; parser fixtures
+are in `tests/fixtures/parser/`.
 
-Code: `apps/`, `packages/`. Checks: `tests/`, `scripts/`, `.github/workflows/`.
-Temporary outputs stay in ignored `.cache/`; retain licenses, notices and parser provenance.
+Checkout startup: `target/debug/kelryvo dev`; pilot commands: `target/debug/kelryvo pilot --help`.
+Build a local image with `docker build --target app -t kelryvo:rust-local .`.
+
+Temporary outputs stay in ignored `.cache/`; retain licenses and parser provenance.
+Cargo generates parser sources in `OUT_DIR`; generated files stay outside Git.

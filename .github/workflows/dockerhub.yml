@@ -11,6 +11,12 @@ on:
 permissions:
   contents: read
 
+env:
+  CARGO_PROFILE_DEV_DEBUG: '0'
+  CARGO_PROFILE_TEST_DEBUG: '0'
+  CARGO_INCREMENTAL: '0'
+  CARGO_BUILD_JOBS: '4'
+
 concurrency:
   group: kelryvo-dockerhub-master
   cancel-in-progress: false
@@ -28,12 +34,15 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      - uses: ./.github/actions/native-rust
         with:
-          node-version-file: .nvmrc
+          key: delivery-tools
+      - name: Build the pinned native publication gate
+        run: |
+          cargo build -p kelryvo-cli -p kelryvo-test-tools --locked
       - id: gate
         name: Require exact successful source CI and CodeQL
-        run: node scripts/container-publication-gate.mjs --require
+        run: target/debug/kelryvo delivery gate --require
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
@@ -48,11 +57,7 @@ jobs:
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-        run: |
-          set -euo pipefail
-          umask 077
-          test -n "$DOCKERHUB_USERNAME" && test -n "$DOCKERHUB_TOKEN"
-          printf '%s' "$DOCKERHUB_TOKEN" | skopeo login --authfile "$RUNNER_TEMP/kelryvo-dockerhub-auth.json" --username "$DOCKERHUB_USERNAME" --password-stdin docker.io
+        run: target/debug/kelryvo-test --ci dockerhub-login
       - name: Publish tested index and verify both platforms anonymously
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -61,7 +66,7 @@ jobs:
           OCI_ATTEMPT: ${{ steps.gate.outputs.oci_attempt }}
           TARGET_REPOSITORY: ${{ inputs.repository }}
         run: |
-          node scripts/publish-dockerhub.mjs --source-sha "$SOURCE_SHA" --oci-run "$OCI_RUN" --oci-attempt "$OCI_ATTEMPT" --archive dist/oci/kelryvo-app.tar --repository "$TARGET_REPOSITORY" --authfile "$RUNNER_TEMP/kelryvo-dockerhub-auth.json" --report "$RUNNER_TEMP/kelryvo-dockerhub-publication.json"
+          target/debug/kelryvo delivery dockerhub --source-sha "$SOURCE_SHA" --oci-run "$OCI_RUN" --oci-attempt "$OCI_ATTEMPT" --archive dist/oci/kelryvo-app.tar --repository "$TARGET_REPOSITORY" --authfile "$RUNNER_TEMP/kelryvo-dockerhub-auth.json" --report "$RUNNER_TEMP/kelryvo-dockerhub-publication.json"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: dockerhub-publication-${{ github.sha }}
@@ -69,4 +74,4 @@ jobs:
           if-no-files-found: error
       - if: always()
         name: Remove the private registry session
-        run: rm -f "$RUNNER_TEMP/kelryvo-dockerhub-auth.json"
+        run: target/debug/kelryvo-test --ci dockerhub-logout
