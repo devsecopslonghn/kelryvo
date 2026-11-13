@@ -225,6 +225,7 @@ async fn run() -> Result<(), Event> {
 }
 #[tokio::main]
 async fn main() -> ExitCode {
+    kelryvo_core::initialize_build_identity!();
     match run().await {
         Ok(()) => ExitCode::SUCCESS,
         Err(event) => {

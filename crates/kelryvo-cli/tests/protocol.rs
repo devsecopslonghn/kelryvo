@@ -21,6 +21,22 @@ fn invoke(input: &[u8]) -> std::process::Output {
 }
 
 #[test]
+fn runtime_environment_cannot_replace_the_compiled_artifact_identity() {
+    let read = |forged: bool| {
+        let mut command = Command::new(env!("CARGO_BIN_EXE_kelryvo"));
+        command.arg("--build-info");
+        if forged {
+            command.env("KELRYVO_SOURCE_SHA", "f".repeat(40));
+            command.env("KELRYVO_SOURCE_TREE_DIGEST", "e".repeat(64));
+        }
+        let output = command.output().expect("compiled identity probe");
+        assert!(output.status.success());
+        serde_json::from_slice::<serde_json::Value>(&output.stdout).unwrap()
+    };
+    assert_eq!(read(false), read(true));
+}
+
+#[test]
 fn multiple_requests_are_processed_without_a_node_runtime() {
     let output = invoke(b"{\"op\":\"isApplicationOwner\",\"owner\":\"APP\"}\n{\"op\":\"isApplicationOwner\",\"owner\":\"SYS\"}\n");
     assert!(output.status.success());

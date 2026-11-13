@@ -65,6 +65,7 @@ fn run(root: &Path, args: &[String]) -> Result<()> {
 }
 
 fn main() -> ExitCode {
+    kelryvo_core::initialize_build_identity!();
     // Like the previous tools, resolve against the source checkout rather than
     // accepting an arbitrary directory or inheriting a caller's current path.
     let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");

@@ -392,6 +392,7 @@ async fn run() -> Result<(), OperatorUnavailable> {
 
 #[tokio::main]
 async fn main() -> ExitCode {
+    kelryvo_core::initialize_build_identity!();
     match run().await {
         Ok(()) => ExitCode::SUCCESS,
         Err(_) => {

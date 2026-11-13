@@ -216,6 +216,7 @@ fn run() -> Result<()> {
     }
 }
 fn main() -> ExitCode {
+    kelryvo_core::initialize_build_identity!();
     match run() {
         Ok(()) => ExitCode::SUCCESS,
         Err(_) => {

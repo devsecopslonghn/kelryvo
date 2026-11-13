@@ -26,6 +26,19 @@ lto = false
 codegen-units = 16
 strip = "debuginfo"
 
+# CI verifiers hash complete native distributions and OCI layers. Keep SHA-256
+# optimized while retaining the development/test assertions of their callers.
+[profile.dev.package.sha2]
+opt-level = 3
+
+# Exercise the unchanged production scrypt parameters within browser deadlines.
+# Unoptimized Salsa20 rounds otherwise dominate the native password fixtures.
+[profile.dev.package.scrypt]
+opt-level = 3
+
+[profile.dev.package.salsa20]
+opt-level = 3
+
 [workspace.lints.rust]
 unsafe_code = "forbid"
 

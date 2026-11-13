@@ -2,11 +2,12 @@
 //! by CI. It is deliberately absent from the shipped application distribution.
 mod container_probe;
 fn main() -> std::process::ExitCode {
+    kelryvo_core::initialize_build_identity!();
     let args: Vec<String> = std::env::args().skip(1).collect();
     if args == ["--build-info"] {
         println!(
             "{}",
-            serde_json::json!({"format":1,"implementation":"RUST","kind":"CONTAINER_TEST_PROBE","architecture":std::env::consts::ARCH,"sourceSha":kelryvo_core::build_identity::SOURCE_SHA,"probeSourceSha256":kelryvo_core::sha256(include_bytes!("container_probe.rs"))})
+            serde_json::json!({"format":1,"implementation":"RUST","kind":"CONTAINER_TEST_PROBE","architecture":std::env::consts::ARCH,"sourceSha":kelryvo_core::build_identity::source_sha(),"probeSourceSha256":kelryvo_core::sha256(include_bytes!("container_probe.rs"))})
         );
         return std::process::ExitCode::SUCCESS;
     }

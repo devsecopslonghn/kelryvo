@@ -189,6 +189,7 @@ fn core() -> Result<(), ()> {
 }
 
 fn main() -> ExitCode {
+    kelryvo_core::initialize_build_identity!();
     let args: Vec<_> = env::args().skip(1).collect();
     match args.as_slice() {
         [mode, rest @ ..] if mode == "delivery" => delivery::command(rest),

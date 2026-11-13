@@ -253,6 +253,26 @@ async fn run_in(_context: &Context, server: &mut Server, database: &str) -> Resu
     // Screenshots of password fields could retain sensitive fixture inputs;
     // report only the failing stage through the native driver's fixed errors.
     if result.is_err() {
+        // Only closed status/count facts are safe to retain. Page text, DOM,
+        // request bodies, browser exceptions and screenshots may contain secrets.
+        if let Ok(failed) = browser.failed_responses(&page) {
+            let password_statuses = failed
+                .as_array()
+                .map(|rows| {
+                    rows.iter()
+                        .filter(|row| row[0] == "/api/account/password")
+                        .filter_map(|row| row[1].as_u64())
+                        .collect::<Vec<_>>()
+                })
+                .unwrap_or_default();
+            eprintln!(
+                "Password fixture response statuses: {password_statuses:?}; page exception present: {}",
+                !browser.exceptions.is_empty()
+            );
+        }
+        if let Ok(changes) = audit().await {
+            eprintln!("Password fixture retained change audit count: {changes}");
+        }
         let _ = browser.close_page(&page);
     }
     pool.close().await;

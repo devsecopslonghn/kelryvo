@@ -41,6 +41,7 @@ mod transport;
 mod workflows;
 #[tokio::main]
 async fn main() -> std::process::ExitCode {
+    kelryvo_core::initialize_build_identity!();
     let mut terminate =
         match tokio::signal::unix::signal(tokio::signal::unix::SignalKind::terminate()) {
             Ok(signal) => signal,

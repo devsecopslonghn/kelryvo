@@ -1,5 +1,6 @@
 #[tokio::main]
 async fn main() -> std::process::ExitCode {
+    kelryvo_core::initialize_build_identity!();
     let args: Vec<_> = std::env::args().skip(1).collect();
     let result = async {
         let [mode] = args.as_slice() else {

@@ -511,8 +511,8 @@ pub(crate) fn verify_artifacts(
                 if identity["sourceSha"] != source_commit {
                     return Err(Unavailable);
                 }
-                if kelryvo_core::build_identity::SOURCE_SHA != "local-unpublished"
-                    && kelryvo_core::build_identity::SOURCE_TREE_DIGEST
+                if kelryvo_core::build_identity::source_sha() != Some("local-unpublished")
+                    && kelryvo_core::build_identity::source_tree_digest()
                         .is_some_and(|digest| identity["sourceTreeDigest"] != digest)
                 {
                     return Err(Unavailable);
