@@ -203,7 +203,9 @@ pub(super) fn installed(root: &Path) -> Result<()> {
     {
         return Err("Pinned WASM standard library is unavailable".into());
     }
-    println!("PASS: installed Rust/Cargo 1.99.1, WASM standard library and wasm-bindgen 0.2.130");
+    println!(
+        "PASS: installed Rust/Cargo 1.99.1, WASM standard library, wasm-bindgen 0.2.130 and sccache 0.19.0"
+    );
     Ok(())
 }
 #[cfg(test)]
@@ -219,7 +221,9 @@ mod tests {
         let docker = fs::read_to_string(root.join("Dockerfile")).unwrap();
         let rows = validate(&pins, &docker).unwrap();
         assert_eq!(rows.len(), 12);
-        assert!(validate(&pins, &docker.replace(&rows[0].1, &"0".repeat(64))).is_err());
+        for (_, digest, _) in &rows {
+            assert!(validate(&pins, &docker.replace(digest, &"0".repeat(64))).is_err());
+        }
         assert!(
             validate(
                 &pins,

@@ -582,8 +582,24 @@ pub async fn run(args: Vec<String>) -> Result<()> {
                 .await?;
         }
         "--runtime-only" => {
+            // Match build-dist's feature graph on the first compilation; a
+            // CLI-only bootstrap otherwise rebuilds the grammar and native
+            // dependencies when the runtime bundle adds the other programs.
             context
-                .cargo(&["build", "--locked", "-p", "kelryvo-cli"])
+                .cargo(&[
+                    "build",
+                    "--locked",
+                    "-p",
+                    "kelryvo-cli",
+                    "-p",
+                    "kelryvo-server",
+                    "-p",
+                    "kelryvo-worker",
+                    "-p",
+                    "kelryvo-operator",
+                    "-p",
+                    "kelryvo-launcher",
+                ])
                 .await?;
             context
                 .cargo(&[

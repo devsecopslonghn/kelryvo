@@ -22,19 +22,7 @@ concurrency:
 # dependency; failures remain visible without stopping independent delivery.
 
 jobs:
-  changes:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 2
-    outputs:
-      needed: ${{ steps.select.outputs.needed }}
-    steps:
-      - id: select
-        name: Select native security and data-boundary fixtures
-        run: echo 'needed=true' >> "$GITHUB_OUTPUT"
-
   focused:
-    needs: changes
-    if: needs.changes.outputs.needed == 'true'
     strategy:
       fail-fast: false
       matrix:
@@ -62,13 +50,11 @@ jobs:
   # Keep failures visible; this scheduled/manual workflow is advisory.
   product:
     if: always()
-    needs: [changes, focused]
+    needs: focused
     runs-on: ubuntu-24.04
     timeout-minutes: 2
     env:
-      CHANGES_RESULT: ${{ needs.changes.result }}
       FOCUSED_RESULT: ${{ needs.focused.result }}
     steps:
       - run: |
-          test "$CHANGES_RESULT" = success
           test "$FOCUSED_RESULT" = success
