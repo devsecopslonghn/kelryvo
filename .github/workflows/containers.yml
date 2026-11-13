@@ -116,7 +116,9 @@ jobs:
           sbom: false
           outputs: type=local,dest=.cache/native-container-tools
           cache-from: type=gha,scope=${{ steps.image-cache.outputs.scope }}
-      - name: Verify the exact platform, runtime boundaries and installed customer pilot
+      # --ci-image runs the complete --container contract before the runtime
+      # and pilot checks, using the same verified immutable image ID throughout.
+      - name: Verify the exact image contract, runtime boundaries and installed customer pilot
         env:
           TARGET_ARCH: ${{ matrix.arch }}
           KELRYVO_CONTAINER_PROBE: ${{ github.workspace }}/.cache/native-container-tools/kelryvo-container-probe

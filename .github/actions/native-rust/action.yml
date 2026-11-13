@@ -71,8 +71,25 @@ runs:
         shared-key: ${{ inputs.key }}
         cache-workspace-crates: 'true'
         cache-all-crates: 'true'
+    - name: Restore the source-keyed host grammar generator
+      id: grammar-generator
+      uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+      with:
+        path: ~/.cache/kelryvo-build-tools/oracle-codegen-1.99.1
+        # Exact keys only: never reuse a binary from different generator inputs.
+        key: oracle-codegen-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('tools/oracle-codegen/**', 'rust-toolchain.toml') }}-v1
     - name: Fetch the separately locked host generator
       shell: bash
       run: cargo fetch --locked --manifest-path tools/oracle-codegen/Cargo.toml
+    - name: Compile the host generator only on a cache miss
+      if: steps.grammar-generator.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        cargo build --locked --manifest-path tools/oracle-codegen/Cargo.toml --target-dir "$RUNNER_TEMP/oracle-codegen"
+        mkdir -p "$HOME/.cache/kelryvo-build-tools/oracle-codegen-1.99.1"
+        cp "$RUNNER_TEMP/oracle-codegen/debug/kelryvo-grammar-codegen" "$HOME/.cache/kelryvo-build-tools/oracle-codegen-1.99.1/kelryvo-grammar-codegen"
+    - name: Use the cached generator with independent output hash verification
+      shell: bash
+      run: printf 'KELRYVO_GRAMMAR_CODEGEN=%s\n' "$HOME/.cache/kelryvo-build-tools/oracle-codegen-1.99.1/kelryvo-grammar-codegen" >> "$GITHUB_ENV"
     # GitHub cache visibility isolates branch/PR writes from protected master.
     # Credentials, private PostgreSQL and runtime fixtures are never cached.
