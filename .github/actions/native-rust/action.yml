@@ -15,7 +15,7 @@ runs:
           sudo apt-get install -y --no-install-recommends libffi-dev pkg-config
         fi
     - id: toolchain
-      uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+      uses: ./.github/actions/master-cache
       with:
         path: |
           ~/.rustup/toolchains/1.99.1-*
@@ -54,7 +54,7 @@ runs:
         printf 'SCCACHE_DIR=%s\n' "$HOME/.cache/kelryvo-sccache" >> "$GITHUB_ENV"
         printf 'SCCACHE_SERVER_UDS=%s\n' "$RUNNER_TEMP/kelryvo-sccache.sock" >> "$GITHUB_ENV"
         printf 'SCCACHE_CACHE_SIZE=512M\n' >> "$GITHUB_ENV"
-    - uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+    - uses: ./.github/actions/master-cache
       with:
         path: ~/.cache/kelryvo-sccache
         # Compiler entries already include the complete Rust compilation inputs.
@@ -71,9 +71,10 @@ runs:
         shared-key: ${{ inputs.key }}
         cache-workspace-crates: 'true'
         cache-all-crates: 'true'
+        save-if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
     - name: Restore the source-keyed host grammar generator
       id: grammar-generator
-      uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+      uses: ./.github/actions/master-cache
       with:
         path: ~/.cache/kelryvo-build-tools/oracle-codegen-1.99.1
         # Exact keys only: never reuse a binary from different generator inputs.

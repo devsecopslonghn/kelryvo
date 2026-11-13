@@ -1,0 +1,33 @@
+name: Shared master cache
+description: Restore trusted master inputs everywhere; save only on a master push.
+inputs:
+  path:
+    description: Public build inputs and artifacts to cache.
+    required: true
+  key:
+    description: Exact cache key for these inputs.
+    required: true
+  restore-keys:
+    description: Optional fallback key prefixes.
+    default: ''
+outputs:
+  cache-hit:
+    description: Whether the exact key was restored.
+    value: ${{ steps.master.outputs.cache-hit || steps.reader.outputs.cache-hit }}
+runs:
+  using: composite
+  steps:
+    - id: master
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+      with:
+        path: ${{ inputs.path }}
+        key: ${{ inputs.key }}
+        restore-keys: ${{ inputs.restore-keys }}
+    - id: reader
+      if: github.event_name != 'push' || github.ref != 'refs/heads/master'
+      uses: actions/cache/restore@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+      with:
+        path: ${{ inputs.path }}
+        key: ${{ inputs.key }}
+        restore-keys: ${{ inputs.restore-keys }}

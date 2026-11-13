@@ -101,8 +101,8 @@ jobs:
           sbom: false
           outputs: type=oci,dest=dist/oci/app-${{ matrix.arch }}.tar
           cache-from: type=gha,scope=${{ steps.image-cache.outputs.scope }}
-          # GitHub ref isolation prevents a PR cache from becoming master input.
-          cache-to: type=gha,scope=${{ steps.image-cache.outputs.scope }},mode=max,ignore-error=true,timeout=1m
+          # PRs consume trusted master layers without writing duplicate caches.
+          cache-to: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && format('type=gha,scope={0},mode=max,ignore-error=true,timeout=1m', steps.image-cache.outputs.scope) || '' }}
       - name: Build the disposable probe against the image's native libc
         uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
         with:

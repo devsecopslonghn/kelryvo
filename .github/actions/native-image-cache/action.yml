@@ -12,7 +12,7 @@ runs:
   using: composite
   steps:
     - id: cargo
-      uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+      uses: ./.github/actions/master-cache
       with:
         path: .cache/docker-cargo
         # The compiler cache is capped at 512 MiB. Never export target/:
@@ -25,7 +25,7 @@ runs:
       with:
         scratch-dir: .cache/cache-dance
         utility-image: debian:bookworm-slim@sha256:7c7b2c966bc9ee8cedfeef67e0e279108992c77681fa595db4a9d65c06ccc587
-        skip-extraction: ${{ steps.cargo.outputs.cache-hit == 'true' }}
+        skip-extraction: ${{ steps.cargo.outputs.cache-hit == 'true' || github.event_name != 'push' || github.ref != 'refs/heads/master' }}
         cache-map: |
           {
             ".cache/docker-cargo/compiler": {
