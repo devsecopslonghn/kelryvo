@@ -101,73 +101,7 @@ jobs:
           export PATH="/usr/lib/postgresql/16/bin:$PATH"
           cargo run --locked -p kelryvo-test-tools --bin kelryvo-test -- --runtime-only
 
-  rust-image:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - arch: amd64
-            runner: ubuntu-24.04
-          - arch: arm64
-            runner: ubuntu-24.04-arm
-    runs-on: ${{ matrix.runner }}
-    timeout-minutes: 45
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-        with:
-          persist-credentials: false
-      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
-        with:
-          cleanup: false # The hosted runner is disposable; save teardown latency.
-      - uses: ./.github/actions/native-rust
-        with:
-          key: host-image-${{ matrix.arch }}
-      - name: Build the native verifier and calculate the source inventory hint
-        id: source
-        run: |
-          cargo build --locked -p kelryvo-cli -p kelryvo-test-tools
-          native_tree=$(target/debug/kelryvo source-tree-digest)
-          printf 'tree=%s\n' "$native_tree" >> "$GITHUB_OUTPUT"
-      - uses: ./.github/actions/native-image-cache
-        id: image-cache
-        with:
-          architecture: ${{ matrix.arch }}
-      - name: Build the native application without publishing
-        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
-        with:
-          context: .
-          file: Dockerfile
-          target: app
-          platforms: linux/${{ matrix.arch }}
-          build-args: |
-            KELRYVO_REVISION=${{ github.sha }}
-            KELRYVO_SOURCE_TREE_DIGEST=${{ steps.source.outputs.tree }}
-          tags: kelryvo-rust:candidate
-          load: true
-          push: false
-          provenance: false
-          sbom: false
-          cache-from: type=gha,scope=${{ steps.image-cache.outputs.scope }}
-          # OCI verification owns writes; parallel source checks only read cache.
-      - name: Build the disposable native inventory probe against the image libc
-        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
-        with:
-          context: .
-          platforms: linux/${{ matrix.arch }}
-          build-args: |
-            KELRYVO_REVISION=${{ github.sha }}
-            KELRYVO_SOURCE_TREE_DIGEST=${{ steps.source.outputs.tree }}
-          target: container-test-tools
-          provenance: false
-          sbom: false
-          outputs: type=local,dest=.cache/native-container-tools
-          cache-from: type=gha,scope=${{ steps.image-cache.outputs.scope }}
-      - name: Verify the exact local native image contract
-        env:
-          TARGET_ARCH: ${{ matrix.arch }}
-          SOURCE_REVISION: ${{ github.sha }}
-          KELRYVO_CONTAINER_PROBE: ${{ github.workspace }}/.cache/native-container-tools/kelryvo-container-probe
-        run: target/debug/kelryvo-test --container kelryvo-rust:candidate "$TARGET_ARCH" "$SOURCE_REVISION"
+  # containers.yml owns both native image builds and their full contracts.
 
   foundation:
     runs-on: ubuntu-24.04
