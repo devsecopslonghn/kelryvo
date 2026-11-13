@@ -231,7 +231,7 @@ async fn state(pool: &PgPool, job: Uuid) -> (String, i64, i64, i64) {
     sqlx::query_as("SELECT state,(SELECT count(*) FROM sf_execution_admission_proofs WHERE job_id=j.id),(SELECT count(*) FROM sf_execution_attempts WHERE job_id=j.id),(SELECT count(*) FROM sf_execution_receipts WHERE job_id=j.id) FROM sf_execution_jobs j WHERE id=$1").bind(job).fetch_one(pool).await.expect("durable state")
 }
 #[tokio::test]
-#[ignore = "requires private PostgreSQL from scripts/test-rust.sh --worker-only"]
+#[ignore = "requires private PostgreSQL from kelryvo-test --worker-only"]
 async fn native_request_admission_dispatch_journal_noop_and_unknown_ack_hold() {
     let url = std::env::var("KELRYVO_RUST_TEST_DATABASE_URL").expect("private PostgreSQL");
     assert!(url.starts_with("postgresql:///kelryvo_rust_test?host="));

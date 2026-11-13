@@ -13,7 +13,7 @@ use uuid::Uuid;
 mod recovery;
 
 #[tokio::test]
-#[ignore = "requires the private PostgreSQL fixture from scripts/test-rust.sh"]
+#[ignore = "requires the private PostgreSQL fixture from kelryvo-test"]
 async fn actual_operator_binary_retains_credentials_and_audits_explicit_membership() {
     let url = std::env::var("KELRYVO_RUST_TEST_DATABASE_URL").expect("private PostgreSQL test URL");
     assert!(url.starts_with("postgresql:///kelryvo_rust_test?host="));

@@ -39,7 +39,7 @@ fn reference(input: Value) -> Value {
 impl Fixture {
     async fn new() -> Self {
         let url = std::env::var("KELRYVO_RUST_TEST_DATABASE_URL")
-            .expect("use scripts/test-rust.sh --identity-api-only");
+            .expect("use kelryvo-test --identity-api-only");
         assert!(url.starts_with("postgresql:///kelryvo_rust_test?host="));
         let pool = connect(&url).await.unwrap();
         initialize(&pool).await.unwrap();
@@ -160,7 +160,7 @@ fn update(provider: &Value) -> Value {
 }
 
 #[tokio::test]
-#[ignore = "requires scripts/test-rust.sh private PostgreSQL"]
+#[ignore = "requires kelryvo-test private PostgreSQL"]
 async fn native_identity_governance_matches_retained_handlers_and_revocation_boundaries() {
     let f = Fixture::new().await;
     let base = "/api/identity/providers";

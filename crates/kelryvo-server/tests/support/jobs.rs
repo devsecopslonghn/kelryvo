@@ -394,9 +394,13 @@ pub async fn run(pool: &PgPool, project: Uuid) {
             .expect("expired lease")
             .is_none()
     );
+    // Two independent clients still race for the same expired lease. Give
+    // them the recorded recovery actor so downstream frozen history contracts
+    // do not depend on which client the PostgreSQL scheduler runs first.
+    let recovery = f.store("another-recovery-owner");
     let other = f.store("another-recovery-owner");
     let (a, b) = tokio::join!(
-        store.recover_expired(expired, None),
+        recovery.recover_expired(expired, None),
         other.recover_expired(expired, None)
     );
     assert_ne!(a.expect("recovery A"), b.expect("recovery B"));

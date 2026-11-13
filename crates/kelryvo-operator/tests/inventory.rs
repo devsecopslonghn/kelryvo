@@ -56,7 +56,7 @@ async fn counts(f: &Fixture) -> Value {
     sqlx::query_scalar("SELECT jsonb_build_array((SELECT count(*) FROM sf_reference_databases),(SELECT count(*) FROM sf_reference_containers),(SELECT count(*) FROM sf_reference_services),(SELECT count(*) FROM sf_reference_schemas),(SELECT count(*) FROM sf_reference_assignments),(SELECT count(*) FROM sf_reference_operator_audit),(SELECT count(*) FROM sf_target_lineages),(SELECT count(*) FROM sf_target_streams),(SELECT count(*) FROM sf_target_options),(SELECT count(*) FROM sf_target_option_revisions),(SELECT count(*) FROM sf_execution_jobs),(SELECT count(*) FROM sf_execution_attempts))").fetch_one(&f.pool).await.unwrap()
 }
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
-#[ignore = "requires scripts/test-rust.sh --inventory-only private PostgreSQL"]
+#[ignore = "requires kelryvo-test --inventory-only private PostgreSQL"]
 async fn native_inventory_preserves_catalog_cas_options_and_operator_boundaries() {
     let f = Fixture::new().await;
     let org = kelryvo_server::ORG_UUID;

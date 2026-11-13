@@ -44,15 +44,13 @@ pub async fn run(pool: &PgPool, source_project: Uuid) {
         sqlx::query("INSERT INTO sf_project_grants(organization_id,project_id,actor_id,grant_os_uid) VALUES($1,$2,$3,1000)").bind(ORG_UUID).bind(project).bind(actor).execute(pool).await.expect("explicit fixture grant");
     }
     sqlx::query("INSERT INTO sf_environments(organization_id,project_id,name) VALUES($1,$2,'Private request environment')").bind(ORG_UUID).bind(project).execute(pool).await.expect("environment");
-    let fixture = std::process::Command::new("node")
-        .arg(
-            std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-                .join("../../scripts/seed-rust-fixture.mjs"),
-        )
-        .arg("target")
-        .env("KELRYVO_RUST_TEST_PROJECT_ID", project.to_string())
-        .output()
-        .expect("scoped retained target fixture");
+    let fixture = std::process::Command::new(
+        std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../target/debug/kelryvo-fixture"),
+    )
+    .arg("target")
+    .env("KELRYVO_RUST_TEST_PROJECT_ID", project.to_string())
+    .output()
+    .expect("scoped retained target fixture");
     assert!(fixture.status.success(), "private target fixture");
     let binding:Value=sqlx::query_scalar("SELECT to_jsonb(r)||jsonb_build_object('binding_revision',b.current_revision::text) FROM sf_target_bindings b JOIN sf_target_binding_revisions r ON r.binding_id=b.id AND r.revision=b.current_revision WHERE b.project_id=$1").bind(project).fetch_one(pool).await.expect("native-readable binding");
     let release:Uuid=sqlx::query_scalar("INSERT INTO sf_releases(organization_id,project_id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,parser_profile,files) SELECT organization_id,$1,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,parser_profile,files FROM sf_releases WHERE project_id=$2 ORDER BY created_at,id LIMIT 1 RETURNING id").bind(project).bind(source_project).fetch_one(pool).await.expect("source snapshot fixture");

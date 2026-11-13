@@ -1,0 +1,27 @@
+{
+  "format": 1,
+  "scope": "HISTORICAL_NODE_DEVELOPMENT_TOOLS_NOT_REQUIRED_OR_SHIPPED",
+  "retainedLockfile": "docs/dependencies/retired-node-test-tools.lock.json",
+  "replacement": "Native Rust tools use Cargo.lock and docs/dependencies/test-browser.json; this register preserves the former tooling provenance only.",
+  "packageLockSha256": "44531ae564935f4db853e8a0100f3f8c35760fa9297a0bb6a4f7864604e4ad73",
+  "packages": [
+    {
+      "path": "node_modules/playwright",
+      "version": "1.64.0",
+      "integrity": "sha512-kVzTnYFYEyQ9RGzBjNCd2+yEqWmVbxl3AHPynv3qQ6JTjv4a+kwRcnqQwIpuP3NnrnIrE/Q6wWAIAvMfIE2/Yg==",
+      "license": "Apache-2.0"
+    },
+    {
+      "path": "node_modules/playwright-core",
+      "version": "1.64.0",
+      "integrity": "sha512-T9r+MZkTECl2+oUcZ26YgZzTrYidTsIhYYkJix+6iDOymOb1FB2RLLSOxRGnZGv5DStt+aduIVbt+E8WygXYpg==",
+      "license": "Apache-2.0"
+    },
+    {
+      "path": "node_modules/postgres",
+      "version": "3.4.9",
+      "integrity": "sha512-GD3qdB0x1z9xgFI6cdRD6xu2Sp2WCOEoe3mtnyB5Ee0XrrL5Pe+e4CCnJrRMnL1zYtRDZmQQVbvOttLnKDLnaw==",
+      "license": "Unlicense"
+    }
+  ]
+}

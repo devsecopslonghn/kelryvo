@@ -211,7 +211,7 @@ mod tests {
     use uuid::Uuid;
 
     #[tokio::test]
-    #[ignore = "requires scripts/test-rust.sh --operator-only private PostgreSQL fixture"]
+    #[ignore = "requires kelryvo-test --operator-only private PostgreSQL fixture"]
     async fn all_declared_bootstraps_reproduce_exact_trusted_catalog_profiles() {
         let base = std::env::var("KELRYVO_RUST_TEST_DATABASE_URL").expect("private fixture");
         assert!(base.starts_with("postgresql:///kelryvo_rust_test?host="));

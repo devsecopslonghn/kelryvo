@@ -109,10 +109,23 @@ pub fn parse(source: &str) -> Result<Vec<Range>, Rejected> {
         }
         let semi = term.child_token(parser::SEMICOLON).map(|t| t.symbol());
         let slash = term.child_token(parser::SOLIDUS).map(|t| t.symbol());
+        // A PL/SQL unit's final semicolon belongs to its executable body. A
+        // SQL unit's semicolon belongs only to the script separator, even when
+        // followed by a slash. Never infer the unit kind from delimiter shape.
+        let plsql = unit.child_rule(parser::RULE_PLSQL_UNIT).is_some();
+        let semicolon_end = semi
+            .map(|semi| {
+                if plsql {
+                    semi.stop_byte().ok_or(Rejected::Syntax)
+                } else {
+                    semi.start_byte().ok_or(Rejected::Syntax)
+                }
+            })
+            .transpose()?;
         let (execution_end, end) = if let Some(slash) = slash {
             let slash_start = slash.start_byte().ok_or(Rejected::Syntax)?;
             let end = slash.stop_byte().ok_or(Rejected::Syntax)?;
-            let execution_end = if let Some(semi) = semi {
+            let separator_start = if let Some(semi) = semi {
                 semi.stop_byte().ok_or(Rejected::Syntax)?
             } else if raw.get(slash_start.saturating_sub(2)..slash_start) == Some(b"\r\n") {
                 slash_start - 2
@@ -122,14 +135,15 @@ pub fn parse(source: &str) -> Result<Vec<Range>, Rejected> {
                 return Err(Rejected::Delimiter);
             };
             if ![b"\n/".as_slice(), b"\r\n/".as_slice()]
-                .contains(&raw.get(execution_end..end).ok_or(Rejected::Delimiter)?)
+                .contains(&raw.get(separator_start..end).ok_or(Rejected::Delimiter)?)
             {
                 return Err(Rejected::Delimiter);
             }
+            let execution_end = semicolon_end.unwrap_or(separator_start);
             (execution_end, end)
         } else if let Some(semi) = semi {
             (
-                semi.start_byte().ok_or(Rejected::Syntax)?,
+                semicolon_end.ok_or(Rejected::Syntax)?,
                 semi.stop_byte().ok_or(Rejected::Syntax)?,
             )
         } else {

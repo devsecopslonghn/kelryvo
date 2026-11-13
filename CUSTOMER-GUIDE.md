@@ -192,7 +192,7 @@ companion revision `0d11a258302f2011d8952dae530172a8f08525dd`. Validate a fresh
 private candidate without changing that checkout:
 
 ```sh
-bash scripts/test-rust.sh --helm-only /absolute/kelryvo-helm-chart
+cargo run --locked -p kelryvo-test-tools --bin kelryvo-test -- --helm-only /absolute/kelryvo-helm-chart
 ```
 
 The command verifies archived files against their Git blob identities, applies

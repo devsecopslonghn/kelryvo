@@ -3,10 +3,16 @@ name: Kelryvo OCI verification and publication
 on:
   pull_request:
   push:
-    branches: [master]
+    branches: [master, cleanup/rust-only-migration]
 
 permissions:
   contents: read
+
+env:
+  CARGO_PROFILE_DEV_DEBUG: '0'
+  CARGO_PROFILE_TEST_DEBUG: '0'
+  CARGO_INCREMENTAL: '0'
+  CARGO_BUILD_JOBS: '2'
 
 concurrency:
   group: kelryvo-oci-${{ github.event.pull_request.number || github.ref }}
@@ -28,25 +34,16 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version-file: .nvmrc
-          cache: npm
-          cache-dependency-path: package-lock.json
+      - name: Build the native verifier before configuring or importing any image
+        run: |
+          rustup toolchain install 1.99.1 --profile minimal
+          cargo build -p kelryvo-cli -p kelryvo-test-tools --locked
+          cargo test --locked -p kelryvo-test-tools --bins
       - name: Enable OCI-preserving local image storage
         run: |
-          sudo python3 - <<'PY'
-          import json
-          from pathlib import Path
-          config_path = Path('/etc/docker/daemon.json')
-          config = json.loads(config_path.read_text()) if config_path.exists() else {}
-          config.setdefault('features', {})['containerd-snapshotter'] = True
-          config_path.parent.mkdir(parents=True, exist_ok=True)
-          config_path.write_text(json.dumps(config) + '\n')
-          PY
+          sudo -n --preserve-env=CI,GITHUB_ACTIONS target/debug/kelryvo-test --configure-ci-docker
           sudo systemctl restart docker
       - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
-      - run: npm ci --ignore-scripts --no-audit --no-fund
       - run: mkdir -p dist/oci
       - name: Build the unified app image
         uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
@@ -60,21 +57,29 @@ jobs:
           outputs: type=oci,dest=dist/oci/app-${{ matrix.arch }}.tar
           cache-from: type=gha,scope=kelryvo-${{ matrix.arch }}
           # Cache writes are performance-only and reserved for trusted master.
-          cache-to: ${{ github.event_name == 'push' && format('type=gha,scope=kelryvo-{0},mode=max,ignore-error=true,timeout=2m', matrix.arch) || '' }}
-      - name: Build the native verifier before importing any image
-        run: |
-          rustup toolchain install 1.99.1 --profile minimal
-          cargo build -p kelryvo-cli --locked
+          cache-to: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && format('type=gha,scope=kelryvo-{0},mode=max,ignore-error=true,timeout=2m', matrix.arch) || '' }}
+      - name: Build the disposable probe against the image's native libc
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
+        with:
+          context: .
+          platforms: linux/${{ matrix.arch }}
+          build-args: KELRYVO_REVISION=${{ github.sha }}
+          target: container-test-tools
+          provenance: false
+          sbom: false
+          outputs: type=local,dest=.cache/native-container-tools
+          cache-from: type=gha,scope=kelryvo-${{ matrix.arch }}
       - name: Smoke-test the exact platform artifacts
         env:
           TARGET_ARCH: ${{ matrix.arch }}
+          KELRYVO_CONTAINER_PROBE: ${{ github.workspace }}/.cache/native-container-tools/kelryvo-container-probe
         run: |
           set -euo pipefail
-          node scripts/load-oci-platform.mjs "dist/oci/app-$TARGET_ARCH.tar" "$GITHUB_SHA" "$TARGET_ARCH"
-          node scripts/test-rust-container.mjs kelryvo-app:test "$TARGET_ARCH" "$GITHUB_SHA"
-          node scripts/test-containers.mjs kelryvo-app:test "$TARGET_ARCH"
+          target/debug/kelryvo oci load-platform "dist/oci/app-$TARGET_ARCH.tar" "$GITHUB_SHA" "$TARGET_ARCH"
+          target/debug/kelryvo-test --container kelryvo-app:test "$TARGET_ARCH" "$GITHUB_SHA"
+          target/debug/kelryvo-test --containers kelryvo-app:test "$TARGET_ARCH"
       - name: Install the customer Compose pilot and import its mounted repository
-        run: node scripts/test-pilot.mjs kelryvo-app:test
+        run: target/debug/kelryvo-test --pilot-container kelryvo-app:test
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: platform-images-${{ github.sha }}-${{ github.run_attempt }}-${{ matrix.arch }}
@@ -99,7 +104,7 @@ jobs:
       - name: Install the pinned native verification toolchain
         run: rustup toolchain install 1.99.1 --profile minimal
       - name: Build the native OCI verifier
-        run: cargo build -p kelryvo-cli --locked
+        run: cargo build -p kelryvo-cli -p kelryvo-test-tools --locked
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           pattern: platform-images-${{ github.sha }}-${{ github.run_attempt }}-*

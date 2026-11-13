@@ -89,7 +89,7 @@ fn machine(state: State) -> Machine {
 }
 
 #[tokio::test]
-#[ignore = "requires private PostgreSQL from scripts/test-rust.sh --controller-only"]
+#[ignore = "requires private PostgreSQL from kelryvo-test --controller-only"]
 async fn controller_waits_installs_refreshes_and_never_replays_uncertain_setup() {
     let url = std::env::var("KELRYVO_RUST_TEST_DATABASE_URL").expect("private PostgreSQL");
     assert!(url.starts_with("postgresql:///kelryvo_rust_test?host="));

@@ -28,7 +28,7 @@ fn invoke(f: &Fixture, action: &str, role: Option<&str>, config: &Path) -> Outpu
 }
 
 #[tokio::test]
-#[ignore = "requires scripts/test-rust.sh --local-credentials-only private PostgreSQL"]
+#[ignore = "requires kelryvo-test --local-credentials-only private PostgreSQL"]
 async fn cli_updates_local_files_and_credentials_under_the_shared_lock() {
     let f = Fixture::new().await;
     assert!(f.url.contains("sf_product_test_"));
@@ -145,7 +145,7 @@ async fn login(pool: &sqlx::PgPool, password: &str) -> u16 {
 }
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
-#[ignore = "requires scripts/test-rust.sh --local-credentials-only private PostgreSQL"]
+#[ignore = "requires kelryvo-test --local-credentials-only private PostgreSQL"]
 async fn local_password_cli_authorizes_metadata_and_preserves_account_boundaries() {
     let f = Fixture::new().await;
     // This role exists only in the script-created disposable PostgreSQL cluster.

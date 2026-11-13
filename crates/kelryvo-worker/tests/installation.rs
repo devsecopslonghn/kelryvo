@@ -43,7 +43,7 @@ fn native_installation_binds_private_files_binary_wallet_and_distinct_public_rec
     assert!(config.database_url().is_err());
 }
 #[tokio::test]
-#[ignore = "requires private PostgreSQL from scripts/test-rust.sh --worker-only"]
+#[ignore = "requires private PostgreSQL from kelryvo-test --worker-only"]
 async fn native_runtime_journal_requires_exact_generation_revision_and_latest_native_record() {
     let url = std::env::var("KELRYVO_RUST_TEST_DATABASE_URL").expect("private cluster");
     assert!(url.starts_with("postgresql:///kelryvo_rust_test?host="));

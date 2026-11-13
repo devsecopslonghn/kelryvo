@@ -145,30 +145,7 @@ impl Checkout for Native {
             .map_err(|_| "Cannot sync candidate chart values".into())
     }
     async fn validate(&mut self) -> Result<()> {
-        let helm = if Path::new("/usr/local/bin/helm").is_file() {
-            Path::new("/usr/local/bin/helm")
-        } else {
-            Path::new("/usr/bin/helm")
-        };
-        for (program, args) in [
-            (helm, vec!["lint", "--strict", "."]),
-            (
-                Path::new("/usr/bin/python3"),
-                vec!["scripts/check-chart.py"],
-            ),
-            (
-                helm,
-                vec!["template", "kelryvo", ".", "--namespace", "kelryvo"],
-            ),
-        ] {
-            copy::local_command(
-                program,
-                &args.into_iter().map(OsString::from).collect::<Vec<_>>(),
-                &self.root,
-            )
-            .await?;
-        }
-        Ok(())
+        crate::chart::validate(&self.root, false).await
     }
     async fn exact_change(&mut self) -> Result<bool> {
         Ok(self.status().await?.as_slice() == b" M values.yaml\0")

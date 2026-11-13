@@ -122,11 +122,10 @@ mod tests {
     #[tokio::test]
     async fn native_pipe_deadlines_reap_children_and_ignore_invalid_or_uncorrelated_output() {
         let (_send, stop) = watch::channel(false);
-        let python = Path::new("/usr/bin/python3");
-        let good = "import sys,json; r=json.load(sys.stdin); print(json.dumps({'version':1,'id':r['id'],'result':{'status':'CONNECTED','provenance':'FIXTURE','password':'never-returned'}}))";
+        let program = crate::process_test_support::binary();
         let result = run(
-            python,
-            &["-c", good],
+            program,
+            &["discovery-good"],
             request(),
             stop.clone(),
             Duration::from_secs(2),
@@ -135,14 +134,10 @@ mod tests {
         .unwrap();
         assert_eq!(result["status"], "CONNECTED");
         assert!(result.get("password").is_none());
-        for code in [
-            "import sys;sys.stdout.write('x'*(2*1024*1024+1))",
-            "import json;print(json.dumps({'version':1,'id':'12345678-1234-4234-8234-123456789abc','result':{'status':'CONNECTED'}}))",
-            "import sys;sys.stderr.write('private-data')",
-        ] {
+        for mode in ["oversize", "mismatch", "stderr"] {
             let result = run(
-                python,
-                &["-c", code],
+                program,
+                &[mode],
                 request(),
                 stop.clone(),
                 Duration::from_secs(2),
@@ -155,8 +150,8 @@ mod tests {
         let (send, stopped) = watch::channel(false);
         let work = tokio::spawn(async move {
             run(
-                python,
-                &["-c", "import time;time.sleep(10)"],
+                program,
+                &["sleep"],
                 request(),
                 stopped,
                 Duration::from_secs(20),
@@ -176,11 +171,9 @@ mod tests {
             .canonicalize()
             .unwrap();
         let pid_file = cache.join(format!("discovery-child-{}.pid", uuid::Uuid::new_v4()));
-        let code =
-            "import os,sys,time;open(sys.argv[1],'x').write(str(os.getpid()));time.sleep(10)";
         let result = run(
-            python,
-            &["-c", code, pid_file.to_str().unwrap()],
+            program,
+            &["pid-sleep", pid_file.to_str().unwrap()],
             request(),
             stop.clone(),
             Duration::from_millis(100),

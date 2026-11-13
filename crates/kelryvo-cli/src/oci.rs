@@ -11,6 +11,7 @@ use std::{
     path::{Component, Path, PathBuf},
     process::ExitCode,
 };
+mod loader;
 const INDEX: &str = "application/vnd.oci.image.index.v1+json";
 const SOURCE: &str = "https://github.com/devsecopslonghn/kelryvo";
 const ARCHES: [&str; 2] = ["amd64", "arm64"];
@@ -76,7 +77,7 @@ pub(super) fn verify_config(config: &Value, source: &str, arch: &str) -> Result<
 }
 /// Copy through a held descriptor before verification. Skopeo subsequently
 /// reads only these private, frozen bytes, never a mutable caller path.
-pub(super) fn snapshot(path: &Path, source: &str) -> Result<(tempfile::NamedTempFile, Value)> {
+fn freeze(path: &Path) -> Result<tempfile::NamedTempFile> {
     let mut input = OpenOptions::new()
         .read(true)
         .custom_flags(libc::O_NOFOLLOW | libc::O_NONBLOCK)
@@ -110,12 +111,16 @@ pub(super) fn snapshot(path: &Path, source: &str) -> Result<(tempfile::NamedTemp
     out.as_file()
         .sync_all()
         .map_err(|_| "Cannot sync publication snapshot")?;
-    let verified = Layout::open(out.path())?.multi(source)?;
     use std::os::unix::fs::PermissionsExt;
     out.as_file()
         .set_permissions(fs::Permissions::from_mode(0o400))
         .map_err(|_| "Cannot protect publication snapshot")?;
-    Ok((out, verified))
+    Ok(out)
+}
+pub(super) fn snapshot(path: &Path, source: &str) -> Result<(tempfile::NamedTempFile, Value)> {
+    let frozen = freeze(path)?;
+    let verified = Layout::open(frozen.path())?.multi(source)?;
+    Ok((frozen, verified))
 }
 
 #[derive(Clone, Copy)]
@@ -584,9 +589,14 @@ fn run(args: &[String]) -> Result<Value> {
     }
 }
 pub fn command(args: &[String]) -> ExitCode {
+    if let [mode, archive, source, arch] = args
+        && mode == "load-platform"
+    {
+        return loader::command(Path::new(archive), source, arch);
+    }
     if args == ["--help"] {
         println!(
-            "Usage: kelryvo oci inspect ARCHIVE\n       kelryvo oci verify ARCHIVE SOURCE_SHA\n       kelryvo oci verify-platform ARCHIVE SOURCE_SHA amd64|arm64\n       kelryvo oci assemble DIRECTORY SOURCE_SHA\n\nInspect checks archive/blob integrity only. Verify requires one named kelryvo-app index with exactly linux/amd64 and linux/arm64, matching revision, repository and process role. Assemble reads app-amd64.tar and app-arm64.tar, verifies both and exclusively creates kelryvo-app.tar without changing child digests. Existing output is never overwritten. No extraction, image execution, network access, publication or qualification is performed."
+            "Usage: kelryvo oci inspect ARCHIVE\n       kelryvo oci verify ARCHIVE SOURCE_SHA\n       kelryvo oci verify-platform ARCHIVE SOURCE_SHA amd64|arm64\n       kelryvo oci assemble DIRECTORY SOURCE_SHA\n       kelryvo oci load-platform ARCHIVE SOURCE_SHA amd64|arm64\n\nInspect checks archive/blob integrity only. Verify requires one named kelryvo-app index with exactly linux/amd64 and linux/arm64, matching revision, repository and process role. Assemble reads app-amd64.tar and app-arm64.tar, verifies both and exclusively creates kelryvo-app.tar without changing child digests. Existing output is never overwritten. Load-platform explicitly freezes/verifies one archive before importing it into the local Unix-socket Docker daemon, and rejects manifest/config conversion before tagging it kelryvo-app:test. Offline inspect/verify/assemble never invoke Docker. No publication or runtime/Oracle qualification is performed."
         );
         return ExitCode::SUCCESS;
     }

@@ -12,12 +12,14 @@ as recorded in the checklist.
 
 ```sh
 cargo build --workspace --locked
-bash scripts/test-rust.sh
+cargo run --locked -p kelryvo-test-tools --bin kelryvo-test --
 ```
 
-Use the pinned Rust toolchain. PostgreSQL tools and Python 3.11+ support local
-checks. Node 22.23.3 and npm 10.9.9 are development/test tools only:
-`npm ci --ignore-scripts --no-audit --no-fund`, then `npm run check`.
+Use the pinned Rust toolchain, PostgreSQL tools and Git for native checks.
+Run `cargo fetch --locked`, then `cargo check-delivery` for source/contracts/dependency
+checks. `cargo native-test --browser-product-only` runs the Rust browser fixture;
+install its pinned browser with `cargo native-test --install-browser`.
+Development, browser and opt-in lab drivers use Rust; Node/npm/Python are not required.
 Frozen migration contracts are in `tests/fixtures/contracts/`; parser fixtures
 are in `tests/fixtures/parser/`. No retired Node application is shipped or started.
 

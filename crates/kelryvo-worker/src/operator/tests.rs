@@ -18,7 +18,7 @@ fn root_operator_refuses_mutable_artifact_ancestry_and_symlinks() {
 }
 
 #[tokio::test]
-#[ignore = "requires private PostgreSQL from scripts/test-rust.sh --worker-only"]
+#[ignore = "requires private PostgreSQL from kelryvo-test --worker-only"]
 async fn operator_record_is_root_only_atomic_idempotent_and_rechecks_route() {
     let url = std::env::var("KELRYVO_RUST_TEST_DATABASE_URL").expect("private metadata");
     assert!(url.starts_with("postgresql:///kelryvo_rust_test?host="));

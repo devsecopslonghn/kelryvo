@@ -11,6 +11,12 @@ on:
 permissions:
   contents: read
 
+env:
+  CARGO_PROFILE_DEV_DEBUG: '0'
+  CARGO_PROFILE_TEST_DEBUG: '0'
+  CARGO_INCREMENTAL: '0'
+  CARGO_BUILD_JOBS: '2'
+
 concurrency:
   group: kelryvo-dockerhub-master
   cancel-in-progress: false
@@ -31,7 +37,7 @@ jobs:
       - name: Build the pinned native publication gate
         run: |
           rustup toolchain install 1.99.1 --profile minimal
-          cargo build -p kelryvo-cli --locked
+          cargo build -p kelryvo-cli -p kelryvo-test-tools --locked
       - id: gate
         name: Require exact successful source CI and CodeQL
         run: target/debug/kelryvo delivery gate --require
@@ -49,11 +55,7 @@ jobs:
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-        run: |
-          set -euo pipefail
-          umask 077
-          test -n "$DOCKERHUB_USERNAME" && test -n "$DOCKERHUB_TOKEN"
-          printf '%s' "$DOCKERHUB_TOKEN" | skopeo login --authfile "$RUNNER_TEMP/kelryvo-dockerhub-auth.json" --username "$DOCKERHUB_USERNAME" --password-stdin docker.io
+        run: target/debug/kelryvo-test --ci dockerhub-login
       - name: Publish tested index and verify both platforms anonymously
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -70,4 +72,4 @@ jobs:
           if-no-files-found: error
       - if: always()
         name: Remove the private registry session
-        run: rm -f "$RUNNER_TEMP/kelryvo-dockerhub-auth.json"
+        run: target/debug/kelryvo-test --ci dockerhub-logout

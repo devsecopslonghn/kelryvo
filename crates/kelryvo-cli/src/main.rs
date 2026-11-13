@@ -6,6 +6,9 @@ mod fixtures {
         "/../../tests/support/contracts.rs"
     ));
 }
+#[cfg(test)]
+#[path = "../../../tests/support/process_program.rs"]
+mod process_test_support;
 use kelryvo_core::{
     coordinator::Statement, cursor, evidence, intent, migrations, plan, postconditions, release,
     review, schema_scope,
@@ -189,6 +192,26 @@ fn main() -> ExitCode {
     let args: Vec<_> = env::args().skip(1).collect();
     match args.as_slice() {
         [mode, rest @ ..] if mode == "delivery" => delivery::command(rest),
+        [mode, directory, flags @ ..]
+            if mode == "chart-check" && (flags.is_empty() || flags == ["--native"]) =>
+        {
+            match tokio::runtime::Builder::new_current_thread()
+                .enable_all()
+                .build()
+                .map_err(|e| e.to_string())
+                .and_then(|rt| {
+                    rt.block_on(chart::validate(
+                        std::path::Path::new(directory),
+                        !flags.is_empty(),
+                    ))
+                }) {
+                Ok(()) => ExitCode::SUCCESS,
+                Err(error) => {
+                    eprintln!("{error}");
+                    ExitCode::FAILURE
+                }
+            }
+        }
         [mode, rest @ ..] if mode == "oci" => oci::command(rest),
         [mode, rest @ ..] if mode == "pilot" => local::pilot(rest),
         [mode, rest @ ..] if mode == "dev" || mode == "local-prepare" => local::run(mode, rest),
@@ -217,13 +240,13 @@ fn main() -> ExitCode {
         }
         [] => {
             println!(
-                "Usage: kelryvo pilot ACTION [OPTIONS] | dev [OPTIONS] | local-prepare [OPTIONS] | core | build-web | build-dist OUTPUT [--debug] | verify-dist DIRECTORY | runtime-inventory OUTPUT | oci ACTION [ARGS] | delivery ACTION [ARGS] | --build-info | --help | --version\n\npilot: root-owned installation preparation and native account/grant commands; use kelryvo pilot --help.\ndev/local-prepare: native checkout startup; use kelryvo dev --help for private local inputs.\ncore: bounded JSON-lines interface to native offline governance checks.\nbuild-dist: builds a fresh native application and WASM bundle with pinned Cargo source archives; no deployment or runtime qualification.\nverify-dist: checks exact bundle files against its inventory; hashes are not signatures or approval.\ndelivery: source/image/security gates, verified registry publication and protected Helm promotion; use kelryvo delivery --help.\noci: local archive inspection, source/role verification and deterministic two-platform assembly; use kelryvo oci --help.\nruntime-inventory: records installed Debian package versions and notices in a fresh absolute directory."
+                "Usage: kelryvo pilot ACTION [OPTIONS] | dev [OPTIONS] | local-prepare [OPTIONS] | core | build-web | build-dist OUTPUT [--debug] | verify-dist DIRECTORY | runtime-inventory OUTPUT | chart-check CHECKOUT [--native] | oci ACTION [ARGS] | delivery ACTION [ARGS] | --build-info | --help | --version\n\npilot: root-owned installation preparation and native account/grant commands; use kelryvo pilot --help.\ndev/local-prepare: native checkout startup; use kelryvo dev --help for private local inputs.\ncore: bounded JSON-lines interface to native offline governance checks.\nbuild-dist: builds a fresh native application and WASM bundle with pinned Cargo source archives; no deployment or runtime qualification.\nverify-dist: checks exact bundle files against its inventory; hashes are not signatures or approval.\ndelivery: source/image/security gates, verified registry publication and protected Helm promotion; use kelryvo delivery --help.\noci: local archive inspection, source/role verification and deterministic two-platform assembly; use kelryvo oci --help.\nchart-check: read-only Helm rendering and retained storage/security/Argo checks; --native requires explicit native prerequisite claims.\nruntime-inventory: records installed Debian package versions and notices in a fresh absolute directory."
             );
             ExitCode::SUCCESS
         }
         [arg] if arg == "--help" => {
             println!(
-                "Usage: kelryvo pilot ACTION [OPTIONS] | dev [OPTIONS] | local-prepare [OPTIONS] | core | build-web | build-dist OUTPUT [--debug] | verify-dist DIRECTORY | runtime-inventory OUTPUT | oci ACTION [ARGS] | delivery ACTION [ARGS] | --build-info | --help | --version\n\npilot: root-owned installation preparation and native account/grant commands; use kelryvo pilot --help.\ndev/local-prepare: native checkout startup; use kelryvo dev --help for private local inputs.\ncore: bounded JSON-lines interface to native offline governance checks.\nbuild-dist: builds a fresh native application and WASM bundle with pinned Cargo source archives; no deployment or runtime qualification.\nverify-dist: checks exact bundle files against its inventory; hashes are not signatures or approval.\ndelivery: source/image/security gates, verified registry publication and protected Helm promotion; use kelryvo delivery --help.\noci: local archive inspection, source/role verification and deterministic two-platform assembly; use kelryvo oci --help.\nruntime-inventory: records installed Debian package versions and notices in a fresh absolute directory."
+                "Usage: kelryvo pilot ACTION [OPTIONS] | dev [OPTIONS] | local-prepare [OPTIONS] | core | build-web | build-dist OUTPUT [--debug] | verify-dist DIRECTORY | runtime-inventory OUTPUT | chart-check CHECKOUT [--native] | oci ACTION [ARGS] | delivery ACTION [ARGS] | --build-info | --help | --version\n\npilot: root-owned installation preparation and native account/grant commands; use kelryvo pilot --help.\ndev/local-prepare: native checkout startup; use kelryvo dev --help for private local inputs.\ncore: bounded JSON-lines interface to native offline governance checks.\nbuild-dist: builds a fresh native application and WASM bundle with pinned Cargo source archives; no deployment or runtime qualification.\nverify-dist: checks exact bundle files against its inventory; hashes are not signatures or approval.\ndelivery: source/image/security gates, verified registry publication and protected Helm promotion; use kelryvo delivery --help.\noci: local archive inspection, source/role verification and deterministic two-platform assembly; use kelryvo oci --help.\nchart-check: read-only Helm rendering and retained storage/security/Argo checks; --native requires explicit native prerequisite claims.\nruntime-inventory: records installed Debian package versions and notices in a fresh absolute directory."
             );
             ExitCode::SUCCESS
         }
@@ -241,9 +264,69 @@ fn main() -> ExitCode {
     }
 }
 
+mod chart;
 mod delivery;
 mod distribution;
+mod hygiene;
 mod local;
 mod oci;
 mod runtime_inventory;
 mod web_build;
+
+#[cfg(test)]
+mod native_kernel_contracts {
+    use super::*;
+    fn expand(value: &Value) -> Value {
+        match value {
+            Value::Array(items) => Value::Array(items.iter().map(expand).collect()),
+            Value::Object(object) if object.contains_key("$repeat") => {
+                json!(
+                    object["$repeat"]
+                        .as_str()
+                        .unwrap()
+                        .repeat(object["count"].as_u64().unwrap() as usize)
+                )
+            }
+            Value::Object(object) => Value::Object(
+                object
+                    .iter()
+                    .map(|(key, value)| (key.clone(), expand(value)))
+                    .collect(),
+            ),
+            _ => value.clone(),
+        }
+    }
+    fn wire_equal(actual: &Value, expected: &Value) -> bool {
+        match (actual, expected) {
+            (Value::Number(a), Value::Number(b)) => a.as_f64() == b.as_f64(),
+            (Value::Array(a), Value::Array(b)) => {
+                a.len() == b.len() && a.iter().zip(b).all(|(a, b)| wire_equal(a, b))
+            }
+            (Value::Object(a), Value::Object(b)) => {
+                a.len() == b.len()
+                    && a.iter()
+                        .all(|(key, value)| b.get(key).is_some_and(|b| wire_equal(value, b)))
+            }
+            _ => actual == expected,
+        }
+    }
+    #[test]
+    fn every_retained_kernel_request_matches_its_independent_wire_contract() {
+        let cases = expand(&fixtures::data("core"));
+        let cases = cases.as_array().unwrap();
+        assert_eq!(cases.len(), 1228);
+        for (index, case) in cases.iter().enumerate() {
+            let request = case["serialized"]
+                .as_str()
+                .map(|s| serde_json::from_str::<Value>(s).unwrap())
+                .unwrap_or_else(|| case["request"].clone());
+            let actual =
+                execute(&request).unwrap_or_else(|| panic!("retained kernel request {index}"));
+            assert!(
+                wire_equal(&actual, &case["expected"]),
+                "native/frozen kernel mismatch {index}: {}",
+                request["op"]
+            );
+        }
+    }
+}

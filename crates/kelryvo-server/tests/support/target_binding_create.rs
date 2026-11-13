@@ -64,15 +64,13 @@ pub async fn run(pool: &PgPool, app: &Router, parent: Uuid) {
     .unwrap();
     sqlx::query("INSERT INTO sf_project_grants(organization_id,project_id,actor_id,grant_os_uid) SELECT organization_id,$1,actor_id,grant_os_uid FROM sf_project_grants WHERE project_id=$2 AND revoked_at IS NULL").bind(project).bind(parent).execute(pool).await.unwrap();
     sqlx::query("INSERT INTO sf_environments(project_id,organization_id,name) VALUES($1,$2,'Binding fixture environment')").bind(project).bind(ORG_UUID).execute(pool).await.unwrap();
-    let out = std::process::Command::new("node")
-        .arg(
-            std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-                .join("../../scripts/seed-rust-fixture.mjs"),
-        )
-        .arg("option")
-        .env("KELRYVO_RUST_TEST_PROJECT_ID", project.to_string())
-        .output()
-        .unwrap();
+    let out = std::process::Command::new(
+        std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../target/debug/kelryvo-fixture"),
+    )
+    .arg("option")
+    .env("KELRYVO_RUST_TEST_PROJECT_ID", project.to_string())
+    .output()
+    .unwrap();
     assert!(out.status.success(), "private option fixture unavailable");
     let mut body: Value = serde_json::from_slice(&out.stdout).unwrap();
     let path = format!("/api/projects/{project}/target-bindings");

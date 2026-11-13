@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "register_date": "2026-10-08",
-  "scope": "Exact third-party dependency/runtime evidence for offline WP0 only; no production release or distribution approval.",
+  "scope": "Historical offline WP0 dependency/runtime evidence, including retired Node/JVM closures; retained provenance only. Current Rust dependencies are pinned by Cargo.lock and packaged with exact source archives; no new production release or distribution approval.",
   "product_license": {
     "status": "PENDING_OWNER_DECISION",
     "note": "The independently authored product license remains undecided. That does not change the selected third-party permissive grants; product publication and redistribution are separately gated."

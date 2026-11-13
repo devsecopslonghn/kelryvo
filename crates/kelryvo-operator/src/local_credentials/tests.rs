@@ -58,7 +58,7 @@ async fn interrupted_child() {
 }
 
 #[tokio::test]
-#[ignore = "requires scripts/test-rust.sh --local-credentials-only private PostgreSQL"]
+#[ignore = "requires kelryvo-test --local-credentials-only private PostgreSQL"]
 async fn process_crashes_reconcile_without_replay_and_preserve_legacy_journals() {
     let f = Fixture::new().await;
     assert!(f.root.is_absolute());

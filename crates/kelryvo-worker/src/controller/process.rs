@@ -143,21 +143,29 @@ async fn invoke(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::installation_test_support::{fixture, write};
+    use crate::installation_test_support::fixture;
     use std::os::unix::fs::PermissionsExt;
-    fn program(root: &Path, body: &str) -> std::path::PathBuf {
-        let path = root.join("fixed-installer-fixture");
-        write(&path, format!("#!/usr/bin/python3\n{body}\n").as_bytes());
+    fn program(root: &Path, mode: &str) -> std::path::PathBuf {
+        assert!(
+            [
+                "good",
+                "oversize",
+                "stderr",
+                "invalid",
+                "ignore-term",
+                "sleep"
+            ]
+            .contains(&mode)
+        );
+        let path = root.join(format!("fixed-installer-fixture-{mode}"));
+        std::fs::copy(crate::process_test_support::binary(), &path).unwrap();
         std::fs::set_permissions(&path, std::fs::Permissions::from_mode(0o700)).unwrap();
         path
     }
     #[tokio::test]
     async fn each_installer_action_has_a_fresh_process_and_an_empty_inherited_environment() {
         let (root, _) = fixture();
-        let program = program(
-            &root,
-            "import sys,os,json\nassert set(os.environ)<=set(['PATH','LANG','TZ','LC_CTYPE'])\nassert not sys.stdin.read()\nprint(json.dumps({'status':{'installation-publish':'PUBLISHED','installation-observer':'OBSERVER_PUBLISHED'}.get(sys.argv[1],'PREPARED'),'installationDigest':'a'*64,'oracleMigrationExecution':'NOT_RUN','pid':os.getpid(),'action':sys.argv[1],'request':sys.argv[2]}))",
-        );
+        let program = program(&root, "good");
         let (send, stop) = watch::channel(false);
         let request = root.join("private-request.json");
         let mut pids = std::collections::HashSet::new();
@@ -200,13 +208,8 @@ mod tests {
         let (root, _) = fixture();
         let request = root.join("pid");
         let (send, stop) = watch::channel(false);
-        for body in [
-            "import sys\nprint('x'*16385)",
-            "import sys\nsys.stderr.write('private-diagnostic')",
-            "print('{}')",
-            "import os,time,sys,signal\nopen(sys.argv[2]+'.tmp','w').write(str(os.getpid()))\nos.replace(sys.argv[2]+'.tmp',sys.argv[2])\nsignal.signal(signal.SIGTERM,signal.SIG_IGN)\ntime.sleep(20)",
-        ] {
-            let program = program(&root, body);
+        for mode in ["oversize", "stderr", "invalid", "ignore-term"] {
+            let program = program(&root, mode);
             assert!(
                 invoke(
                     &program,
@@ -225,10 +228,7 @@ mod tests {
             nix::sys::signal::kill(nix::unistd::Pid::from_raw(pid), None),
             Err(nix::errno::Errno::ESRCH)
         );
-        let program = program(
-            &root,
-            "import os,time,sys\nopen(sys.argv[2]+'.tmp','w').write(str(os.getpid()))\nos.replace(sys.argv[2]+'.tmp',sys.argv[2])\ntime.sleep(20)",
-        );
+        let program = program(&root, "sleep");
         std::fs::remove_file(&request).unwrap();
         let running = tokio::spawn(async move {
             invoke(

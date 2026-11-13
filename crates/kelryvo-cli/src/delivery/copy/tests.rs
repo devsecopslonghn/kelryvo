@@ -17,8 +17,8 @@ async fn copy_credentials_are_private_and_process_failures_cannot_echo_them() {
         .await
         .unwrap();
     let error = execute(
-        Path::new("/bin/sh"),
-        &["-c".into(), "printf private-copy-secret >&2; exit 1".into()],
+        crate::process_test_support::binary(),
+        &["copy-fail".into()],
         Duration::from_secs(5),
     )
     .await
@@ -26,8 +26,8 @@ async fn copy_credentials_are_private_and_process_failures_cannot_echo_them() {
     assert!(!error.contains("private-copy-secret"));
     let start = std::time::Instant::now();
     let error = execute(
-        Path::new("/bin/sh"),
-        &["-c".into(), "sleep 30".into()],
+        crate::process_test_support::binary(),
+        &["copy-sleep".into()],
         Duration::from_millis(50),
     )
     .await

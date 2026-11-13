@@ -1,6 +1,6 @@
 //! Delivery eligibility and immutable GHCR publication. Publication rechecks
 //! all gates before writing and after registry proof; no chart/cluster mutation.
-mod copy;
+pub(crate) mod copy;
 mod dockerhub;
 mod github;
 mod helm;
@@ -19,12 +19,10 @@ use std::{
 use zeroize::Zeroizing;
 const REPOSITORY: &str = "devsecopslonghn/kelryvo";
 const WORKFLOWS: [&str; 2] = ["check.yml", "containers.yml"];
-const CODEQL: [&str; 4] = [
-    "Analyze (javascript-typescript)",
-    "Analyze (actions)",
-    "Analyze (java-kotlin)",
-    "Analyze (python)",
-];
+// Require analysis of the current authored languages. Retired Node/JVM/Python
+// results cannot qualify a Rust replacement; the default CodeQL workflow,
+// successful exact-source jobs and the open-finding refusal stay required.
+const CODEQL: [&str; 2] = ["Analyze (rust)", "Analyze (actions)"];
 const LIMIT: u64 = 8 * 1024 * 1024;
 type Result<T> = std::result::Result<T, String>;
 fn sha(s: &str) -> bool {

@@ -5,10 +5,15 @@ edition.workspace = true
 rust-version.workspace = true
 license-file = "../../LICENSE"
 publish.workspace = true
+default-run = "kelryvo"
 
 [[bin]]
 name = "kelryvo"
 path = "src/main.rs"
+
+[[bin]]
+name = "kelryvo-repository"
+path = "src/repository/main.rs"
 
 [dependencies]
 chrono.workspace = true
@@ -24,10 +29,10 @@ reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"
 tokio = { version = "1", features = ["rt", "macros", "time", "net", "io-util", "process"] }
 zeroize.workspace = true
 base64.workspace = true
+regex.workspace = true
+ryu-js = "=1.0.3"
+yaml-rust2 = { version = "=0.10.4", default-features = false }
 nix = { version = "0.30", default-features = false, features = ["signal", "process"] }
 
 [lints]
 workspace = true
-
-[dev-dependencies]
-regex.workspace = true

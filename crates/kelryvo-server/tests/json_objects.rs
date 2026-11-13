@@ -92,7 +92,7 @@ async fn reject(pool: &PgPool, app: &Router, path: &str, body: Value) {
 }
 
 #[tokio::test]
-#[ignore = "requires the private PostgreSQL fixture from scripts/test-rust.sh --json-objects-only"]
+#[ignore = "requires the private PostgreSQL fixture from kelryvo-test --json-objects-only"]
 async fn typed_api_requests_reject_positional_arrays_without_metadata_mutation() {
     let url = std::env::var("KELRYVO_RUST_TEST_DATABASE_URL").unwrap();
     assert!(url.starts_with("postgresql:///kelryvo_rust_test?host="));

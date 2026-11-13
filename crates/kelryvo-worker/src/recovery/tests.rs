@@ -26,7 +26,7 @@ impl Target for Synthetic {
     }
 }
 #[tokio::test]
-#[ignore = "requires scripts/test-rust.sh --recovery-only private PostgreSQL fixture"]
+#[ignore = "requires kelryvo-test --recovery-only private PostgreSQL fixture"]
 async fn independent_review_appends_one_witness_and_preserves_hold() {
     let url = std::env::var("KELRYVO_RUST_TEST_DATABASE_URL").unwrap();
     assert!(url.starts_with("postgresql:///kelryvo_rust_test?host="));
@@ -38,8 +38,7 @@ async fn independent_review_appends_one_witness_and_preserves_hold() {
         .parent()
         .unwrap();
     let cases = crate::fixtures::data("completion");
-    let mut child = Command::new("node")
-        .arg(root.join("scripts/seed-rust-fixture.mjs"))
+    let mut child = Command::new(root.join("target/debug/kelryvo-fixture"))
         .arg("completion")
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())

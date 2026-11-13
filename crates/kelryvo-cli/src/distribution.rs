@@ -21,6 +21,7 @@ const INPUTS: &[&str] = &[
     "Cargo.toml",
     "Cargo.lock",
     "rust-toolchain.toml",
+    ".cargo/config.toml",
     "LICENSE",
     "NOTICE",
     "crates",
@@ -29,7 +30,6 @@ const INPUTS: &[&str] = &[
     "compose.pilot.yaml",
     "deploy/native-oracle-helm.patch",
     "docs/dependencies/rust-toolchain.json",
-    "scripts/rust-install-toolchain.sh",
 ];
 const LIMIT: u64 = 1024 * 1024 * 1024;
 type Result<T> = std::result::Result<T, ()>;

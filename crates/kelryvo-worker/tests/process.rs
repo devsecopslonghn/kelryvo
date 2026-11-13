@@ -44,7 +44,7 @@ fn held_completion_cli_rejects_unprivileged_callers_and_input_selected_installat
     }
 }
 #[tokio::test]
-#[ignore = "requires private PostgreSQL from scripts/test-rust.sh --worker-only"]
+#[ignore = "requires private PostgreSQL from kelryvo-test --worker-only"]
 async fn native_supervisor_reaps_a_scoped_recovery_child_and_rejects_wrong_worker_identity() {
     let url = std::env::var("KELRYVO_RUST_TEST_DATABASE_URL").expect("private metadata fixture");
     assert!(url.starts_with("postgresql:///kelryvo_rust_test?host="));

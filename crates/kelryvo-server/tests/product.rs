@@ -134,10 +134,10 @@ fn target_reference(input: Value) -> Value {
 }
 
 #[tokio::test]
-#[ignore = "requires the private PostgreSQL fixture from scripts/test-rust.sh"]
+#[ignore = "requires the private PostgreSQL fixture from kelryvo-test"]
 async fn native_product_keeps_authority_audit_and_browser_session_contracts() {
     let url = std::env::var("KELRYVO_RUST_TEST_DATABASE_URL")
-        .expect("use scripts/test-rust.sh for the private PostgreSQL fixture");
+        .expect("use kelryvo-test for the private PostgreSQL fixture");
     assert!(
         url.starts_with("postgresql:///kelryvo_rust_test?host="),
         "use the isolated native test cluster"
@@ -267,16 +267,15 @@ async fn native_product_keeps_authority_audit_and_browser_session_contracts() {
         "database audit immutability preserved"
     );
 
-    let fixture = std::process::Command::new("node")
-        .arg(concat!(
-            env!("CARGO_MANIFEST_DIR"),
-            "/../../scripts/seed-rust-fixture.mjs"
-        ))
-        .arg("target")
-        .env("KELRYVO_RUST_TEST_DATABASE_URL", &url)
-        .env("KELRYVO_RUST_TEST_PROJECT_ID", project_id)
-        .output()
-        .expect("retained operator fixture");
+    let fixture = std::process::Command::new(concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/../../target/debug/kelryvo-fixture"
+    ))
+    .arg("target")
+    .env("KELRYVO_RUST_TEST_DATABASE_URL", &url)
+    .env("KELRYVO_RUST_TEST_PROJECT_ID", project_id)
+    .output()
+    .expect("retained operator fixture");
     assert!(
         fixture.status.success(),
         "{}",

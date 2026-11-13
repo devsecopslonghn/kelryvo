@@ -59,12 +59,12 @@ async fn bounded(mut input: impl AsyncRead + Unpin, limit: usize) -> Result<Zero
     }
     Ok(bytes)
 }
-pub(super) struct Captured {
-    pub(super) success: bool,
-    pub(super) stdout: Zeroizing<Vec<u8>>,
-    pub(super) stderr: Zeroizing<Vec<u8>>,
+pub(crate) struct Captured {
+    pub(crate) success: bool,
+    pub(crate) stdout: Zeroizing<Vec<u8>>,
+    pub(crate) stderr: Zeroizing<Vec<u8>>,
 }
-async fn capture_at(
+pub(crate) async fn capture_at(
     program: &Path,
     args: &[std::ffi::OsString],
     deadline: Duration,

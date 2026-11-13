@@ -213,13 +213,49 @@ async fn latest_runs_independent_security_and_both_master_reads_are_required() {
     );
 }
 #[tokio::test]
-async fn native_gate_matches_retained_policy_for_events_runs_and_security() {
-    let cases = cases();
-    let expected: Vec<Value> =
-        serde_json::from_value(crate::fixtures::read("delivery", &json!(cases))).unwrap();
-    assert_eq!(expected.len(), cases.len());
+async fn historical_language_results_cannot_qualify_the_rust_replacement() {
+    // Preserve the independently captured historical records byte for byte.
+    // Their successful Node/JVM/Python results cannot confer Rust authority.
+    let records: Value = serde_json::from_slice(
+        &fs::read(
+            Path::new(env!("CARGO_MANIFEST_DIR"))
+                .join("../../tests/fixtures/contracts/delivery.json"),
+        )
+        .unwrap(),
+    )
+    .unwrap();
+    let cases = records[0]["input"].as_array().unwrap();
+    let expected = records[0]["output"].as_array().unwrap();
+    assert_eq!(cases.len(), expected.len());
+    let mut historical_successes = 0;
     for (case, expected) in cases.iter().zip(expected) {
-        assert_eq!(evaluate(case).await, expected, "{}", case["name"]);
+        let actual = evaluate(case).await;
+        assert_ne!(actual["gate"]["ready"], true, "{}", case["name"]);
+        if expected["gate"]["ready"] == true {
+            historical_successes += 1;
+            assert_eq!(
+                actual["gate"]["reason"],
+                "Required CodeQL language is not successful"
+            );
+        }
+    }
+    assert_eq!(historical_successes, 4);
+    for language in CODEQL {
+        for status in ["failure", "cancelled", "skipped", "in_progress"] {
+            let mut native = responses();
+            for job in native["actions/runs/5/attempts/2/jobs?per_page=100"][0]["jobs"]
+                .as_array_mut()
+                .unwrap()
+            {
+                if job["name"] == language {
+                    job["conclusion"] = status.into();
+                }
+            }
+            assert_ne!(
+                gate(&mut Fake::new(&native), SHA).await.unwrap()["ready"],
+                true
+            );
+        }
     }
 }
 #[test]

@@ -26,3 +26,6 @@ use installation::canonical_digest;
 #[cfg(test)]
 #[path = "../tests/support/installation.rs"]
 pub(crate) mod installation_test_support;
+#[cfg(test)]
+#[path = "../../../tests/support/process_program.rs"]
+pub(crate) mod process_test_support;

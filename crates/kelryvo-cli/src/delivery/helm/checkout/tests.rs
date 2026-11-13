@@ -52,7 +52,7 @@ async fn real_checkout_detects_unrelated_staged_untracked_or_replaced_files() {
 }
 
 #[tokio::test]
-async fn real_helm_candidate_validation_precedes_all_synthetic_chart_writes() {
+async fn real_helm_policy_refuses_missing_storage_before_any_chart_publication() {
     if !Path::new("/usr/local/bin/helm").is_file() && !Path::new("/usr/bin/helm").is_file() {
         eprintln!(
             "SKIP optional real Helm integration: Helm is not installed; kernel and Git checks still run."
@@ -70,8 +70,8 @@ async fn real_helm_candidate_validation_precedes_all_synthetic_chart_writes() {
     fs::write(root.join("Chart.yaml"),"apiVersion: v2\nname: native-fixture\nversion: 0.1.0\ndescription: Private native promotion fixture\nicon: https://example.invalid/icon.svg\n").unwrap();
     fs::write(root.join("values.yaml"), super::super::tests::before()).unwrap();
     fs::write(root.join("templates/config.yaml"),"apiVersion: v1\nkind: ConfigMap\nmetadata:\n  name: native-fixture\ndata:\n  imageDigest: {{ .Values.image.digest | quote }}\n").unwrap();
-    let checker = root.join("scripts/check-chart.py");
-    fs::write(&checker,"from pathlib import Path\nassert '  digest: sha256:' + '1' * 64 in Path('values.yaml').read_text()\n").unwrap();
+    fs::write(root.join("README.md"), "Native fixture; see CHECKLIST.md\n").unwrap();
+    fs::write(root.join(".gitignore"), ".cache/\ncoverage/\nreports/\nscreenshots/\ntest-results/\nplaywright-report/\nblob-report/\nevidence/\n*.log\n").unwrap();
     git(&root, &["init", "--quiet"]);
     git(&root, &["add", "."]);
     git(
@@ -89,18 +89,18 @@ async fn real_helm_candidate_validation_precedes_all_synthetic_chart_writes() {
         &id,
         &super::super::tests::digest(),
     )
-    .await
-    .unwrap();
-    assert_eq!(result["status"], "promoted");
-    assert_eq!(api.writes().len(), 3);
+    .await;
+    assert!(
+        result.is_err(),
+        "a lintable chart missing its persistent storage policy must be refused"
+    );
+    assert!(
+        api.writes().is_empty(),
+        "policy rejection must precede publication"
+    );
     assert!(checkout.exact_change().await.unwrap());
-    fs::write(
-        checker,
-        "raise RuntimeError('private failing policy fixture')\n",
-    )
-    .unwrap();
     assert!(
         checkout.validate().await.is_err(),
-        "the required chart security checker cannot be skipped"
+        "the required native chart security checker cannot be skipped"
     );
 }

@@ -50,7 +50,7 @@ async fn data(pool: &PgPool) -> BTreeMap<String, Value> {
 }
 
 #[tokio::test]
-#[ignore = "requires scripts/test-rust.sh --operator-only private PostgreSQL fixture"]
+#[ignore = "requires kelryvo-test --operator-only private PostgreSQL fixture"]
 async fn retained_identity_schema_upgrades_under_restore_hold() {
     let _serial = BACKUP_TESTS.lock().await;
     let base = std::env::var("KELRYVO_RUST_TEST_DATABASE_URL").expect("private fixture");
@@ -162,7 +162,7 @@ async fn retained_identity_schema_upgrades_under_restore_hold() {
 }
 
 #[tokio::test]
-#[ignore = "requires scripts/test-rust.sh --operator-only private PostgreSQL fixture"]
+#[ignore = "requires kelryvo-test --operator-only private PostgreSQL fixture"]
 async fn witnessed_native_restore_preserves_data_and_quarantines_jobs_and_credentials() {
     let _serial = BACKUP_TESTS.lock().await;
     let base = std::env::var("KELRYVO_RUST_TEST_DATABASE_URL").expect("private test fixture");

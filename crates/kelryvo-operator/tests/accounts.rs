@@ -89,7 +89,7 @@ async fn login(
     (status, headers)
 }
 #[tokio::test]
-#[ignore = "requires scripts/test-rust.sh --operator-only private PostgreSQL and passwordless local sudo"]
+#[ignore = "requires kelryvo-test --operator-only private PostgreSQL and passwordless local sudo"]
 async fn native_account_commands_rotate_revoke_sessions_reset_and_disable_passwords() {
     let base = std::env::var("KELRYVO_RUST_TEST_DATABASE_URL").unwrap();
     assert!(base.starts_with("postgresql:///kelryvo_rust_test?host="));

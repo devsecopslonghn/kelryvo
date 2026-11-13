@@ -4,6 +4,42 @@ use serde_json::json;
 use std::{fs, process::Command};
 
 #[test]
+fn authored_review_binds_sql_and_plsql_execution_bytes_independently_of_separators() {
+    let draft = "00000000-0000-4000-8000-000000000001";
+    for (sql, execution) in [
+        ("BEGIN NULL; END;", "BEGIN NULL; END;"),
+        ("BEGIN NULL; END;\r\n/", "BEGIN NULL; END;"),
+        (
+            "CREATE TABLE item(id NUMBER);\n/",
+            "CREATE TABLE item(id NUMBER)",
+        ),
+        (
+            "CREATE TABLE item(id NUMBER)\r\n/",
+            "CREATE TABLE item(id NUMBER)",
+        ),
+    ] {
+        let files = workspace::normalize_files(
+            &json!([{"id":draft,"path":"V1__unit.sql","sql":sql}]),
+            true,
+        )
+        .expect("workspace unit");
+        let (snapshot, units) = kelryvo_parser::snapshot::review("migrations", &files, draft, 1, 2)
+            .expect("complete authored review");
+        assert!(release::verify(&snapshot));
+        assert_eq!(units.len(), 1);
+        assert_eq!(units[0]["sourceSql"], sql);
+        assert_eq!(units[0]["sourceSha256"], kelryvo_core::sha256(sql));
+        assert_eq!(units[0]["executionSha256"], kelryvo_core::sha256(execution));
+        assert_eq!(snapshot["files"][0]["content"], sql);
+        assert_eq!(snapshot["files"][0]["sha256"], kelryvo_core::sha256(sql));
+        assert_eq!(
+            snapshot,
+            authored("migrations", &files, draft, 1, 2).unwrap()
+        );
+    }
+}
+
+#[test]
 fn plsql_snapshot_retains_executable_block_bytes_and_native_profile() {
     let draft = "00000000-0000-4000-8000-000000000001";
     let sql = "-- retained procedure 😀\r\nCREATE OR REPLACE PROCEDURE sf_p AS\r\nBEGIN\r\n  NULL;\r\nEND;\r\n/\r\n";
