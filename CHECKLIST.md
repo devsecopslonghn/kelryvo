@@ -86,6 +86,11 @@ The host grammar generator is cached by its exact source, lockfile, architecture
 and toolchain; Cargo independently checks its parser outputs against pinned
 hashes. Docker caches only its executable, source downloads and a bounded
 compiler cache. Full Cargo target directories stay local to each builder.
+Only trusted master pushes save build caches. Pull requests restore master
+inputs without saving duplicate toolchains, compiler/target caches or BuildKit
+layers. Validate cache performance on a different source revision; a rerun of
+the same revision can reuse the whole image and does not prove incremental
+compilation works.
 
 Workspace owns infrastructure; projects own releases, plans, reviews and schema
 assignments. Preserve immutable sources, revisions, decisions, history/audit,
