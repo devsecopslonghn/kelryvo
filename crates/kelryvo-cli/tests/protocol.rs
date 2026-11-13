@@ -22,18 +22,31 @@ fn invoke(input: &[u8]) -> std::process::Output {
 
 #[test]
 fn runtime_environment_cannot_replace_the_compiled_artifact_identity() {
-    let read = |forged: bool| {
+    let read = |forged: Option<(&str, &str)>| {
         let mut command = Command::new(env!("CARGO_BIN_EXE_kelryvo"));
         command.arg("--build-info");
-        if forged {
-            command.env("KELRYVO_SOURCE_SHA", "f".repeat(40));
-            command.env("KELRYVO_SOURCE_TREE_DIGEST", "e".repeat(64));
+        if let Some((source, tree)) = forged {
+            command.env("KELRYVO_SOURCE_SHA", source);
+            command.env("KELRYVO_SOURCE_TREE_DIGEST", tree);
         }
         let output = command.output().expect("compiled identity probe");
         assert!(output.status.success());
         serde_json::from_slice::<serde_json::Value>(&output.stdout).unwrap()
     };
-    assert_eq!(read(false), read(true));
+    let expected = read(None);
+    // Select different inputs even when the executable happens to have the
+    // test's usual sentinel identity compiled into it.
+    let source = if expected["sourceSha"] == "f".repeat(40) {
+        "a".repeat(40)
+    } else {
+        "f".repeat(40)
+    };
+    let tree = if expected["sourceTreeDigest"] == "e".repeat(64) {
+        "b".repeat(64)
+    } else {
+        "e".repeat(64)
+    };
+    assert_eq!(expected, read(Some((&source, &tree))));
 }
 
 #[test]

@@ -126,6 +126,42 @@ impl MockResponse {
     }
 }
 type Interceptor = Box<dyn FnMut(&Value) -> Result<MockResponse> + Send>;
+#[derive(Debug)]
+struct DetachedDom;
+impl std::fmt::Display for DetachedDom {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        formatter.write_str("Native browser DOM changed during locator lookup")
+    }
+}
+impl std::error::Error for DetachedDom {}
+fn protocol_error(method: &str, error: &Value) -> Box<dyn std::error::Error + Send + Sync> {
+    let lookup = matches!(
+        method,
+        "DOM.describeNode"
+            | "DOM.resolveNode"
+            | "DOM.querySelectorAll"
+            | "DOM.pushNodesByBackendIdsToFrontend"
+            | "Runtime.callFunctionOn"
+    );
+    let missing = error["code"] == -32000
+        && error["message"].as_str().is_some_and(|message| {
+            [
+                "Could not find node with given",
+                "No node with given id",
+                "Could not find object with given id",
+                "Cannot find context with specified id",
+                "Execution context was destroyed",
+            ]
+            .iter()
+            .any(|prefix| message.starts_with(prefix))
+        });
+    if lookup && missing {
+        Box::new(DetachedDom)
+    } else {
+        // CDP error payloads can contain page data; retain only our fixed method.
+        format!("Chrome protocol command failed: {method}").into()
+    }
+}
 struct PendingChild(Option<Child>);
 impl Drop for PendingChild {
     fn drop(&mut self) {
@@ -351,7 +387,7 @@ impl Browser {
             }
             if value["id"] == id {
                 if value.get("error").is_some() {
-                    return Err(format!("Chrome protocol command failed: {method}").into());
+                    return Err(protocol_error(method, &value["error"]));
                 }
                 return Ok(value["result"].clone());
             }
@@ -565,6 +601,28 @@ impl Browser {
         )? == true)
     }
     fn nodes(&mut self, page: &Page, locator: &Locator, root: Option<u64>) -> Result<Vec<u64>> {
+        let started = Instant::now();
+        loop {
+            match self.nodes_once(page, locator, root) {
+                Err(error)
+                    if root.is_none()
+                        && error.is::<DetachedDom>()
+                        && started.elapsed() < Duration::from_secs(15) =>
+                {
+                    // Only restart a read-only lookup from its document/scope.
+                    // Mouse, keyboard and submitted mutations are never replayed.
+                    thread::sleep(Duration::from_millis(25));
+                }
+                result => return result,
+            }
+        }
+    }
+    fn nodes_once(
+        &mut self,
+        page: &Page,
+        locator: &Locator,
+        root: Option<u64>,
+    ) -> Result<Vec<u64>> {
         if let Some(scope) = &locator.scope {
             let parents = self.nodes(page, scope, root)?;
             let mut child = locator.clone();
@@ -649,6 +707,11 @@ impl Browser {
                 for node in text_nodes {
                     let object = self.object(page, node)?;
                     let parent=self.call(Some(page),"Runtime.callFunctionOn",json!({"objectId":object,"functionDeclaration":"function(){return this.nodeType===3?this.parentElement:this}","returnByValue":false}))?;
+                    if parent["result"]["subtype"] == "null"
+                        || parent["result"]["type"] == "undefined"
+                    {
+                        return Err(Box::new(DetachedDom));
+                    }
                     let object = parent["result"]["objectId"]
                         .as_str()
                         .ok_or("Browser text parent")?;
@@ -1398,6 +1461,27 @@ pub fn protocol_smoke() -> Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn detached_lookup_errors_are_distinct_from_input_and_invalid_selector_failures() {
+        let detached = json!({"code":-32000,"message":"Could not find node with given id"});
+        assert!(protocol_error("DOM.describeNode", &detached).is::<DetachedDom>());
+        assert!(!protocol_error("Input.dispatchMouseEvent", &detached).is::<DetachedDom>());
+        assert!(!protocol_error("Input.dispatchKeyEvent", &detached).is::<DetachedDom>());
+        assert!(
+            !protocol_error(
+                "DOM.querySelectorAll",
+                &json!({"code":-32000,"message":"DOM Error while querying"})
+            )
+            .is::<DetachedDom>()
+        );
+        assert!(
+            !protocol_error(
+                "DOM.describeNode",
+                &json!({"code":-32602,"message":"Invalid parameters"})
+            )
+            .is::<DetachedDom>()
+        );
+    }
     #[test]
     fn locator_text_normalizes_layout_whitespace_without_changing_names() {
         assert!(Text::exact("Tiếng Việt 😀").matches(" Tiếng\n Việt 😀 "));
