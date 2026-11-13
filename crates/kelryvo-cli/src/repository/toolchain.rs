@@ -8,6 +8,7 @@ fn validate(pins: &Value, docker: &str) -> Result<Vec<(String, String, String)>>
     if pins["format"] != 1
         || pins["version"] != "1.99.1"
         || pins["wasmBindgenCli"] != "0.2.130"
+        || pins["sccache"] != "0.19.0"
         || pins["date"] != "2026-10-15"
     {
         return Err("Native build must retain the reviewed Rust/WASM bootstrap profile".into());
@@ -67,40 +68,57 @@ fn validate(pins: &Value, docker: &str) -> Result<Vec<(String, String, String)>>
             }
             rows.push((architecture.to_owned(), digest.to_owned(), url));
         }
-        let wasm = &platform["wasmBindgenArchive"];
         let wasm_target = if architecture == "amd64" {
             "x86_64-unknown-linux-musl"
         } else {
             "aarch64-unknown-linux-musl"
         };
-        let url = format!(
-            "https://github.com/wasm-bindgen/wasm-bindgen/releases/download/0.2.130/wasm-bindgen-0.2.130-{wasm_target}.tar.gz"
-        );
-        let digest = wasm["sha256"].as_str().ok_or("WASM bundler checksum")?;
-        if wasm["target"] != wasm_target
-            || wasm["url"] != url
-            || digest.len() != 64
-            || !digest
-                .bytes()
-                .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
-            || section
-                .lines()
-                .filter(|line| {
-                    *line == format!("ADD --checksum=sha256:{digest} {url} /tmp/kelryvo-toolchain/")
-                })
-                .count()
-                != 1
-        {
-            return Err(
-                "Native WASM bundler differs from its reviewed architecture/checksum/URL".into(),
-            );
+        for (key, url) in [
+            (
+                "wasmBindgenArchive",
+                format!(
+                    "https://github.com/wasm-bindgen/wasm-bindgen/releases/download/0.2.130/wasm-bindgen-0.2.130-{wasm_target}.tar.gz"
+                ),
+            ),
+            (
+                "sccacheArchive",
+                format!(
+                    "https://github.com/mozilla/sccache/releases/download/v0.19.0/sccache-v0.19.0-{wasm_target}.tar.gz"
+                ),
+            ),
+        ] {
+            let archive = &platform[key];
+            let digest = archive["sha256"]
+                .as_str()
+                .ok_or("Native build tool checksum")?;
+            if archive["target"] != wasm_target
+                || archive["url"] != url
+                || digest.len() != 64
+                || !digest
+                    .bytes()
+                    .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
+                || section
+                    .lines()
+                    .filter(|line| {
+                        *line
+                            == format!(
+                                "ADD --checksum=sha256:{digest} {url} /tmp/kelryvo-toolchain/"
+                            )
+                    })
+                    .count()
+                    != 1
+            {
+                return Err(
+                    "Native build tool differs from its reviewed architecture/checksum/URL".into(),
+                );
+            }
+            rows.push((architecture.to_owned(), digest.to_owned(), url));
         }
-        rows.push((architecture.to_owned(), digest.to_owned(), url));
         if section
             .lines()
             .filter(|line| line.starts_with("ADD "))
             .count()
-            != 5
+            != 6
         {
             return Err("Unexpected bootstrap download".into());
         }
@@ -124,13 +142,21 @@ pub(super) fn check(root: &Path, list: Option<&str>) -> Result<()> {
     if action.is_file() {
         let action = fs::read_to_string(action).map_err(|e| e.to_string())?;
         for architecture in ["amd64", "arm64"] {
-            let wasm = &pins["platforms"][architecture]["wasmBindgenArchive"];
-            if !action.contains(wasm["sha256"].as_str().ok_or("WASM bundler checksum")?)
-                || !action.contains(wasm["target"].as_str().ok_or("WASM bundler target")?)
-            {
-                return Err(
-                    "Host CI WASM bundler differs from its reviewed checksum/target".into(),
-                );
+            for key in ["wasmBindgenArchive", "sccacheArchive"] {
+                let archive = &pins["platforms"][architecture][key];
+                if !action.contains(
+                    archive["sha256"]
+                        .as_str()
+                        .ok_or("Native build tool checksum")?,
+                ) || !action.contains(
+                    archive["target"]
+                        .as_str()
+                        .ok_or("Native build tool target")?,
+                ) {
+                    return Err(
+                        "Host CI build tool differs from its reviewed checksum/target".into(),
+                    );
+                }
             }
         }
     }
@@ -142,7 +168,7 @@ pub(super) fn check(root: &Path, list: Option<&str>) -> Result<()> {
         }
         Some(_) => return Err("Expected amd64 or arm64 toolchain listing".into()),
         None => println!(
-            "PASS: both bootstrap architectures retain the reviewed Rust/WASM components and native WASM bundler archives with exact checksums"
+            "PASS: both bootstrap architectures retain the reviewed Rust/WASM components, native WASM bundler and compiler cache archives with exact checksums"
         ),
     }
     Ok(())
@@ -167,6 +193,9 @@ pub(super) fn installed(root: &Path) -> Result<()> {
     if output("wasm-bindgen", &["--version"])?.trim() != "wasm-bindgen 0.2.130" {
         return Err("Installed WASM bundler differs from the reviewed version".into());
     }
+    if output("sccache", &["--version"])?.trim() != "sccache 0.19.0" {
+        return Err("Installed compiler cache differs from the reviewed version".into());
+    }
     let sysroot = output("rustc", &["--print", "sysroot"])?;
     if !Path::new(sysroot.trim())
         .join("lib/rustlib/wasm32-unknown-unknown/lib")
@@ -189,7 +218,7 @@ mod tests {
         .unwrap();
         let docker = fs::read_to_string(root.join("Dockerfile")).unwrap();
         let rows = validate(&pins, &docker).unwrap();
-        assert_eq!(rows.len(), 10);
+        assert_eq!(rows.len(), 12);
         assert!(validate(&pins, &docker.replace(&rows[0].1, &"0".repeat(64))).is_err());
         assert!(
             validate(

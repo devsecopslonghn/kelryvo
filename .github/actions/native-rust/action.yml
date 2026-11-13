@@ -37,6 +37,7 @@ runs:
         printf '%s  %s\n' "$SCCACHE_SHA256" "$RUNNER_TEMP/sccache.tar.gz" | sha256sum --check --strict
         mkdir -p "$HOME/.cache/kelryvo-build-tools/sccache-0.19.0"
         tar -xzf "$RUNNER_TEMP/sccache.tar.gz" --strip-components=1 -C "$HOME/.cache/kelryvo-build-tools/sccache-0.19.0"
+        printf '%s\n' "$HOME/.cache/kelryvo-build-tools/sccache-0.19.0" >> "$GITHUB_PATH"
         printf 'RUSTC_WRAPPER=%s\n' "$HOME/.cache/kelryvo-build-tools/sccache-0.19.0/sccache" >> "$GITHUB_ENV"
         printf 'SCCACHE_DIR=%s\n' "$HOME/.cache/kelryvo-sccache" >> "$GITHUB_ENV"
         printf 'SCCACHE_SERVER_UDS=%s\n' "$RUNNER_TEMP/kelryvo-sccache.sock" >> "$GITHUB_ENV"

@@ -21,6 +21,9 @@ RUN tar -xJf /tmp/kelryvo-toolchain/rust-std-1.99.1-wasm32-unknown-unknown.tar.x
 ADD --checksum=sha256:9687f3bb551b9f66f37ed32a40d7913a00f7962db653054e56857bc306c3227f https://github.com/wasm-bindgen/wasm-bindgen/releases/download/0.2.130/wasm-bindgen-0.2.130-x86_64-unknown-linux-musl.tar.gz /tmp/kelryvo-toolchain/
 RUN mkdir -p /opt/wasm-bindgen \
     && tar -xzf /tmp/kelryvo-toolchain/wasm-bindgen-0.2.130-x86_64-unknown-linux-musl.tar.gz --strip-components=1 -C /opt/wasm-bindgen
+ADD --checksum=sha256:aa73c7270c997894038c0d8f0d297865f57569e1687883322bc431713d4bb9dd https://github.com/mozilla/sccache/releases/download/v0.19.0/sccache-v0.19.0-x86_64-unknown-linux-musl.tar.gz /tmp/kelryvo-toolchain/
+RUN mkdir -p /opt/sccache \
+    && tar -xzf /tmp/kelryvo-toolchain/sccache-v0.19.0-x86_64-unknown-linux-musl.tar.gz --strip-components=1 -C /opt/sccache
 RUN rm -rf /tmp/kelryvo-toolchain
 
 FROM build-prerequisites AS rust-toolchain-arm64
@@ -39,14 +42,19 @@ RUN tar -xJf /tmp/kelryvo-toolchain/rust-std-1.99.1-wasm32-unknown-unknown.tar.x
 ADD --checksum=sha256:99ffc93ce80081b91632e2b539b782821a8f3439ab0fddc645287462b2f55d3d https://github.com/wasm-bindgen/wasm-bindgen/releases/download/0.2.130/wasm-bindgen-0.2.130-aarch64-unknown-linux-musl.tar.gz /tmp/kelryvo-toolchain/
 RUN mkdir -p /opt/wasm-bindgen \
     && tar -xzf /tmp/kelryvo-toolchain/wasm-bindgen-0.2.130-aarch64-unknown-linux-musl.tar.gz --strip-components=1 -C /opt/wasm-bindgen
+ADD --checksum=sha256:3e47fc4a71b1ddd1b4294a0de9d34498922fdf41e3cd0bda5df3954e3d6deb9d https://github.com/mozilla/sccache/releases/download/v0.19.0/sccache-v0.19.0-aarch64-unknown-linux-musl.tar.gz /tmp/kelryvo-toolchain/
+RUN mkdir -p /opt/sccache \
+    && tar -xzf /tmp/kelryvo-toolchain/sccache-v0.19.0-aarch64-unknown-linux-musl.tar.gz --strip-components=1 -C /opt/sccache
 RUN rm -rf /tmp/kelryvo-toolchain
 
 FROM rust-toolchain-${TARGETARCH} AS native-build
 WORKDIR /opt/kelryvo-source
 ARG TARGETARCH
 COPY docs/dependencies/rust-toolchain.json ./docs/dependencies/rust-toolchain.json
-ENV PATH=/opt/rust/bin:/opt/wasm-bindgen:/opt/cargo/bin:/usr/bin:/bin CARGO_HOME=/opt/cargo \
+ENV PATH=/opt/rust/bin:/opt/wasm-bindgen:/opt/sccache:/opt/cargo/bin:/usr/bin:/bin CARGO_HOME=/opt/cargo \
     CARGO_TARGET_DIR=/opt/kelryvo-source/target CARGO_PROFILE_DEV_DEBUG=0 CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=4
+ENV RUSTC_WRAPPER=/opt/sccache/sccache SCCACHE_DIR=/opt/kelryvo-source/target/sccache \
+    SCCACHE_SERVER_UDS=/tmp/kelryvo-sccache.sock SCCACHE_CACHE_SIZE=512M
 RUN test "$(wasm-bindgen --version)" = 'wasm-bindgen 0.2.130'
 COPY Cargo.toml Cargo.lock rust-toolchain.toml LICENSE NOTICE ./
 COPY .cargo/config.toml ./.cargo/config.toml
@@ -62,10 +70,12 @@ ENV KELRYVO_SOURCE_SHA=${KELRYVO_REVISION} KELRYVO_SOURCE_TREE_DIGEST=${KELRYVO_
 # Keep one target per platform and serialize the shared locked source cache.
 RUN --mount=type=cache,id=kelryvo-native-${TARGETARCH}-rust-1.99.1,target=/opt/kelryvo-source/target,sharing=locked \
     --mount=type=cache,id=kelryvo-registry-rust-1.99.1,target=/opt/cargo/registry,sharing=locked \
+    --mount=type=tmpfs,target=/tmp \
     cargo build --release --locked -p kelryvo-cli -p kelryvo-server -p kelryvo-worker -p kelryvo-operator -p kelryvo-launcher \
     && target/release/kelryvo-repository toolchain --installed \
     && target/release/kelryvo build-dist /opt/native-distribution \
-    && target/release/kelryvo verify-dist /opt/native-distribution
+    && target/release/kelryvo verify-dist /opt/native-distribution \
+    && /opt/sccache/sccache --stop-server
 
 # Export a native test helper against the same libc as the image. Host CI
 # runners can have a newer libc; their executables must not be mounted here.
@@ -73,9 +83,11 @@ RUN --mount=type=cache,id=kelryvo-native-${TARGETARCH}-rust-1.99.1,target=/opt/k
 FROM native-build AS container-test-build
 RUN --mount=type=cache,id=kelryvo-native-${TARGETARCH}-rust-1.99.1,target=/opt/kelryvo-source/target,sharing=locked \
     --mount=type=cache,id=kelryvo-registry-rust-1.99.1,target=/opt/cargo/registry,sharing=locked \
+    --mount=type=tmpfs,target=/tmp \
     KELRYVO_SOURCE_SHA=${KELRYVO_REVISION} cargo build --locked --release \
       -p kelryvo-test-tools --bin kelryvo-container-probe \
-    && cp target/release/kelryvo-container-probe /opt/kelryvo-container-probe
+    && cp target/release/kelryvo-container-probe /opt/kelryvo-container-probe \
+    && /opt/sccache/sccache --stop-server
 
 FROM scratch AS container-test-tools
 COPY --from=container-test-build /opt/kelryvo-container-probe /kelryvo-container-probe
