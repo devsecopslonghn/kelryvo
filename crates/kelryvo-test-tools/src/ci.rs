@@ -10,6 +10,34 @@ use std::{
 };
 use zeroize::{Zeroize, Zeroizing};
 
+pub const SOURCE_GROUPS: &[(&str, &[&str])] = &[
+    (
+        "core-parser",
+        &[
+            "kelryvo-core",
+            "kelryvo-parser",
+            "kelryvo-oracle-grammar",
+            "kelryvo-vault",
+            "kelryvo-web",
+            "kelryvo-discovery",
+        ],
+    ),
+    ("operator", &["kelryvo-operator"]),
+    ("server", &["kelryvo-server"]),
+    ("worker", &["kelryvo-worker", "kelryvo-runtime"]),
+    (
+        "tools",
+        &["kelryvo-cli", "kelryvo-test-tools", "kelryvo-launcher"],
+    ),
+];
+pub fn source_packages(group: &str) -> Result<&'static [&'static str]> {
+    SOURCE_GROUPS
+        .iter()
+        .find(|(name, _)| *name == group)
+        .map(|(_, packages)| *packages)
+        .ok_or_else(|| "Unknown native CI source test group".into())
+}
+
 fn actions() -> Result<()> {
     if std::env::var("CI").as_deref() != Ok("true")
         || std::env::var("GITHUB_ACTIONS").as_deref() != Ok("true")
@@ -215,6 +243,41 @@ pub async fn run(args: &[String]) -> Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn source_groups_cover_every_workspace_package_exactly_once() {
+        let output = std::process::Command::new("cargo")
+            .args([
+                "metadata",
+                "--no-deps",
+                "--locked",
+                "--offline",
+                "--format-version",
+                "1",
+            ])
+            .current_dir(kelryvo_test_tools::root())
+            .output()
+            .unwrap();
+        assert!(output.status.success());
+        let metadata: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+        let expected: std::collections::BTreeSet<_> = metadata["packages"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|p| p["name"].as_str().unwrap())
+            .collect();
+        let mut actual = std::collections::BTreeSet::new();
+        for (group, packages) in SOURCE_GROUPS {
+            assert_eq!(source_packages(group).unwrap(), *packages);
+            for package in *packages {
+                assert!(
+                    actual.insert(*package),
+                    "duplicate source test package: {package}"
+                );
+            }
+        }
+        assert_eq!(actual, expected);
+        assert!(source_packages("unknown").is_err());
+    }
     #[test]
     fn closed_suites_preserve_release_order_and_stop_unknown_dispatch() {
         assert_eq!(suites("api").unwrap(), vec![Vec::<String>::new()]);

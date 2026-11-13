@@ -179,6 +179,65 @@ impl Drop for Context {
 
 pub async fn run(args: Vec<String>) -> Result<()> {
     let mode = args.first().map(String::as_str).unwrap_or("");
+    if let [mode, group] = args.as_slice()
+        && mode == "--ci-tests"
+    {
+        let packages = crate::ci::source_packages(group)?;
+        let mut context = Context::new()?;
+        context.private_postgres().await?;
+        if group == "server" {
+            context
+                .cargo(&[
+                    "build",
+                    "--locked",
+                    "-p",
+                    "kelryvo-test-tools",
+                    "--bin",
+                    "kelryvo-fixture",
+                ])
+                .await?;
+        }
+        if group == "operator" {
+            context
+                .cargo(&[
+                    "build",
+                    "--locked",
+                    "-p",
+                    "kelryvo-operator",
+                    "--example",
+                    "managed-probe",
+                ])
+                .await?;
+        }
+        let mut argv = vec!["test", "--locked"];
+        for package in packages {
+            argv.extend(["-p", package]);
+        }
+        argv.extend([
+            "--",
+            "--include-ignored",
+            "--skip",
+            "typed_api_requests_reject_positional_arrays_without_metadata_mutation",
+        ]);
+        context.cargo(&argv).await?;
+        if group == "server" {
+            context.fresh_json_objects().await?;
+        }
+        // Keep the independent OCI replay check from the original source job.
+        if group == "tools" {
+            context
+                .cargo(&[
+                    "test",
+                    "--locked",
+                    "-p",
+                    "kelryvo-cli",
+                    "--test",
+                    "oci_contracts",
+                ])
+                .await?;
+        }
+        return Ok(());
+    }
     if mode == "--ci" {
         return crate::ci::run(&args[1..]).await;
     }
@@ -191,6 +250,7 @@ pub async fn run(args: Vec<String>) -> Result<()> {
         return crate::ci_docker::configure();
     }
     if mode == "--help" {
+        println!("Partitioned source CI: --ci-tests core-parser|operator|server|worker|tools");
         println!(
             "Focused native reviews: --reviews-browser-only; composite product flow: --composite-browser-only\nLocal Docker checks: --container IMAGE amd64|arm64 SOURCE_SHA, --containers IMAGE amd64|arm64 (both require KELRYVO_CONTAINER_PROBE from the container-test-tools Docker target), --pilot-container IMAGE"
         );

@@ -13,22 +13,23 @@ env:
   CARGO_PROFILE_DEV_DEBUG: '0'
   CARGO_PROFILE_TEST_DEBUG: '0'
   CARGO_INCREMENTAL: '0'
-  CARGO_BUILD_JOBS: '2'
+  CARGO_BUILD_JOBS: '4'
 
 concurrency:
   group: kelryvo-source-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  rust:
+  rust-lint:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
-      - name: Install pinned native and WASM toolchains
-        run: rustup toolchain install 1.99.1 --profile minimal --component rustfmt --component clippy --target wasm32-unknown-unknown
+      - uses: ./.github/actions/native-rust
+        with:
+          key: source-lint
       - name: Native system libraries and private PostgreSQL fixture
         run: |
           sudo apt-get update
@@ -39,10 +40,44 @@ jobs:
           rustfmt --edition 2024 --check tests/support/*.rs
           cargo clippy --workspace --all-targets --locked -- -D warnings
           cargo clippy -p kelryvo-web --target wasm32-unknown-unknown --locked -- -D warnings
-      - name: Private PostgreSQL and native compatibility checks
+  rust-tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        group: [core-parser, operator, server, worker, tools]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/native-rust
+        with:
+          key: source-tests-${{ matrix.group }}
+      - name: Private PostgreSQL fixture prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libssl-dev pkg-config postgresql-16
+      - name: Native compatibility group with every retained check enabled
+        env:
+          TEST_GROUP: ${{ matrix.group }}
         run: |
           export PATH="/usr/lib/postgresql/16/bin:$PATH"
-          cargo run --locked -p kelryvo-test-tools --bin kelryvo-test --
+          cargo native-test --ci-tests "$TEST_GROUP"
+
+  rust:
+    if: always()
+    needs: [rust-lint, rust-tests]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    env:
+      LINT_RESULT: ${{ needs.rust-lint.result }}
+      TEST_RESULT: ${{ needs.rust-tests.result }}
+    steps:
+      - name: Require lint and every source test group
+        run: |
+          test "$LINT_RESULT" = success
+          test "$TEST_RESULT" = success
 
   rust-runtime:
     runs-on: ubuntu-24.04
@@ -51,13 +86,13 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
-      - name: Install pinned native and WASM toolchains
-        run: rustup toolchain install 1.99.1 --profile minimal --target wasm32-unknown-unknown
+      - uses: ./.github/actions/native-rust
+        with:
+          key: native-runtime
       - name: Native libraries and isolated runtime prerequisites
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends libssl-dev pkg-config postgresql-16 iproute2 util-linux curl
-          cargo install wasm-bindgen-cli --version 0.2.130 --locked
       - name: Native UID, capability, TLS, WASM and metadata smoke
         env:
           KELRYVO_REVISION: ${{ github.sha }}
@@ -81,6 +116,19 @@ jobs:
         with:
           persist-credentials: false
       - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+      - uses: ./.github/actions/native-rust
+        with:
+          key: host-image-${{ matrix.arch }}
+      - name: Build the native verifier and calculate the source inventory hint
+        id: source
+        run: |
+          cargo build --locked -p kelryvo-cli -p kelryvo-test-tools
+          native_tree=$(target/debug/kelryvo source-tree-digest)
+          printf 'tree=%s\n' "$native_tree" >> "$GITHUB_OUTPUT"
+      - uses: ./.github/actions/native-image-cache
+        id: image-cache
+        with:
+          architecture: ${{ matrix.arch }}
       - name: Build the native application without publishing
         uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
         with:
@@ -88,26 +136,29 @@ jobs:
           file: Dockerfile
           target: app
           platforms: linux/${{ matrix.arch }}
-          build-args: KELRYVO_REVISION=${{ github.sha }}
+          build-args: |
+            KELRYVO_REVISION=${{ github.sha }}
+            KELRYVO_SOURCE_TREE_DIGEST=${{ steps.source.outputs.tree }}
           tags: kelryvo-rust:candidate
           load: true
           push: false
           provenance: false
           sbom: false
-      - name: Build pinned native image checker
-        run: |
-          rustup toolchain install 1.99.1 --profile minimal
-          cargo build --locked -p kelryvo-test-tools
+          cache-from: type=gha,scope=${{ steps.image-cache.outputs.scope }}
+          cache-to: type=gha,scope=${{ steps.image-cache.outputs.scope }},mode=max,ignore-error=true,timeout=1m
       - name: Build the disposable native inventory probe against the image libc
         uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
         with:
           context: .
           platforms: linux/${{ matrix.arch }}
-          build-args: KELRYVO_REVISION=${{ github.sha }}
+          build-args: |
+            KELRYVO_REVISION=${{ github.sha }}
+            KELRYVO_SOURCE_TREE_DIGEST=${{ steps.source.outputs.tree }}
           target: container-test-tools
           provenance: false
           sbom: false
           outputs: type=local,dest=.cache/native-container-tools
+          cache-from: type=gha,scope=${{ steps.image-cache.outputs.scope }}
       - name: Verify the exact local native image contract
         env:
           TARGET_ARCH: ${{ matrix.arch }}
@@ -122,8 +173,9 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
-      - name: Install pinned repository verification toolchain
-        run: rustup toolchain install 1.99.1 --profile minimal
+      - uses: ./.github/actions/native-rust
+        with:
+          key: foundation
       - name: Native source, fixed migration contracts and test dependency closure
         run: |
           cargo fetch --locked

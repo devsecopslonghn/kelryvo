@@ -219,6 +219,7 @@ fn main() -> ExitCode {
             println!("{}", kelryvo_core::build_identity::info());
             ExitCode::SUCCESS
         }
+        [arg] if arg == "source-tree-digest" => distribution::source_tree_digest(),
         [arg, output] if arg == "build-dist" => distribution::build(output, false),
         [arg, output, flag] if arg == "build-dist" && flag == "--debug" => {
             distribution::build(output, true)

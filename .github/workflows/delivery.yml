@@ -18,7 +18,7 @@ env:
   CARGO_PROFILE_DEV_DEBUG: '0'
   CARGO_PROFILE_TEST_DEBUG: '0'
   CARGO_INCREMENTAL: '0'
-  CARGO_BUILD_JOBS: '2'
+  CARGO_BUILD_JOBS: '4'
 
 # Keep the publication and Helm write in the same serialized workflow. Pending
 # completion events can coalesce; the last event always rechecks all CI gates.
@@ -54,9 +54,11 @@ jobs:
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
+      - uses: ./.github/actions/native-rust
+        with:
+          key: delivery-gate
       - name: Build the pinned native publication gate
         run: |
-          rustup toolchain install 1.99.1 --profile minimal
           cargo build -p kelryvo-cli --locked
       - id: gate
         run: target/debug/kelryvo delivery gate
@@ -86,9 +88,11 @@ jobs:
         with:
           ref: ${{ needs.gate.outputs.sha }}
           persist-credentials: false
+      - uses: ./.github/actions/native-rust
+        with:
+          key: delivery-gate
       - name: Build the pinned native publication gate
         run: |
-          rustup toolchain install 1.99.1 --profile minimal
           cargo build -p kelryvo-cli --locked
       - run: target/debug/kelryvo delivery gate --require
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
@@ -125,9 +129,11 @@ jobs:
         with:
           ref: ${{ needs.gate.outputs.sha }}
           persist-credentials: false
+      - uses: ./.github/actions/native-rust
+        with:
+          key: delivery-tools
       - name: Build the pinned native publication gate and CI tooling
         run: |
-          rustup toolchain install 1.99.1 --profile minimal
           cargo build -p kelryvo-cli -p kelryvo-test-tools --locked
       - name: Check cross-repository credential configuration
         env:

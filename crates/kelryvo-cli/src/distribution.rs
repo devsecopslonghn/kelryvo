@@ -87,6 +87,21 @@ fn sources(root: &Path) -> Result<BTreeMap<String, Value>> {
     }
     Ok(inputs)
 }
+/// Read-only optimization hint for a container build. Packaging independently
+/// recomputes this inventory and probes every compiled executable as before.
+pub fn source_tree_digest() -> ExitCode {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+    match sources(&root).and_then(|inputs| serde_json::to_vec(&inputs).map_err(|_| ())) {
+        Ok(bytes) => {
+            println!("{}", sha256(bytes));
+            ExitCode::SUCCESS
+        }
+        Err(()) => {
+            eprintln!("Native source inventory unavailable");
+            ExitCode::FAILURE
+        }
+    }
+}
 pub(super) fn put(root: &Path, relative: &Path, data: &[u8], mode: u32) -> Result<()> {
     let path = root.join(relative);
     let mut parent = root.to_path_buf();

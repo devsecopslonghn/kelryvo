@@ -12,7 +12,7 @@ env:
   CARGO_PROFILE_DEV_DEBUG: '0'
   CARGO_PROFILE_TEST_DEBUG: '0'
   CARGO_INCREMENTAL: '0'
-  CARGO_BUILD_JOBS: '2'
+  CARGO_BUILD_JOBS: '4'
 
 jobs:
   offline:
@@ -22,8 +22,9 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
-      - name: Install pinned native and WASM toolchains
-        run: rustup toolchain install 1.99.1 --profile minimal --component rustfmt --component clippy --target wasm32-unknown-unknown
+      - uses: ./.github/actions/native-rust
+        with:
+          key: foundation
       - name: Install native test prerequisites
         run: |
           sudo apt-get update
@@ -33,25 +34,49 @@ jobs:
           cargo check-delivery
       - run: cargo test --locked -p kelryvo-parser --test corpus -p kelryvo-oracle-grammar --test corpus
 
+  api:
+    strategy:
+      fail-fast: false
+      matrix:
+        group: [core-parser, operator, server, worker, tools]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/native-rust
+        with:
+          key: source-tests-${{ matrix.group }}
+      - name: Install native test prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libssl-dev pkg-config postgresql-16
+      - name: Retain all API and source checks in independent private clusters
+        env:
+          TEST_GROUP: ${{ matrix.group }}
+        run: |
+          export PATH="/usr/lib/postgresql/16/bin:$PATH"
+          cargo native-test --ci-tests "$TEST_GROUP"
+
   acceptance:
     strategy:
       fail-fast: false
       matrix:
-        suite: [api, browser, release]
+        suite: [browser, release]
     runs-on: ubuntu-24.04
     timeout-minutes: 40
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
-      - name: Install pinned native and WASM toolchains
-        run: rustup toolchain install 1.99.1 --profile minimal --component rustfmt --component clippy --target wasm32-unknown-unknown
+      - uses: ./.github/actions/native-rust
+        with:
+          key: regression-${{ matrix.suite }}
       - name: Install native test prerequisites
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends libssl-dev pkg-config postgresql-16
-      - name: Install pinned WASM bundler
-        run: cargo install wasm-bindgen-cli --version 0.2.130 --locked
       - if: matrix.suite == 'browser'
         name: Install the reviewed browser prerequisites and pinned native browser
         run: |
@@ -84,13 +109,15 @@ jobs:
 
   product:
     if: always()
-    needs: [offline, acceptance]
+    needs: [offline, api, acceptance]
     runs-on: ubuntu-24.04
     timeout-minutes: 2
     env:
       ACCEPTANCE_RESULT: ${{ needs.acceptance.result }}
+      API_RESULT: ${{ needs.api.result }}
       OFFLINE_RESULT: ${{ needs.offline.result }}
     steps:
       - run: |
           test "$OFFLINE_RESULT" = success
+          test "$API_RESULT" = success
           test "$ACCEPTANCE_RESULT" = success

@@ -18,6 +18,9 @@ RUN tar -xJf /tmp/kelryvo-toolchain/rust-std-1.99.1-x86_64-unknown-linux-gnu.tar
 ADD --checksum=sha256:5f628f857dd00a8aa3fcac2e275665d2782066a5795274ed124c5b560f46423c https://static.rust-lang.org/dist/2026-10-15/rust-std-1.99.1-wasm32-unknown-unknown.tar.xz /tmp/kelryvo-toolchain/
 RUN tar -xJf /tmp/kelryvo-toolchain/rust-std-1.99.1-wasm32-unknown-unknown.tar.xz -C /tmp/kelryvo-toolchain \
     && /bin/bash /tmp/kelryvo-toolchain/rust-std-1.99.1-wasm32-unknown-unknown/install.sh --prefix=/opt/rust --disable-ldconfig
+ADD --checksum=sha256:9687f3bb551b9f66f37ed32a40d7913a00f7962db653054e56857bc306c3227f https://github.com/wasm-bindgen/wasm-bindgen/releases/download/0.2.130/wasm-bindgen-0.2.130-x86_64-unknown-linux-musl.tar.gz /tmp/kelryvo-toolchain/
+RUN mkdir -p /opt/wasm-bindgen \
+    && tar -xzf /tmp/kelryvo-toolchain/wasm-bindgen-0.2.130-x86_64-unknown-linux-musl.tar.gz --strip-components=1 -C /opt/wasm-bindgen
 RUN rm -rf /tmp/kelryvo-toolchain
 
 FROM build-prerequisites AS rust-toolchain-arm64
@@ -33,28 +36,33 @@ RUN tar -xJf /tmp/kelryvo-toolchain/rust-std-1.99.1-aarch64-unknown-linux-gnu.ta
 ADD --checksum=sha256:5f628f857dd00a8aa3fcac2e275665d2782066a5795274ed124c5b560f46423c https://static.rust-lang.org/dist/2026-10-15/rust-std-1.99.1-wasm32-unknown-unknown.tar.xz /tmp/kelryvo-toolchain/
 RUN tar -xJf /tmp/kelryvo-toolchain/rust-std-1.99.1-wasm32-unknown-unknown.tar.xz -C /tmp/kelryvo-toolchain \
     && /bin/bash /tmp/kelryvo-toolchain/rust-std-1.99.1-wasm32-unknown-unknown/install.sh --prefix=/opt/rust --disable-ldconfig
+ADD --checksum=sha256:99ffc93ce80081b91632e2b539b782821a8f3439ab0fddc645287462b2f55d3d https://github.com/wasm-bindgen/wasm-bindgen/releases/download/0.2.130/wasm-bindgen-0.2.130-aarch64-unknown-linux-musl.tar.gz /tmp/kelryvo-toolchain/
+RUN mkdir -p /opt/wasm-bindgen \
+    && tar -xzf /tmp/kelryvo-toolchain/wasm-bindgen-0.2.130-aarch64-unknown-linux-musl.tar.gz --strip-components=1 -C /opt/wasm-bindgen
 RUN rm -rf /tmp/kelryvo-toolchain
 
 FROM rust-toolchain-${TARGETARCH} AS native-build
 WORKDIR /opt/kelryvo-source
 ARG TARGETARCH
 COPY docs/dependencies/rust-toolchain.json ./docs/dependencies/rust-toolchain.json
-ENV PATH=/opt/rust/bin:/opt/cargo/bin:/usr/bin:/bin CARGO_HOME=/opt/cargo \
-    CARGO_TARGET_DIR=/opt/kelryvo-source/target CARGO_PROFILE_DEV_DEBUG=0 CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2
-RUN cargo install wasm-bindgen-cli --version 0.2.130 --locked \
-    && test "$(wasm-bindgen --version)" = 'wasm-bindgen 0.2.130'
+ENV PATH=/opt/rust/bin:/opt/wasm-bindgen:/opt/cargo/bin:/usr/bin:/bin CARGO_HOME=/opt/cargo \
+    CARGO_TARGET_DIR=/opt/kelryvo-source/target CARGO_PROFILE_DEV_DEBUG=0 CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=4
+RUN test "$(wasm-bindgen --version)" = 'wasm-bindgen 0.2.130'
 COPY Cargo.toml Cargo.lock rust-toolchain.toml LICENSE NOTICE ./
 COPY .cargo/config.toml ./.cargo/config.toml
 COPY Dockerfile .dockerignore compose.pilot.yaml ./
 COPY crates ./crates
 COPY deploy/native-oracle-helm.patch ./deploy/native-oracle-helm.patch
 ARG KELRYVO_REVISION=local-unpublished
-# Bootstrap in the distribution's release profile to reuse native dependencies
-# and grammar artifacts within the same Cargo target directory.
+ARG KELRYVO_SOURCE_TREE_DIGEST=0000000000000000000000000000000000000000000000000000000000000000
+# CI supplies a read-only inventory hint so the first compilation already has
+# the final identity and full feature graph. build-dist independently recomputes
+# the source inventory and rebuilds if the hint is absent or differs.
+ENV KELRYVO_SOURCE_SHA=${KELRYVO_REVISION} KELRYVO_SOURCE_TREE_DIGEST=${KELRYVO_SOURCE_TREE_DIGEST}
 # Keep one target per platform and serialize the shared locked source cache.
 RUN --mount=type=cache,id=kelryvo-native-${TARGETARCH}-rust-1.99.1,target=/opt/kelryvo-source/target,sharing=locked \
     --mount=type=cache,id=kelryvo-registry-rust-1.99.1,target=/opt/cargo/registry,sharing=locked \
-    cargo build -p kelryvo-cli --release --locked \
+    cargo build --release --locked -p kelryvo-cli -p kelryvo-server -p kelryvo-worker -p kelryvo-operator -p kelryvo-launcher \
     && target/release/kelryvo-repository toolchain --installed \
     && target/release/kelryvo build-dist /opt/native-distribution \
     && target/release/kelryvo verify-dist /opt/native-distribution

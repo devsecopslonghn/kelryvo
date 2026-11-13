@@ -8,6 +8,11 @@
   "platforms": {
     "amd64": {
       "triple": "x86_64-unknown-linux-gnu",
+      "wasmBindgenArchive": {
+        "target": "x86_64-unknown-linux-musl",
+        "url": "https://github.com/wasm-bindgen/wasm-bindgen/releases/download/0.2.130/wasm-bindgen-0.2.130-x86_64-unknown-linux-musl.tar.gz",
+        "sha256": "9687f3bb551b9f66f37ed32a40d7913a00f7962db653054e56857bc306c3227f"
+      },
       "archives": [
         {
           "component": "rustc",
@@ -37,6 +42,11 @@
     },
     "arm64": {
       "triple": "aarch64-unknown-linux-gnu",
+      "wasmBindgenArchive": {
+        "target": "aarch64-unknown-linux-musl",
+        "url": "https://github.com/wasm-bindgen/wasm-bindgen/releases/download/0.2.130/wasm-bindgen-0.2.130-aarch64-unknown-linux-musl.tar.gz",
+        "sha256": "99ffc93ce80081b91632e2b539b782821a8f3439ab0fddc645287462b2f55d3d"
+      },
       "archives": [
         {
           "component": "rustc",

@@ -67,11 +67,40 @@ fn validate(pins: &Value, docker: &str) -> Result<Vec<(String, String, String)>>
             }
             rows.push((architecture.to_owned(), digest.to_owned(), url));
         }
+        let wasm = &platform["wasmBindgenArchive"];
+        let wasm_target = if architecture == "amd64" {
+            "x86_64-unknown-linux-musl"
+        } else {
+            "aarch64-unknown-linux-musl"
+        };
+        let url = format!(
+            "https://github.com/wasm-bindgen/wasm-bindgen/releases/download/0.2.130/wasm-bindgen-0.2.130-{wasm_target}.tar.gz"
+        );
+        let digest = wasm["sha256"].as_str().ok_or("WASM bundler checksum")?;
+        if wasm["target"] != wasm_target
+            || wasm["url"] != url
+            || digest.len() != 64
+            || !digest
+                .bytes()
+                .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
+            || section
+                .lines()
+                .filter(|line| {
+                    *line == format!("ADD --checksum=sha256:{digest} {url} /tmp/kelryvo-toolchain/")
+                })
+                .count()
+                != 1
+        {
+            return Err(
+                "Native WASM bundler differs from its reviewed architecture/checksum/URL".into(),
+            );
+        }
+        rows.push((architecture.to_owned(), digest.to_owned(), url));
         if section
             .lines()
             .filter(|line| line.starts_with("ADD "))
             .count()
-            != 4
+            != 5
         {
             return Err("Unexpected bootstrap download".into());
         }
@@ -91,6 +120,20 @@ pub(super) fn check(root: &Path, list: Option<&str>) -> Result<()> {
     .map_err(|e| e.to_string())?;
     let docker = fs::read_to_string(root.join("Dockerfile")).map_err(|e| e.to_string())?;
     let rows = validate(&pins, &docker)?;
+    let action = root.join(".github/actions/native-rust/action.yml");
+    if action.is_file() {
+        let action = fs::read_to_string(action).map_err(|e| e.to_string())?;
+        for architecture in ["amd64", "arm64"] {
+            let wasm = &pins["platforms"][architecture]["wasmBindgenArchive"];
+            if !action.contains(wasm["sha256"].as_str().ok_or("WASM bundler checksum")?)
+                || !action.contains(wasm["target"].as_str().ok_or("WASM bundler target")?)
+            {
+                return Err(
+                    "Host CI WASM bundler differs from its reviewed checksum/target".into(),
+                );
+            }
+        }
+    }
     match list {
         Some(architecture @ ("amd64" | "arm64")) => {
             for (_, hash, url) in rows.into_iter().filter(|(a, _, _)| a == architecture) {
@@ -99,7 +142,7 @@ pub(super) fn check(root: &Path, list: Option<&str>) -> Result<()> {
         }
         Some(_) => return Err("Expected amd64 or arm64 toolchain listing".into()),
         None => println!(
-            "PASS: both Docker bootstrap architectures retain all four reviewed Rust/WASM archives and exact checksums; no Python or authored shell installer"
+            "PASS: both bootstrap architectures retain the reviewed Rust/WASM components and native WASM bundler archives with exact checksums"
         ),
     }
     Ok(())
@@ -121,6 +164,9 @@ pub(super) fn installed(root: &Path) -> Result<()> {
             return Err("Installed compiler/Cargo differs from the reviewed version".into());
         }
     }
+    if output("wasm-bindgen", &["--version"])?.trim() != "wasm-bindgen 0.2.130" {
+        return Err("Installed WASM bundler differs from the reviewed version".into());
+    }
     let sysroot = output("rustc", &["--print", "sysroot"])?;
     if !Path::new(sysroot.trim())
         .join("lib/rustlib/wasm32-unknown-unknown/lib")
@@ -128,7 +174,7 @@ pub(super) fn installed(root: &Path) -> Result<()> {
     {
         return Err("Pinned WASM standard library is unavailable".into());
     }
-    println!("PASS: installed Rust/Cargo 1.99.1 and WASM standard library");
+    println!("PASS: installed Rust/Cargo 1.99.1, WASM standard library and wasm-bindgen 0.2.130");
     Ok(())
 }
 #[cfg(test)]
@@ -143,7 +189,7 @@ mod tests {
         .unwrap();
         let docker = fs::read_to_string(root.join("Dockerfile")).unwrap();
         let rows = validate(&pins, &docker).unwrap();
-        assert_eq!(rows.len(), 8);
+        assert_eq!(rows.len(), 10);
         assert!(validate(&pins, &docker.replace(&rows[0].1, &"0".repeat(64))).is_err());
         assert!(
             validate(

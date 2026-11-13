@@ -20,8 +20,10 @@ openssl = "0.10"
 zeroize = "1"
 
 [profile.release]
-lto = "thin"
-codegen-units = 1
+# Keep optimized release artifacts, with independent code generation so the
+# five native programs do not repeat whole-program LTO on every source SHA.
+lto = false
+codegen-units = 16
 strip = "debuginfo"
 
 [workspace.lints.rust]
