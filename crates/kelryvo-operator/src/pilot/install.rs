@@ -148,10 +148,11 @@ fn certificate() -> Result<(Vec<u8>, Zeroizing<Vec<u8>>)> {
     let after = Asn1Time::days_from_now(90).map_err(|_| fail())?;
     cert.set_not_before(&before).map_err(|_| fail())?;
     cert.set_not_after(&after).map_err(|_| fail())?;
+    // The pilot serves this certificate directly as its TLS endpoint. A CA
+    // certificate is not an end entity and strict TLS clients must reject it.
     cert.append_extension(
         BasicConstraints::new()
             .critical()
-            .ca()
             .build()
             .map_err(|_| fail())?,
     )
@@ -160,7 +161,6 @@ fn certificate() -> Result<(Vec<u8>, Zeroizing<Vec<u8>>)> {
         KeyUsage::new()
             .digital_signature()
             .key_encipherment()
-            .key_cert_sign()
             .build()
             .map_err(|_| fail())?,
     )
@@ -476,3 +476,7 @@ fn kelryvo_vault_key(bytes: &[u8]) -> Result<()> {
     kelryvo_vault::VaultPublicKey::parse(bytes).map_err(|_| fail())?;
     Ok(())
 }
+
+#[cfg(test)]
+#[path = "install_tls_tests.rs"]
+mod tls_tests;

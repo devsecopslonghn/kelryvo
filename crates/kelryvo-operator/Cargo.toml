@@ -34,3 +34,4 @@ workspace = true
 regex.workspace = true
 axum = "0.8"
 tower = { version = "0.5", features = ["util"] }
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"] }
