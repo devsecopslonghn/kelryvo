@@ -2,41 +2,13 @@
 use crate::{
     MAX_INPUT_BYTES, MAX_RELEASE_BYTES, MAX_RELEASE_FILES, MAX_STDOUT_BYTES, digest, js_len,
     matches, safe_integer, sha256, string, uuid,
+    workspace::{canonical_file_version, compare_versions},
 };
 use serde_json::{Value, json};
 use std::{cmp::Ordering, collections::HashSet};
 
-fn compare_versions(left: &str, right: &str) -> Ordering {
-    let a: Vec<_> = left.split('.').collect();
-    let b: Vec<_> = right.split('.').collect();
-    for i in 0..a.len().max(b.len()) {
-        let x = a.get(i).copied().unwrap_or("0");
-        let y = b.get(i).copied().unwrap_or("0");
-        let order = x.len().cmp(&y.len()).then_with(|| x.cmp(y));
-        if order != Ordering::Equal {
-            return order;
-        }
-    }
-    Ordering::Equal
-}
-
 fn canonical_version(path: &str) -> Option<String> {
-    let filename = path.rsplit('/').next()?;
-    if !matches(r"\AV[0-9]+(?:[._][0-9]+)*__[A-Za-z0-9_-]+\.sql\z", filename) {
-        return None;
-    }
-    let version = filename.strip_prefix('V')?.split_once("__")?.0;
-    let mut parts: Vec<_> = version
-        .split(['.', '_'])
-        .map(|p| {
-            let s = p.trim_start_matches('0');
-            if s.is_empty() { "0" } else { s }
-        })
-        .collect();
-    while parts.len() > 1 && parts.last() == Some(&"0") {
-        parts.pop();
-    }
-    Some(parts.join("."))
+    canonical_file_version(path.rsplit('/').next()?)
 }
 
 pub fn verify(release: &Value) -> bool {

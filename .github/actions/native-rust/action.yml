@@ -13,7 +13,8 @@ runs:
         path: |
           ~/.rustup/toolchains/1.99.1-*
           ~/.cache/kelryvo-build-tools/wasm-bindgen-0.2.130
-        key: native-toolchain-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('rust-toolchain.toml', 'docs/dependencies/rust-toolchain.json') }}
+          ~/.cache/kelryvo-build-tools/sccache-0.19.0
+        key: native-toolchain-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('rust-toolchain.toml', 'docs/dependencies/rust-toolchain.json') }}-tools-v2
     - shell: bash
       run: rustup toolchain install 1.99.1 --profile minimal --component rustfmt --component clippy --target wasm32-unknown-unknown --no-self-update
     - name: Install the reviewed native WASM bundler without compiling it again
@@ -28,6 +29,7 @@ runs:
         mkdir -p "$HOME/.cache/kelryvo-build-tools/wasm-bindgen-0.2.130"
         tar -xzf "$RUNNER_TEMP/wasm-bindgen.tar.gz" --strip-components=1 -C "$HOME/.cache/kelryvo-build-tools/wasm-bindgen-0.2.130"
     - name: Install the checksum-pinned content-addressed compiler cache
+      if: steps.toolchain.outputs.cache-hit != 'true'
       shell: bash
       env:
         SCCACHE_TARGET: ${{ runner.arch == 'ARM64' && 'aarch64-unknown-linux-musl' || 'x86_64-unknown-linux-musl' }}
@@ -37,6 +39,9 @@ runs:
         printf '%s  %s\n' "$SCCACHE_SHA256" "$RUNNER_TEMP/sccache.tar.gz" | sha256sum --check --strict
         mkdir -p "$HOME/.cache/kelryvo-build-tools/sccache-0.19.0"
         tar -xzf "$RUNNER_TEMP/sccache.tar.gz" --strip-components=1 -C "$HOME/.cache/kelryvo-build-tools/sccache-0.19.0"
+    - name: Configure the compiler cache on both restored and fresh toolchains
+      shell: bash
+      run: |
         printf '%s\n' "$HOME/.cache/kelryvo-build-tools/sccache-0.19.0" >> "$GITHUB_PATH"
         printf 'RUSTC_WRAPPER=%s\n' "$HOME/.cache/kelryvo-build-tools/sccache-0.19.0/sccache" >> "$GITHUB_ENV"
         printf 'SCCACHE_DIR=%s\n' "$HOME/.cache/kelryvo-sccache" >> "$GITHUB_ENV"

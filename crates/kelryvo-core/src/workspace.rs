@@ -100,7 +100,15 @@ pub fn valid_sql(sql: &str) -> bool {
 }
 
 pub fn file_version(path: &str) -> Option<String> {
-    if js_len(path) > 200 || !matches(r"\AV[0-9]+(?:[._][0-9]+)*__[A-Za-z0-9_-]+\.sql\z", path) {
+    if js_len(path) > 200 {
+        return None;
+    }
+    canonical_file_version(path)
+}
+
+// Git release filenames have a different length bound from editable files.
+pub(crate) fn canonical_file_version(path: &str) -> Option<String> {
+    if !matches(r"\AV[0-9]+(?:[._][0-9]+)*__[A-Za-z0-9_-]+\.sql\z", path) {
         return None;
     }
     let source = path.strip_prefix('V')?.split_once("__")?.0;
@@ -118,17 +126,18 @@ pub fn file_version(path: &str) -> Option<String> {
 }
 
 pub fn compare_versions(a: &str, b: &str) -> Ordering {
-    let a: Vec<_> = a.split('.').collect();
-    let b: Vec<_> = b.split('.').collect();
-    for i in 0..a.len().max(b.len()) {
-        let x = a.get(i).copied().unwrap_or("0");
-        let y = b.get(i).copied().unwrap_or("0");
+    let mut a = a.split('.');
+    let mut b = b.split('.');
+    loop {
+        let (x, y) = match (a.next(), b.next()) {
+            (None, None) => return Ordering::Equal,
+            (x, y) => (x.unwrap_or("0"), y.unwrap_or("0")),
+        };
         let order = x.len().cmp(&y.len()).then_with(|| x.cmp(y));
         if order != Ordering::Equal {
             return order;
         }
     }
-    Ordering::Equal
 }
 
 /// IDs are allocated by the caller for new files before validation. Persisted

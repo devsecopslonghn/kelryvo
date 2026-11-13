@@ -241,19 +241,8 @@ pub async fn run(args: Vec<String>) -> Result<()> {
         if group == "server" {
             context.fresh_json_objects().await?;
         }
-        // Keep the independent OCI replay check from the original source job.
-        if group == "tools" {
-            context
-                .cargo(&[
-                    "test",
-                    "--locked",
-                    "-p",
-                    "kelryvo-cli",
-                    "--test",
-                    "oci_contracts",
-                ])
-                .await?;
-        }
+        // The package selection includes integration targets such as
+        // kelryvo-cli's oci_contracts; each target runs once in this group.
         return Ok(());
     }
     if mode == "--ci" {
@@ -784,19 +773,8 @@ pub async fn run(args: Vec<String>) -> Result<()> {
                 ])
                 .await?;
             json_objects = true;
-            context
-                .cargo(&["build", "--locked", "-p", "kelryvo-cli"])
-                .await?;
-            context
-                .cargo(&[
-                    "test",
-                    "--locked",
-                    "-p",
-                    "kelryvo-cli",
-                    "--test",
-                    "oci_contracts",
-                ])
-                .await?;
+            // Workspace tests already build the CLI integration binaries and
+            // run oci_contracts; standalone --oci-only remains available.
         }
         "--quota-only" => {
             crate::quota::enter(&context).await?;
