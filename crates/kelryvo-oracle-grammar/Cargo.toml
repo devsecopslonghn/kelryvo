@@ -9,6 +9,10 @@ publish.workspace = true
 [dependencies]
 antlr4_runtime = { package = "antlr-rust-runtime", version = "=0.34.0" }
 
+[build-dependencies]
+serde_json.workspace = true
+sha2.workspace = true
+
 [dev-dependencies]
 serde_json.workspace = true
 kelryvo-core = { path = "../kelryvo-core" }

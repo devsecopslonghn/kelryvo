@@ -82,6 +82,10 @@ architecture. Its `--ci-image` command runs the full local image contract before
 the runtime and installed-pilot checks against the same verified immutable image
 ID. `check.yml` owns source validation and does not rebuild those images. Both
 workflows and CodeQL must still pass for the exact source before publication.
+The host grammar generator is cached by its exact source, lockfile, architecture
+and toolchain; Cargo independently checks its parser outputs against pinned
+hashes. Docker caches only its executable, source downloads and a bounded
+compiler cache. Full Cargo target directories stay local to each builder.
 
 Workspace owns infrastructure; projects own releases, plans, reviews and schema
 assignments. Preserve immutable sources, revisions, decisions, history/audit,
