@@ -19,9 +19,9 @@ use std::{
 use zeroize::Zeroizing;
 const REPOSITORY: &str = "devsecopslonghn/kelryvo";
 const WORKFLOWS: [&str; 2] = ["check.yml", "containers.yml"];
-// Require analysis of the current authored languages. Retired Node/JVM/Python
-// results cannot qualify a Rust replacement; the default CodeQL workflow,
-// successful exact-source jobs and the open-finding refusal stay required.
+// Require the repository-owned security workflow, successful exact-source
+// language jobs and refusal of open code-scanning findings.
+const CODEQL_WORKFLOW: &str = ".github/workflows/codeql.yml";
 const CODEQL: [&str; 2] = ["Analyze (rust)", "Analyze (actions)"];
 const LIMIT: u64 = 8 * 1024 * 1024;
 type Result<T> = std::result::Result<T, String>;
@@ -115,8 +115,8 @@ async fn gate(get: &mut impl Reader, source: &str) -> Result<Value> {
     let response = get.get("actions/workflows?per_page=100").await?;
     let codeql = values(&response, "workflows")?
         .iter()
-        .find(|w| w["path"] == "dynamic/github-code-scanning/codeql" && w["state"] == "active")
-        .ok_or("Required default CodeQL workflow is unavailable")?;
+        .find(|w| w["path"] == CODEQL_WORKFLOW && w["state"] == "active")
+        .ok_or("Required Rust CodeQL workflow is unavailable")?;
     let codeql = id(&codeql["id"])?;
     let response = get
         .get(&format!(

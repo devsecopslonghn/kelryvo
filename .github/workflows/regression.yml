@@ -88,8 +88,7 @@ jobs:
         name: Install the reviewed browser prerequisites and pinned native browser
         run: |
           sudo apt-get update
-          # Retain the Ubuntu 24.04 Chromium/tool package set from the reviewed
-          # Playwright 1.64.0 native dependency inventory; no Node driver runs.
+          # Reviewed Ubuntu 24.04 libraries for the pinned external Chromium.
           sudo apt-get install -y --no-install-recommends \
             xvfb fonts-noto-color-emoji fonts-unifont libfontconfig1 libfreetype6 \
             xfonts-cyrillic xfonts-scalable fonts-liberation fonts-ipafont-gothic \

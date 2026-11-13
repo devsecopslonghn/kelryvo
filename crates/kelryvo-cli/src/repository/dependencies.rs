@@ -83,8 +83,7 @@ fn locked(lock: &toml::Table) -> Result<BTreeMap<(String, String), String>> {
     Ok(packages)
 }
 pub(super) fn check(root: &Path, manifest: bool) -> Result<()> {
-    // Historical npm evidence remains data in docs/dependencies. No retired
-    // application or tooling package manager can return to the active tree.
+    // Only Cargo selects application and development dependencies.
     for name in ["package.json", "package-lock.json", ".nvmrc"] {
         if root.join(name).try_exists().map_err(|e| e.to_string())? {
             return Err(format!(

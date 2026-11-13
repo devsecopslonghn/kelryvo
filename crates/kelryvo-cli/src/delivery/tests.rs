@@ -62,7 +62,10 @@ pub(super) fn responses() -> Value {
             json!([{"workflow_runs":[run(4)]}]),
         );
     }
-    map.insert("actions/workflows?per_page=100".into(),json!([{"workflows":[{"id":5,"path":"dynamic/github-code-scanning/codeql","state":"active"}]}]));
+    map.insert(
+        "actions/workflows?per_page=100".into(),
+        json!([{"workflows":[{"id":5,"path":CODEQL_WORKFLOW,"state":"active"}]}]),
+    );
     map.insert(
         format!("actions/workflows/5/runs?head_sha={SHA}&branch=master&per_page=100"),
         json!([{"workflow_runs":[run(5)]}]),
@@ -127,6 +130,14 @@ fn cases() -> Vec<Value> {
     add("missing CodeQL", responses(), |r| {
         r["actions/workflows?per_page=100"][0]["workflows"] = json!([])
     });
+    add("inactive CodeQL", responses(), |r| {
+        r["actions/workflows?per_page=100"][0]["workflows"][0]["state"] =
+            "disabled_manually".into();
+    });
+    add("different security workflow", responses(), |r| {
+        r["actions/workflows?per_page=100"][0]["workflows"][0]["path"] =
+            ".github/workflows/untrusted.yml".into();
+    });
     add("optional workflow failure", responses(), |r| {
         r["actions/workflows/product.yml/runs"] = json!([{"conclusion":"failure"}])
     });
@@ -182,7 +193,9 @@ async fn latest_runs_independent_security_and_both_master_reads_are_required() {
                 json!({"source":SHA,"gate":{"ready":false,"reason":"Required CodeQL language is not successful"}})
             }
             "open finding" => json!({"error":"Open code-scanning findings require review"}),
-            "missing CodeQL" => json!({"error":"Required default CodeQL workflow is unavailable"}),
+            "missing CodeQL" | "inactive CodeQL" | "different security workflow" => {
+                json!({"error":"Required Rust CodeQL workflow is unavailable"})
+            }
             "fork completion" => {
                 json!({"error":"Delivery requires a completed source master workflow event"})
             }
@@ -234,8 +247,8 @@ async fn historical_language_results_cannot_qualify_the_rust_replacement() {
         if expected["gate"]["ready"] == true {
             historical_successes += 1;
             assert_eq!(
-                actual["gate"]["reason"],
-                "Required CodeQL language is not successful"
+                actual["error"],
+                "Required Rust CodeQL workflow is unavailable"
             );
         }
     }

@@ -19,9 +19,9 @@ Use the pinned Rust toolchain, PostgreSQL tools and Git for native checks.
 Run `cargo fetch --locked`, then `cargo check-delivery` for source/contracts/dependency
 checks. `cargo native-test --browser-product-only` runs the Rust browser fixture;
 install its pinned browser with `cargo native-test --install-browser`.
-Development, browser and opt-in lab drivers use Rust; Node/npm/Python are not required.
+Development, browser and opt-in lab drivers use Rust.
 Frozen migration contracts are in `tests/fixtures/contracts/`; parser fixtures
-are in `tests/fixtures/parser/`. No retired Node application is shipped or started.
+are in `tests/fixtures/parser/`.
 
 Checkout startup: `target/debug/kelryvo dev`; use `dev --help` for existing PostgreSQL.
 Native pilot and operator commands: `target/debug/kelryvo pilot --help`.

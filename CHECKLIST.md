@@ -6,9 +6,8 @@ entries and their run journals. Preserve pending IDs and completion criteria.
 The application is Rust under `crates/`, including the API, Oracle runtime,
 operators, parser and WASM UI. Authored development, browser, namespace, container
 and Oracle-lab drivers also run in Rust. Cargo aliases and native CI entrypoints
-replace the retired JavaScript, Python and shell tooling. Historical initializer
-bytes and Node dependency records remain non-executable compatibility/provenance
-data. SQL, HTML/CSS, grammar inputs, configuration and licenses remain required.
+cover repository tooling. Frozen initializer bytes remain compatibility data.
+SQL, HTML/CSS, grammar inputs, configuration and licenses remain required.
 The rewrite is not release-qualified. Published customer deployments retain their
 own source/image scope; see [CUSTOMER-GUIDE.md](CUSTOMER-GUIDE.md).
 
@@ -73,10 +72,9 @@ failures block the affected behavior. Report failed, skipped and unrun checks
 accurately.
 
 The delivery gate requires successful exact-source `Analyze (rust)` and
-`Analyze (actions)` jobs from the active default CodeQL workflow, and refuses
-open code-scanning findings. Retired Node/JVM/Python analysis cannot qualify the
-Rust replacement. Verify that default setup selects both current languages for
-the nominated source; missing analysis blocks publication. The migration branch
+`Analyze (actions)` jobs from `.github/workflows/codeql.yml`, and refuses
+open code-scanning findings. The repository-owned workflow scans only Rust and
+GitHub Actions; missing analysis blocks publication. The migration branch
 also runs the source and native-image checks on push without publishing images.
 
 Workspace owns infrastructure; projects own releases, plans, reviews and schema
@@ -99,8 +97,7 @@ browser storage or command arguments.
 
 Use the pinned Rust toolchain, PostgreSQL tools and Git. WASM builds
 also require `wasm32-unknown-unknown` and `wasm-bindgen-cli 0.2.130`.
-Node/npm/Python and authored JavaScript or shell test drivers are no longer
-required. All lab entrypoints are native and remain opt-in under separate
+All lab entrypoints are native and remain opt-in under separate
 authorization and disposable-lab preparation.
 Oracle's reviewed PKI Java utility and vendor container bootstrap remain
 third-party lab prerequisites; their vendor code is not authored test tooling.
