@@ -27,6 +27,25 @@ runs:
         printf '%s  %s\n' "$WASM_BINDGEN_SHA256" "$RUNNER_TEMP/wasm-bindgen.tar.gz" | sha256sum --check --strict
         mkdir -p "$HOME/.cache/kelryvo-build-tools/wasm-bindgen-0.2.130"
         tar -xzf "$RUNNER_TEMP/wasm-bindgen.tar.gz" --strip-components=1 -C "$HOME/.cache/kelryvo-build-tools/wasm-bindgen-0.2.130"
+    - name: Install the checksum-pinned content-addressed compiler cache
+      shell: bash
+      env:
+        SCCACHE_TARGET: ${{ runner.arch == 'ARM64' && 'aarch64-unknown-linux-musl' || 'x86_64-unknown-linux-musl' }}
+        SCCACHE_SHA256: ${{ runner.arch == 'ARM64' && '3e47fc4a71b1ddd1b4294a0de9d34498922fdf41e3cd0bda5df3954e3d6deb9d' || 'aa73c7270c997894038c0d8f0d297865f57569e1687883322bc431713d4bb9dd' }}
+      run: |
+        curl --fail --location --silent --show-error --retry 2 "https://github.com/mozilla/sccache/releases/download/v0.19.0/sccache-v0.19.0-$SCCACHE_TARGET.tar.gz" -o "$RUNNER_TEMP/sccache.tar.gz"
+        printf '%s  %s\n' "$SCCACHE_SHA256" "$RUNNER_TEMP/sccache.tar.gz" | sha256sum --check --strict
+        mkdir -p "$HOME/.cache/kelryvo-build-tools/sccache-0.19.0"
+        tar -xzf "$RUNNER_TEMP/sccache.tar.gz" --strip-components=1 -C "$HOME/.cache/kelryvo-build-tools/sccache-0.19.0"
+        printf 'RUSTC_WRAPPER=%s\n' "$HOME/.cache/kelryvo-build-tools/sccache-0.19.0/sccache" >> "$GITHUB_ENV"
+        printf 'SCCACHE_DIR=%s\n' "$HOME/.cache/kelryvo-sccache" >> "$GITHUB_ENV"
+        printf 'SCCACHE_SERVER_UDS=%s\n' "$RUNNER_TEMP/kelryvo-sccache.sock" >> "$GITHUB_ENV"
+        printf 'SCCACHE_CACHE_SIZE=512M\n' >> "$GITHUB_ENV"
+    - uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+      with:
+        path: ~/.cache/kelryvo-sccache
+        key: compiler-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('Cargo.lock', 'rust-toolchain.toml', 'crates/kelryvo-oracle-grammar/**') }}-${{ inputs.key }}
+        restore-keys: compiler-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('Cargo.lock', 'rust-toolchain.toml', 'crates/kelryvo-oracle-grammar/**') }}-
     - shell: bash
       run: printf '%s\n' "$HOME/.cache/kelryvo-build-tools/wasm-bindgen-0.2.130" >> "$GITHUB_PATH"
     - uses: Swatinem/rust-cache@f13886b937689c021905a6b90929199931d60db1 # v2.8.1

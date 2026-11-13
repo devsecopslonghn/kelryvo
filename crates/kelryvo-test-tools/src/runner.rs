@@ -232,6 +232,11 @@ pub async fn run(args: Vec<String>) -> Result<()> {
             "--skip",
             "typed_api_requests_reject_positional_arrays_without_metadata_mutation",
         ]);
+        if group == "worker" {
+            // These unit fixtures initialize the same private metadata catalog.
+            // Serialize test cases; their internal race/ACK checks still run.
+            argv.push("--test-threads=1");
+        }
         context.cargo(&argv).await?;
         if group == "server" {
             context.fresh_json_objects().await?;
