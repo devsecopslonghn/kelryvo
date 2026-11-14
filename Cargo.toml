@@ -1,5 +1,6 @@
 [workspace]
 members = ["crates/kelryvo-core", "crates/kelryvo-fixtures", "crates/kelryvo-cli", "crates/kelryvo-parser", "crates/kelryvo-server", "crates/kelryvo-web", "crates/kelryvo-vault", "crates/kelryvo-runtime", "crates/kelryvo-operator", "crates/kelryvo-worker", "crates/kelryvo-launcher", "crates/kelryvo-discovery", "crates/kelryvo-oracle-grammar", "crates/kelryvo-test-tools"]
+exclude = ["crates/antlr-rust-runtime"]
 resolver = "3"
 
 [workspace.package]
@@ -44,3 +45,7 @@ unsafe_code = "forbid"
 
 [workspace.lints.clippy]
 all = "warn"
+
+# The pinned runtime has a local, provenance-checked prediction-context repair.
+[patch.crates-io]
+antlr-rust-runtime = { path = "crates/antlr-rust-runtime" }
