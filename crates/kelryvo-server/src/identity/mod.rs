@@ -25,11 +25,8 @@ fn config_invalid() -> ApiError {
     ApiError(StatusCode::BAD_REQUEST, "INVALID_IDENTITY_CONFIG")
 }
 fn revision(v: &Value) -> Option<i64> {
-    let s = v.as_str()?;
-    if s.len() > 19 || s.starts_with('0') || !s.bytes().all(|b| b.is_ascii_digit()) {
-        return None;
-    }
-    s.parse::<i64>().ok().filter(|v| *v > 0)
+    v.as_str()
+        .and_then(kelryvo_core::workspace::positive_revision)
 }
 pub(super) fn id(v: &str) -> Result<Uuid, ApiError> {
     if v.len() != 36 {

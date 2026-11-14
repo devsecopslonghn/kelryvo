@@ -70,14 +70,9 @@ fn endpoint(b: &Value, host_limit: usize) -> bool {
         && ["SERVICE_NAME", "SID"].contains(&text(&b["serviceKind"]))
 }
 fn revision(v: &Value) -> Option<i64> {
-    let s = v.as_str()?;
-    if !s.starts_with(|c: char| c.is_ascii_digit() && c != '0')
-        || s.len() > 19
-        || !s.bytes().all(|b| b.is_ascii_digit())
-    {
-        return None;
-    }
-    s.parse::<i64>().ok().filter(|n| *n < i64::MAX)
+    v.as_str()
+        .and_then(kelryvo_core::workspace::positive_revision)
+        .filter(|n| *n < i64::MAX)
 }
 fn database(e: sqlx::Error) -> ApiError {
     if e.as_database_error()

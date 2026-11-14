@@ -3,6 +3,36 @@ use serde_json::{Value, json};
 use std::cmp::Ordering;
 
 #[test]
+fn canonical_revisions_preserve_zero_and_i64_boundaries() {
+    assert_eq!(workspace::positive_revision("0"), None);
+    assert_eq!(workspace::nonnegative_revision("0"), Some(0));
+    for value in ["1", "9223372036854775806", "9223372036854775807"] {
+        assert_eq!(workspace::positive_revision(value), value.parse().ok());
+        assert_eq!(workspace::nonnegative_revision(value), value.parse().ok());
+    }
+    for invalid in [
+        "",
+        "00",
+        "01",
+        "+1",
+        "-0",
+        "-1",
+        "1.0",
+        "1e0",
+        " 1",
+        "1\n",
+        "١",
+        "9223372036854775808",
+    ] {
+        assert_eq!(workspace::positive_revision(invalid), None);
+        assert_eq!(workspace::nonnegative_revision(invalid), None);
+    }
+    for invalid in [json!(0), json!(1), json!(null), json!(true)] {
+        assert!(!kelryvo_core::plan::revision(&invalid));
+    }
+}
+
+#[test]
 fn migration_versions_preserve_numeric_order_and_distinct_filename_bounds() {
     for (left, right, expected) in [
         ("1", "1.0.0", Ordering::Equal),

@@ -384,3 +384,12 @@ pub fn positive_revision(value: &str) -> Option<i64> {
             .filter(|n| *n > 0 && n.to_string() == value)
     }
 }
+
+/// Canonical decimal revisions for contracts that also permit the initial zero.
+pub fn nonnegative_revision(value: &str) -> Option<i64> {
+    if value == "0" {
+        Some(0)
+    } else {
+        positive_revision(value)
+    }
+}
