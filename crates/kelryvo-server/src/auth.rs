@@ -16,6 +16,28 @@ mod password_change;
 pub use password_change::change as change_password;
 
 const COOKIE: &str = "__Host-schemaforge";
+
+#[cfg(test)]
+mod hex_tests {
+    use super::*;
+
+    #[test]
+    fn retained_hex_is_lowercase_and_refusals_keep_the_auth_error() {
+        let bytes: Vec<_> = (0..=255).collect();
+        let encoded = hex::encode(&bytes);
+        assert_eq!(unhex(&encoded).unwrap(), bytes);
+        assert_eq!(hex::encode([0, 15, 16, 255]), "000f10ff");
+        assert!(unhex("").unwrap().is_empty());
+        for invalid in ["A0", "0A", "abc", "0g", "é", "00\n"] {
+            let error = unhex(invalid).unwrap_err();
+            assert_eq!(error.0, StatusCode::FORBIDDEN);
+            assert_eq!(error.1, "AUTH_UNAVAILABLE");
+        }
+        let token = random_token();
+        assert_eq!(token.len(), 64);
+        assert_eq!(unhex(&token).unwrap().len(), 32);
+    }
+}
 pub(crate) const PARENT_AUTHORITY: &str = "(p.credential_kind='LOCAL' OR (p.credential_kind='PASSWORD' AND EXISTS(SELECT 1 FROM sf_password_accounts password JOIN sf_local_credentials anchor ON anchor.id=password.anchor_credential_id AND anchor.actor_id=password.actor_id WHERE password.actor_id=p.actor_id AND password.disabled_at IS NULL AND anchor.credential_kind='LOCAL' AND anchor.revoked_at IS NULL)) OR (p.credential_kind='EXTERNAL' AND EXISTS(SELECT 1 FROM sf_external_session_roots e JOIN sf_identity_providers provider ON provider.id=e.provider_id AND provider.revision=e.provider_revision AND provider.enabled JOIN sf_external_identities mapping ON mapping.id=e.mapping_id AND mapping.provider_id=e.provider_id AND mapping.actor_id=e.actor_id AND mapping.revoked_at IS NULL JOIN sf_local_credentials anchor ON anchor.id=mapping.anchor_credential_id AND anchor.actor_id=mapping.actor_id AND anchor.credential_kind='LOCAL' AND anchor.revoked_at IS NULL JOIN sf_metadata_current cur ON cur.singleton AND cur.generation_id=e.generation_id JOIN sf_metadata_generations generation ON generation.id=cur.generation_id AND generation.state='ACTIVE' WHERE e.credential_id=p.id AND e.actor_id=p.actor_id)))";
 const LIVE_BROWSER: &str = "SELECT c.id,c.actor_id,a.display_name AS name,a.role,c.expires_at,c.absolute_expires_at FROM sf_local_credentials c JOIN sf_local_credentials p ON p.id=c.parent_credential_id AND p.actor_id=c.actor_id JOIN sf_local_actors a ON a.id=c.actor_id WHERE c.token_sha256=$1 AND c.credential_kind='BROWSER' AND p.credential_kind IN ('LOCAL','PASSWORD','EXTERNAL') AND c.revoked_at IS NULL AND p.revoked_at IS NULL AND c.expires_at>clock_timestamp() AND c.absolute_expires_at>clock_timestamp() AND p.expires_at>clock_timestamp() AND a.organization_id=$2 AND a.role IN ('developer','approver') AND ";
 
@@ -57,10 +79,7 @@ pub fn valid_password(value: &str) -> bool {
 pub(crate) fn random_token() -> String {
     let mut bytes = [0u8; 32];
     rand::rngs::OsRng.fill_bytes(&mut bytes);
-    bytes.iter().map(|b| format!("{b:02x}")).collect()
-}
-fn hex(bytes: &[u8]) -> String {
-    bytes.iter().map(|b| format!("{b:02x}")).collect()
+    hex::encode(bytes)
 }
 fn unhex(text: &str) -> Result<Vec<u8>, ApiError> {
     if !text.len().is_multiple_of(2)
@@ -70,18 +89,7 @@ fn unhex(text: &str) -> Result<Vec<u8>, ApiError> {
     {
         return Err(forbidden("AUTH_UNAVAILABLE"));
     }
-    text.as_bytes()
-        .as_chunks::<2>()
-        .0
-        .iter()
-        .map(|b| {
-            u8::from_str_radix(
-                std::str::from_utf8(b).map_err(|_| forbidden("AUTH_UNAVAILABLE"))?,
-                16,
-            )
-            .map_err(|_| forbidden("AUTH_UNAVAILABLE"))
-        })
-        .collect()
+    hex::decode(text).map_err(|_| forbidden("AUTH_UNAVAILABLE"))
 }
 
 async fn derive(state: &AppState, password: String, salt: Vec<u8>) -> Result<Vec<u8>, ApiError> {
@@ -112,8 +120,8 @@ pub async fn hash_password(state: &AppState, password: &str) -> Result<String, A
     rand::rngs::OsRng.fill_bytes(&mut salt);
     Ok(format!(
         "scrypt-v1${}${}",
-        hex(&salt),
-        hex(&derive(state, password.into(), salt.to_vec()).await?)
+        hex::encode(salt),
+        hex::encode(derive(state, password.into(), salt.to_vec()).await?)
     ))
 }
 async fn verify_password(
