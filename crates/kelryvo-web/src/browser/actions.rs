@@ -115,11 +115,15 @@ pub(super) enum Action {
     OpenManagedConnection,
     OpenOriginatingDraft,
     OpenPlanComparison,
+    OpenPlanReview,
     OpenRelease,
     OpenRetainedSchema,
     OpenSchemaSnapshot,
     ParseSql,
     PrepareRelease,
+    PrepareForReview,
+    PrepareGitReview,
+    PrepareReleaseReview,
     PreviewReleaseFile,
     Project,
     ProjectConnectionHistory,
@@ -189,6 +193,13 @@ pub(super) async fn dispatch(
     fields: Value,
 ) -> Result<(), String> {
     match action {
+        Action::PrepareForReview | Action::PrepareGitReview | Action::PrepareReleaseReview => {
+            preparation::prepare(model, action, fields).await?;
+        }
+        Action::OpenPlanReview => {
+            load(model).await?;
+            plans::open_review(model, id).await?;
+        }
         Action::SwitchProject => shell::switch(model, id).await?,
         Action::RefreshWorkspace => {
             let project = model.borrow().data["projectId"].as_str().map(str::to_owned);
@@ -315,7 +326,14 @@ pub(super) async fn dispatch(
         Action::CreateProject => projects::create(model, fields).await?,
         Action::ArchiveProject => project_lifecycle::archive(model, fields).await?,
         Action::CreateEnvironment => {
-            let project = super::project_id(model)?;
+            let project = if matches!(model.borrow().route, Route::Instances) {
+                model.borrow().data["projectId"]
+                    .as_str()
+                    .ok_or("Choose a project")?
+                    .to_owned()
+            } else {
+                super::project_id(model)?
+            };
             let suffix = "environments";
             api(
                 model,
@@ -325,7 +343,11 @@ pub(super) async fn dispatch(
                 None,
             )
             .await?;
-            load(model).await?;
+            if matches!(model.borrow().route, Route::Instances) {
+                load_instance_project(model, &project).await?;
+            } else {
+                load(model).await?;
+            }
         }
         Action::ParseSql => {
             let parsed = api(model, "POST", "/api/parser/oracle", Some(fields), None).await?;

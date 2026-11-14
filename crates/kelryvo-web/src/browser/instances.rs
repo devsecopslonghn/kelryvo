@@ -33,10 +33,8 @@ pub(super) async fn action(
                 None,
             )
             .await?;
-            let mut state = model.borrow_mut();
-            state.data["bindings"] = bindings["bindings"].clone();
-            state.notice =
-                "Schemas assigned. Target bindings require identity verification.".into();
+            model.borrow_mut().data["bindings"] = bindings["bindings"].clone();
+            model.borrow_mut().notice = "Schemas assigned. Review current identity evidence and verify each target; deployment approval remains separate.".into();
         }
         Action::AttachInstance
         | Action::TestInstance
@@ -148,20 +146,73 @@ pub(super) async fn action(
 }
 
 pub(super) fn instances_view(data: &Value) -> String {
-    let mut html="<header><h1>Instances</h1><p>Register one instance credential, then assign database schemas to a project.</p></header><section>".to_owned();
-    html.push_str(&project_picker(data));
+    let mut html="<section aria-label=\"Instance to target setup\"><h2>Target setup</h2><p>1. Choose an environment. 2. Register or attach an instance and configure its credential. 3. Discover and bind schemas. 4. Verify target identity.</p><p>Registration labels do not establish physical identity. Setup never grants deployment access or approves a migration.</p>".to_owned();
     html.push_str("</section>");
     if data["projectId"].is_string() {
+        html.push_str("<section><h3>1. Project environments</h3>");
+        html.push_str(&records(
+            array(data, "environments"),
+            &[("name", "Environment")],
+        ));
+        if project_lifecycle::write(data) && data["projectSession"]["actor"]["role"] == "developer"
+        {
+            html.push_str(&form(
+                "create-environment",
+                &input("environment-name", "Environment name", "text", true),
+                "Add environment",
+            ));
+        }
+        html.push_str("</section>");
+        if data["credentialEntryAvailable"] == true {
+            let mut fields = input("instance-name", "Instance name", "text", true)
+                + &input("instance-container", "Container name", "text", true);
+            fields.push_str("<label for=\"instance-kind\">Topology</label><select id=\"instance-kind\"><option value=\"PDB\">PDB</option><option value=\"NON_CDB\">Non-CDB</option></select><label for=\"instance-environment\">Environment</label><select id=\"instance-environment\"><option>DEV</option><option>SIT</option><option>UAT</option><option>PROD</option></select>");
+            fields.push_str(&input("instance-host", "Host", "text", true));
+            fields.push_str("<label>Port<input id=\"instance-port\" type=\"number\" value=\"1521\" min=\"1\" max=\"65535\" required></label>");
+            fields.push_str(&input("instance-service", "Service name", "text", true));
+            fields.push_str("<label for=\"instance-transport\">Transport</label><select id=\"instance-transport\"><option value=\"TCPS\">TCPS</option><option value=\"TCP\">TCP</option></select>");
+            fields.push_str(&input(
+                "instance-username",
+                "Database username",
+                "text",
+                true,
+            ));
+            fields.push_str(&input(
+                "instance-password",
+                "Database password",
+                "password",
+                true,
+            ));
+            fields.push_str(&input(
+                "instance-reason",
+                "Registration reason",
+                "text",
+                true,
+            ));
+            html.push_str("<section><h3>2. Register an instance and encrypted credential</h3>");
+            html.push_str(&form("register-instance", &fields, "Register instance"));
+            html.push_str("</section>");
+        } else {
+            html.push_str("<p class=\"notice\">Credential entry is unavailable. Ask an operator to configure the vault public key.</p>");
+        }
         for instance in array(data, "instances") {
             let id = s(&instance["id"]);
             html.push_str(&format!(
-                "<article><h2>{}</h2><p>{} · {} · {}</p><p>Credential revision {} · {}</p>",
+                "<article><h3>3. Discover and bind · {}</h3><p>{} · {} · {}</p><p>Credential revision {} · {}</p><p>The protected installation must be ready before accepted discovery is available. Inspect connection details for installation and credential state.</p>",
                 e(&instance["name"]),
                 e(&instance["host"]),
                 e(&instance["service"]),
                 e(&instance["username"]),
                 e(&instance["revision"]),
                 e(&instance["status"])
+            ));
+            html.push_str(&format!(
+                "<p>Protected installation: {}</p>",
+                e(&instance["runtimeState"])
+            ));
+            html.push_str(&records(
+                array(&instance["readiness"], "checks"),
+                &[("code", "Setup check"), ("passed", "Passed")],
             ));
             html.push_str(&input(
                 &format!("discovery-reason-{id}"),
@@ -235,7 +286,7 @@ pub(super) fn instances_view(data: &Value) -> String {
             {
                 let bid = s(&binding["bindingId"]);
                 html.push_str(&format!(
-                    "<section><h3>Target {}</h3><p>Binding revision {} · Identity {}</p>",
+                    "<section><h3>4. Verify target · {}</h3><p>Binding revision {} · Identity {}</p>",
                     e(&binding["exactOwner"]),
                     e(&binding["bindingRevision"]),
                     e(&binding["identityState"])
@@ -251,27 +302,27 @@ pub(super) fn instances_view(data: &Value) -> String {
                                 .unwrap_or_default()
                         )
                     ));
-                    if let Some(observation) = assignable_observation(data, id)
-                        && array(observation, "schemas").iter().any(|schema| {
-                            schema["owner"] == binding["exactOwner"] && schema["accessible"] == true
-                        })
+                }
+                if let Some(observation) = assignable_observation(data, id)
+                    && array(observation, "schemas").iter().any(|schema| {
+                        schema["owner"] == binding["exactOwner"] && schema["accessible"] == true
+                    })
+                {
+                    html.push_str(&input(
+                        &format!("verification-reason-{bid}"),
+                        "Identity acceptance reason",
+                        "text",
+                        true,
+                    ));
+                    html.push_str(&button("observe-target", "Observe identity", bid));
+                    if observation["provenance"] == "ORACLE_READ_ONLY"
+                        && observation["verificationAcceptance"].is_object()
                     {
-                        html.push_str(&input(
-                            &format!("verification-reason-{bid}"),
-                            "Identity acceptance reason",
-                            "text",
-                            true,
-                        ));
-                        html.push_str(&button("observe-target", "Observe identity", bid));
-                        if observation["provenance"] == "ORACLE_READ_ONLY"
-                            && observation["verificationAcceptance"].is_object()
-                        {
-                            html.push_str(&button("verify-target", "Verify identity", bid));
-                        }
+                        html.push_str(&button("verify-target", "Verify identity", bid));
                     }
-                    if binding["observationDigest"].is_string() {
-                        html.push_str(&button("target-evidence", "View identity evidence", bid));
-                    }
+                }
+                if binding["observationDigest"].is_string() {
+                    html.push_str(&button("target-evidence", "View identity evidence", bid));
                 }
                 if let Some(evidence) = data["targetEvidence"][bid].as_object() {
                     html.push_str(&format!(
@@ -302,38 +353,6 @@ pub(super) fn instances_view(data: &Value) -> String {
             }
             html.push_str("</article>");
         }
-        if data["credentialEntryAvailable"] == true {
-            let mut fields = input("instance-name", "Instance name", "text", true)
-                + &input("instance-container", "Container name", "text", true);
-            fields.push_str("<label for=\"instance-kind\">Topology</label><select id=\"instance-kind\"><option value=\"PDB\">PDB</option><option value=\"NON_CDB\">Non-CDB</option></select><label for=\"instance-environment\">Environment</label><select id=\"instance-environment\"><option>DEV</option><option>SIT</option><option>UAT</option><option>PROD</option></select>");
-            fields.push_str(&input("instance-host", "Host", "text", true));
-            fields.push_str("<label>Port<input id=\"instance-port\" type=\"number\" value=\"1521\" min=\"1\" max=\"65535\" required></label>");
-            fields.push_str(&input("instance-service", "Service name", "text", true));
-            fields.push_str("<label for=\"instance-transport\">Transport</label><select id=\"instance-transport\"><option value=\"TCPS\">TCPS</option><option value=\"TCP\">TCP</option></select>");
-            fields.push_str(&input(
-                "instance-username",
-                "Database username",
-                "text",
-                true,
-            ));
-            fields.push_str(&input(
-                "instance-password",
-                "Database password",
-                "password",
-                true,
-            ));
-            fields.push_str(&input(
-                "instance-reason",
-                "Registration reason",
-                "text",
-                true,
-            ));
-            html.push_str("<section><h2>Register an instance</h2>");
-            html.push_str(&form("register-instance", &fields, "Register instance"));
-            html.push_str("</section>");
-        } else {
-            html.push_str("<p class=\"notice\">Credential entry is unavailable. Ask an operator to configure the vault public key.</p>");
-        }
     } else {
         html.push_str(&records(
             array(data, "instances"),
@@ -345,8 +364,10 @@ pub(super) fn instances_view(data: &Value) -> String {
             ],
         ));
     }
+    html.push_str("<details><summary>Advanced profiles and compatibility configuration</summary>");
     html.push_str(&instance_profiles::view(data));
     html.push_str(&configuration::panel(data));
+    html.push_str("</details>");
     html
 }
 

@@ -19,7 +19,7 @@ pub(super) async fn action(
                 )
                 .await?;
                 load(model).await?;
-                model.borrow_mut().notice="Execution request queued for independent worker validation. SQL has not been executed.".into();
+                model.borrow_mut().notice="Execution request queued for independent worker admission. Inspect its current status and retained evidence.".into();
             }
             let response = api(
                 model,

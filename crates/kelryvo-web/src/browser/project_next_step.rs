@@ -101,8 +101,8 @@ fn choose<'a>(data: &'a Value, actor: &Value) -> Step<'a> {
         (
             "Configure a project target",
             "Register or reuse an Oracle instance, discover its schemas, and assign them to this project. A database manager needs operator-provisioned credentials and a configured Oracle runtime.",
-            "instances",
-            "Connect an Oracle instance",
+            "setup",
+            "Set up the project target",
             None,
             "",
         )

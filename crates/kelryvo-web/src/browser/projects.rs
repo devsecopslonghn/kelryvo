@@ -133,10 +133,11 @@ pub(super) fn project_view(project_id: &str, tab: &str, data: &Value, actor: &Va
     );
     for (key, label) in [
         ("overview", "Overview"),
+        ("setup", "Target setup"),
         ("workspace", "SQL Workspace"),
-        ("plans", "Plans"),
+        ("plans", "Plans & review"),
         ("releases", "Releases"),
-        ("targets", "Targets"),
+        ("targets", "Targets (advanced)"),
         ("references", "Schema references"),
         ("schema", "Schema baselines"),
         ("connections", "Project connections"),
@@ -155,6 +156,7 @@ pub(super) fn project_view(project_id: &str, tab: &str, data: &Value, actor: &Va
     html.push_str("</nav>");
     html.push_str(&project_lifecycle::banner(data));
     match tab {
+        "setup" => html.push_str(&instances_view(data)),
         "workspace" => html.push_str(&draft_editor::view(data)),
         "releases" => html.push_str(&releases::view(data)),
         "configuration" => html.push_str(&configuration::view(data, actor)),
@@ -196,9 +198,26 @@ pub(super) fn project_view(project_id: &str, tab: &str, data: &Value, actor: &Va
                 }
                 fields.push_str("</select>");
                 if actor["role"] == "developer" {
-                    fields.push_str(&button("validate-plan-release", "Validate release", ""));
+                    html.push_str(&form(
+                        "prepare-release-review",
+                        &fields,
+                        "Prepare for Review",
+                    ));
+                    html.push_str(
+                        "<details><summary>Individual preparation and compatibility</summary>",
+                    );
+                    html.push_str(&button(
+                        "validate-plan-release",
+                        "Validate release only",
+                        "",
+                    ));
+                    html.push_str(&form(
+                        "create-plan",
+                        "",
+                        "Create compatibility plan from selected release and target",
+                    ));
+                    html.push_str("</details>");
                 }
-                html.push_str(&form("create-plan", &fields, "Create review plan"));
             }
             if data["activeValidation"].is_object() {
                 html.push_str(&validation_panel(
@@ -243,11 +262,9 @@ pub(super) fn project_view(project_id: &str, tab: &str, data: &Value, actor: &Va
                         "Open originating draft",
                     ));
                 }
-                html.push_str(&button("export-plan-record", "Export plan record", pid));
-                html.push_str(&migration_analysis::view(data, plan));
-                html.push_str(&button("execution-readiness", "Execution readiness", pid));
+                html.push_str(&plans::review_panel(data, plan));
                 let readiness = &data["readinessByPlan"][pid];
-                if readiness.is_object() {
+                if readiness.is_object() && data["releaseDetail"]["id"] == plan["releaseId"] {
                     html.push_str("<section class=\"execution-readiness\"><h4>Execution readiness</h4><p>These checks cover governance only. Worker admission and Oracle effects remain unverified.</p>");
                     html.push_str(&records(
                         array(readiness, "checks"),
@@ -264,6 +281,9 @@ pub(super) fn project_view(project_id: &str, tab: &str, data: &Value, actor: &Va
                     }
                     html.push_str("</section>");
                 }
+                html.push_str("<details><summary>Additional evidence and reviewer tools</summary>");
+                html.push_str(&button("export-plan-record", "Export plan record", pid));
+                html.push_str(&migration_analysis::view(data, plan));
                 html.push_str(&button("load-plan-drift", "Schema drift evidence", pid));
                 if data["planDrift"][pid].is_object() {
                     html.push_str(&format!("<details open><summary>Retained schema drift</summary><p>Diagnostic evidence. Execution authority: false.</p><pre>{}</pre></details>",escape(&serde_json::to_string_pretty(&data["planDrift"][pid]).unwrap_or_default())));
@@ -475,7 +495,14 @@ pub(super) fn project_view(project_id: &str, tab: &str, data: &Value, actor: &Va
                 if let Some(reviewer) = plan["reviewerName"].as_str() {
                     html.push_str(&format!("<p>Reviewer: {}</p>", escape(reviewer)));
                 }
+                html.push_str("</details>");
                 if actor["role"] == "approver"
+                    && data["releaseDetail"]["id"] == plan["releaseId"]
+                    && array(&data["readinessByPlan"][pid], "checks")
+                        .iter()
+                        .any(|check| {
+                            check["code"] == "PROTECTED_SOURCE_CURRENT" && check["status"] == "PASS"
+                        })
                     && plan["authorId"] != actor["id"]
                     && plan["status"] == "PENDING_APPROVAL"
                     && plan["currentness"]["state"] == "CURRENT"
@@ -511,7 +538,8 @@ pub(super) fn project_view(project_id: &str, tab: &str, data: &Value, actor: &Va
             html.push_str("<section><h2>Execution requests</h2><p>A queued request requires separate worker admission. Review and request metadata do not attest database effects.</p>");
             for job in array(&data["executionPage"], "jobs") {
                 let id = s(&job["id"]);
-                html.push_str(&format!("<article><h3>Request {}</h3><p>{} · Revision {}</p><p>Requester: {}</p><p>{}</p>",e(&job["id"]),e(&job["state"]),job["revision"],e(&job["requesterId"]),e(&job["reason"])));
+                let (status, description) = crate::workflow::execution_status(s(&job["state"]));
+                html.push_str(&format!("<article><h3>{status}</h3><p>{description}</p><details><summary>Request identity and internal state</summary><p>{} · {} · Revision {}</p></details><p>Requester: {}</p><p>{}</p>",e(&job["id"]),e(&job["state"]),job["revision"],e(&job["requesterId"]),e(&job["reason"])));
                 html.push_str(&button("inspect-execution-request", "Inspect request", id));
                 if job["state"] == "WAITING_VALIDATION"
                     && job["requesterId"] == actor["id"]

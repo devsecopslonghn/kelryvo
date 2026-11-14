@@ -280,7 +280,7 @@ pub(super) fn controls(model: &Model) {
         editing || conflict || !unsaved,
     );
     toggle(
-        "[data-action='prepare-release'],[data-action='review-draft-syntax'],[data-action='validate-draft']",
+        "[data-action='prepare-for-review'],[data-action='prepare-release'],[data-action='review-draft-syntax'],[data-action='validate-draft']",
         editing || unsaved || conflict,
     );
     toggle(
@@ -708,6 +708,8 @@ pub(super) fn view(data: &Value) -> String {
     }
     html.push_str(&button("discard-draft-edits", "Discard unsaved edits", ""));
     if draft["id"].is_string() {
+        html.push_str(&button("prepare-for-review", "Prepare for Review", ""));
+        html.push_str("<p>Prepare the saved revision, retain target validation and create an immutable plan for independent review.</p><details><summary>Individual preparation steps and diagnostics</summary>");
         html.push_str(&format!(
             "<p class=\"muted\">Saved revision {}</p>{}{}",
             e(&draft["revision"]),
@@ -736,6 +738,7 @@ pub(super) fn view(data: &Value) -> String {
                 "",
             ));
         }
+        html.push_str("</details>");
         html.push_str("<div id=\"draft-advice\">");
         if data["draftPreview"].is_object() {
             let p = &data["draftPreview"];

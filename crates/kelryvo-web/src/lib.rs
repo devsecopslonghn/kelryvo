@@ -2,6 +2,8 @@
 //! by wasm-bindgen for the browser's WebAssembly and DOM interfaces.
 #[cfg(target_arch = "wasm32")]
 mod browser;
+#[cfg(any(target_arch = "wasm32", test))]
+mod workflow;
 
 pub fn escape(value: &str) -> String {
     value

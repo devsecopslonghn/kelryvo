@@ -45,7 +45,8 @@ pub(super) fn route(context: &Value) -> Route {
         "release" => "releases",
         "review" => "plans",
         "records" => "audit",
-        "references" | "targets" | "schema" | "history" | "executions" | "configuration" => page,
+        "setup" | "references" | "targets" | "schema" | "history" | "executions"
+        | "configuration" => page,
         "project-connections" => "connections",
         _ => "overview",
     };

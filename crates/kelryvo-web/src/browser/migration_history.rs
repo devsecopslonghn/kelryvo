@@ -178,8 +178,13 @@ pub(super) fn view(project: &str, data: &Value, actor: &Value) -> String {
     for row in array(page, "items") {
         html.push_str(&format!("<article class=\"migration-history-row\"><h3>{}</h3><p>Event status: {} · {}</p><p>{}</p><p>Actor: {} · Target: {}</p>",e(&row["title"]),e(&row["status"]),e(&row["at"]),e(&row["detail"]),if row["actorName"].is_string(){e(&row["actorName"])}else{e(&row["actorId"])},e(&row["targetId"])));
         if row["liveStatus"].is_object() {
+            if row["kind"] == "request" {
+                let (label, explanation) =
+                    crate::workflow::execution_status(s(&row["liveStatus"]["state"]));
+                html.push_str(&format!("<p>Current execution: {label}. {explanation}</p>"));
+            }
             html.push_str(&format!(
-                "<p>Current status: {}</p>",
+                "<details><summary>Current internal status</summary><p>{}</p></details>",
                 escape(&row["liveStatus"].to_string())
             ));
         }
@@ -240,7 +245,8 @@ pub(super) fn view(project: &str, data: &Value, actor: &Value) -> String {
     let job = &data["migrationJob"];
     if job["id"].is_string() {
         let id = s(&job["id"]);
-        html.push_str(&format!("<section aria-label=\"Execution request details {}\"><h3>Execution request timeline</h3><p>State: {}. Product metadata does not prove Oracle acceptance.</p>",escape(id),e(&job["state"])));
+        let (label, explanation) = crate::workflow::execution_status(s(&job["state"]));
+        html.push_str(&format!("<section aria-label=\"Execution request details {}\"><h3>{label}</h3><p>{explanation}</p><details><summary>Request timeline · internal state {}</summary>",escape(id),e(&job["state"])));
         let detail = &data["executionDetails"][id];
         html.push_str(&format!(
             "<pre>{}</pre>",
@@ -249,6 +255,7 @@ pub(super) fn view(project: &str, data: &Value, actor: &Value) -> String {
         if detail["nextCursor"].is_string() {
             html.push_str(&button("older-execution-events", "More events", id));
         }
+        html.push_str("</details>");
         html.push_str(&super::execution_review_panel(data, job, actor));
         html.push_str("</section>");
     }

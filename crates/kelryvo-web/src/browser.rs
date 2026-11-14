@@ -13,6 +13,7 @@ use actions::Action;
 mod execution;
 mod instances;
 mod plans;
+mod preparation;
 use instances::{instances_view, load_instance_project};
 mod audit;
 mod configuration;
@@ -57,6 +58,8 @@ struct State {
     notice: String,
     project_receipts: Vec<Value>,
     workflow_restore: Value,
+    preparations: Value,
+    last_api_status: Option<u16>,
     appearance: shell::Appearance,
 }
 impl State {
@@ -66,6 +69,7 @@ impl State {
                 != session.as_ref().map(|s| &s["actor"]["id"])
         {
             self.project_receipts.clear();
+            self.preparations = json!({});
             self.appearance.clear_access();
             if let Some(data) = self.data.as_object_mut() {
                 data.remove("holdForms");
@@ -237,6 +241,7 @@ async fn api(
     body: Option<Value>,
     bearer: Option<&str>,
 ) -> Result<Value, String> {
+    model.borrow_mut().last_api_status = None;
     let options = RequestInit::new();
     options.set_method(method);
     options.set_credentials(RequestCredentials::SameOrigin);
@@ -283,6 +288,7 @@ async fn api(
         .map_err(|_| "Connection unavailable".to_owned())?
         .dyn_into()
         .map_err(|_| "Invalid response".to_owned())?;
+    model.borrow_mut().last_api_status = Some(response.status());
     if response.status() == 204 {
         return Ok(Value::Null);
     }
@@ -308,6 +314,11 @@ async fn api(
             }
             if matches!(&state.route, Route::Project(_, _)) {
                 state.data = Value::Null;
+                if let Route::Project(project, _) = state.route.clone()
+                    && let Some(attempts) = state.preparations.as_object_mut()
+                {
+                    attempts.retain(|_, attempt| attempt["projectId"] != project);
+                }
             }
         }
         if matches!(response.status(), 403 | 404) && matches!(state.route, Route::Identity) {
@@ -478,11 +489,18 @@ fn render(model: &Model) {
         if state.busy {
             html.push_str("<p role=\"status\">Loading…</p>");
         }
+        if let Route::Project(project, _) = &state.route {
+            html.push_str(&preparation::progress(&state.preparations, project));
+        }
         html.push_str(&match &state.route {
             Route::Projects => projects::view(&state.data, &state.project_receipts),
             Route::Project(id, tab) => project_view(id, tab, &state.data, &session["actor"]),
             Route::Account => account::view(&state.data, session),
-            Route::Instances => instances_view(&state.data),
+            Route::Instances => format!(
+                "{}{}",
+                project_picker(&state.data),
+                instances_view(&state.data)
+            ),
             Route::Connections => connections::view(&state.data, true),
             Route::Review => review_inbox::view(&state.data),
             Route::Identity => identity::view(&state.data),
@@ -549,6 +567,11 @@ fn render(model: &Model) {
 async fn load(model: &Model) -> Result<(), String> {
     let route = model.borrow().route.clone();
     let location = model.borrow_mut().workflow_restore.take();
+    if let Route::Project(project, tab) = &route
+        && tab == "setup"
+    {
+        return load_instance_project(model, project).await;
+    }
     let path = match route {
         Route::Projects => "/api/projects".into(),
         Route::Project(id, _) => format!("/api/projects/{}", segment(&id)),
@@ -606,6 +629,7 @@ async fn load(model: &Model) -> Result<(), String> {
             || tab == "plans"
             || tab == "history"
             || tab == "schema"
+            || tab == "releases"
         {
             let bindings = api(
                 model,
@@ -754,6 +778,7 @@ fn run_action(model: Model, action_name: Action, id: String, fields: Value) {
             Action::CreatePlan,
             Action::CreateValidatedPlan,
             Action::ValidatePlanRelease,
+            Action::PrepareReleaseReview,
         ]
         .contains(&action_name)
         {
@@ -767,6 +792,10 @@ fn run_action(model: Model, action_name: Action, id: String, fields: Value) {
         }
         if action_name == Action::ParseSql {
             state.data["previewSource"] = fields["sql"].clone();
+        }
+        if action_name == Action::PrepareGitReview {
+            state.data["gitCommitDraft"] = fields["commit"].clone();
+            state.data["gitTargetDraft"] = fields["targetBindingId"].clone();
         }
         if action_name == Action::ArchiveProject {
             state.data["archiveReason"] = fields["reason"].clone();
@@ -819,6 +848,8 @@ pub fn start() -> Result<(), JsValue> {
         methods: Value::Null,
         route: workflow_location::route(&location),
         workflow_restore: location,
+        preparations: json!({}),
+        last_api_status: None,
         appearance: shell::Appearance::default(),
         data: Value::Null,
         error: String::new(),
@@ -847,7 +878,11 @@ pub fn start() -> Result<(), JsValue> {
         let Some(action) = parse_action(&click_model, &action) else {
             return;
         };
-        let fields = if [Action::RevokeIdentity, Action::TestIdentityProvider].contains(&action) {
+        let fields = if action == Action::PrepareGitReview {
+            let state = click_model.borrow();
+            let source = &state.data["project"]["sourceBinding"];
+            json!({"repositoryId":source["repositoryId"],"folder":source["folder"],"commit":value("git-release-commit"),"targetBindingId":value("git-review-target")})
+        } else if [Action::RevokeIdentity, Action::TestIdentityProvider].contains(&action) {
             identity::fields(&click_model, action)
         } else if action == Action::ManagedLifecycle {
             if id == "RETIRE"
@@ -891,15 +926,13 @@ pub fn start() -> Result<(), JsValue> {
                 .unwrap_or(Value::Null);
             json!({"releaseId":release,"targetBindingId":target["bindingId"],"expectedBindingRevision":target["bindingRevision"],"expectedAssignmentRevision":target["assignmentRevision"]})
         } else if action == Action::CreateValidatedPlan || action == Action::CreateWorkspacePlan {
-            let v = click_model.borrow().data[if action == Action::CreateWorkspacePlan {
-                "draftValidation"
-            } else {
-                "activeValidation"
-            }]
-            .clone();
-            let r = &v["report"];
-            let t = &r["target"];
-            json!({"intentVersion":3,"releaseId":r["releaseId"],"assignmentId":t["assignmentId"],"expectedAssignmentRevision":t["assignmentRevision"],"targetBindingId":t["bindingId"],"expectedBindingRevision":t["bindingRevision"],"validationId":v["id"],"expectedValidationDigest":v["digest"]})
+            crate::workflow::plan_body(
+                &click_model.borrow().data[if action == Action::CreateWorkspacePlan {
+                    "draftValidation"
+                } else {
+                    "activeValidation"
+                }],
+            )
         } else if action == Action::RotateInstance || action == Action::RevokeInstance {
             let connection = click_model.borrow().data["instances"]
                 .as_array()
@@ -1120,6 +1153,9 @@ pub fn start() -> Result<(), JsValue> {
                     .cloned()
                     .unwrap_or(Value::Null);
                 json!({"intentVersion":2,"releaseId":release,"assignmentId":binding["assignmentId"],"expectedAssignmentRevision":binding["assignmentRevision"],"targetBindingId":binding["bindingId"],"expectedBindingRevision":binding["bindingRevision"]})
+            }
+            Action::PrepareReleaseReview => {
+                json!({"releaseId":value("plan-release"),"targetBindingId":value("plan-target")})
             }
             Action::ChooseInstanceProject => json!({"projectId":value("instance-project")}),
             Action::RegisterInstance => {

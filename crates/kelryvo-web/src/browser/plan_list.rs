@@ -30,6 +30,7 @@ pub(super) fn filter(model: &Model, status: &str) -> Result<(), String> {
     state.data["planStatus"] = status.into();
     for key in [
         "statementPreviews",
+        "releaseDetail",
         "activeComparisons",
         "comparisonsByPlan",
         "reviewersByPlan",
