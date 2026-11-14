@@ -106,8 +106,9 @@ pub fn file_version(path: &str) -> Option<String> {
     canonical_file_version(path)
 }
 
-// Git release filenames have a different length bound from editable files.
-pub(crate) fn canonical_file_version(path: &str) -> Option<String> {
+/// Normalize a migration basename without the editable-file length limit.
+/// Git release callers retain their own source/path bounds.
+pub fn canonical_file_version(path: &str) -> Option<String> {
     if !matches(r"\AV[0-9]+(?:[._][0-9]+)*__[A-Za-z0-9_-]+\.sql\z", path) {
         return None;
     }
@@ -381,5 +382,14 @@ pub fn positive_revision(value: &str) -> Option<i64> {
             .parse::<i64>()
             .ok()
             .filter(|n| *n > 0 && n.to_string() == value)
+    }
+}
+
+/// Canonical decimal revisions for contracts that also permit the initial zero.
+pub fn nonnegative_revision(value: &str) -> Option<i64> {
+    if value == "0" {
+        Some(0)
+    } else {
+        positive_revision(value)
     }
 }

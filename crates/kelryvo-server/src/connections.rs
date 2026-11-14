@@ -4,7 +4,25 @@ use crate::{
     projects,
 };
 use axum::{Json, extract::State};
+use regex::Regex;
 use serde_json::{Value, json};
+use std::sync::LazyLock;
+
+pub(crate) static HOST: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"\A(?:[A-Za-z0-9](?:[A-Za-z0-9.-]*[A-Za-z0-9])?|\[[0-9A-Fa-f:]+\])\z")
+        .expect("host")
+});
+pub(crate) static SERVICE: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"\A[A-Za-z0-9_$#.-]{1,128}\z").expect("service"));
+pub(crate) static USER: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"\A[A-Za-z][A-Za-z0-9_$#]{0,127}\z").expect("username"));
+pub(crate) static REFERENCE: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"\A(?:vault|secret)://[A-Za-z0-9._/-]{1,500}\z").expect("reference")
+});
+pub(crate) fn matches(pattern: &LazyLock<Regex>, v: &Value) -> bool {
+    v.as_str().is_some_and(|s| pattern.is_match(s))
+}
+
 mod project;
 pub use project::list as project_list;
 mod manual;

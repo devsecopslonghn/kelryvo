@@ -20,12 +20,7 @@ use uuid::Uuid;
 fn text(value: &str, max: usize) -> bool {
     projects::text(value, max) && !value.chars().any(|c| c <= '\u{1f}' || c == '\u{7f}')
 }
-fn digest(value: &str) -> bool {
-    value.len() == 64
-        && value
-            .bytes()
-            .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
-}
+use kelryvo_core::is_digest as digest;
 fn revision(value: &str) -> bool {
     value == "0" || positive_revision(value).is_some()
 }

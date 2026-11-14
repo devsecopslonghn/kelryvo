@@ -63,9 +63,7 @@ fn credential(value: &Value) -> bool {
 }
 
 fn revision(value: &Value) -> bool {
-    let s = string(value);
-    matches(r"\A(?:0|[1-9][0-9]*)\z", s)
-        && (s.len() < 19 || s.len() == 19 && s <= "9223372036854775807")
+    crate::plan::revision(value)
 }
 
 fn target_tuple(target: &Value) -> Option<Value> {

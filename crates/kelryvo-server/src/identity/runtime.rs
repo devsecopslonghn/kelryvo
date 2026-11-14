@@ -91,12 +91,7 @@ impl Runtime {
         {
             return Err(bad);
         }
-        let key = Zeroizing::new(
-            (0..64)
-                .step_by(2)
-                .map(|i| u8::from_str_radix(&key[i..i + 2], 16).map_err(|_| bad))
-                .collect::<Result<Vec<_>, _>>()?,
-        );
+        let key = Zeroizing::new(hex::decode(key.as_bytes()).map_err(|_| bad)?);
         let public_origin = s(&v["publicOrigin"]).to_owned();
         origin(&public_origin).ok_or(bad)?;
         let mut secrets = HashMap::new();

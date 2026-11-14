@@ -9,7 +9,7 @@ use kelryvo_worker::{
 };
 use serde::Deserialize;
 use serde_json::json;
-use sqlx::{PgPool, postgres::PgPoolOptions};
+use sqlx::PgPool;
 use std::{
     collections::BTreeMap,
     io::IsTerminal,
@@ -84,18 +84,7 @@ async fn connect(c: &Config) -> Result<PgPool, Unavailable> {
     {
         return Err(Unavailable);
     }
-    PgPoolOptions::new()
-        .max_connections(2)
-        .acquire_timeout(Duration::from_secs(5))
-        .after_connect(|conn, _| {
-            Box::pin(async move {
-                sqlx::query("SET statement_timeout='10s'")
-                    .execute(&mut *conn)
-                    .await?;
-                sqlx::query("SET lock_timeout='5s'").execute(conn).await?;
-                Ok(())
-            })
-        })
+    kelryvo_worker::metadata_pool_options(2)
         .connect(url)
         .await
         .map_err(|_| Unavailable)

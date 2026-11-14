@@ -194,19 +194,7 @@ impl Fixture {
     async fn diagnostics(&self) {
         if let Ok(output) = docker::invoke(&words(&["logs", &self.app]), None).await {
             for line in String::from_utf8_lossy(&[output.stdout, output.stderr].concat()).lines() {
-                if let Ok(value) = serde_json::from_str::<Value>(line)
-                    && ["startup", "shutdown"].contains(&value["event"].as_str().unwrap_or(""))
-                    && ["started", "ready", "failed", "complete", "timeout"]
-                        .contains(&value["state"].as_str().unwrap_or(""))
-                {
-                    let mut record = json!({"event":value["event"],"state":value["state"]});
-                    if value["code"].as_str().is_some_and(|s| {
-                        !s.is_empty()
-                            && s.len() <= 40
-                            && s.bytes().all(|b| b.is_ascii_lowercase() || b == b'_')
-                    }) {
-                        record["code"] = value["code"].clone();
-                    }
+                if let Some(record) = docker::lifecycle_record(line) {
                     eprintln!("{record}");
                 }
             }

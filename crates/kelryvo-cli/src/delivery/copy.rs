@@ -41,21 +41,15 @@ impl Skopeo {
         Ok(Self { auth })
     }
 }
-async fn bounded(mut input: impl AsyncRead + Unpin, limit: usize) -> Result<Zeroizing<Vec<u8>>> {
+async fn bounded(input: impl AsyncRead + Unpin, limit: usize) -> Result<Zeroizing<Vec<u8>>> {
     let mut bytes = Zeroizing::new(Vec::new());
-    let mut buf = [0; 8192];
-    loop {
-        let n = input
-            .read(&mut buf)
-            .await
-            .map_err(|_| "Cannot read OCI transport output")?;
-        if n == 0 {
-            break;
-        }
-        if bytes.len() + n > limit {
-            return Err("OCI transport output exceeded its bound".into());
-        }
-        bytes.extend_from_slice(&buf[..n]);
+    input
+        .take(limit as u64 + 1)
+        .read_to_end(&mut bytes)
+        .await
+        .map_err(|_| "Cannot read OCI transport output")?;
+    if bytes.len() > limit {
+        return Err("OCI transport output exceeded its bound".into());
     }
     Ok(bytes)
 }

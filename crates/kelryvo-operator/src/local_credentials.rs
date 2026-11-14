@@ -19,13 +19,7 @@ type Result<T> = std::result::Result<T, OperatorUnavailable>;
 fn fail() -> OperatorUnavailable {
     OperatorUnavailable
 }
-fn hex(v: &Value) -> bool {
-    v.as_str().is_some_and(|s| {
-        s.len() == 64
-            && s.bytes()
-                .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
-    })
-}
+use kelryvo_core::digest as hex;
 fn identity(s: &str) -> bool {
     ["developer", "approver"].contains(&s)
 }

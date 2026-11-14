@@ -67,11 +67,7 @@ struct Last {
     ordinal: Option<i32>,
     digest: Option<String>,
 }
-fn digest(s: &str) -> bool {
-    s.len() == 64
-        && s.bytes()
-            .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
-}
+use kelryvo_core::is_digest as digest;
 fn next(n: i64) -> Result<i64, StoreUnavailable> {
     n.checked_add(1).ok_or(StoreUnavailable)
 }

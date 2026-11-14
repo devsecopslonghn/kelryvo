@@ -11,21 +11,19 @@ use tokio::{io::AsyncReadExt, process::Command};
 use zeroize::Zeroizing;
 
 pub(crate) async fn bounded<R: tokio::io::AsyncRead + Unpin>(
-    mut reader: R,
+    reader: R,
     limit: usize,
 ) -> Result<Vec<u8>> {
     let mut bytes = Vec::new();
-    let mut chunk = vec![0; 8192];
-    loop {
-        let n = reader.read(&mut chunk).await.map_err(|_| unavailable())?;
-        if n == 0 {
-            return Ok(bytes);
-        }
-        if bytes.len() + n > limit {
-            return Err(unavailable());
-        }
-        bytes.extend_from_slice(&chunk[..n]);
+    reader
+        .take(limit as u64 + 1)
+        .read_to_end(&mut bytes)
+        .await
+        .map_err(|_| unavailable())?;
+    if bytes.len() > limit {
+        return Err(unavailable());
     }
+    Ok(bytes)
 }
 pub fn snapshot(path: &Path) -> Result<Tool> {
     files::path(path)?;
@@ -144,4 +142,23 @@ pub async fn qualify(policy: &Policy) -> Result<()> {
         }
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    #[tokio::test]
+    async fn output_bounds_accept_eof_and_reject_the_first_excess_byte() {
+        for (input, limit, accepted) in [
+            (b"".as_slice(), 0, true),
+            (b"x".as_slice(), 0, false),
+            (b"abc".as_slice(), 3, true),
+            (b"abcd".as_slice(), 3, false),
+        ] {
+            let result = super::bounded(input, limit).await;
+            assert_eq!(result.is_ok(), accepted);
+            if let Ok(bytes) = result {
+                assert_eq!(bytes, input);
+            }
+        }
+    }
 }

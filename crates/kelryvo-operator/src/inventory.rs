@@ -22,13 +22,8 @@ fn text(v: &Value, max: usize, trim: bool) -> bool {
     })
 }
 fn revision(v: &Value) -> Option<i64> {
-    let s = v.as_str()?;
-    if !(s == "0"
-        || (!s.starts_with('0') && s.len() <= 19 && s.bytes().all(|b| b.is_ascii_digit())))
-    {
-        return None;
-    }
-    s.parse().ok()
+    v.as_str()
+        .and_then(kelryvo_core::workspace::nonnegative_revision)
 }
 fn keys(v: &Value, required: &[&str], optional: &[&str]) -> bool {
     v.as_object().is_some_and(|o| {

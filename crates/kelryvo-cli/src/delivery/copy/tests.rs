@@ -1,6 +1,24 @@
 use super::*;
 use std::{fs, os::unix::fs::MetadataExt};
 #[tokio::test]
+async fn output_bounds_accept_eof_and_reject_the_first_excess_byte() {
+    for (input, limit, accepted) in [
+        (b"".as_slice(), 0, true),
+        (b"x".as_slice(), 0, false),
+        (b"abc".as_slice(), 3, true),
+        (b"abcd".as_slice(), 3, false),
+    ] {
+        match bounded(input, limit).await {
+            Ok(bytes) => assert!(accepted && bytes.as_slice() == input),
+            Err(error) => {
+                assert!(!accepted);
+                assert_eq!(error, "OCI transport output exceeded its bound");
+            }
+        }
+    }
+}
+
+#[tokio::test]
 async fn copy_credentials_are_private_and_process_failures_cannot_echo_them() {
     let copy = Skopeo::new("native-fixture", "private-copy-secret").unwrap();
     let st = copy.auth.as_file().metadata().unwrap();

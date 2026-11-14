@@ -92,11 +92,14 @@ pub fn port(value: &Value) -> Option<i32> {
 }
 
 pub fn digest(value: &Value) -> bool {
-    value.as_str().is_some_and(|s| {
-        s.len() == 64
-            && s.bytes()
-                .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
-    })
+    value.as_str().is_some_and(is_digest)
+}
+
+pub fn is_digest(value: &str) -> bool {
+    value.len() == 64
+        && value
+            .bytes()
+            .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
 }
 
 pub fn uuid(value: &Value) -> bool {

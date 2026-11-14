@@ -77,12 +77,7 @@ impl Context {
     }
 }
 
-pub fn is_digest(value: &str) -> bool {
-    value.len() == 64
-        && value
-            .bytes()
-            .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
-}
+pub use kelryvo_core::is_digest;
 pub fn valid_password(value: &str) -> bool {
     !value.is_empty()
         && value.encode_utf16().count() <= 4096

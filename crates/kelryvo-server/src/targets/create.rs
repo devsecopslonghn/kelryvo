@@ -5,15 +5,8 @@ use crate::{conflict, instances};
 use axum::{extract::rejection::JsonRejection, http::StatusCode};
 
 fn revision_input(v: &Value) -> Option<i64> {
-    let s = v.as_str()?;
-    if s.is_empty()
-        || s.len() > 19
-        || s.len() > 1 && s.starts_with('0')
-        || !s.bytes().all(|b| b.is_ascii_digit())
-    {
-        return None;
-    }
-    s.parse().ok()
+    v.as_str()
+        .and_then(kelryvo_core::workspace::nonnegative_revision)
 }
 fn safe(v: &str, limit: usize) -> bool {
     !v.trim_matches(kelryvo_core::js_whitespace).is_empty()

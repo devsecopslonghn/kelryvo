@@ -12,14 +12,13 @@ use nix::{
 };
 use serde::Deserialize;
 use serde_json::{Value, json};
-use sqlx::{PgPool, postgres::PgPoolOptions};
+use sqlx::PgPool;
 use std::{
     collections::HashSet,
     fs::{self, OpenOptions},
     io::Write,
     os::unix::fs::{DirBuilderExt, MetadataExt, OpenOptionsExt},
     path::{Path, PathBuf},
-    time::Duration,
 };
 use uuid::Uuid;
 use zeroize::Zeroizing;
@@ -241,20 +240,7 @@ fn archive(output: &Path, c: &Config, snapshot: &Snapshot, report: &Value) -> Re
 }
 async fn pool(c: &Config, source: &Path) -> Result<PgPool> {
     let url = c.database_url_from(source)?;
-    Ok(PgPoolOptions::new()
-        .max_connections(1)
-        .acquire_timeout(Duration::from_secs(5))
-        .after_connect(|conn, _| {
-            Box::pin(async move {
-                sqlx::query("SET statement_timeout='10s'")
-                    .execute(&mut *conn)
-                    .await?;
-                sqlx::query("SET lock_timeout='5s'").execute(conn).await?;
-                Ok(())
-            })
-        })
-        .connect(&url)
-        .await?)
+    Ok(crate::metadata_pool_options(1).connect(&url).await?)
 }
 fn root_artifacts(c: &Config) -> Result<()> {
     for artifact in &c.artifacts {

@@ -29,19 +29,16 @@ pub fn private_directory(prefix: &str, parent: &Path) -> Result<tempfile::TempDi
         .permissions(std::fs::Permissions::from_mode(0o700))
         .tempdir_in(parent)?)
 }
-async fn bounded(mut reader: impl AsyncRead + Unpin, limit: usize) -> Result<Vec<u8>> {
+async fn bounded(reader: impl AsyncRead + Unpin, limit: usize) -> Result<Vec<u8>> {
     let mut output = Vec::new();
-    let mut buffer = [0; 8192];
-    loop {
-        let count = reader.read(&mut buffer).await?;
-        if count == 0 {
-            return Ok(output);
-        }
-        if output.len() + count > limit {
-            return Err("Fixture process output exceeded its bound".into());
-        }
-        output.extend_from_slice(&buffer[..count]);
+    reader
+        .take(limit as u64 + 1)
+        .read_to_end(&mut output)
+        .await?;
+    if output.len() > limit {
+        return Err("Fixture process output exceeded its bound".into());
     }
+    Ok(output)
 }
 pub async fn capture(
     program: impl AsRef<OsStr>,
@@ -131,6 +128,27 @@ pub fn local_environment() -> BTreeMap<OsString, OsString> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[tokio::test]
+    async fn output_bounds_accept_eof_and_reject_the_first_excess_byte() {
+        for (input, limit, accepted) in [
+            (b"".as_slice(), 0, true),
+            (b"x".as_slice(), 0, false),
+            (b"abc".as_slice(), 3, true),
+            (b"abcd".as_slice(), 3, false),
+        ] {
+            match bounded(input, limit).await {
+                Ok(bytes) => assert!(accepted && bytes == input),
+                Err(error) => {
+                    assert!(!accepted);
+                    assert_eq!(
+                        error.to_string(),
+                        "Fixture process output exceeded its bound"
+                    );
+                }
+            }
+        }
+    }
+
     #[test]
     fn fixture_directories_are_private_at_creation() {
         use std::os::unix::fs::PermissionsExt;

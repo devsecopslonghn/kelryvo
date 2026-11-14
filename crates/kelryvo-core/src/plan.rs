@@ -1,6 +1,6 @@
 //! Public retained-plan projection. It never treats stored approval as fresh
 //! target authority and never exposes credential references from the envelope.
-use crate::workspace::positive_revision;
+use crate::workspace::{nonnegative_revision, positive_revision};
 use crate::{MAX_INPUT_BYTES, MAX_RELEASE_FILES, digest, intent, js_len};
 use serde_json::{Value, json};
 
@@ -160,8 +160,7 @@ pub fn reason(value: &Value, max: usize) -> bool {
 }
 
 pub fn revision(v: &Value) -> bool {
-    v.as_str()
-        .is_some_and(|s| s == "0" || positive_revision(s).is_some())
+    v.as_str().and_then(nonnegative_revision).is_some()
 }
 
 pub fn source_valid(p: &Value) -> bool {

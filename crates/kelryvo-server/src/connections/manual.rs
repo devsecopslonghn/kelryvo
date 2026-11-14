@@ -1,5 +1,6 @@
 //! Retained manual-reference APIs. Registration records declared metadata only;
 //! it never observes Oracle, installs a principal or grants execution authority.
+use super::{HOST, REFERENCE, SERVICE, USER, matches};
 use crate::{
     ApiError, ApiResult, AppState, ORG_UUID, auth::Authenticated, conflict, discovery, instances,
     invalid, not_found, projects,
@@ -9,9 +10,7 @@ use axum::{
     extract::{Path, State},
     http::StatusCode,
 };
-use regex::Regex;
 use serde_json::{Value, json};
-use std::sync::LazyLock;
 use uuid::Uuid;
 
 fn text(v: &Value, limit: usize) -> bool {
@@ -34,20 +33,6 @@ fn id(v: &Value) -> Result<Uuid, ApiError> {
     projects::id(v.as_str().ok_or_else(invalid)?)
 }
 use kelryvo_core::port;
-static HOST: LazyLock<Regex> = LazyLock::new(|| {
-    Regex::new(r"\A(?:[A-Za-z0-9](?:[A-Za-z0-9.-]*[A-Za-z0-9])?|\[[0-9A-Fa-f:]+\])\z")
-        .expect("host")
-});
-static SERVICE: LazyLock<Regex> =
-    LazyLock::new(|| Regex::new(r"\A[A-Za-z0-9_$#.-]{1,128}\z").expect("service"));
-static USER: LazyLock<Regex> =
-    LazyLock::new(|| Regex::new(r"\A[A-Za-z][A-Za-z0-9_$#]{0,127}\z").expect("username"));
-static REFERENCE: LazyLock<Regex> = LazyLock::new(|| {
-    Regex::new(r"\A(?:vault|secret)://[A-Za-z0-9._/-]{1,500}\z").expect("reference")
-});
-fn matches(pattern: &LazyLock<Regex>, v: &Value) -> bool {
-    v.as_str().is_some_and(|s| pattern.is_match(s))
-}
 
 pub async fn declare_instance(
     State(state): State<AppState>,
