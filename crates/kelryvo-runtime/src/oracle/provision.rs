@@ -1,13 +1,10 @@
 //! Trusted operator provisioning. It cannot execute release SQL, clear history,
 //! drop accounts, retry an uncertain statement or resume a partial installation.
 use super::{Bind, Result, Session, Unavailable, bounded, catalog};
-use kelryvo_core::{evidence, schema_scope, sha256};
+use kelryvo_core::{comparison::canonical_digest, evidence, schema_scope, sha256};
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
-use std::{
-    collections::{BTreeMap, HashSet},
-    net::Ipv4Addr,
-};
+use std::{collections::HashSet, net::Ipv4Addr};
 use uuid::Uuid;
 use zeroize::Zeroizing;
 
@@ -75,18 +72,6 @@ fn owner(s: &str) -> bool {
 fn text(s: &str, max: usize) -> bool {
     !s.is_empty() && s.len() <= max && !s.chars().any(|c| c <= '\u{1f}' || c == '\u{7f}')
 }
-fn canonical(v: &Value) -> Value {
-    match v {
-        Value::Array(a) => json!(a.iter().map(canonical).collect::<Vec<_>>()),
-        Value::Object(o) => o
-            .iter()
-            .map(|(k, v)| (k.clone(), canonical(v)))
-            .collect::<BTreeMap<_, _>>()
-            .into_iter()
-            .collect(),
-        _ => v.clone(),
-    }
-}
 impl Policy {
     pub fn validate(&self, now_ms: i64) -> Result<()> {
         let r = &self.route;
@@ -151,8 +136,8 @@ impl Policy {
         Ok(())
     }
     pub fn digest(&self) -> Result<String> {
-        Ok(sha256(
-            canonical(&serde_json::to_value(self).map_err(|_| Unavailable)?).to_string(),
+        Ok(canonical_digest(
+            &serde_json::to_value(self).map_err(|_| Unavailable)?,
         ))
     }
 }

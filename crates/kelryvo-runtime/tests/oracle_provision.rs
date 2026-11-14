@@ -125,6 +125,17 @@ impl Ports for Host {
 fn policy() -> Policy {
     serde_json::from_value(json!({"format":1,"authorizationId":"native-operator-fixture","expiresAt":(chrono::Utc::now()+chrono::Duration::hours(1)).to_rfc3339_opts(chrono::SecondsFormat::Millis,true),"route":{"host":"oracle.invalid","port":1521,"service":"pdb","transport":"TCPS","pinnedIPs":["192.0.2.1"],"serverCertificateDN":"CN=oracle.invalid"},"expectedIdentity":{"engine":"oracle","dbid":"123","dbUniqueName":"DB","resetlogsChange":"456","cdb":true,"containerId":"3","containerGuid":"A".repeat(32),"containerDbid":"789","containerName":"PDB","serviceName":"pdb","version":"Oracle 26ai"},"schemaOwners":["APP_A","APP_B"],"protectedOwners":["PRODUCTION_APP"],"createSchemaOwners":["APP_A","APP_B"],"tablespace":"DATA","quotaMiB":20})).expect("policy")
 }
+#[test]
+fn policy_digest_preserves_lexical_order_through_arrays_and_unicode_keys() {
+    let mut p = policy();
+    p.expires_at = "2026-11-15T00:00:00.000Z".into();
+    p.expected_identity = json!({"z":[{"Ω":1,"a":2,"𐀀":null,"\u{e000}":true,"10":"ten","2":"two"}],"a":{"é":"retained","Z":null}});
+    assert_eq!(
+        p.digest().unwrap(),
+        "a597514f5873fbea800ab2f1d480f0f0daffbdaa7e5cf218c147b26aae780c57"
+    );
+}
+
 fn passwords() -> Passwords {
     Passwords {
         writer: Zeroizing::new(format!("KrvA1!{}", "a".repeat(48))),
