@@ -1,9 +1,5 @@
 name: Pinned native Rust and compilation cache
 description: Restore public toolchain inputs and Cargo artifacts scoped by GitHub refs.
-inputs:
-  key:
-    description: Separate incompatible job and test-group build graphs.
-    required: true
 runs:
   using: composite
   steps:

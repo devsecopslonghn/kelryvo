@@ -3,7 +3,7 @@
 use crate::ObjectJson;
 use crate::{
     ApiError, AppState, ORG_UUID, auth::Authenticated, conflict, discovery, instances, invalid,
-    not_found, projects, targets, workspace::positive_revision,
+    not_found, projects, targets,
 };
 use axum::{
     Json,
@@ -11,6 +11,7 @@ use axum::{
     http::StatusCode,
 };
 use kelryvo_core::schema_scope::is_application_owner;
+use kelryvo_core::workspace::positive_revision;
 use serde::Deserialize;
 use serde_json::{Value, json};
 use sqlx::PgConnection;

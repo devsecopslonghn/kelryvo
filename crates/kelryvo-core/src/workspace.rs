@@ -372,3 +372,14 @@ pub fn next_path(files: &[Value]) -> String {
         String::from_utf8(digits).expect("decimal digits")
     )
 }
+
+pub fn positive_revision(value: &str) -> Option<i64> {
+    if value.starts_with('0') {
+        None
+    } else {
+        value
+            .parse::<i64>()
+            .ok()
+            .filter(|n| *n > 0 && n.to_string() == value)
+    }
+}

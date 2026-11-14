@@ -5,7 +5,7 @@ mod signin;
 use crate::{
     ApiError, ApiResult, AppState, ORG_UUID,
     auth::{self, Authenticated},
-    conflict, invalid, not_found, plans, projects,
+    conflict, invalid, not_found, projects,
 };
 use axum::{
     Json,
@@ -149,7 +149,7 @@ pub async fn create(
     auth: Authenticated,
     Json(b): Json<Value>,
 ) -> Result<Response, ApiError> {
-    if !plans::keys(&b, &["name", "kind", "enabled", "config", "reason"])
+    if !kelryvo_core::plan::keys(&b, &["name", "kind", "enabled", "config", "reason"])
         || !text(&b["name"], 100)
         || !["OIDC", "LDAP"].contains(&s(&b["kind"]))
         || b["enabled"] != false
@@ -190,7 +190,7 @@ pub async fn update(
     Json(b): Json<Value>,
 ) -> ApiResult<Value> {
     let provider_id = id(&provider_id).map_err(|_| config_invalid())?;
-    if !plans::keys(
+    if !kelryvo_core::plan::keys(
         &b,
         &[
             "expectedRevision",
@@ -270,7 +270,7 @@ pub async fn link(
     Json(b): Json<Value>,
 ) -> Result<Response, ApiError> {
     let provider_id = id(&provider_id).map_err(|_| invalid())?;
-    if !plans::keys(
+    if !kelryvo_core::plan::keys(
         &b,
         &["expectedProviderRevision", "subject", "actorId", "reason"],
     ) || revision(&b["expectedProviderRevision"]).is_none()
@@ -309,7 +309,7 @@ pub async fn unlink(
         id(&provider_id).map_err(|_| invalid())?,
         id(&mapping).map_err(|_| invalid())?,
     );
-    if !plans::keys(&b, &["reason"]) || !text(&b["reason"], 2000) {
+    if !kelryvo_core::plan::keys(&b, &["reason"]) || !text(&b["reason"], 2000) {
         return Err(invalid());
     }
     let mut tx = state.pool.begin().await?;
@@ -340,7 +340,7 @@ async fn operation(
     let mut tx = state.pool.begin().await?;
     admin(&mut tx, &auth, false).await?;
     let provider_id = id(&provider_id).map_err(|_| invalid())?;
-    if !plans::keys(
+    if !kelryvo_core::plan::keys(
         &b,
         if lookup {
             &["expectedRevision", "username"]

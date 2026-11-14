@@ -148,7 +148,7 @@ pub async fn run(context: &Context, image: &str) -> Result<()> {
     };
     let mut stage = "configuration";
     let result:Result<()>=async {
-        let repository=crate::governance::repository(&context.directory).await?;
+        let repository=crate::governance::repository(context.directory.path()).await?;
         let port=std::net::TcpListener::bind("127.0.0.1:0")?.local_addr()?.port();
         let container=docker::text(&["create","--label",&format!("dev.kelryvo.test={}",pilot.project),"--entrypoint","/bin/true",image]).await?;
         require(container.len()==64 && container.bytes().all(|b|b.is_ascii_hexdigit()),"fresh pilot extraction container id")?;pilot.extracted=Some(container.clone());

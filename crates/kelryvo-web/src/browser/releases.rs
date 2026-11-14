@@ -1,9 +1,10 @@
 //! Historical diagnostics remain inspectable without claiming source integrity.
 use super::{Model, Route, api, array, button, draft_editor, e, form, load, s, segment, value};
+use crate::browser::actions::Action;
 use serde_json::{Value, json};
 pub(super) async fn action(
     model: &Model,
-    action: &str,
+    action: Action,
     id: &str,
     fields: Value,
 ) -> Result<(), String> {
@@ -11,7 +12,7 @@ pub(super) async fn action(
         return Err("Select a project".into());
     };
     match action {
-        "refresh-git-refs" => {
+        Action::RefreshGitRefs => {
             let response = api(
                 model,
                 "GET",
@@ -22,7 +23,7 @@ pub(super) async fn action(
             .await?;
             model.borrow_mut().data["gitRefs"] = response;
         }
-        "import-git-release" => {
+        Action::ImportGitRelease => {
             model.borrow_mut().data["gitCommitDraft"] = fields["commit"].clone();
             let response = api(
                 model,
@@ -44,7 +45,7 @@ pub(super) async fn action(
             model.borrow_mut().data["releaseDetail"] = release["release"].clone();
             model.borrow_mut().notice = "Git release imported for offline review.".into();
         }
-        "open-release" => {
+        Action::OpenRelease => {
             if tab != "releases" {
                 model.borrow_mut().route = Route::Project(project, "releases".into());
                 load(model).await?;
@@ -73,7 +74,7 @@ pub(super) async fn action(
             }
             model.borrow_mut().data["releaseDetail"] = response["release"].clone();
         }
-        "preview-release-file" => {
+        Action::PreviewReleaseFile => {
             let release = model.borrow().data["releaseDetail"].clone();
             model.borrow_mut().data["releasePreview"] = Value::Null;
             if !array(&release, "files").iter().any(|f| f["path"] == id) {
@@ -93,7 +94,7 @@ pub(super) async fn action(
             .await?;
             model.borrow_mut().data["releasePreview"] = response["preview"].clone();
         }
-        "compare-retained-releases" => {
+        Action::CompareRetainedReleases => {
             {
                 let mut state = model.borrow_mut();
                 state.data["releaseComparison"] = Value::Null;

@@ -1,4 +1,5 @@
-use super::{OTHER_TOKEN, TOKEN, request, seed, target_reference};
+use super::call;
+use super::{OTHER_TOKEN, TOKEN, seed, target_reference};
 use axum::{Router, http::StatusCode};
 use kelryvo_server::{AppState, ORG_UUID, router};
 use serde_json::{Value, json};
@@ -7,16 +8,7 @@ use uuid::Uuid;
 
 pub const APPROVER: &str = "2222222222222222222222222222222222222222222222222222222222222222";
 const SECOND: &str = "3333333333333333333333333333333333333333333333333333333333333333";
-async fn call(
-    app: &Router,
-    token: &str,
-    method: &str,
-    path: &str,
-    body: Option<Value>,
-) -> (StatusCode, Value) {
-    let result = request(app, method, path, body, Some(token), None, None).await;
-    (result.0, result.2)
-}
+
 fn decision(plan: &Value) -> Value {
     json!({"decision":"APPROVE","reason":"Independent native review\nExact retained statement bytes","expectedIntentDigest":plan["offlineIntent"]["digest"],"expectedAssignmentRevision":plan["retainedTarget"]["assignmentRevision"],"expectedBindingRevision":plan["retainedTarget"]["bindingRevision"]})
 }
@@ -539,7 +531,7 @@ pub async fn run(pool: &PgPool, project: Uuid) {
     let row = kelryvo_server::plans::load(&mut tx, tamper_id, Some(project), false)
         .await
         .expect("plan row");
-    let facts = kelryvo_server::plans::intent(&row).expect("retained envelope");
+    let facts = kelryvo_core::plan::retained_intent(&row).expect("retained envelope");
     assert_eq!(
         facts["parserProfile"],
         kelryvo_parser::PROFILE,

@@ -73,28 +73,6 @@ fn private_auth(path: &Path) -> Result<()> {
     }
     Ok(())
 }
-fn suites(value: &str) -> Result<Vec<Vec<String>>> {
-    Ok(match value {
-        "api" => vec![vec![]],
-        "browser" => vec![vec!["--browser-only".into()]],
-        "browser-auth" => vec![
-            vec!["--password-only".into()],
-            vec!["--identity-only".into()],
-        ],
-        "release" => vec![vec!["--oci-only".into()], vec!["--runtime-only".into()]],
-        value
-            if value
-                .strip_prefix("browser-")
-                .is_some_and(|group| crate::product_browser::GROUPS.contains(&group)) =>
-        {
-            vec![vec![
-                "--ci-browser".into(),
-                value["browser-".len()..].into(),
-            ]]
-        }
-        _ => return Err("Unknown native regression suite".into()),
-    })
-}
 async fn login() -> Result<()> {
     actions()?;
     let directory = temporary()?;
@@ -227,14 +205,6 @@ async fn helm() -> Result<()> {
 }
 pub async fn run(args: &[String]) -> Result<()> {
     match args.iter().map(String::as_str).collect::<Vec<_>>().as_slice() {
-        ["regression"] => {
-            for arguments in suites(&std::env::var("TEST_SUITE")?)? {
-                // Box only the bounded recursive orchestration edge; each
-                // selected suite retains its own private fixture and cleanup.
-                Box::pin(crate::runner::run(arguments)).await?;
-            }
-            Ok(())
-        }
         ["gitops-credential"] => {
             let token = Zeroizing::new(std::env::var("GITOPS_TOKEN").unwrap_or_default());
             if token.is_empty() {
@@ -252,75 +222,12 @@ pub async fn run(args: &[String]) -> Result<()> {
             }
         }
         ["install-helm"] => helm().await,
-        _ => Err("Usage: kelryvo-test --ci regression|gitops-credential|dockerhub-login|dockerhub-logout|install-helm".into()),
+        _ => Err("Usage: kelryvo-test --ci gitops-credential|dockerhub-login|dockerhub-logout|install-helm".into()),
     }
 }
 #[cfg(test)]
 mod tests {
     use super::*;
-    #[test]
-    fn source_groups_cover_every_workspace_package_exactly_once() {
-        let output = std::process::Command::new("cargo")
-            .args([
-                "metadata",
-                "--no-deps",
-                "--locked",
-                "--offline",
-                "--format-version",
-                "1",
-            ])
-            .current_dir(kelryvo_test_tools::root())
-            .output()
-            .unwrap();
-        assert!(output.status.success());
-        let metadata: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
-        let expected: std::collections::BTreeSet<_> = metadata["packages"]
-            .as_array()
-            .unwrap()
-            .iter()
-            .map(|p| p["name"].as_str().unwrap())
-            .collect();
-        let mut actual = std::collections::BTreeSet::new();
-        for (group, packages) in SOURCE_GROUPS {
-            assert_eq!(source_packages(group).unwrap(), *packages);
-            for package in *packages {
-                assert!(
-                    actual.insert(*package),
-                    "duplicate source test package: {package}"
-                );
-            }
-        }
-        assert_eq!(actual, expected);
-        assert!(source_packages("unknown").is_err());
-    }
-    #[test]
-    fn closed_suites_preserve_release_order_and_stop_unknown_dispatch() {
-        assert_eq!(suites("api").unwrap(), vec![Vec::<String>::new()]);
-        assert_eq!(suites("browser").unwrap(), vec![vec!["--browser-only"]]);
-        for group in crate::product_browser::GROUPS {
-            assert_eq!(
-                suites(&format!("browser-{group}")).unwrap(),
-                vec![vec!["--ci-browser", *group]]
-            );
-        }
-        assert_eq!(
-            suites("browser-auth").unwrap(),
-            vec![vec!["--password-only"], vec!["--identity-only"]]
-        );
-        assert_eq!(
-            suites("release").unwrap(),
-            vec![vec!["--oci-only"], vec!["--runtime-only"]]
-        );
-        for value in [
-            "",
-            "release;true",
-            "--runtime-only",
-            "API",
-            "browser-unknown",
-        ] {
-            assert!(suites(value).is_err());
-        }
-    }
     #[test]
     fn registry_cleanup_refuses_public_multilink_and_symlink_files() {
         use std::os::unix::fs::{PermissionsExt, symlink};

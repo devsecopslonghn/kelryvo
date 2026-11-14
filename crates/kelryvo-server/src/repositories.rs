@@ -2,7 +2,7 @@
 use crate::{
     ApiResult, AppState, ORG_UUID,
     auth::{self, Authenticated},
-    conflict, invalid, plans, projects,
+    conflict, invalid, projects,
 };
 use axum::{
     Json,
@@ -139,7 +139,7 @@ pub async fn bind_source(
         Regex::new(r"\A[A-Za-z0-9_-]+(?:/[A-Za-z0-9_-]+)*\z").expect("migration folder")
     });
     let project = projects::id(&project).map_err(|_| invalid())?;
-    if !plans::keys(&b, &["repositoryId", "folder"])
+    if !kelryvo_core::plan::keys(&b, &["repositoryId", "folder"])
         || !b["repositoryId"]
             .as_str()
             .is_some_and(|s| projects::text(s, 200))

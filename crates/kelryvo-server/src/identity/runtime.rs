@@ -1,5 +1,5 @@
 //! Operator-owned identity routes and secrets; provider metadata cannot expand them.
-use crate::{config::ConfigurationUnavailable, plans};
+use crate::config::ConfigurationUnavailable;
 use base64::{Engine, engine::general_purpose::URL_SAFE_NO_PAD};
 use openssl::symm::{Cipher, decrypt_aead, encrypt_aead};
 use rand::RngCore;
@@ -29,7 +29,7 @@ pub fn text(v: &Value, max: usize) -> bool {
     })
 }
 fn exact_keys(v: &Value, keys: &[&str]) -> bool {
-    plans::keys(v, keys) && v.as_object().is_some_and(|v| v.len() == keys.len())
+    kelryvo_core::plan::keys(v, keys) && v.as_object().is_some_and(|v| v.len() == keys.len())
 }
 fn origin(value: &str) -> Option<Url> {
     let u = Url::parse(value).ok()?;

@@ -96,8 +96,8 @@ pub async fn create(
     Json(body): Json<Value>,
 ) -> Result<(StatusCode, Json<Value>), ApiError> {
     let (project, plan) = (projects::id(&project)?, projects::id(&plan)?);
-    if !plans::keys(&body, &["baseReleaseId", "expectedIntentDigest"])
-        || !plans::digest(&body["expectedIntentDigest"])
+    if !kelryvo_core::plan::keys(&body, &["baseReleaseId", "expectedIntentDigest"])
+        || !kelryvo_core::digest(&body["expectedIntentDigest"])
     {
         return Err(invalid());
     }

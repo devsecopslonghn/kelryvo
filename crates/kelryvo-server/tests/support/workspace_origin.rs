@@ -1,18 +1,10 @@
-use super::{OTHER_TOKEN, TOKEN, execution_jobs::reference_as, plans::APPROVER, request};
+use super::call;
+use super::{OTHER_TOKEN, TOKEN, execution_jobs::reference_as, plans::APPROVER};
 use axum::{Router, http::StatusCode};
 use serde_json::{Value, json};
 use sqlx::PgPool;
 use uuid::Uuid;
-async fn call(
-    app: &Router,
-    token: &str,
-    method: &str,
-    path: &str,
-    body: Option<Value>,
-) -> (StatusCode, Value) {
-    let result = request(app, method, path, body, Some(token), None, None).await;
-    (result.0, result.2)
-}
+
 async fn compare(app: &Router, path: &str, token: &str, actor: &str) -> Value {
     let native = call(app, token, "GET", path, None).await;
     let (path, actor) = (path.to_owned(), actor.to_owned());

@@ -5,7 +5,7 @@ use super::{
     unavailable,
 };
 use crate::ObjectJson;
-use crate::{ApiError, AppState, ORG_UUID, auth, invalid, plans};
+use crate::{ApiError, AppState, ORG_UUID, auth, invalid};
 use axum::{
     Json,
     extract::{OriginalUri, Path, State},
@@ -132,7 +132,7 @@ pub async fn oidc_start(
     if !auth::same_origin(&headers, state.tls) {
         return Err(ApiError(StatusCode::FORBIDDEN, "ORIGIN_REJECTED"));
     }
-    if !plans::keys(&body, &[]) {
+    if !kelryvo_core::plan::keys(&body, &[]) {
         return Err(invalid());
     }
     let (runtime, p, generation) = public_provider(&state, &headers, &provider_id, "OIDC").await?;

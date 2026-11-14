@@ -77,7 +77,7 @@ pub async fn legacy(pool: &PgPool, app: &Router, project: Uuid, plan: &Value) {
         .await
         .expect("retained intent");
     tx.commit().await.expect("read fixture");
-    let mut facts = kelryvo_server::plans::intent(&row).expect("verified facts");
+    let mut facts = kelryvo_core::plan::retained_intent(&row).expect("verified facts");
     let envelope: Value =
         serde_json::from_str(row["offline_intent_envelope"].as_str().expect("envelope"))
             .expect("array envelope");

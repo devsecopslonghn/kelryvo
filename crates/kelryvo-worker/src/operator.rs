@@ -69,7 +69,7 @@ impl Inspection {
             || self.report["oracleMigrationExecution"] != "NOT_RUN"
             || ["grantDigest", "protectedObjectDigest", "routeDigest"]
                 .iter()
-                .any(|f| !kelryvo_server::plans::digest(&self.report[*f]))
+                .any(|f| !kelryvo_core::digest(&self.report[*f]))
         {
             return Err(Unavailable);
         }

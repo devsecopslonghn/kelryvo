@@ -3,6 +3,7 @@
 use super::{
     Model, Route, api, array, button, configuration, e, escape, form, input, s, segment, value,
 };
+use crate::browser::actions::Action;
 use serde_json::{Value, json};
 mod observations;
 pub(super) use observations::{capture, change, controls};
@@ -109,31 +110,31 @@ async fn inventory(
 }
 pub(super) async fn action(
     model: &Model,
-    action: &str,
+    action: Action,
     id: &str,
     fields: Value,
 ) -> Result<(), String> {
-    if action == "choose-connection-project" {
+    if action == Action::ChooseConnectionProject {
         return select(model, s(&fields["projectId"])).await;
     }
     let project = project(model)?;
     let base = format!("/api/projects/{}", segment(&project));
     if [
-        "record-connection-target",
-        "verify-connection-target",
-        "more-connection-targets",
+        Action::RecordConnectionTarget,
+        Action::VerifyConnectionTarget,
+        Action::MoreConnectionTargets,
     ]
     .contains(&action)
     {
         return observations::action(model, action, &project, id).await;
     }
-    if action == "filter-project-connections" || action == "more-project-connections" {
-        let filters = if action == "filter-project-connections" {
+    if action == Action::FilterProjectConnections || action == Action::MoreProjectConnections {
+        let filters = if action == Action::FilterProjectConnections {
             fields
         } else {
             model.borrow().data["connectionFilters"].clone()
         };
-        let after = if action == "more-project-connections" {
+        let after = if action == Action::MoreProjectConnections {
             Some(model.borrow().data["connectionPage"]["nextCursor"].clone())
         } else {
             None
@@ -173,11 +174,12 @@ pub(super) async fn action(
         state.data["managedConnection"] = Value::Null;
         return Ok(());
     }
-    if action == "refresh-project-connections" {
+    if action == Action::RefreshProjectConnections {
         return reload(model, &project).await;
     }
-    if action == "project-connection-history" || action == "more-project-connection-history" {
-        let after = if action == "more-project-connection-history" {
+    if action == Action::ProjectConnectionHistory || action == Action::MoreProjectConnectionHistory
+    {
+        let after = if action == Action::MoreProjectConnectionHistory {
             model.borrow().data["connectionHistories"][id]["nextCursor"].clone()
         } else {
             Value::Null
@@ -214,12 +216,12 @@ pub(super) async fn action(
         return Err("Connection changes require database-management access and an active project/workspace.".into());
     }
     let (path, body, notice) = match action {
-        "register-manual-reference" => (
+        Action::RegisterManualReference => (
             format!("{base}/database-instances"),
             fields,
             "Manual reference registered. No Oracle identity was observed.",
         ),
-        "register-discovery-connection" => {
+        Action::RegisterDiscoveryConnection => {
             let known = array(&model.borrow().data["connectionPage"], "infrastructure")
                 .iter()
                 .any(|r| {
@@ -234,19 +236,21 @@ pub(super) async fn action(
                 "Discovery connection registered. Connectivity and identity remain unverified.",
             )
         }
-        "test-project-connection" | "discover-project-connection" | "retire-project-connection" => {
+        Action::TestProjectConnection
+        | Action::DiscoverProjectConnection
+        | Action::RetireProjectConnection => {
             if !array(&model.borrow().data["connectionPage"], "connections")
                 .iter()
                 .any(|r| r["id"] == id)
             {
                 return Err("Refresh the connection inventory".into());
             }
-            if action == "retire-project-connection" && fields["confirmed"] != true {
+            if action == Action::RetireProjectConnection && fields["confirmed"] != true {
                 return Err("Confirm permanent retirement before submitting.".into());
             }
             let op = match action {
-                "test-project-connection" => "test",
-                "discover-project-connection" => "discover",
+                Action::TestProjectConnection => "test",
+                Action::DiscoverProjectConnection => "discover",
                 _ => "retire",
             };
             (

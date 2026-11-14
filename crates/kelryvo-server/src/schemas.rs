@@ -198,9 +198,9 @@ pub async fn baseline(
     Json(body): Json<Value>,
 ) -> Result<(StatusCode, Json<Value>), ApiError> {
     let project = projects::id(&project)?;
-    if !plans::keys(&body, &["snapshotId", "name", "reason"])
-        || !plans::text(&body["name"], 120)
-        || !plans::text(&body["reason"], 2000)
+    if !kelryvo_core::plan::keys(&body, &["snapshotId", "name", "reason"])
+        || !kelryvo_core::plan::text(&body["name"], 120)
+        || !kelryvo_core::plan::text(&body["reason"], 2000)
     {
         return Err(invalid());
     }
@@ -271,7 +271,7 @@ pub async fn observe(
     Json(body): Json<Value>,
 ) -> Result<(StatusCode, Json<Value>), ApiError> {
     let (project, binding) = (projects::id(&project)?, projects::id(&binding)?);
-    if !plans::keys(
+    if !kelryvo_core::plan::keys(
         &body,
         &[
             "connectionId",
@@ -280,13 +280,13 @@ pub async fn observe(
             "reason",
         ],
     ) || !kelryvo_core::uuid(&body["connectionId"])
-        || !plans::text(&body["reason"], 2000)
+        || !kelryvo_core::plan::text(&body["reason"], 2000)
         || !["expectedBindingRevision", "expectedAssignmentRevision"]
             .iter()
             .all(|k| {
                 body[k]
                     .as_str()
-                    .and_then(crate::workspace::positive_revision)
+                    .and_then(kelryvo_core::workspace::positive_revision)
                     .is_some()
             })
     {

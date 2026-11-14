@@ -35,8 +35,6 @@ jobs:
         with:
           persist-credentials: false
       - uses: ./.github/actions/native-rust
-        with:
-          key: delivery-tools
       - name: Build the pinned native publication gate
         run: |
           cargo build -p kelryvo-cli -p kelryvo-test-tools --locked

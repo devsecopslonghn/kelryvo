@@ -1,5 +1,6 @@
 //! Consolidated, project-scoped history with independently bounded request reads.
-use super::{Model, Route, api, array, button, e, escape, form, s, segment, value};
+use super::{Model, api, array, button, e, escape, form, s, segment, value};
+use crate::browser::actions::Action;
 use serde_json::{Value, json};
 pub(super) fn query(filters: &Value, cursor: Option<&str>) -> String {
     let mut pairs = Vec::new();
@@ -18,9 +19,7 @@ pub(super) fn query(filters: &Value, cursor: Option<&str>) -> String {
     }
 }
 pub(super) async fn open_request(model: &Model, id: &str) -> Result<(), String> {
-    let Route::Project(project, _) = model.borrow().route.clone() else {
-        return Err("Select a project".into());
-    };
+    let project = super::project_id(model)?;
     let response = api(
         model,
         "GET",
@@ -42,16 +41,14 @@ pub(super) async fn open_request(model: &Model, id: &str) -> Result<(), String> 
 }
 pub(super) async fn action(
     model: &Model,
-    action: &str,
+    action: Action,
     id: &str,
     fields: Value,
 ) -> Result<(), String> {
-    if action == "open-history-request" {
+    if action == Action::OpenHistoryRequest {
         return open_request(model, id).await;
     }
-    let Route::Project(project, _) = model.borrow().route.clone() else {
-        return Err("Select a project".into());
-    };
+    let project = super::project_id(model)?;
     let (filters, mut stack) = {
         let state = model.borrow();
         (
@@ -59,21 +56,21 @@ pub(super) async fn action(
             array(&state.data, "migrationCursors").to_vec(),
         )
     };
-    let filters = if action == "filter-migration-history" {
+    let filters = if action == Action::FilterMigrationHistory {
         stack.clear();
         fields
     } else {
         filters
     };
-    if action == "older-migration-history" {
+    if action == Action::OlderMigrationHistory {
         let next = model.borrow().data["migrationPage"]["nextCursor"].clone();
         if !next.is_string() {
             return Err("No older history page".into());
         }
         stack.push(next);
-    } else if action == "newer-migration-history" {
+    } else if action == Action::NewerMigrationHistory {
         stack.pop();
-    } else if action == "refresh-migration-history" {
+    } else if action == Action::RefreshMigrationHistory {
         stack.clear();
     }
     model.borrow_mut().data["migrationFilters"] = filters.clone();

@@ -83,7 +83,7 @@ pub(crate) fn text(value: &Value, max: usize) -> bool {
     })
 }
 
-pub(crate) fn digest(value: &Value) -> bool {
+pub fn digest(value: &Value) -> bool {
     value.as_str().is_some_and(|s| {
         s.len() == 64
             && s.bytes()

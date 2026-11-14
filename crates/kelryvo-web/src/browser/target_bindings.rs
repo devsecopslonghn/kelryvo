@@ -4,6 +4,7 @@ use super::{
     Model, Route, api, array, button, document, e, escape, load, render, run_action, s,
     schema_panel, segment, value,
 };
+use crate::browser::actions::Action;
 use serde_json::{Value, json};
 use wasm_bindgen::JsCast;
 use web_sys::{Element, Event};
@@ -124,10 +125,10 @@ fn upsert(data: &mut Value, binding: &Value) {
     }
     data["targetBindings"] = bindings.into();
 }
-pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), String> {
+pub(super) async fn existing_action(model: &Model, action: Action, id: &str) -> Result<(), String> {
     let project = project(model)?;
     let base = format!("/api/projects/{}", segment(&project));
-    if action == "refresh-targets" {
+    if action == Action::RefreshTargets {
         let reason = model.borrow().data["targetForm"]["reason"].clone();
         load(model).await?;
         model.borrow_mut().data["targetForm"]["reason"] = reason;
@@ -135,15 +136,15 @@ pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), 
             "Target facts refreshed. Review the current choices and submit explicitly.".into();
         return Ok(());
     }
-    if action == "binding-assignment" || action == "more-target-options" {
+    if action == Action::BindingAssignment || action == Action::MoreTargetOptions {
         let form = model.borrow().data["targetForm"].clone();
         let assignment = s(&form["assignmentId"]);
-        let after = if action == "more-target-options" {
+        let after = if action == Action::MoreTargetOptions {
             Some(model.borrow().data["optionNext"].clone())
         } else {
             None
         };
-        if action == "binding-assignment" {
+        if action == Action::BindingAssignment {
             let mut state = model.borrow_mut();
             for k in ["optionId", "environmentId", "bindingId"] {
                 state.data["targetForm"][k] = "".into();
@@ -177,8 +178,8 @@ pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), 
         state.data["optionNext"] = result["nextCursor"].clone();
         return Ok(());
     }
-    if action == "more-target-bindings" || action == "more-assigned-schemas" {
-        let (path, field, cursor) = if action == "more-target-bindings" {
+    if action == Action::MoreTargetBindings || action == Action::MoreAssignedSchemas {
+        let (path, field, cursor) = if action == Action::MoreTargetBindings {
             ("target-bindings", "targetBindings", "bindingNext")
         } else {
             ("schema-references", "schemaReferences", "referenceNext")
@@ -213,7 +214,7 @@ pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), 
         state.data[cursor] = result["nextCursor"].clone();
         return Ok(());
     }
-    if action == "binding-workspace" {
+    if action == Action::BindingWorkspace {
         let binding = model.borrow().data["bindingInspected"]["binding"].clone();
         if binding["bindingId"] != id {
             return Err("Inspect the target binding first".into());
@@ -225,7 +226,7 @@ pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), 
         state.data["draftEdit"]["targetBindingId"] = id.into();
         return Ok(());
     }
-    if action == "inspect-binding" {
+    if action == Action::InspectBinding {
         model.borrow_mut().data["bindingInspected"] = Value::Null;
         model.borrow_mut().data["bindingEvidence"] = Value::Null;
         let result = api(
@@ -242,7 +243,7 @@ pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), 
         model.borrow_mut().data["bindingInspected"] = result;
         return Ok(());
     }
-    if action == "binding-evidence" {
+    if action == Action::BindingEvidence {
         let binding = model.borrow().data["bindingInspected"]["binding"].clone();
         let hash = binding["observationDigest"]
             .as_str()
@@ -259,7 +260,7 @@ pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), 
         model.borrow_mut().data["bindingEvidence"] = result["evidence"].clone();
         return Ok(());
     }
-    if action != "save-target-binding" {
+    if action != Action::SaveTargetBinding {
         return Err("Unknown target action".into());
     }
     let (form, reference, option, binding) = {
@@ -504,4 +505,205 @@ pub(super) fn view(data: &Value, actor: &Value) -> String {
     }
     html.push_str("</section>");
     html
+}
+
+pub(super) async fn action(
+    model: &Model,
+    action: Action,
+    id: &str,
+    fields: Value,
+) -> Result<(), String> {
+    match action {
+        Action::LoadTargetSchema
+        | Action::OlderSchemaSnapshots
+        | Action::OlderSchemaBaselines
+        | Action::OpenSchemaSnapshot
+        | Action::CaptureSchemaBaseline
+        | Action::CompareSchemaSnapshots
+        | Action::ObserveTargetSchema => {
+            let project = match model.borrow().route.clone() {
+                Route::Project(project, _) => project,
+                _ => s(&model.borrow().data["projectId"]).to_owned(),
+            };
+            if project.is_empty() {
+                return Err("Select a project".into());
+            }
+            let base = format!("/api/projects/{}", segment(&project));
+            let history_path = format!("{}/target-bindings/{}/schema", base, segment(id));
+            let (path, method, body) = match action {
+                Action::ObserveTargetSchema => (
+                    format!("{history_path}/observe"),
+                    "POST",
+                    Some(fields.clone()),
+                ),
+                Action::CaptureSchemaBaseline => (
+                    format!("{base}/schema-baselines"),
+                    "POST",
+                    Some(fields.clone()),
+                ),
+                Action::OpenSchemaSnapshot => (
+                    format!(
+                        "{}/schema-snapshots/{}",
+                        base,
+                        segment(s(&fields["snapshotId"]))
+                    ),
+                    "GET",
+                    None,
+                ),
+                Action::CompareSchemaSnapshots => (
+                    format!(
+                        "{}/schema-comparison?expected={}&observed={}",
+                        base,
+                        segment(s(&fields["expected"])),
+                        segment(s(&fields["observed"]))
+                    ),
+                    "GET",
+                    None,
+                ),
+                Action::OlderSchemaSnapshots => (
+                    format!(
+                        "{}?after={}",
+                        history_path,
+                        segment(s(&model.borrow().data["schemaHistory"][id]["nextCursor"]))
+                    ),
+                    "GET",
+                    None,
+                ),
+                Action::OlderSchemaBaselines => (
+                    format!(
+                        "{}?baselineAfter={}",
+                        history_path,
+                        segment(s(
+                            &model.borrow().data["schemaHistory"][id]["baselineNextCursor"]
+                        ))
+                    ),
+                    "GET",
+                    None,
+                ),
+                _ => (history_path.clone(), "GET", None),
+            };
+            let result = api(model, method, &path, body, None).await?;
+            let history = if method == "POST" {
+                Some(api(model, "GET", &history_path, None, None).await?)
+            } else if action == Action::LoadTargetSchema
+                || matches!(
+                    action,
+                    Action::OlderSchemaSnapshots | Action::OlderSchemaBaselines
+                )
+            {
+                Some(result.clone())
+            } else {
+                None
+            };
+            let mut state = model.borrow_mut();
+            for key in ["schemaHistory", "schemaSnapshots", "schemaComparisons"] {
+                if !state.data[key].is_object() {
+                    state.data[key] = json!({});
+                }
+            }
+            if let Some(history) = history {
+                state.data["schemaHistory"][id] = history;
+            }
+            if result["snapshot"].is_object() {
+                state.data["schemaSnapshots"][id] = result["snapshot"].clone();
+            }
+            if result["comparison"].is_object() {
+                state.data["schemaComparisons"][id] = result["comparison"].clone();
+            }
+            if action == Action::CaptureSchemaBaseline {
+                state.notice = "Schema baseline retained. Execution authority is unchanged.".into();
+            }
+            if action == Action::ObserveTargetSchema {
+                state.notice =
+                    "Schema observation retained with its coverage and limitations.".into();
+            }
+        }
+        Action::InspectTarget
+        | Action::ObserveTarget
+        | Action::VerifyTarget
+        | Action::TargetEvidence => {
+            let project = model.borrow().data["projectId"]
+                .as_str()
+                .ok_or("Choose a project")?
+                .to_owned();
+            let base = format!(
+                "/api/projects/{}/target-bindings/{}",
+                segment(&project),
+                segment(id)
+            );
+            if action == Action::TargetEvidence {
+                let hash = array(&model.borrow().data, "bindings")
+                    .iter()
+                    .find(|b| b["bindingId"] == id)
+                    .and_then(|b| b["observationDigest"].as_str())
+                    .ok_or("Choose retained identity evidence")?
+                    .to_owned();
+                let evidence = api(
+                    model,
+                    "GET",
+                    &format!(
+                        "/api/projects/{}/target-identity-evidence/{}",
+                        segment(&project),
+                        segment(&hash)
+                    ),
+                    None,
+                    None,
+                )
+                .await?;
+                let mut state = model.borrow_mut();
+                if !state.data["targetEvidence"].is_object() {
+                    state.data["targetEvidence"] = json!({});
+                }
+                state.data["targetEvidence"][id] = evidence["evidence"].clone();
+            } else {
+                let detail = if action == Action::InspectTarget {
+                    api(model, "GET", &base, None, None).await?
+                } else {
+                    let suffix = if action == Action::ObserveTarget {
+                        "observe"
+                    } else {
+                        "verify"
+                    };
+                    api(
+                        model,
+                        "POST",
+                        &format!("{base}/{suffix}"),
+                        Some(fields),
+                        None,
+                    )
+                    .await?
+                };
+                let bindings = api(
+                    model,
+                    "GET",
+                    &format!("/api/projects/{}/target-bindings", segment(&project)),
+                    None,
+                    None,
+                )
+                .await?;
+                let mut state = model.borrow_mut();
+                if !state.data["targetDetails"].is_object() {
+                    state.data["targetDetails"] = json!({});
+                }
+                if state.data["targetDetails"][id]["binding"]["observationDigest"]
+                    != detail["binding"]["observationDigest"]
+                    && state.data["targetEvidence"].is_object()
+                {
+                    state.data["targetEvidence"][id] = Value::Null;
+                }
+                state.data["targetDetails"][id] = detail;
+                state.data["bindings"] = bindings["bindings"].clone();
+                if action != Action::InspectTarget {
+                    state.notice = if action == Action::ObserveTarget {
+                        "Identity observed. Deployment approval is still required."
+                    } else {
+                        "Identity verified. Deployment approval is still required."
+                    }
+                    .into();
+                }
+            }
+        }
+        _ => return existing_action(model, action, id).await,
+    }
+    Ok(())
 }

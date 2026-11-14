@@ -1,6 +1,7 @@
 //! Observations are retained, scoped facts. Only an explicit server acceptance
 //! may advance target revisions; browser selections never attest Oracle identity.
 use super::*;
+use crate::browser::actions::Action;
 use wasm_bindgen::JsCast;
 use web_sys::{Element, Event};
 
@@ -148,12 +149,12 @@ pub(in crate::browser) fn controls(model: &Model) {
 }
 pub(super) async fn action(
     model: &Model,
-    action: &str,
+    action: Action,
     project: &str,
     id: &str,
 ) -> Result<(), String> {
     let base = format!("/api/projects/{}", segment(project));
-    if action == "more-connection-targets" {
+    if action == Action::MoreConnectionTargets {
         let after = model.borrow().data["connectionTargets"]["nextCursor"]
             .as_str()
             .ok_or("No further target bindings")?
@@ -189,7 +190,7 @@ pub(super) async fn action(
             .find(|c| c["id"] == id)
             .ok_or("Refresh the connection inventory")?;
         let (observe, verify) = availability(&state.data, c);
-        if !(if action == "record-connection-target" {
+        if !(if action == Action::RecordConnectionTarget {
             observe
         } else {
             verify
@@ -206,7 +207,7 @@ pub(super) async fn action(
             .ok_or("Choose a matching target binding")?;
         (o, f, binding)
     };
-    let suffix = if action == "record-connection-target" {
+    let suffix = if action == Action::RecordConnectionTarget {
         "observe"
     } else {
         "verify"

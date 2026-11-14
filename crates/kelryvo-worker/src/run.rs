@@ -12,7 +12,7 @@ use kelryvo_core::coordinator::{
     TerminalState,
 };
 use kelryvo_runtime::{jobs::JobStore, supervisor::WorkerResult};
-use kelryvo_server::{ORG_UUID, plans};
+use kelryvo_server::ORG_UUID;
 use serde_json::{Value, json};
 use sqlx::PgPool;
 use uuid::Uuid;
@@ -315,7 +315,7 @@ impl<S: TargetSession> CoordinatorPorts for Ports<'_, S> {
         let Some(w) = port(self.session.record_target_receipt(&r).await)? else {
             return Ok(false);
         };
-        if !plans::digest(&json!(w.receipt_digest))
+        if !kelryvo_core::digest(&json!(w.receipt_digest))
             || self.observation["centralEvidenceDigest"] != w.central_evidence_digest
         {
             return Ok(false);

@@ -2,7 +2,7 @@
 use crate::{
     ApiError, ApiResult, AppState, ORG_UUID,
     auth::{self, Authenticated},
-    conflict, invalid, not_found, plans, projects,
+    conflict, invalid, not_found, projects,
 };
 use axum::{
     Json,
@@ -402,7 +402,7 @@ pub async fn import(
     Json(b): Json<Value>,
 ) -> Result<Response, ApiError> {
     let project = projects::id(&project).map_err(|_| invalid())?;
-    if !plans::keys(&b, &["repositoryId", "commit", "folder"])
+    if !kelryvo_core::plan::keys(&b, &["repositoryId", "commit", "folder"])
         || !b["repositoryId"]
             .as_str()
             .is_some_and(|s| projects::text(s, 200))

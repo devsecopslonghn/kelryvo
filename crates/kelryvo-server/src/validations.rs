@@ -149,8 +149,8 @@ pub async fn create(
         projects::id(&release).map_err(|_| invalid())?,
         projects::id(&body.target_binding_id).map_err(|_| invalid())?,
     );
-    if !plans::revision(&json!(body.expected_binding_revision))
-        || !plans::revision(&json!(body.expected_assignment_revision))
+    if !kelryvo_core::plan::revision(&json!(body.expected_binding_revision))
+        || !kelryvo_core::plan::revision(&json!(body.expected_assignment_revision))
     {
         return Err(invalid());
     }

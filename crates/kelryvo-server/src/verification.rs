@@ -3,7 +3,7 @@
 use crate::ObjectJson;
 use crate::{
     ApiError, ApiResult, AppState, ORG, ORG_UUID, auth::Authenticated, conflict, discovery,
-    instances, invalid, not_found, projects, targets, workspace::positive_revision,
+    instances, invalid, not_found, projects, targets,
 };
 use axum::{
     Json,
@@ -11,6 +11,7 @@ use axum::{
     http::StatusCode,
 };
 use chrono::Utc;
+use kelryvo_core::workspace::positive_revision;
 use kelryvo_core::{evidence::accepted_observation, evidence_digest};
 use serde::Deserialize;
 use serde_json::{Value, json};

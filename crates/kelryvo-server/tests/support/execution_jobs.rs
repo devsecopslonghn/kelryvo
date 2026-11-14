@@ -1,18 +1,10 @@
-use super::{OTHER_TOKEN, TOKEN, plans::APPROVER, request};
+use super::call;
+use super::{OTHER_TOKEN, TOKEN, plans::APPROVER};
 use axum::{Router, http::StatusCode};
 use serde_json::{Value, json};
 use sqlx::PgPool;
 use uuid::Uuid;
-async fn call(
-    app: &Router,
-    token: &str,
-    method: &str,
-    path: &str,
-    body: Option<Value>,
-) -> (StatusCode, Value) {
-    let r = request(app, method, path, body, Some(token), None, None).await;
-    (r.0, r.2)
-}
+
 pub(super) fn reference(method: &str, path: &str, body: Option<Value>) -> Value {
     reference_as(method, path, body, "developer")
 }

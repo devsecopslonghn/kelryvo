@@ -1,5 +1,6 @@
-use super::{OTHER_TOKEN, TOKEN, request, target_reference};
-use axum::{Router, http::StatusCode};
+use super::call;
+use super::{OTHER_TOKEN, TOKEN, target_reference};
+use axum::http::StatusCode;
 use kelryvo_server::{
     AppState, ORG_UUID,
     discovery::{Discovery, DiscoveryRuntime, Operation, RuntimeResult},
@@ -35,16 +36,7 @@ impl DiscoveryRuntime for Fixture {
         })
     }
 }
-async fn call(
-    app: &Router,
-    token: &str,
-    method: &str,
-    path: &str,
-    body: Option<Value>,
-) -> (StatusCode, Value) {
-    let r = request(app, method, path, body, Some(token), None, None).await;
-    (r.0, r.2)
-}
+
 pub async fn run(pool: &PgPool, project: Uuid, binding: &Value, source_connection: &str) {
     let fixture = Arc::new(Fixture::default());
     let identity = json!({"engine":"oracle","dbid":"100","dbUniqueName":"NATIVE_DISCOVERY","resetlogsChange":"1000","cdb":true,"containerId":"3","containerGuid":"A".repeat(32),"containerDbid":"200","containerName":"NATIVEPDB","serviceName":"NATIVEPDB","version":"26.1"});

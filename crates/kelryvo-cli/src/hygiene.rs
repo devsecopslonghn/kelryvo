@@ -1,7 +1,6 @@
 //! Repository hygiene shared by source tools and chart validation.
 use std::{
     ffi::OsStr,
-    fs,
     io::Write,
     path::Path,
     process::{Command, Stdio},
@@ -95,37 +94,9 @@ pub(crate) fn check(root: &Path) -> Result<()> {
             || ["log", "lcov", "pyc"].contains(&extension)
         {
             errors.push(format!("Generated output must stay outside Git: {name:?}"));
-        } else if name.starts_with("docs/") && !name.starts_with("docs/dependencies/") {
-            errors.push(format!(
-                "Keep current requirements in CHECKLIST.md: {name:?}"
-            ));
-        } else if extension.eq_ignore_ascii_case("md")
-            && ![
-                "README.md",
-                "CHECKLIST.md",
-                "CUSTOMER-GUIDE.md",
-                "docs/dependencies/antlr-provenance.md",
-            ]
-            .contains(&name)
-            && !["license.md", "notice.md", "copying.md"]
-                .contains(&base.to_ascii_lowercase().as_str())
-        {
-            errors.push(format!(
-                "Use CHECKLIST.md instead of another status document: {name:?}"
-            ));
         }
     }
-    match fs::read_to_string(root.join("README.md")) {
-        Ok(readme) => {
-            if !readme.contains("CHECKLIST.md") {
-                errors.push("README.md must point to the shared CHECKLIST.md".into());
-            }
-            if readme.lines().count() > 30 {
-                errors.push("Keep README.md under 30 lines; details belong in CHECKLIST.md".into());
-            }
-        }
-        Err(_) => errors.push("README.md must point to the shared CHECKLIST.md".into()),
-    }
+
     let checklist = root.join("CHECKLIST.md").is_file();
     let chart = root.join("Chart.yaml").is_file();
     if checklist && chart {
@@ -148,6 +119,6 @@ pub(crate) fn check(root: &Path) -> Result<()> {
     if !errors.is_empty() {
         return Err(errors.join("\n"));
     }
-    println!("PASS: one checklist handoff; generated outputs ignored and absent from Git");
+    println!("PASS: generated outputs ignored and absent from Git");
     Ok(())
 }

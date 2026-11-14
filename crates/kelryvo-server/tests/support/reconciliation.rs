@@ -1,20 +1,12 @@
-use super::{OTHER_TOKEN, TOKEN, execution_jobs::reference_as, plans::APPROVER, request};
+use super::call;
+use super::{OTHER_TOKEN, TOKEN, execution_jobs::reference_as, plans::APPROVER};
 use axum::{Router, http::StatusCode};
 use kelryvo_server::ORG_UUID;
 use serde_json::{Value, json};
 use sqlx::PgPool;
 use uuid::Uuid;
 const SECOND: &str = "3333333333333333333333333333333333333333333333333333333333333333";
-async fn call(
-    app: &Router,
-    token: &str,
-    method: &str,
-    path: &str,
-    body: Option<Value>,
-) -> (StatusCode, Value) {
-    let r = request(app, method, path, body, Some(token), None, None).await;
-    (r.0, r.2)
-}
+
 async fn retained(method: &str, path: &str, body: Option<Value>, actor: &str) -> Value {
     let (method, path, actor) = (method.to_owned(), path.to_owned(), actor.to_owned());
     tokio::task::spawn_blocking(move || reference_as(&method, &path, body, &actor))

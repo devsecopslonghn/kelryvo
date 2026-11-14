@@ -131,7 +131,8 @@ async fn fixture_job(
 }
 pub async fn run(pool: &PgPool, project: Uuid) {
     let plan:Value=sqlx::query_scalar("SELECT to_jsonb(p) FROM sf_plans p WHERE project_id=$1 AND status='APPROVED' ORDER BY created_at DESC,id DESC LIMIT 1").bind(project).fetch_one(pool).await.expect("reviewed native fixture");
-    let target = plans::intent(&plan).expect("retained intent")["target"].clone();
+    let target =
+        kelryvo_core::plan::retained_intent(&plan).expect("retained intent")["target"].clone();
     let credential:Uuid=sqlx::query_scalar("SELECT id FROM sf_local_credentials WHERE actor_id='rust-developer' AND revoked_at IS NULL ORDER BY issued_at DESC LIMIT 1").fetch_one(pool).await.expect("fixture credential");
     let generation: Uuid =
         sqlx::query_scalar("SELECT generation_id FROM sf_metadata_current WHERE singleton")

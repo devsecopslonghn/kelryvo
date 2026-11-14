@@ -7,7 +7,6 @@ use crate::{
     conflict,
     connections::public_connection,
     invalid, not_found, projects,
-    workspace::positive_revision,
 };
 use axum::{
     Json,
@@ -15,6 +14,7 @@ use axum::{
     http::StatusCode,
     response::{IntoResponse, Response},
 };
+use kelryvo_core::workspace::positive_revision;
 use kelryvo_vault::{Context, endpoint_digest};
 use regex::Regex;
 use serde::{Deserialize, Deserializer};

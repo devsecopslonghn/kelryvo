@@ -1,6 +1,7 @@
 //! Cross-project pending review. Scope and cursors come from the native API;
 //! opening a retained row rechecks project access and pending plan membership.
 use super::{Model, Route, api, array, button, e, s, segment};
+use crate::browser::actions::Action;
 use serde_json::{Value, json};
 
 fn blank(scope: &str) -> Value {
@@ -58,11 +59,11 @@ pub(super) async fn load(model: &Model) -> Result<Value, String> {
     read(model, "ALL", None, &[]).await
 }
 
-pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), String> {
+pub(super) async fn action(model: &Model, action: Action, id: &str) -> Result<(), String> {
     if !matches!(model.borrow().route, Route::Review) {
         return Err("Open the review inbox first.".into());
     }
-    let scope = if action == "change-review-scope" {
+    let scope = if action == Action::ChangeReviewScope {
         id.to_owned()
     } else {
         model.borrow().data["scope"]
@@ -71,7 +72,7 @@ pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), 
             .to_owned()
     };
     let result = async {
-        if action == "open-inbox-plan" {
+        if action == Action::OpenInboxPlan {
             let row = array(&model.borrow().data, "plans")
                 .iter()
                 .find(|r| r["id"] == id)
@@ -114,7 +115,7 @@ pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), 
             state.notice = format!("Opened pending plan {id} from review inbox.");
             return Ok(());
         }
-        let (cursor, retained) = if action == "more-review-inbox" {
+        let (cursor, retained) = if action == Action::MoreReviewInbox {
             let state = model.borrow();
             (
                 Some(

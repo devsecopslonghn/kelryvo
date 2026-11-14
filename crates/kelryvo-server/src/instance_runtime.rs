@@ -1,6 +1,7 @@
 //! Public installation metadata. A native record may select a writer profile;
 //! it is never authority to connect, admit a job or dispatch Oracle statements.
-use crate::{ApiError, ORG_UUID, plans, workspace::positive_revision};
+use crate::{ApiError, ORG_UUID, plans};
+use kelryvo_core::workspace::positive_revision;
 use kelryvo_core::{NATIVE_ORACLE_DRIVER_PROFILE, evidence, schema_scope};
 use serde_json::Value;
 use sqlx::PgConnection;
@@ -10,7 +11,7 @@ pub fn normalize(record: &Value) -> Option<Value> {
     if record.as_object()?.len() != 4
         || record["format"] != 2
         || record["driverProfile"] != NATIVE_ORACLE_DRIVER_PROFILE
-        || !plans::digest(&record["workerArtifactDigest"])
+        || !kelryvo_core::digest(&record["workerArtifactDigest"])
     {
         return None;
     }
@@ -48,8 +49,8 @@ pub fn normalize(record: &Value) -> Option<Value> {
         || !d["imageDigest"]
             .as_str()?
             .strip_prefix("sha256:")
-            .is_some_and(|s| plans::digest(&Value::String(s.into())))
-        || !plans::digest(&d["installationDigest"])
+            .is_some_and(|s| kelryvo_core::digest(&Value::String(s.into())))
+        || !kelryvo_core::digest(&d["installationDigest"])
         || evidence::exact_identity(&d["identity"]).as_ref() != Some(&d["identity"])
         || !owner(d["writerUsername"].as_str()?)
         || d["writerCredentialRef"]
@@ -74,7 +75,7 @@ pub fn normalize(record: &Value) -> Option<Value> {
             .collect::<HashSet<_>>()
             .len()
             != schemas.len()
-        || protected.iter().any(|v| !plans::text(v, 128))
+        || protected.iter().any(|v| !kelryvo_core::plan::text(v, 128))
     {
         return None;
     }

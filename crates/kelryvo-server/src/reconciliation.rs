@@ -102,7 +102,7 @@ pub async fn submit(
 ) -> Result<(StatusCode, Json<Value>), ApiError> {
     let job = projects::id(&job).map_err(|_| invalid())?;
     let expected = revision(&body["expectedRevision"]).ok_or_else(invalid)?;
-    if !plans::keys(
+    if !kelryvo_core::plan::keys(
         &body,
         &[
             "evidenceDigest",
@@ -110,7 +110,7 @@ pub async fn submit(
             "expectedRevision",
             "reason",
         ],
-    ) || !plans::digest(&body["evidenceDigest"])
+    ) || !kelryvo_core::digest(&body["evidenceDigest"])
         || !["TARGET_LEDGER", "TARGET_OBSERVATION", "OPERATOR_REPORT"]
             .iter()
             .any(|v| body["evidenceKind"] == *v)
@@ -133,7 +133,8 @@ pub async fn submit(
     if j["revision"].as_str().and_then(|s| s.parse::<i64>().ok()) != Some(expected) {
         return Err(conflict("REVISION_CONFLICT"));
     }
-    let intent = plans::intent(&p).ok_or_else(|| conflict("JOB_BINDING_UNAVAILABLE"))?;
+    let intent = kelryvo_core::plan::retained_intent(&p)
+        .ok_or_else(|| conflict("JOB_BINDING_UNAVAILABLE"))?;
     if intent["digest"] != j["intent_digest"]
         || j["intent_digest"] != p["offline_intent_digest"]
         || j["approval_reference"] != p["approval_reference"]
@@ -192,7 +193,7 @@ pub async fn submit(
             .iter()
             .any(|k| v[k] != j[k])
                 || v["scope"] != j["admission_scope"]
-                || !plans::digest(&v["target_identity_digest"])
+                || !kelryvo_core::digest(&v["target_identity_digest"])
         })
     {
         return Err(conflict("JOB_BINDING_UNAVAILABLE"));
@@ -237,7 +238,7 @@ pub async fn decide(
         projects::id(&id).map_err(|_| invalid())?,
     );
     let expected = revision(&body["expectedRevision"]).ok_or_else(invalid)?;
-    if !plans::keys(&body, &["decision", "expectedRevision", "reason"])
+    if !kelryvo_core::plan::keys(&body, &["decision", "expectedRevision", "reason"])
         || !["RETAIN_HOLD", "EVIDENCE_REVIEWED"]
             .iter()
             .any(|v| body["decision"] == *v)
@@ -254,7 +255,8 @@ pub async fn decide(
     let row = submission(&mut tx, id, job, project, true)
         .await?
         .ok_or_else(not_found)?;
-    let intent = plans::intent(&p).ok_or_else(|| conflict("JOB_BINDING_UNAVAILABLE"))?;
+    let intent = kelryvo_core::plan::retained_intent(&p)
+        .ok_or_else(|| conflict("JOB_BINDING_UNAVAILABLE"))?;
     if intent["digest"] != row["intent_digest"]
         || j["intent_digest"] != row["intent_digest"]
         || j["approval_reference"] != row["approval_reference"]

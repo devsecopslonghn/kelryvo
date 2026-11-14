@@ -31,7 +31,7 @@ pub async fn run(pool: &PgPool, project: Uuid, plan: &Value) {
         .await
         .expect("retained plan");
     tx.commit().await.expect("facts");
-    let i = plans::intent(&p).expect("intent");
+    let i = kelryvo_core::plan::retained_intent(&p).expect("intent");
     assert_eq!(i["format"], 4);
     let target = &i["target"];
     let profile = plans::id(&i["profileId"]).expect("profile");

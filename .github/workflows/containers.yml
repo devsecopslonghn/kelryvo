@@ -30,8 +30,6 @@ jobs:
         with:
           persist-credentials: false
       - uses: ./.github/actions/native-rust
-        with:
-          key: foundation
       - name: Build and freeze the verifier before any untrusted image input
         id: binary
         run: |
@@ -67,8 +65,6 @@ jobs:
         with:
           persist-credentials: false
       - uses: ./.github/actions/native-rust
-        with:
-          key: host-image-${{ matrix.arch }}
       - name: Build the native verifier before configuring or importing any image
         id: source
         run: |

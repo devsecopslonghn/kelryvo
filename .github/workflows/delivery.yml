@@ -55,8 +55,6 @@ jobs:
           ref: ${{ github.sha }}
           persist-credentials: false
       - uses: ./.github/actions/native-rust
-        with:
-          key: delivery-gate
       - name: Build the pinned native publication gate
         run: |
           cargo build -p kelryvo-cli --locked
@@ -89,8 +87,6 @@ jobs:
           ref: ${{ needs.gate.outputs.sha }}
           persist-credentials: false
       - uses: ./.github/actions/native-rust
-        with:
-          key: delivery-gate
       - name: Build the pinned native publication gate
         run: |
           cargo build -p kelryvo-cli --locked
@@ -130,8 +126,6 @@ jobs:
           ref: ${{ needs.gate.outputs.sha }}
           persist-credentials: false
       - uses: ./.github/actions/native-rust
-        with:
-          key: delivery-tools
       - name: Build the pinned native publication gate and CI tooling
         run: |
           cargo build -p kelryvo-cli -p kelryvo-test-tools --locked
