@@ -127,19 +127,19 @@ impl ManagedAuthority {
         {
             return Ok(false);
         }
-        let a: Vec<Value> = kelryvo_server::migration_attempts(&mut *tx, r.job_id).await?;
+        let a: Vec<Value> = kelryvo_server::migration_attempts(&mut tx, r.job_id).await?;
         if a.len() != 1 || a[0]["state"] != "CLAIMED" {
             return Ok(false);
         }
         let receipts: Vec<Value> = kelryvo_server::migration_receipts(
-            &mut *tx,
+            &mut tx,
             r.job_id,
             plans::id(&a[0]["id"])?,
             a[0]["generation"].as_str(),
         )
         .await?;
         let ack: Vec<Value> =
-            kelryvo_server::migration_acknowledgements(&mut *tx, plans::id(&a[0]["id"])?).await?;
+            kelryvo_server::migration_acknowledgements(&mut tx, plans::id(&a[0]["id"])?).await?;
         let n = progress.acknowledged_statements;
         if n > 4096 || receipts.len() != n || ack.len() != n {
             return Ok(false);
