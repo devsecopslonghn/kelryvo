@@ -19,6 +19,7 @@ pub(crate) mod decisions;
 pub mod discovery;
 pub(crate) mod execution;
 pub(crate) mod execution_history;
+pub use execution_history::{migration_acknowledgements, migration_attempts, migration_receipts};
 pub(crate) mod execution_jobs;
 pub(crate) mod execution_records;
 pub(crate) mod git_sources;

@@ -50,13 +50,7 @@ async fn guard(tx: &mut PgConnection) -> Result<()> {
     auth::active_metadata(tx).await?;
     Ok(())
 }
-async fn schema_lock(tx: &mut PgConnection, schema: Uuid) -> Result<()> {
-    sqlx::query("SELECT pg_advisory_xact_lock(hashtextextended($1,29))")
-        .bind(schema.to_string())
-        .execute(tx)
-        .await?;
-    Ok(())
-}
+
 use kelryvo_core::port;
 fn valid_host(s: &str) -> bool {
     if s.len() > 253 {
@@ -218,7 +212,7 @@ async fn assign(pool: &PgPool, b: &Value, release: bool, uid: i32) -> Result<Val
     let expected = revision(&b["expectedRevision"]).ok_or_else(fail)?;
     let mut tx = pool.begin().await?;
     instances::catalog_lock(&mut tx).await?;
-    schema_lock(&mut tx, schema).await?;
+    instances::schema_lock(&mut tx, schema).await?;
     guard(&mut tx).await?;
     let current_revision: i64 = sqlx::query_scalar(
         "SELECT revision FROM sf_reference_schemas WHERE id=$1 AND organization_id=$2 FOR UPDATE",

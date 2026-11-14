@@ -127,12 +127,19 @@ impl ManagedAuthority {
         {
             return Ok(false);
         }
-        let a:Vec<Value>=sqlx::query_scalar("SELECT jsonb_build_object('id',id,'generation',generation::text,'state',state) FROM sf_execution_attempts WHERE job_id=$1 LIMIT 2").bind(r.job_id).fetch_all(&mut *tx).await?;
+        let a: Vec<Value> = kelryvo_server::migration_attempts(&mut *tx, r.job_id).await?;
         if a.len() != 1 || a[0]["state"] != "CLAIMED" {
             return Ok(false);
         }
-        let receipts:Vec<Value>=sqlx::query_scalar("SELECT jsonb_build_object('ordinal',ordinal,'statement_digest',statement_digest,'receipt_digest',receipt_digest,'central_evidence_digest',central_evidence_digest) FROM sf_execution_receipts WHERE job_id=$1 AND attempt_id=$2 AND generation=$3::text::bigint ORDER BY ordinal LIMIT 4097").bind(r.job_id).bind(plans::id(&a[0]["id"])?).bind(a[0]["generation"].as_str()).fetch_all(&mut *tx).await?;
-        let ack:Vec<Value>=sqlx::query_scalar("SELECT jsonb_build_object('ordinal',ordinal,'statement_digest',statement_digest) FROM sf_execution_attempt_events WHERE attempt_id=$1 AND phase='ACKNOWLEDGED' ORDER BY ordinal LIMIT 4097").bind(plans::id(&a[0]["id"])?).fetch_all(&mut *tx).await?;
+        let receipts: Vec<Value> = kelryvo_server::migration_receipts(
+            &mut *tx,
+            r.job_id,
+            plans::id(&a[0]["id"])?,
+            a[0]["generation"].as_str(),
+        )
+        .await?;
+        let ack: Vec<Value> =
+            kelryvo_server::migration_acknowledgements(&mut *tx, plans::id(&a[0]["id"])?).await?;
         let n = progress.acknowledged_statements;
         if n > 4096 || receipts.len() != n || ack.len() != n {
             return Ok(false);

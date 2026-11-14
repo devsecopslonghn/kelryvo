@@ -445,14 +445,14 @@ pub fn materialize(candidate: &Candidate) -> Option<Materialized> {
         {
             return None;
         }
-        for (index, s) in parsed.statements.into_iter().enumerate() {
+        identities.extend(parsed.identities(&file["path"], identities.len()));
+        for s in parsed.statements {
             if s.execution_sql.is_empty()
                 || kelryvo_core::sha256(&s.execution_sql) != s.execution_sha256
                 || schema_scope::assess(&s.execution_sql, owner, false)["eligible"] != true
             {
                 return None;
             }
-            identities.push(json!({"ordinal":identities.len()+1,"path":file["path"],"fileOrdinal":index+1,"startByte":s.start_byte,"endByte":s.end_byte,"sourceSha256":s.source_sha256,"executionSha256":s.execution_sha256}));
             statements.push(Statement {
                 digest: s.execution_sha256,
                 bytes: s.execution_sql.into_bytes(),

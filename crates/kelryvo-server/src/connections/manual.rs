@@ -117,10 +117,7 @@ pub async fn declare_instance(
     let instance = json!({"databaseId":database["id"],"databaseServerId":database["server_uuid"],"containerId":container["id"],"containerServerId":container["server_uuid"],"serviceId":route,"schemaId":schema,"generation":1,"provenance":"MANUAL_REFERENCE"});
     sqlx::query("INSERT INTO sf_reference_operator_audit(organization_id,schema_id,action,operator_os_uid,facts) VALUES($1,$2,'REGISTER',$3,$4)")
         .bind(ORG_UUID).bind(schema).bind(uid).bind(json!({"databaseId":database["id"],"containerId":container["id"],"serviceId":route,"schemaId":schema,"provenance":"MANUAL_REFERENCE","generation":1})).execute(&mut *tx).await?;
-    sqlx::query("SELECT pg_advisory_xact_lock(hashtextextended($1,29))")
-        .bind(schema.to_string())
-        .execute(&mut *tx)
-        .await?;
+    instances::schema_lock(&mut tx, schema).await?;
     let reason = b["reason"]
         .as_str()
         .ok_or_else(invalid)?
@@ -204,10 +201,7 @@ pub async fn create_connection(
     .fetch_optional(&mut *tx)
     .await?
     {
-        sqlx::query("SELECT pg_advisory_xact_lock(hashtextextended($1,29))")
-            .bind(schema.to_string())
-            .execute(&mut *tx)
-            .await?;
+        instances::schema_lock(&mut tx, schema).await?;
     }
     instances::guard(&mut tx, &auth, project).await?;
     let route:Value=sqlx::query_scalar("SELECT to_jsonb(r) FROM sf_reference_assignments a JOIN sf_reference_schemas s ON s.id=a.schema_id AND s.organization_id=a.organization_id JOIN sf_reference_services r ON r.container_id=s.container_id AND r.organization_id=s.organization_id WHERE a.id=$1 AND a.project_id=$2 AND a.organization_id=$3 AND a.closed_at IS NULL AND r.id=$4")

@@ -1,7 +1,7 @@
 //! Private native installation inputs. They are staged by the OS operator,
 //! never accepted from an HTTP body, job payload or worker control message.
 use crate::admission::{Result, Unavailable};
-use kelryvo_core::{evidence, sha256};
+use kelryvo_core::evidence;
 use kelryvo_runtime::oracle::driver;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
@@ -78,21 +78,7 @@ pub fn private_file(path: &Path, max: u64) -> Result<Zeroizing<Vec<u8>>> {
     }
     Ok(bytes)
 }
-fn canonical(v: &Value) -> Value {
-    match v {
-        Value::Array(a) => json!(a.iter().map(canonical).collect::<Vec<_>>()),
-        Value::Object(o) => o
-            .iter()
-            .map(|(k, v)| (k.clone(), canonical(v)))
-            .collect::<BTreeMap<_, _>>()
-            .into_iter()
-            .collect(),
-        _ => v.clone(),
-    }
-}
-pub fn canonical_digest(v: &Value) -> String {
-    sha256(canonical(v).to_string())
-}
+pub use kelryvo_core::comparison::canonical_digest;
 #[derive(Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct Route {

@@ -133,18 +133,28 @@ pub async fn statements(state: &AppState, release: &Value) -> Result<Value, ApiE
         .try_acquire_owned()
         .map_err(|_| ApiError(axum::http::StatusCode::TOO_MANY_REQUESTS, "PARSER_BUSY"))?;
     tokio::task::spawn_blocking(move || {
-        let _permit=permit;
-        let mut result=Vec::new();
+        let _permit = permit;
+        let mut result = Vec::new();
         for file in files {
-            let raw=file["content"].as_str().ok_or_else(||conflict("RELEASE_NOT_PLANNABLE"))?;
-            let parsed=kelryvo_parser::parse(raw.as_bytes()).map_err(|_|conflict("RELEASE_NOT_PLANNABLE"))?;
-            if file["statementCount"].as_u64().is_some_and(|n|n!=parsed.statement_count as u64) || parsed.statements.is_empty() || result.len()+parsed.statements.len()>MAX_PLAN_STATEMENTS {return Err(conflict("RELEASE_NOT_PLANNABLE"));}
-            for (index,s) in parsed.statements.iter().enumerate() {
-                result.push(json!({"ordinal":result.len()+1,"path":file["path"],"fileOrdinal":index+1,"startByte":s.start_byte,"endByte":s.end_byte,"sourceSha256":s.source_sha256,"executionSha256":s.execution_sha256}));
+            let raw = file["content"]
+                .as_str()
+                .ok_or_else(|| conflict("RELEASE_NOT_PLANNABLE"))?;
+            let parsed = kelryvo_parser::parse(raw.as_bytes())
+                .map_err(|_| conflict("RELEASE_NOT_PLANNABLE"))?;
+            if file["statementCount"]
+                .as_u64()
+                .is_some_and(|n| n != parsed.statement_count as u64)
+                || parsed.statements.is_empty()
+                || result.len() + parsed.statements.len() > MAX_PLAN_STATEMENTS
+            {
+                return Err(conflict("RELEASE_NOT_PLANNABLE"));
             }
+            result.extend(parsed.identities(&file["path"], result.len()));
         }
         Ok(json!(result))
-    }).await.map_err(|_|conflict("RELEASE_NOT_PLANNABLE"))?
+    })
+    .await
+    .map_err(|_| conflict("RELEASE_NOT_PLANNABLE"))?
 }
 
 pub async fn historical(

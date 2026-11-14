@@ -22,14 +22,6 @@ async fn profile(
 ) -> Result<Option<Value>, ApiError> {
     sqlx::query_scalar("SELECT jsonb_build_object('id',p.id,'name',CASE WHEN octet_length(p.name)<=800 THEN p.name END,'environment_id',p.environment_id,'environment_name',CASE WHEN octet_length(e.name)<=800 THEN e.name END,'engine',p.engine,'host',p.host,'port',p.port,'service',p.service,'username',p.username,'credential_ref',CASE WHEN octet_length(p.credential_ref)<=4096 THEN p.credential_ref END,'retired_at',p.retired_at,'managed_vault',EXISTS(SELECT 1 FROM sf_instance_profile_sources s JOIN sf_database_connections c ON c.id=s.connection_id AND c.organization_id=p.organization_id WHERE s.profile_id=p.id AND c.credential_ref LIKE 'vault://kelryvo/%')) FROM sf_profiles p JOIN sf_environments e ON e.id=p.environment_id AND e.project_id=p.project_id WHERE p.id=$1 AND p.project_id=$2 AND p.organization_id=$3 FOR SHARE OF p,e").bind(plans::id(&p["profile_id"])?).bind(project).bind(ORG_UUID).fetch_optional(tx).await.map_err(Into::into)
 }
-async fn profile_current(tx: &mut PgConnection, p: &Value) -> Result<bool, ApiError> {
-    let captured:Option<(bool,Uuid)>=sqlx::query_as("SELECT p.enabled AND p.retired_at IS NULL AND p.service_kind='SERVICE_NAME' AND p.revision=s.revision,p.id FROM sf_connection_plan_revisions s JOIN sf_profiles p ON p.id=s.profile_id WHERE s.plan_id=$1").bind(plans::id(&p["id"])?).fetch_optional(&mut *tx).await?;
-    if let Some((true, id)) = captured {
-        currentness::profile_current(tx, id).await
-    } else {
-        Ok(false)
-    }
-}
 async fn deploy(
     tx: &mut PgConnection,
     project: Uuid,
@@ -205,7 +197,7 @@ pub async fn request(
     if !profile["retired_at"].is_null() {
         return Err(conflict("PROFILE_RETIRED"));
     }
-    if !profile_current(&mut tx, &p).await? {
+    if !currentness::captured_profile_current(&mut tx, plans::id(&p["id"])?).await? {
         return Err(conflict("FRESH_PLAN_REQUIRED"));
     }
     let i = bound_intent(&p).ok_or_else(|| conflict("PLAN_NOT_REQUESTABLE"))?;
@@ -361,7 +353,8 @@ pub async fn readiness(
     let private: Value =
         serde_json::from_str(p["offline_intent_envelope"].as_str().unwrap_or("null"))
             .unwrap_or(Value::Null);
-    let profile_current = profile_current(&mut tx, &p).await?
+    let profile_current = currentness::captured_profile_current(&mut tx, plans::id(&p["id"])?)
+        .await?
         && profile
             .as_ref()
             .is_some_and(|p| profile_matches(p, &i, true) && private[19] == p["credential_ref"]);

@@ -30,6 +30,13 @@ pub struct Parsed {
     pub production_approved: bool,
 }
 
+impl Parsed {
+    /// Retained statement identities use release order, file order and exact byte spans.
+    pub fn identities(&self, path: &serde_json::Value, offset: usize) -> Vec<serde_json::Value> {
+        self.statements.iter().enumerate().map(|(index, s)| serde_json::json!({"ordinal":offset+index+1,"path":path,"fileOrdinal":index+1,"startByte":s.start_byte,"endByte":s.end_byte,"sourceSha256":s.source_sha256,"executionSha256":s.execution_sha256})).collect()
+    }
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum ParseError {

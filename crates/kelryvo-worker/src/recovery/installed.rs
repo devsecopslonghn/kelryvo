@@ -39,8 +39,8 @@ fn materialize(row: &Value, i: &Value) -> Result<Vec<Statement>> {
     for file in row["files"].as_array().ok_or(Unavailable)? {
         let source = file["content"].as_str().ok_or(Unavailable)?;
         let parsed = kelryvo_parser::parse(source.as_bytes()).map_err(|_| Unavailable)?;
-        for (index, s) in parsed.statements.into_iter().enumerate() {
-            identities.push(json!({"ordinal":identities.len()+1,"path":file["path"],"fileOrdinal":index+1,"startByte":s.start_byte,"endByte":s.end_byte,"sourceSha256":s.source_sha256,"executionSha256":s.execution_sha256}));
+        identities.extend(parsed.identities(&file["path"], identities.len()));
+        for s in parsed.statements {
             statements.push(Statement {
                 digest: s.execution_sha256,
                 bytes: s.execution_sql.into_bytes(),

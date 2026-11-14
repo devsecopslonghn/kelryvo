@@ -84,6 +84,14 @@ fn vault_error() -> ApiError {
     )
 }
 
+pub async fn schema_lock(tx: &mut PgConnection, schema: Uuid) -> Result<(), sqlx::Error> {
+    sqlx::query("SELECT pg_advisory_xact_lock(hashtextextended($1,29))")
+        .bind(schema.to_string())
+        .execute(tx)
+        .await?;
+    Ok(())
+}
+
 pub async fn catalog_lock(tx: &mut PgConnection) -> Result<(), ApiError> {
     sqlx::query("SELECT pg_advisory_xact_lock(hashtextextended($1,31))")
         .bind(ORG)

@@ -174,14 +174,21 @@ pub(crate) async fn reconcile(tx: &mut PgConnection, c: &Candidate, o: &Value) -
         if count == 0 || count > MAX_PLAN_STATEMENTS {
             return Ok(false);
         }
-        let attempts:Vec<Value>=sqlx::query_scalar("SELECT jsonb_build_object('id',id,'generation',generation::text,'state',state) FROM sf_execution_attempts WHERE job_id=$1 LIMIT 2").bind(id(&r["job_id"])?).fetch_all(&mut *tx).await?;
+        let attempts: Vec<Value> =
+            kelryvo_server::migration_attempts(&mut *tx, id(&r["job_id"])?).await?;
         if attempts.len() != 1 || attempts[0]["state"] != r["state"] {
             return Ok(false);
         }
         let a = &attempts[0];
-        let receipts:Vec<Value>=sqlx::query_scalar("SELECT jsonb_build_object('ordinal',ordinal,'statement_digest',statement_digest,'receipt_digest',receipt_digest,'central_evidence_digest',central_evidence_digest) FROM sf_execution_receipts WHERE job_id=$1 AND attempt_id=$2 AND generation=$3::text::bigint ORDER BY ordinal LIMIT 4097")
-            .bind(id(&r["job_id"])?).bind(id(&a["id"])?).bind(a["generation"].as_str()).fetch_all(&mut *tx).await?;
-        let acks:Vec<Value>=sqlx::query_scalar("SELECT jsonb_build_object('ordinal',ordinal,'statement_digest',statement_digest) FROM sf_execution_attempt_events WHERE attempt_id=$1 AND phase='ACKNOWLEDGED' ORDER BY ordinal LIMIT 4097").bind(id(&a["id"])?).fetch_all(&mut *tx).await?;
+        let receipts: Vec<Value> = kelryvo_server::migration_receipts(
+            &mut *tx,
+            id(&r["job_id"])?,
+            id(&a["id"])?,
+            a["generation"].as_str(),
+        )
+        .await?;
+        let acks: Vec<Value> =
+            kelryvo_server::migration_acknowledgements(&mut *tx, id(&a["id"])?).await?;
         if receipts.len() != count || acks.len() != count {
             return Ok(false);
         }

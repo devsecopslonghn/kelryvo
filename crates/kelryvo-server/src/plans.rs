@@ -84,12 +84,7 @@ pub async fn project(tx: &mut PgConnection, row: &Value) -> Result<Value, ApiErr
         mapped["currentness"] =
             currentness::check(tx, id(&row["project_id"])?, &mapped["retainedTarget"]).await?;
     }
-    let captured:Option<(bool,Uuid)>=sqlx::query_as("SELECT p.enabled AND p.retired_at IS NULL AND p.service_kind='SERVICE_NAME' AND p.revision=s.revision,p.id FROM sf_connection_plan_revisions s JOIN sf_profiles p ON p.id=s.profile_id WHERE s.plan_id=$1").bind(id(&row["id"])?).fetch_optional(&mut *tx).await?;
-    let valid = if let Some((true, profile)) = captured {
-        currentness::profile_current(tx, profile).await?
-    } else {
-        false
-    };
+    let valid = currentness::captured_profile_current(tx, id(&row["id"])?).await?;
     if !valid {
         let mut reasons = mapped["currentness"]["reasons"]
             .as_array()
