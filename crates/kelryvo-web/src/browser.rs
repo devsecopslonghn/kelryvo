@@ -102,6 +102,19 @@ fn s(value: &Value) -> &str {
 fn e(value: &Value) -> String {
     escape(s(value))
 }
+fn merge_rows(rows: &mut Value, incoming: &[Value], key: &str) {
+    if !rows.is_array() {
+        *rows = json!([]);
+    }
+    let rows = rows.as_array_mut().expect("row array");
+    for row in incoming {
+        if let Some(previous) = rows.iter_mut().find(|r| r[key] == row[key]) {
+            *previous = row.clone();
+        } else {
+            rows.push(row.clone());
+        }
+    }
+}
 use kelryvo_core::digest as recovery_digest;
 fn capture_hold_forms(model: &Model) {
     let mut state = model.borrow_mut();
@@ -575,7 +588,13 @@ async fn load(model: &Model) -> Result<(), String> {
             project_lifecycle::load_facts(model, &mut data).await?;
         }
         if tab == "connections" {
-            connections::load_facts(model, &mut data, &id).await?;
+            connections::load_facts(
+                model,
+                &mut data,
+                &id,
+                &json!({"search":"","engine":"","environment":"","status":""}),
+            )
+            .await?;
         }
         if tab == "configuration" {
             data["repositories"] =
@@ -667,6 +686,14 @@ async fn load(model: &Model) -> Result<(), String> {
         }
     }
     Ok(())
+}
+
+fn retain_plan_target(body: &mut Value, plan: &Value) {
+    if plan["retainedTarget"].is_object() {
+        body["expectedIntentDigest"] = plan["offlineIntent"]["digest"].clone();
+        body["expectedAssignmentRevision"] = plan["retainedTarget"]["assignmentRevision"].clone();
+        body["expectedBindingRevision"] = plan["retainedTarget"]["bindingRevision"].clone();
+    }
 }
 
 fn parse_action(model: &Model, name: &str) -> Option<Action> {
@@ -840,11 +867,7 @@ pub fn start() -> Result<(), JsValue> {
             json!({"base":value("draft-base-revision"),"candidate":value("draft-candidate-revision")})
         } else if action == Action::RequestExecution {
             let state = click_model.borrow();
-            let plan = array(&state.data, "plans")
-                .iter()
-                .find(|p| p["id"] == id)
-                .cloned()
-                .unwrap_or(Value::Null);
+            let plan = plans::selected(&state.data, &id).unwrap_or(Value::Null);
             let reason = value(&format!("execution-reason-{id}"));
             let prior = &state.data["requestDrafts"][&id];
             let key = if prior["reason"] == reason && prior["idempotencyKey"].is_string() {
@@ -856,12 +879,7 @@ pub fn start() -> Result<(), JsValue> {
                     .unwrap_or(Value::Null)
             };
             let mut body = json!({"idempotencyKey":key,"reason":reason});
-            if plan["retainedTarget"].is_object() {
-                body["expectedIntentDigest"] = plan["offlineIntent"]["digest"].clone();
-                body["expectedAssignmentRevision"] =
-                    plan["retainedTarget"]["assignmentRevision"].clone();
-                body["expectedBindingRevision"] = plan["retainedTarget"]["bindingRevision"].clone();
-            }
+            retain_plan_target(&mut body, &plan);
             body
         } else if action == Action::ValidatePlanRelease {
             let release = value("plan-release");
@@ -1005,11 +1023,7 @@ pub fn start() -> Result<(), JsValue> {
         ]
         .contains(&action)
         {
-            let plan = array(&click_model.borrow().data, "plans")
-                .iter()
-                .find(|p| p["id"] == id)
-                .cloned()
-                .unwrap_or(Value::Null);
+            let plan = plans::selected(&click_model.borrow().data, &id).unwrap_or(Value::Null);
             match action {
                 Action::ComparePlanSource => {
                     json!({"baseReleaseId":value(&format!("comparison-base-{id}")),"expectedIntentDigest":plan["offlineIntent"]["digest"]})
@@ -1030,13 +1044,7 @@ pub fn start() -> Result<(), JsValue> {
                 }
                 _ => {
                     let mut body = json!({"decision":if action==Action::Approve{"APPROVE"}else{"REJECT"},"reason":value(&format!("reason-{id}"))});
-                    if plan["retainedTarget"].is_object() {
-                        body["expectedIntentDigest"] = plan["offlineIntent"]["digest"].clone();
-                        body["expectedAssignmentRevision"] =
-                            plan["retainedTarget"]["assignmentRevision"].clone();
-                        body["expectedBindingRevision"] =
-                            plan["retainedTarget"]["bindingRevision"].clone();
-                    }
+                    retain_plan_target(&mut body, &plan);
                     if document()
                         .get_element_by_id(&format!("attach-comparison-{id}"))
                         .and_then(|input| input.dyn_into::<HtmlInputElement>().ok())

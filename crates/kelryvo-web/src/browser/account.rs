@@ -69,19 +69,13 @@ pub(super) async fn existing_action(model: &Model, action: Action, id: &str) -> 
         } else {
             &state.data
         };
-        let mut rows = array(current, key).to_vec();
-        for row in array(&page, key) {
-            if let Some(previous) = rows.iter_mut().find(|r| r["id"] == row["id"]) {
-                *previous = row.clone();
-            } else {
-                rows.push(row.clone());
-            }
-        }
+        let mut rows = current[key].clone();
+        merge_rows(&mut rows, array(&page, key), "id");
         if path == "access" {
             state.data["access"] = page;
-            state.data["access"][key] = rows.into();
+            state.data["access"][key] = rows;
         } else {
-            state.data[key] = rows.into();
+            state.data[key] = rows;
             state.data["sessionNext"] = page["nextCursor"].clone();
         }
         Ok(())

@@ -168,18 +168,9 @@ pub(super) async fn action(
         )
         .await?;
         let mut state = model.borrow_mut();
-        let mut bindings = array(&state.data["connectionTargets"], "bindings").to_vec();
-        for b in array(&page, "bindings") {
-            if let Some(previous) = bindings
-                .iter_mut()
-                .find(|r| r["bindingId"] == b["bindingId"])
-            {
-                *previous = b.clone();
-            } else {
-                bindings.push(b.clone());
-            }
-        }
-        page["bindings"] = bindings.into();
+        let mut bindings = state.data["connectionTargets"]["bindings"].clone();
+        super::super::merge_rows(&mut bindings, array(&page, "bindings"), "bindingId");
+        page["bindings"] = bindings;
         state.data["connectionTargets"] = page;
         return Ok(());
     }
@@ -213,7 +204,7 @@ pub(super) async fn action(
         "verify"
     };
     let body = json!({"connectionId":id,"observationId":o["id"],"expectedIdentityDigest":o["identityDigest"],"expectedBindingRevision":binding["bindingRevision"],"expectedAssignmentRevision":binding["assignmentRevision"],"owner":f["owner"],"reason":s(&f["reason"]).trim_matches(kelryvo_core::js_whitespace)});
-    let result=api(model,"POST",&format!("{base}/target-bindings/{}/{suffix}",segment(s(&binding["bindingId"]))),Some(body),None).await.map_err(|error|match error.as_str(){
+    let result=super::super::target_bindings::record_identity(model,project,s(&binding["bindingId"]),suffix,body).await.map_err(|error|match error.as_str(){
         "TARGET REVISION CONFLICT"=>"The target revision changed. Refresh the connection facts, review your selections, and submit explicitly again.".into(),
         "LIVE VERIFICATION UNACCEPTED"=>"Live Oracle verification evidence was not accepted. Retained observations alone cannot verify a target.".into(),_=>error
     })?;

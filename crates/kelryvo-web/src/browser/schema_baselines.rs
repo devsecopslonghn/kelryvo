@@ -1,6 +1,8 @@
 //! Project-scoped schema evidence. UI selections never supply identity proofs,
 //! credentials or an execution capability; writes recheck loaded server facts.
-use super::{Model, Route, api, array, document, load, project_lifecycle, s, segment, value};
+use super::{
+    Model, Route, api, array, document, load, merge_rows, project_lifecycle, s, segment, value,
+};
 use crate::browser::actions::Action;
 use serde_json::{Value, json};
 use wasm_bindgen::JsCast;
@@ -16,7 +18,7 @@ fn manage(data: &Value) -> bool {
         && data["projectSession"]["actor"]["role"] == "developer"
         && data["schemaPage"]["history"]["canManage"] == true
 }
-async fn history(
+pub(super) async fn history(
     model: &Model,
     project: &str,
     binding: &str,
@@ -41,6 +43,49 @@ async fn history(
         return Err("Schema evidence is unavailable. Refresh to retry.".into());
     }
     Ok(result)
+}
+/// Shared schema endpoints; each view owns its selection checks and state updates.
+pub(super) async fn evidence(
+    model: &Model,
+    project: &str,
+    binding: &str,
+    action: Action,
+    fields: Value,
+) -> Result<Value, String> {
+    let base = format!("/api/projects/{}", segment(project));
+    let (method, path) = match action {
+        Action::ObserveTargetSchema | Action::ObserveSchemaEvidence => (
+            "POST",
+            format!("{base}/target-bindings/{}/schema/observe", segment(binding)),
+        ),
+        Action::CaptureSchemaBaseline | Action::CaptureRetainedBaseline => {
+            ("POST", format!("{base}/schema-baselines"))
+        }
+        Action::OpenSchemaSnapshot | Action::OpenRetainedSchema => (
+            "GET",
+            format!(
+                "{base}/schema-snapshots/{}",
+                segment(s(&fields["snapshotId"]))
+            ),
+        ),
+        Action::CompareSchemaSnapshots | Action::CompareRetainedSchema => (
+            "GET",
+            format!(
+                "{base}/schema-comparison?expected={}&observed={}",
+                segment(s(&fields["expected"])),
+                segment(s(&fields["observed"]))
+            ),
+        ),
+        _ => return Err("Unknown schema action.".into()),
+    };
+    api(
+        model,
+        method,
+        &path,
+        (method == "POST").then_some(fields),
+        None,
+    )
+    .await
 }
 fn install(page: &mut Value, h: Value) {
     page["form"]["expected"] = h["baselines"]
@@ -184,24 +229,13 @@ pub(super) fn change(model: &Model, event: &Event) -> bool {
         false
     }
 }
-fn merge(rows: &mut Value, incoming: &Value, key: &str) {
-    let mut values = rows.as_array().cloned().unwrap_or_default();
-    for row in incoming.as_array().into_iter().flatten() {
-        if let Some(previous) = values.iter_mut().find(|r| r[key] == row[key]) {
-            *previous = row.clone();
-        } else {
-            values.push(row.clone());
-        }
-    }
-    *rows = values.into();
-}
-async fn snapshot(model: &Model, base: &str, binding: &str, id: &str) -> Result<(), String> {
-    let result = api(
+async fn snapshot(model: &Model, project: &str, binding: &str, id: &str) -> Result<(), String> {
+    let result = evidence(
         model,
-        "GET",
-        &format!("{base}/schema-snapshots/{}", segment(id)),
-        None,
-        None,
+        project,
+        binding,
+        Action::OpenRetainedSchema,
+        json!({"snapshotId":id}),
     )
     .await?;
     let snap = &result["snapshot"];
@@ -233,8 +267,8 @@ pub(super) async fn action(model: &Model, action: Action, id: &str) -> Result<()
             let cursor=cursor.as_str().ok_or("No further inventory page.")?;
             let result=api(model,"GET",&format!("{base}/{path}?after={}",segment(cursor)),None,None).await?;
             let mut state=model.borrow_mut();
-            if path=="target-bindings"{merge(&mut state.data["targetBindings"],&result["bindings"],"bindingId");state.data["bindingNext"]=result["nextCursor"].clone();}
-            else{merge(&mut state.data["schemaConnections"]["connections"],&result["connections"],"id");state.data["schemaConnections"]["nextCursor"]=result["nextCursor"].clone();}
+            if path=="target-bindings"{merge_rows(&mut state.data["targetBindings"],array(&result,"bindings"),"bindingId");state.data["bindingNext"]=result["nextCursor"].clone();}
+            else{merge_rows(&mut state.data["schemaConnections"]["connections"],array(&result,"connections"),"id");state.data["schemaConnections"]["nextCursor"]=result["nextCursor"].clone();}
             return Ok(());
         }
         if action == Action::SelectSchemaTarget{
@@ -254,7 +288,7 @@ pub(super) async fn action(model: &Model, action: Action, id: &str) -> Result<()
             let (key,param,cursor)=if action == Action::MoreSchemaSnapshots{("snapshots","after","nextCursor")}else{("baselines","baselineAfter","baselineNextCursor")};
             let next=model.borrow().data["schemaPage"]["history"][cursor].as_str().ok_or("No further schema page.")?.to_owned();
             let h=history(model,&project,&binding,&format!("?{param}={}",segment(&next))).await?;
-            let mut state=model.borrow_mut();merge(&mut state.data["schemaPage"]["history"][key],&h[key],"id");
+            let mut state=model.borrow_mut();merge_rows(&mut state.data["schemaPage"]["history"][key],array(&h,key),"id");
             for field in [cursor,"currentness","canManage","binding","drift"]{state.data["schemaPage"]["history"][field]=h[field].clone();}return Ok(());
         }
         if action == Action::CloseSchemaSnapshot{let mut state=model.borrow_mut();state.data["schemaPage"]["snapshot"]=Value::Null;state.data["schemaPage"]["objectFilter"]=json!({"q":"","type":"ALL"});return Ok(());}
@@ -264,14 +298,14 @@ pub(super) async fn action(model: &Model, action: Action, id: &str) -> Result<()
                 array(h,"snapshots").iter().any(|r|r["id"]==id)||array(h,"baselines").iter().any(|r|r["snapshotId"]==id)};
             if !retained{return Err("Choose a loaded snapshot or baseline.".into());}
             model.borrow_mut().data["schemaPage"]["snapshot"]=Value::Null;
-            return snapshot(model,&base,&binding,id).await;
+            return snapshot(model,&project,&binding,id).await;
         }
         let page=model.borrow().data["schemaPage"].clone();let f=&page["form"];let h=&page["history"];
         if action == Action::CompareRetainedSchema{
             let ids=array(h,"snapshots").iter().map(|s|&s["id"]).chain(array(h,"baselines").iter().map(|b|&b["snapshotId"])).collect::<Vec<_>>();
             if !ids.contains(&&f["expected"])||!ids.contains(&&f["observed"]){return Err("Choose retained expected and observed snapshots.".into());}
             model.borrow_mut().data["schemaPage"]["comparison"]=Value::Null;
-            let result=api(model,"GET",&format!("{base}/schema-comparison?expected={}&observed={}",segment(s(&f["expected"])),segment(s(&f["observed"]))),None,None).await?;
+            let result=evidence(model,&project,&binding,action,json!({"expected":f["expected"],"observed":f["observed"]})).await?;
             if result["expected"]["bindingId"]!=binding||result["observed"]["bindingId"]!=binding{return Err("Comparison is unavailable for this target.".into());}
             model.borrow_mut().data["schemaPage"]["comparison"]=result;return Ok(());
         }
@@ -280,7 +314,7 @@ pub(super) async fn action(model: &Model, action: Action, id: &str) -> Result<()
             let plan=array(&model.borrow().data,"plans").iter().find(|p|p["retainedTarget"]["bindingId"]==binding).map(|p|p["id"].clone());
             model.borrow_mut().route=Route::Project(project.clone(),target.into());load(model).await?;
             {let mut state=model.borrow_mut();
-                if target=="workspace"{merge(&mut state.data["targetBindings"],&json!([selected]),"bindingId");state.data["draftEdit"]["targetBindingId"]=binding.clone().into();}
+                if target=="workspace"{merge_rows(&mut state.data["targetBindings"],&[selected],"bindingId");state.data["draftEdit"]["targetBindingId"]=binding.clone().into();}
                 if target=="plans"{state.data["planStatus"]="ALL".into();if let Some(plan)=plan{state.data["historyPlanFocus"]=plan;}}}
             if target=="history"{
                 let filters=json!({"q":"","targetId":binding,"status":""});
@@ -294,7 +328,7 @@ pub(super) async fn action(model: &Model, action: Action, id: &str) -> Result<()
             if !page["snapshot"].is_object(){return Err("Open a snapshot first.".into());}
             let name=s(&f["baselineName"]).trim_matches(kelryvo_core::js_whitespace);let reason=s(&f["baselineReason"]).trim_matches(kelryvo_core::js_whitespace);
             if name.is_empty()||reason.is_empty(){return Err("Enter a baseline name and capture reason.".into());}
-            let result=api(model,"POST",&format!("{base}/schema-baselines"),Some(json!({"snapshotId":page["snapshot"]["id"],"name":name,"reason":reason})),None).await?;
+            let result=evidence(model,&project,&binding,action,json!({"snapshotId":page["snapshot"]["id"],"name":name,"reason":reason})).await?;
             let h=history(model,&project,&binding,"").await?;let mut state=model.borrow_mut();
             install(&mut state.data["schemaPage"],h);state.data["schemaPage"]["form"]["expected"]=result["baseline"]["snapshotId"].clone();
             state.data["schemaPage"]["form"]["baselineName"]="".into();state.data["schemaPage"]["form"]["baselineReason"]="".into();state.notice="Immutable baseline captured from the selected snapshot.".into();return Ok(());
@@ -302,9 +336,9 @@ pub(super) async fn action(model: &Model, action: Action, id: &str) -> Result<()
         if action == Action::ObserveSchemaEvidence{
             let valid=array(&model.borrow().data["schemaConnections"],"connections").iter().any(|c|c["id"]==f["connectionId"]&&c["routeId"]==h["binding"]["routeId"]&&c["engine"]=="oracle"&&c["enabled"]==true&&c["retiredAt"].is_null());
             let reason=s(&f["reason"]).trim_matches(kelryvo_core::js_whitespace);if !valid||reason.is_empty(){return Err("Choose an authorized connection and enter an observation reason.".into());}
-            let result=api(model,"POST",&format!("{base}/target-bindings/{}/schema/observe",segment(&binding)),Some(json!({"connectionId":f["connectionId"],"expectedBindingRevision":h["binding"]["bindingRevision"],"expectedAssignmentRevision":h["binding"]["assignmentRevision"],"reason":reason})),None).await?;
+            let result=evidence(model,&project,&binding,action,json!({"connectionId":f["connectionId"],"expectedBindingRevision":h["binding"]["bindingRevision"],"expectedAssignmentRevision":h["binding"]["assignmentRevision"],"reason":reason})).await?;
             let h=history(model,&project,&binding,"").await?;install(&mut model.borrow_mut().data["schemaPage"],h);
-            snapshot(model,&base,&binding,s(&result["snapshot"]["id"])).await?;
+            snapshot(model,&project,&binding,s(&result["snapshot"]["id"])).await?;
             model.borrow_mut().data["schemaPage"]["form"]["reason"]="".into();model.borrow_mut().notice="Schema observation retained as an immutable snapshot. Inspect its provenance and coverage.".into();return Ok(());
         }
         Err("Unknown schema action.".into())

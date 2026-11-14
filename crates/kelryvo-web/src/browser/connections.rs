@@ -1,7 +1,8 @@
 //! Project-scoped manual inventory and discovery connections. Registration is
 //! declared metadata; availability and observation never confer dispatch rights.
 use super::{
-    Model, Route, api, array, button, configuration, e, escape, form, input, s, segment, value,
+    Model, Route, api, array, button, configuration, e, escape, form, input, merge_rows, s,
+    segment, value,
 };
 use crate::browser::actions::Action;
 use serde_json::{Value, json};
@@ -11,25 +12,19 @@ pub(super) async fn load_facts(
     model: &Model,
     data: &mut Value,
     project: &str,
+    filters: &Value,
 ) -> Result<(), String> {
     let base = format!("/api/projects/{}", segment(project));
-    data["connectionPage"] = api(
-        model,
-        "GET",
-        &format!("{base}/database-connections"),
-        None,
-        None,
-    )
-    .await?;
+    data["connectionPage"] = inventory(model, project, filters, None).await?;
     data["connectionTargets"] =
         api(model, "GET", &format!("{base}/target-bindings"), None, None).await?;
     data["connectionRecovery"] = api(model, "GET", "/api/recovery/status", None, None).await?;
     data["connectionSession"] = api(model, "GET", "/api/session", None, None).await?;
     data["connectionProjectId"] = project.into();
-    data["connectionFilters"] = json!({"search":"","engine":"","environment":"","status":""});
+    data["connectionFilters"] = filters.clone();
     Ok(())
 }
-pub(super) async fn select(model: &Model, project: &str) -> Result<(), String> {
+pub(super) async fn select(model: &Model, project: &str, filters: &Value) -> Result<(), String> {
     let projects = model.borrow().data["projects"].clone();
     model.borrow_mut().data = Value::Null;
     let mut data = api(
@@ -40,19 +35,14 @@ pub(super) async fn select(model: &Model, project: &str) -> Result<(), String> {
         None,
     )
     .await?;
-    load_facts(model, &mut data, project).await?;
+    load_facts(model, &mut data, project, filters).await?;
     data["projects"] = projects;
     model.borrow_mut().data = data;
     Ok(())
 }
 pub(super) async fn reload(model: &Model, project: &str) -> Result<(), String> {
     let filters = model.borrow().data["connectionFilters"].clone();
-    select(model, project).await?;
-    let page = inventory(model, project, &filters, None).await?;
-    let mut state = model.borrow_mut();
-    state.data["connectionPage"] = page;
-    state.data["connectionFilters"] = filters;
-    Ok(())
+    select(model, project, &filters).await
 }
 fn project(model: &Model) -> Result<String, String> {
     let state = model.borrow();
@@ -115,7 +105,12 @@ pub(super) async fn action(
     fields: Value,
 ) -> Result<(), String> {
     if action == Action::ChooseConnectionProject {
-        return select(model, s(&fields["projectId"])).await;
+        return select(
+            model,
+            s(&fields["projectId"]),
+            &json!({"search":"","engine":"","environment":"","status":""}),
+        )
+        .await;
     }
     let project = project(model)?;
     let base = format!("/api/projects/{}", segment(&project));
@@ -159,15 +154,9 @@ pub(super) async fn action(
         let mut state = model.borrow_mut();
         let mut result = result;
         if after.is_some() {
-            let mut rows = array(&state.data["connectionPage"], "connections").to_vec();
-            for row in array(&result, "connections") {
-                if let Some(previous) = rows.iter_mut().find(|r| r["id"] == row["id"]) {
-                    *previous = row.clone();
-                } else {
-                    rows.push(row.clone());
-                }
-            }
-            result["connections"] = rows.into();
+            let mut rows = state.data["connectionPage"]["connections"].clone();
+            merge_rows(&mut rows, array(&result, "connections"), "id");
+            result["connections"] = rows;
         }
         state.data["connectionPage"] = result;
         state.data["connectionFilters"] = filters;
