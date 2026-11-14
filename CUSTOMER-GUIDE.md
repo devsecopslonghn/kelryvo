@@ -166,6 +166,115 @@ preparation without announcing ready or releasing the worker's startup gate.
 This local path is offline governance; live native Oracle operation remains
 unqualified. The dated release instructions below describe the retained runtime.
 
+### Native migration workflow
+
+The preferred Rust checkout path is **Target setup → SQL Workspace or Releases →
+Prepare for Review → Plans & review → Execution / Migration history**. Existing
+configuration and compatibility creation paths remain available while native
+workflow qualification is completed. None of these screens grants deployment
+permission or installs Oracle authority implicitly.
+
+**Target setup** is scoped to the selected project. Add its environment, register
+or attach an instance, supply an encrypted credential, inspect protected
+installation state, discover schemas, and bind the selected owners to that
+project environment. Existing bindings and discovery evidence feed verification
+controls directly; target detail remains available for inspection. Accept
+only current, qualified Oracle identity evidence; entered names and successful
+registration are references, not physical identity. Credential replacement still
+invalidates old target profiles and requires fresh discovery/verification. The
+workspace Instances page uses the same controls; advanced profiles and historical
+configuration remain under an expandable section.
+
+Both intake paths use the project's existing repository/folder source binding
+under Configuration. Authored SQL retains its own saved bytes; it does not write
+or commit changes to that repository.
+
+For SQL Workspace, save the exact revision, then choose **Prepare for Review**.
+For Git, configure the existing local source binding, refresh local refs and
+choose the full committed SHA plus database target under Releases, then choose
+**Prepare for Review**. Mutable branch/tag names remain available to import-only
+compatibility. A retained release can also be selected with its target under
+Plans & review and prepared through the same validation/plan path.
+
+Preparation uses the existing release, retained target-validation and plan APIs.
+The progress panel shows retained artifact IDs and the step that stopped. Review
+findings and correct SQL, source or target conflicts before proceeding. Repeating
+preparation for the same source and target in the same signed-in page session
+reuses completed artifacts. Saved-draft release preparation remains idempotent for
+the exact revision. After an uncertain validation response, an explicit retry
+looks for the retained report and may append diagnostic evidence if none is
+recoverable; it does not change source or grant authority. After an
+uncertain plan response, it only looks for the exact retained plan; it never
+resubmits plan creation. An unconfirmed Git import is inspected against the pinned
+commit and is not automatically repeated. No step dispatches SQL or approves a
+plan.
+
+Progress is session-local and cleared on sign-out; it is not a durable workflow
+journal. After reloading the page, inspect existing releases, validations and
+plans before starting a fresh preparation. Historical artifacts remain in the
+server even when local progress is unavailable. Individual diagnostic and
+compatibility actions remain available for explicit recovery; they do not bypass
+backend currentness, permissions or independent approval.
+
+**Open / refresh review** reads current plan facts, retained SQL and source
+checksums, target identity, retained validation findings and deployment eligibility
+into one view. Existing backend checks supply source integrity and eligibility;
+the browser does not recalculate them. Opening a pending plan from Review inbox
+loads this view directly. The separate approver records the existing
+approval/rejection decision and reason;
+the author cannot approve their own plan. After approval, a developer refreshes
+review and inspects eligibility before explicitly requesting execution. Readiness
+checks concern governance; the protected worker still performs admission and
+verifies its actual target and installation.
+
+Execution and request-history views use **Queued**, **Running**, **Completed**,
+**Completed · no changes**, **Cancelled**, and **HOLD · investigation required**.
+Unknown internal states are labelled unknown. Internal states, transitions,
+receipts and reconciliation remain inspectable. HOLD is never presented as a
+retryable failure, and recovered-applied evidence does not rewrite the original
+held job.
+
+### Native workflow verification boundary
+
+Before editing a checkout, record its source SHA and working-tree status. Reuse
+`cargo native-test --ci-tests server` for the retained API/governance baseline;
+plain `cargo test` skips database tests requiring disposable fixtures. Build the
+WASM UI with `cargo build-web` and check it with `cargo clippy -p kelryvo-web
+--target wasm32-unknown-unknown --locked -- -D warnings`.
+
+For the browser smoke procedure, use a new private socket-only PostgreSQL fixture,
+the matching native API and generated WASM assets, and HTTPS trusted for that
+fixture. Use separate developer/approver sessions and explicit operator grants.
+Exercise project-scoped environment/credential setup, saved SQL and pinned Git
+preparation, blocked findings, stale revisions, explicit retry after a validation
+failure, and an interrupted plan response followed by retained-plan inspection.
+Verify artifact counts and exact retained SQL, independent approval, and that no
+execution job is created by preparation. Inspect HOLD and unknown-state labels
+without inferring live database effects. The existing native fixture utility can
+supply synthetic targets through normal metadata constraints; its captured actor
+prerequisites must exist. No new browser framework is required.
+
+Successful local checks do not establish full browser parity, real identity-provider
+interoperability, native-v2 grammar equivalence/performance, or live Oracle
+execution. Current Oracle prerequisites are an explicitly authorized disposable
+lab and current secret-free attestation, matching source/image/client/wallet and
+sealed installation policy, purpose-specific credentials/grants, target
+ledger/mutex, independent actors and retained witness state. No current lab
+attestation is supplied by this workflow. Historical results and cached fixtures
+cannot supply new runtime authority.
+
+The accepted-live-discovery → schema assignment → identity verification loop and
+live credential rotation/revocation require their own qualified runtime checks;
+a local unavailable-runtime observation does not verify that loop. Browser checks
+on synthetic targets do not establish Oracle target acceptance.
+
+Actual lost-ACK recovery, admitted-job archive restoration, managed cluster
+backup/restore, production DR, additional Oracle versions/topologies and native
+arm64 Oracle execution remain unqualified. Full replacement also requires the
+configured exact-source security and native amd64/arm64 image gates, OCI assembly
+and companion-chart compatibility. See RUST3–RUST6 in CHECKLIST.md; compilation,
+synthetic browser checks and CI alone do not establish release qualification.
+
 ### Native Oracle client prerequisite
 
 A root operator can check a fully sealed, reviewed private native installation
@@ -780,6 +889,29 @@ The application does not push to customer repositories.
   [GitHub Issues](https://github.com/devsecopslonghn/kelryvo/issues). Include the
   release tag/source SHA, architecture, sanitized error and the affected workflow.
   This pilot has no contractual SLA or HA/managed-DR commitment.
+
+### Operational workflow ownership
+
+Keep one documented path for each mode: native Compose governance uses the
+matching operator's `pilot init` and `pilot bootstrap`; checkout development uses
+`kelryvo dev`; managed Oracle uses the separately reviewed image, companion chart,
+protected installation policy and persistent operator/witness state. The dated
+published deployment instructions retain their own source/image scope. Native
+workflow consolidation does not cut over a customer deployment.
+
+The integrations below remain implemented and enabled according to their existing
+configuration. No optional capability has been removed or disabled. External
+consumer inventories are incomplete; configured code and tests do not prove the
+absence of customers.
+
+| Capability and known consumers | Required behavior and operational dependencies | Consequence of disabling; migration and rollback |
+|---|---|---|
+| Delivery verification: `delivery.yml`, `containers.yml`, source checks and CodeQL | Publish only the exact eligible source and verified native platform artifacts; requires GitHub workflow/security evidence, source inventories and OCI verification. | Disabling prevents supported release delivery. Any replacement must preserve all configured gates and explicit publication approval; retain prior immutable artifacts and restore the original automation if necessary. |
+| GHCR publication: configured delivery workflow and documented image distribution | Guarded publication, immutable tag reuse and independent registry verification; requires GitHub credentials, skopeo, verified OCI archives and reachable GHCR. This remains the primary automated publication path. | Disabling removes automated primary distribution. Migrate all image references and retrieval instructions before a scope change; retain old tags/digests and restore the adapter for rollback. |
+| Docker Hub publication: explicit CLI and `dockerhub.yml`; customer pull consumers unknown | Same source/OCI gates, private push authentication and anonymous platform verification; depends on Docker Hub and its scoped credentials. | Disabling removes that distribution destination. Inventory customer pulls first, provide a supported alternate registry, preserve existing images and restore the adapter/workflow for rollback. No retirement is approved. |
+| Helm promotion: delivery workflow and companion chart repository; managed deployment documented | Change only the verified image digest, validate chart/storage/security contracts and honor branch protection; depends on GitHub API, separate chart credential, Helm and the companion checkout. | Disabling removes automated promotion, not chart validation requirements. A replacement must produce a reviewable chart PR with identical checks; preserve chart/PVC/state compatibility and previous image pins. Git rollback does not undo database effects. |
+| OIDC/LDAP: identity APIs/UI, protected provider runtime configuration and retained contracts; deployed federation consumers unknown | Explicit mappings to existing actors, protected provider secrets, secure callbacks/networking and session invalidation; requires identity-management grants and reachable IdP/directory infrastructure. | Disabling can lock out users. Establish and verify local recovery access first, deliberately revoke affected sessions, retain mappings/audit and compatible schema, and preserve private provider configuration for rollback. Live LDAP remains unqualified. |
+| Managed backup: `managed-*` operator commands and contract fixtures; actual managed backup users unknown | Pin cluster/resource identities, protect Secrets and tunnel access, then use witnessed metadata backup/restore; requires kubectl, protected kubeconfig, PostgreSQL tools and external witness. | Disabling removes protected cluster orchestration. Establish and qualify an equivalent core backup/restore procedure first; preserve old archives, policies and witnesses for rollback. Never substitute governance-only cold-copy restoration after Oracle enablement. |
 
 ### Backup and restore
 

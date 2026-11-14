@@ -32,6 +32,14 @@ custom port, TLS and repository inputs. It does not install an Oracle executor.
 
 ## How the application fits together
 
+The preferred user path is project **Target setup**, then saved SQL or committed
+Git **Prepare for Review**, consolidated **Plans & review**, and execution/history.
+`web::browser::preparation` owns only this feature's calls and session checkpoints;
+existing server operations retain authority and immutable artifacts. Review reads
+are owned by `plans`; the same instance controls serve project setup and workspace
+administration. Shared UI request binding and execution labels live in the small
+`web::workflow` module. See CUSTOMER-GUIDE.md for recovery and verification limits.
+
 A browser action is decoded into `web::browser::actions::Action`, dispatched to
 its feature module and sent to an HTTP route in `server::router`. Handlers check
 credentials/project grants and write PostgreSQL metadata in transactions. They
