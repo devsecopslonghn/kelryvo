@@ -248,20 +248,7 @@ pub async fn run(job: Uuid, reconciliation: Option<Uuid>) -> Result<Value> {
     c.verify_artifacts()?;
     driver::initialize_client(&c.client_directory, &c.wallet_directory)?;
     let url = c.database_url()?;
-    let pool = sqlx::postgres::PgPoolOptions::new()
-        .max_connections(1)
-        .acquire_timeout(Duration::from_secs(5))
-        .after_connect(|conn, _| {
-            Box::pin(async move {
-                sqlx::query("SET statement_timeout='10s'")
-                    .execute(&mut *conn)
-                    .await?;
-                sqlx::query("SET lock_timeout='5s'").execute(conn).await?;
-                Ok(())
-            })
-        })
-        .connect(&url)
-        .await?;
+    let pool = crate::metadata_pool_options(1).connect(&url).await?;
     let mut target = Installed {
         config: c,
         writer: None,
