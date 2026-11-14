@@ -29,6 +29,6 @@
     "package": "antlr-rust-runtime",
     "version": "0.34.0",
     "license": "BSD-3-Clause",
-    "checksum_source": "Cargo.lock"
+    "checksum_source": "dependencies/antlr-rust-runtime/provenance.json"
   }
 }

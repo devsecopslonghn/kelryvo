@@ -1,0 +1,58 @@
+--- a/src/prediction.rs
++++ b/src/prediction.rs
+@@ -353,13 +353,48 @@
+             crate::perf::record_context_merge_cache_miss();
+             crate::perf::record_context_merge_uncached();
+         }
+-        let merged = if root_is_wildcard && (left == EMPTY_CONTEXT || right == EMPTY_CONTEXT) {
+-            EMPTY_CONTEXT
+-        } else {
+-            self.merge_uncached(left, right, root_is_wildcard, workspace)
+-        };
+-        workspace.merge_cache.insert(key, merged);
+-        merged
++        // Prediction can traverse thousands of context parents while looking
++        // ahead, before the generated parser's rule-depth guard is reached.
++        // Complete parent merges in postorder on the heap. The existing merge
++        // helpers then find every child in the cache, so their calls back into
++        // merge return immediately instead of consuming native stack per edge.
++        let mut pending = vec![(left, right, false)];
++        while let Some((left, right, ready)) = pending.pop() {
++            let key = MergeKey::new(left, right, root_is_wildcard);
++            if left == right || workspace.merge_cache.contains_key(&key) {
++                continue;
++            }
++            if root_is_wildcard && (left == EMPTY_CONTEXT || right == EMPTY_CONTEXT) {
++                workspace.merge_cache.insert(key, EMPTY_CONTEXT);
++                continue;
++            }
++            if ready {
++                let merged = self.merge_uncached(left, right, root_is_wildcard, workspace);
++                workspace.merge_cache.insert(key, merged);
++                continue;
++            }
++            pending.push((left, right, true));
++            let children_start = pending.len();
++            let (mut l, mut r) = (0, 0);
++            while l < self.len(left) && r < self.len(right) {
++                let (lp, ls) = self.entry(left, l).expect("left context entry");
++                let (rp, rs) = self.entry(right, r).expect("right context entry");
++                match ls.cmp(&rs) {
++                    Ordering::Less => l += 1,
++                    Ordering::Greater => r += 1,
++                    Ordering::Equal => {
++                        if lp != rp {
++                            pending.push((lp, rp, false));
++                        }
++                        l += 1;
++                        r += 1;
++                    }
++                }
++            }
++            // Preserve the recursive implementation's left-to-right interning.
++            pending[children_start..].reverse();
++        }
++        workspace.merge_cache[&key]
+     }
+ 
+     fn merge_uncached(
