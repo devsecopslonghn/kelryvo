@@ -156,11 +156,7 @@ pub struct Config {
     pub artifacts: Vec<Artifact>,
     pub review: Review,
 }
-fn digest(s: &str) -> bool {
-    s.len() == 64
-        && s.bytes()
-            .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
-}
+use kelryvo_core::is_digest as digest;
 fn text(s: &str, max: usize) -> bool {
     !s.is_empty() && s.len() <= max && !s.chars().any(|c| c <= '\u{1f}' || c == '\u{7f}')
 }

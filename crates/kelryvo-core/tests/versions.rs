@@ -3,6 +3,29 @@ use serde_json::{Value, json};
 use std::cmp::Ordering;
 
 #[test]
+fn lowercase_digest_validation_keeps_string_and_json_boundaries() {
+    for value in ["0".repeat(64), "abcdef0123456789".repeat(4)] {
+        assert!(kelryvo_core::is_digest(&value));
+        assert!(kelryvo_core::digest(&json!(value)));
+    }
+    for invalid in [
+        "".to_owned(),
+        "a".repeat(63),
+        "a".repeat(65),
+        "A".repeat(64),
+        "g".repeat(64),
+        format!("{}\n", "a".repeat(63)),
+        "é".repeat(32),
+    ] {
+        assert!(!kelryvo_core::is_digest(&invalid));
+        assert!(!kelryvo_core::digest(&json!(invalid)));
+    }
+    for invalid in [json!(null), json!(0), json!(true), json!([]), json!({})] {
+        assert!(!kelryvo_core::digest(&invalid));
+    }
+}
+
+#[test]
 fn canonical_revisions_preserve_zero_and_i64_boundaries() {
     assert_eq!(workspace::positive_revision("0"), None);
     assert_eq!(workspace::nonnegative_revision("0"), Some(0));

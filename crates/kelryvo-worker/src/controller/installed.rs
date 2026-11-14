@@ -387,11 +387,7 @@ impl Native {
         result
     }
 }
-pub(super) fn digest(s: &str) -> bool {
-    s.len() == 64
-        && s.bytes()
-            .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
-}
+pub(super) use kelryvo_core::is_digest as digest;
 impl Ports for Native {
     fn directory(&self) -> &Path {
         &self.request.state_directory

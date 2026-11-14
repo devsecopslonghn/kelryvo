@@ -276,9 +276,7 @@ fn owner(s: &str) -> bool {
             .enumerate()
             .all(|(i, b)| b.is_ascii_uppercase() || i > 0 && (b.is_ascii_digit() || b == b'_'))
 }
-fn digest(s: &str) -> bool {
-    kelryvo_core::digest(&json!(s))
-}
+use kelryvo_core::is_digest as digest;
 fn attestation_valid(a: &Attestation, p: &Permit) -> bool {
     let expected = [
         "databaseUniqueName",
