@@ -5,6 +5,56 @@ pub(super) fn selected(data: &Value, id: &str) -> Option<Value> {
     array(data, "plans").iter().find(|p| p["id"] == id).cloned()
 }
 
+pub(super) async fn open_review(model: &Model, id: &str) -> Result<(), String> {
+    let plan = selected(&model.borrow().data, id).ok_or("Reload the current plan.")?;
+    if plan["offlineIntent"]["validation"]["id"].is_string() {
+        action(model, Action::ViewPlanValidation, id, Value::Null).await?;
+    }
+    execution::action(model, Action::ExecutionReadiness, id, Value::Null).await?;
+    let release = api(
+        model,
+        "GET",
+        &format!("/api/releases/{}", segment(s(&plan["releaseId"]))),
+        None,
+        None,
+    )
+    .await?["release"]
+        .clone();
+    // The readiness response already verifies retained source against the plan.
+    // Release detail supplies historical SQL for display, not new authority.
+    model.borrow_mut().data["releaseDetail"] = release;
+    model.borrow_mut().data["historyPlanFocus"] = id.into();
+    Ok(())
+}
+
+pub(super) fn review_panel(data: &Value, plan: &Value) -> String {
+    let id = s(&plan["id"]);
+    let release = &data["releaseDetail"];
+    let mut html = button("open-plan-review", "Open / refresh review", id);
+    if release["id"] != plan["releaseId"] || !data["readinessByPlan"][id].is_object() {
+        return html;
+    }
+    html.push_str(&format!("<section aria-label=\"Consolidated migration review\"><h4>Source and target</h4><p>Repository: {} · Commit: {} · Folder: {}</p><p>Manifest SHA-256: {} · Parser: {}</p><p>Target: {} · Environment: {} · Identity: {} · Binding revision: {}</p><p>Endpoint: {} / {} · Plan digest: {}</p><p>Decision: {} · Author: {} · Reviewer: {}</p>",e(&release["repositoryId"]),e(&release["commit"]),e(&release["folder"]),e(&release["manifestDigest"]),e(&release["parserProfile"]),e(&plan["retainedTarget"]["exactOwner"]),e(&plan["retainedTarget"]["environmentName"]),e(&plan["retainedTarget"]["identityState"]),e(&plan["retainedTarget"]["bindingRevision"]),e(&plan["offlineIntent"]["host"]),e(&plan["offlineIntent"]["service"]),e(&plan["offlineIntent"]["digest"]),e(&plan["status"]),e(&plan["authorId"]),e(&plan["reviewerName"])));
+    for file in array(release, "files") {
+        html.push_str(&format!(
+            "<details open><summary>{} · SHA-256 {}</summary><pre><code>{}</code></pre></details>",
+            e(&file["path"]),
+            e(&file["sha256"]),
+            e(&file["content"])
+        ));
+    }
+    if plan["offlineIntent"]["validation"].is_object() {
+        html.push_str(&validation_panel(
+            &data["validationReportsByPlan"][id],
+            "Retained validation findings",
+        ));
+    } else {
+        html.push_str("<p>Historical plan without retained target validation. Inspection does not upgrade its authority.</p>");
+    }
+    html.push_str("</section>");
+    html
+}
+
 pub(super) async fn action(
     model: &Model,
     action: Action,

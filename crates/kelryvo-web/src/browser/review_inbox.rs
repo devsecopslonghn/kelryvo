@@ -109,10 +109,13 @@ pub(super) async fn action(model: &Model, action: Action, id: &str) -> Result<()
             detail["targetBindings"] = bindings["bindings"].clone();
             detail["bindingNext"] = bindings["nextCursor"].clone();
             detail["historyPlanFocus"] = id.into();
-            let mut state = model.borrow_mut();
-            state.route = Route::Project(project.into(), "plans".into());
-            state.data = detail;
-            state.notice = format!("Opened pending plan {id} from review inbox.");
+            {
+                let mut state = model.borrow_mut();
+                state.route = Route::Project(project.into(), "plans".into());
+                state.data = detail;
+                state.notice = format!("Opened pending plan {id} from review inbox.");
+            }
+            super::plans::open_review(model, id).await?;
             return Ok(());
         }
         let (cursor, retained) = if action == Action::MoreReviewInbox {

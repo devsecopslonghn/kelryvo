@@ -137,14 +137,34 @@ pub(super) fn view(data: &Value) -> String {
             for r in array(&data["gitRefs"], key) {
                 fields.push_str(&format!(
                     "<option value=\"{}\">{} · {}</option>",
-                    e(&r["ref"]),
+                    e(&r["commit"]),
                     e(&r["name"]),
                     e(&r["commit"])
                 ));
             }
         }
         fields.push_str("</datalist>");
-        html.push_str(&form("import-git-release", &fields, "Import Git release"));
+        fields.push_str("<p>Choose a full committed SHA for Prepare for Review. Local refs remain available for import-only compatibility.</p><label for=\"git-review-target\">Database target</label><select id=\"git-review-target\"><option value=\"\">Choose a target</option>");
+        for target in array(data, "targetBindings") {
+            fields.push_str(&format!(
+                "<option value=\"{}\" {}>{} · {}</option>",
+                e(&target["bindingId"]),
+                if target["bindingId"] == data["gitTargetDraft"] {
+                    "selected"
+                } else {
+                    ""
+                },
+                e(&target["exactOwner"]),
+                e(&target["environmentName"])
+            ));
+        }
+        fields.push_str("</select>");
+        fields.push_str(&button("prepare-git-review", "Prepare for Review", ""));
+        html.push_str(&form(
+            "import-git-release",
+            &fields,
+            "Import only (compatibility)",
+        ));
         html.push_str("</section>");
     }
     html.push_str(&list(data));
