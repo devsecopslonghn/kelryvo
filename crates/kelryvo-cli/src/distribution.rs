@@ -3,7 +3,7 @@
 use kelryvo_core::sha256;
 use serde_json::{Value, json};
 use std::{
-    collections::{BTreeMap, HashMap},
+    collections::BTreeMap,
     fs::{self, OpenOptions},
     io::{Read, Write},
     os::unix::fs::{DirBuilderExt, MetadataExt, OpenOptionsExt, PermissionsExt},
@@ -159,74 +159,25 @@ fn package_sources(root: &Path, destination: &Path) -> Result<()> {
     eprintln!("Collecting locked Cargo source archives.");
     let mut inventory = BTreeMap::<(String, String), Value>::new();
     for manifest_root in [root.to_path_buf(), root.join("tools/oracle-codegen")] {
-        let metadata = Command::new("cargo")
-            .args(["metadata", "--locked", "--offline", "--format-version", "1"])
-            .current_dir(&manifest_root)
-            .output()
-            .map_err(|_| ())?;
-        if !metadata.status.success() {
-            return Err(());
-        }
-        let metadata: Value = serde_json::from_slice(&metadata.stdout).map_err(|_| {
-            eprintln!("Cargo metadata could not be decoded.");
+        let (_, sources) = crate::cargo_sources::inventory(&manifest_root).map_err(|error| {
+            eprintln!("{error}");
         })?;
-        let lock: toml::Table =
-            std::str::from_utf8(&bytes(&manifest_root.join("Cargo.lock"), 8 * 1024 * 1024)?)
-                .map_err(|_| ())?
-                .parse()
-                .map_err(|_| {
-                    eprintln!("Cargo.lock could not be decoded as TOML.");
-                })?;
-        let checksums = lock["package"]
-            .as_array()
-            .ok_or(())?
-            .iter()
-            .filter_map(|p| {
-                Some((
-                    (
-                        p["name"].as_str()?.to_owned(),
-                        p["version"].as_str()?.to_owned(),
-                    ),
-                    p.get("checksum")?.as_str()?.to_owned(),
-                ))
-            })
-            .collect::<HashMap<_, _>>();
-        for package in metadata["packages"].as_array().ok_or(())? {
-            if package["source"].is_null() {
-                continue;
-            }
-            if package["source"] != "registry+https://github.com/rust-lang/crates.io-index" {
-                return Err(());
-            }
+        for source in sources {
+            let package = &source.facts;
             let name = package["name"].as_str().ok_or(())?;
             let version = package["version"].as_str().ok_or(())?;
-            let directory = Path::new(package["manifest_path"].as_str().ok_or(())?)
-                .parent()
-                .ok_or(())?;
-            let registry = directory.parent().ok_or(())?;
-            let archive = registry
-                .parent()
-                .and_then(Path::parent)
-                .ok_or(())?
-                .join("cache")
-                .join(registry.file_name().ok_or(())?)
-                .join(format!("{name}-{version}.crate"));
-            let data = bytes(&archive, 64 * 1024 * 1024).map_err(|_| {
-                eprintln!("Pinned registry archive unavailable for {name} {version}.");
-            })?;
-            let checksum = checksums.get(&(name.into(), version.into())).ok_or(())?;
-            let license_file = crate::source_license::file(package).map_err(|error| {
-                eprintln!("Invalid license for {name} {version}: {error}");
-            })?;
-            if sha256(&data) != *checksum {
-                eprintln!("Registry checksum or license identifier mismatch for {name} {version}.");
-                return Err(());
-            }
+            let checksum = package["sha256"].as_str().ok_or(())?;
+            let license_file = &package["licenseFile"];
+            // Copy only the bytes verified against the exact locked checksum.
+            let data =
+                crate::cargo_sources::read_archive(&source.path, checksum).map_err(|error| {
+                    eprintln!("{error}");
+                })?;
             let key = (name.to_owned(), version.to_owned());
             if let Some(previous) = inventory.get(&key) {
-                if previous["sha256"] != *checksum
-                    || previous["licenseExpression"] != package["license"]
-                    || previous["licenseFile"] != license_file
+                if previous["sha256"] != checksum
+                    || previous["licenseExpression"] != package["licenseExpression"]
+                    || &previous["licenseFile"] != license_file
                 {
                     return Err(());
                 }
@@ -234,7 +185,7 @@ fn package_sources(root: &Path, destination: &Path) -> Result<()> {
             }
             let relative = format!("licenses/sources/{name}-{version}.crate");
             put(destination, Path::new(&relative), &data, 0o444)?;
-            inventory.insert(key, json!({"name":name,"version":version,"licenseExpression":package["license"],"licenseFile":license_file,"repository":package["repository"],"source":package["source"],"archive":relative,"sha256":checksum,"scope":"LOCKED_WORKSPACE_SOURCE_ARCHIVE"}));
+            inventory.insert(key, json!({"name":name,"version":version,"licenseExpression":package["licenseExpression"],"licenseFile":license_file,"repository":package["repository"],"source":package["source"],"archive":relative,"sha256":checksum,"scope":"LOCKED_WORKSPACE_SOURCE_ARCHIVE"}));
         }
     }
     let inventory = inventory.into_values().collect::<Vec<_>>();

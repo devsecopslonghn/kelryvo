@@ -4,8 +4,6 @@ mod contracts;
 mod dependencies;
 #[path = "../hygiene.rs"]
 mod hygiene;
-#[path = "../source_license.rs"]
-mod source_license;
 mod toolchain;
 use serde_json::Value;
 use std::{env, fs, path::Path, process::ExitCode};

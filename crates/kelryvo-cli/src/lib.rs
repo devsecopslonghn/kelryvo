@@ -256,6 +256,7 @@ pub fn run() -> ExitCode {
     }
 }
 
+pub mod cargo_sources;
 mod chart;
 mod delivery;
 mod distribution;
