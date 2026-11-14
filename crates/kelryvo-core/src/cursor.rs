@@ -3,6 +3,13 @@ use crate::{js_len, matches, string, utc_time};
 use base64::{Engine, engine::general_purpose::URL_SAFE_NO_PAD};
 use serde_json::{Value, json};
 
+const LEGACY_URL_SAFE: base64::engine::GeneralPurpose = base64::engine::GeneralPurpose::new(
+    &base64::alphabet::URL_SAFE,
+    base64::engine::GeneralPurposeConfig::new()
+        .with_decode_allow_trailing_bits(true)
+        .with_decode_padding_mode(base64::engine::DecodePaddingMode::RequireNone),
+);
+
 pub fn encode_migration(project: &str, filters: &Value, row: &Value) -> String {
     URL_SAFE_NO_PAD.encode(
         json!({"projectId":project,"filters":filters,"at":row["at"],"id":row["id"]}).to_string(),
@@ -12,13 +19,7 @@ pub fn decode_migration(cursor: &str, project: &str, filters: &Value) -> Option<
     if cursor.is_empty() || cursor.len() > 2048 || !matches(r"\A[A-Za-z0-9_-]+\z", cursor) {
         return None;
     }
-    let engine = base64::engine::GeneralPurpose::new(
-        &base64::alphabet::URL_SAFE,
-        base64::engine::GeneralPurposeConfig::new()
-            .with_decode_allow_trailing_bits(true)
-            .with_decode_padding_mode(base64::engine::DecodePaddingMode::RequireNone),
-    );
-    let bytes = engine.decode(cursor).ok()?;
+    let bytes = LEGACY_URL_SAFE.decode(cursor).ok()?;
     let value: Value = serde_json::from_str(&String::from_utf8_lossy(&bytes)).ok()?;
     let keys = value.as_object()?;
     let f = value["filters"].as_object()?;
@@ -74,13 +75,7 @@ pub fn decode_execution(cursor: &str, actor: &str, scope: &str, kind: &str) -> O
     }
     // Retained Buffer decoding accepts aliased trailing bits. The decoded fields
     // are still fully checked and bound to the presenting actor and resource.
-    let engine = base64::engine::GeneralPurpose::new(
-        &base64::alphabet::URL_SAFE,
-        base64::engine::GeneralPurposeConfig::new()
-            .with_decode_allow_trailing_bits(true)
-            .with_decode_padding_mode(base64::engine::DecodePaddingMode::RequireNone),
-    );
-    let value: Value = serde_json::from_slice(&engine.decode(cursor).ok()?).ok()?;
+    let value: Value = serde_json::from_slice(&LEGACY_URL_SAFE.decode(cursor).ok()?).ok()?;
     if value["actorId"] != actor || value["scopeId"] != scope || value["kind"] != kind {
         return None;
     }
@@ -125,13 +120,7 @@ pub fn decode_attempt(
     if cursor.is_empty() || cursor.len() > 1024 || !matches(r"\A[A-Za-z0-9_-]+\z", cursor) {
         return None;
     }
-    let engine = base64::engine::GeneralPurpose::new(
-        &base64::alphabet::URL_SAFE,
-        base64::engine::GeneralPurposeConfig::new()
-            .with_decode_allow_trailing_bits(true)
-            .with_decode_padding_mode(base64::engine::DecodePaddingMode::RequireNone),
-    );
-    let row: Value = serde_json::from_slice(&engine.decode(cursor).ok()?).ok()?;
+    let row: Value = serde_json::from_slice(&LEGACY_URL_SAFE.decode(cursor).ok()?).ok()?;
     if row.as_object()?.len() != 5
         || row["actorId"] != actor
         || row["jobId"] != job
@@ -219,4 +208,17 @@ pub fn decode_review(cursor: &str, actor: &str, scope: &str) -> Option<Value> {
         || serde_json::to_string(&json!({"v":value["v"],"actor":value["actor"],"scope":value["scope"],"createdAt":value["createdAt"],"id":value["id"]})).ok()? != source
         || !utc_time(string(&value["createdAt"]), 6) || !lower_uuid(&value["id"]) { return None; }
     Some(json!({"createdAt":value["createdAt"],"id":value["id"]}))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn historical_trailing_bit_aliases_do_not_enter_strict_cursor_decoding() {
+        assert_eq!(LEGACY_URL_SAFE.decode("e31").unwrap(), b"{}");
+        assert!(decode("e31", 1024).is_none());
+        assert!(decode("e30", 1024).is_some());
+        assert!(LEGACY_URL_SAFE.decode("e30=").is_err());
+    }
 }
