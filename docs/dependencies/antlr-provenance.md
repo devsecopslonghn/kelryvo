@@ -3,7 +3,8 @@
 The two grammar files are unchanged Apache-2.0 sources from grammars-v4 commit
 `7df52be94698550d219d299d04105c6bafadd9c3`; their original headers and authors remain.
 Build-generated Rust recognizers use antlr-rust-codegen 0.34.0 and
-antlr-rust-runtime 0.34.0. Cargo.lock pins the runtime archive. The grammar crate
+antlr-rust-runtime 0.34.0. The host-generator Cargo.lock pins the pristine runtime archive; application
+builds use the identity-verified [runtime patch](../../dependencies/antlr-rust-runtime/README.md). The grammar crate
 retains its Apache-2.0 license and NOTICE; dependency archives retain their own
 BSD-3-Clause licenses. Grammar inputs, native adaptations and generated output
 hashes are recorded in `crates/kelryvo-oracle-grammar/grammar/lock.json`.

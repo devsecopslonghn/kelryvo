@@ -13,6 +13,8 @@ pub(super) fn check(root: &Path, manifest: bool) -> Result<()> {
             ));
         }
     }
+    let prepared =
+        kelryvo_cli::dependency_source::verify(root, |bytes| kelryvo_core::sha256(bytes))?;
     let (bytes, inventory) = cargo_sources::inventory(root)?;
     let (tool_lock, tool_inventory) = cargo_sources::inventory(&root.join("tools/oracle-codegen"))?;
     for archive in inventory.iter().chain(&tool_inventory) {
@@ -27,10 +29,10 @@ pub(super) fn check(root: &Path, manifest: bool) -> Result<()> {
         .map(|archive| archive.facts)
         .collect();
     if manifest {
-        println!("{}",serde_json::to_string_pretty(&json!({"format":1,"scope":"COMPLETE_LOCKED_WORKSPACE_INCLUDING_BUILD_DEV_AND_OTHER_TARGETS","cargoLockSha256":kelryvo_core::sha256(bytes),"packages":inventory,"hostGenerator":{"cargoLockSha256":kelryvo_core::sha256(tool_lock),"packages":tool_inventory},"limitations":["Checksums and license metadata do not grant runtime or release approval.","Cargo source archives retain package-specific notices; distribution copies them intact."]})).map_err(|e|e.to_string())?);
+        println!("{}",serde_json::to_string_pretty(&json!({"format":1,"scope":"COMPLETE_LOCKED_WORKSPACE_INCLUDING_BUILD_DEV_AND_OTHER_TARGETS","cargoLockSha256":kelryvo_core::sha256(bytes),"packages":inventory,"preparedRuntime":prepared,"hostGenerator":{"cargoLockSha256":kelryvo_core::sha256(tool_lock),"packages":tool_inventory},"limitations":["Checksums and license metadata do not grant runtime or release approval.","Cargo source archives retain package-specific notices; distribution copies them intact."]})).map_err(|e|e.to_string())?);
     } else {
         println!(
-            "PASS: {} application and {} host-generator Cargo source archives and license expressions verified",
+            "PASS: {} application and {} host-generator Cargo source archives and license expressions verified; prepared runtime source verified",
             inventory.len(),
             tool_inventory.len()
         );

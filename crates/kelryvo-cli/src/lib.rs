@@ -324,3 +324,6 @@ mod native_kernel_contracts {
         }
     }
 }
+
+#[path = "../../../tools/dependency_source.rs"]
+pub mod dependency_source;

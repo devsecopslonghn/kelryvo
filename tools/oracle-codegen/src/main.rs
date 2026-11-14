@@ -1,3 +1,5 @@
+#[path = "../../dependency_source.rs"]
+mod dependency_source;
 use antlr_rust_codegen::{Builder, UnknownSemanticPolicy};
 use serde_json::Value;
 use std::{env, fs, path::PathBuf};
@@ -27,6 +29,18 @@ fn digest(bytes: impl AsRef<[u8]>) -> String {
 
 fn main() {
     let mut args = env::args_os().skip(1);
+    if env::args_os()
+        .nth(1)
+        .is_some_and(|arg| arg == "--verify-runtime")
+    {
+        args.next();
+        let root = PathBuf::from(args.next().expect("source root"));
+        assert!(args.next().is_none(), "unexpected verification arguments");
+        let pin = dependency_source::verify(&root, |bytes| digest(bytes))
+            .expect("verified prepared runtime");
+        println!("Verified prepared runtime: {}", pin["sourceTreeSha256"]);
+        return;
+    }
     let package = PathBuf::from(args.next().expect("grammar package path"));
     let out = PathBuf::from(args.next().expect("Cargo output path"));
     assert!(args.next().is_none(), "unexpected generator arguments");

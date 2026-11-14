@@ -70,6 +70,7 @@ jobs:
           rustc -Vv
           ulimit -s
           test -z "${RUST_MIN_STACK:-}"
+          python3 tools/check-context-merge.py
           cargo test --locked -p kelryvo-parser --test native
 
   rust:

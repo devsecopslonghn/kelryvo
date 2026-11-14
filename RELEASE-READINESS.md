@@ -101,7 +101,7 @@ when another check succeeds.
 | Uncertain preparation writes | Same browser; drop responses after committed import/validation/plan, and before unconfirmed plan | PASS; retained IDs recovered; no repeated import/plan POST; absent unconfirmed plan stays inspection-only | Deliberate browser-fetch faults; not lost Oracle ACK | Keep this evidence scoped to preparation |
 | Source byte retention | Browser fixture plus direct read-only artifact comparison | PASS; all 11 retained file hashes recomputed; two imported Git blobs match exact committed bytes including newline | SQL tests also cover exact saved bytes; not arbitrary encoding/runtime coverage | Preserve parser/source identity on future changes |
 | Status and access | Browser; separate accounts, revoke grant; synthetic execution GET responses | PASS; scoped source/progress cleared; HOLD/unknown labels; no self-approval | Synthetic execution rows prove presentation only | Verify actual execution/recovery evidence in Oracle lab |
-| Parser source group | `cargo native-test --ci-tests core-parser` | Original result: FAIL after 37 tests with stack overflow/SIGABRT. Phase 6.1: PASS, 46 tests | Prediction-context merge repaired without changing grammar, limits or output; default debug and hosted-profile coverage retained | See Phase 6.1 evidence below; retain configured CI |
+| Parser source group | `cargo native-test --ci-tests core-parser` | Original result: FAIL after 37 tests with stack overflow/SIGABRT. Phase 6.1: PASS, 47 tests | Prediction-context merge repaired without changing grammar, limits or output; default debug and hosted-profile coverage retained | See Phase 6.1 evidence below; retain configured CI |
 | Documented release parser measurements | `cargo parser-performance` | PASS; one measurement test covering eight workloads in optimized release profile. Does not waive the failed debug source group | Offline measurements never imply grammar equivalence or Oracle acceptance | Resolve result before delivery assessment |
 | Source/delivery integrity | `cargo check-delivery` | PASS; frozen 169-route/1,228-kernel inventory, architecture tool checksums, 381 application and 301 generator archives/licenses, selected tool contracts | No OCI image built or published | Run exact-image gates on nominated signed source |
 | Oracle connection/identity/credential lifecycle | Authorized disposable Oracle + supported client/wallet + sealed worker installation | BLOCKED; prerequisites above unavailable; NOT RUN | No accepted discovery, physical identity, replacement or revocation qualification for this checkout | Supply current secret-free lab authorization/attestation and protected inputs |
@@ -152,6 +152,15 @@ Both manifests identify local evidence; they are not OCI provenance attestations
 
 
 ## Phase 6.1 — debug parser stack overflow investigation
+
+Dependency-management follow-up: the full vendor tree used for the original
+investigation at `c983b90` has been replaced by a small verified patch and
+explicit ignored dependency preparation. The source fix and identities below
+are unchanged. See the [repository inventory and offline verification](docs/dependencies/repository-hygiene.md)
+and [preparation instructions](dependencies/antlr-rust-runtime/README.md).
+Original vendor paths below identify that investigation stage. The final source
+group has 47 tests; the earlier 46 count used a stale unrelated web test binary
+from a shared baseline target directory, which was rebuilt before the final run.
 
 Investigated from master `758bcaf0fc264aec4ff167174ab6d7e6eb9d3697`, the merge
 of PR #150. The pre-Phase-5 baseline is
@@ -304,7 +313,7 @@ All commands below passed on the corrected checkout without `RUST_MIN_STACK`:
 | Check | Result |
 |---|---|
 | Previously failing isolated performance test, default debug | PASS, all eight workloads; 56.65 s in the isolated run |
-| `cargo native-test --ci-tests core-parser` | PASS, 46 tests, including original corpus, compatibility, snapshot, grammar provenance, ignored performance and new regressions |
+| `cargo native-test --ci-tests core-parser` | PASS, 47 tests, including original corpus, compatibility, snapshot, grammar provenance, ignored performance and new regressions |
 | `cargo test --release --locked -p kelryvo-parser -p kelryvo-oracle-grammar` | PASS, 22 tests; the opt-in performance case is exercised separately below |
 | `cargo parser-performance` | PASS, all eight unchanged optimized workloads |
 | CI regression command with `CARGO_INCREMENTAL=0 CARGO_PROFILE_DEV_DEBUG=2 CARGO_PROFILE_TEST_DEBUG=2`: `cargo test --locked -p kelryvo-parser --test native` | PASS, five tests |

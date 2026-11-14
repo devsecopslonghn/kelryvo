@@ -115,6 +115,9 @@ pub fn inventory(root: &Path) -> Result<(Vec<u8>, Vec<Archive>)> {
         );
     }
     let metadata: Value = serde_json::from_slice(&output.stdout).map_err(|e| e.to_string())?;
+    let members = metadata["workspace_members"]
+        .as_array()
+        .ok_or("Cargo workspace members")?;
     let mut seen = BTreeSet::new();
     let mut inventory = vec![];
     for package in metadata["packages"]
@@ -122,6 +125,19 @@ pub fn inventory(root: &Path) -> Result<(Vec<u8>, Vec<Archive>)> {
         .ok_or("Cargo package metadata")?
     {
         if package["source"].is_null() {
+            if !members.contains(&package["id"]) {
+                let expected = root
+                    .join(".deps/antlr-rust-runtime/Cargo.toml")
+                    .canonicalize()
+                    .map_err(|_| "Unexpected local Cargo dependency")?;
+                if package["name"] != "antlr-rust-runtime"
+                    || package["version"] != "0.34.0"
+                    || package["manifest_path"].as_str().map(Path::new) != Some(expected.as_path())
+                {
+                    return Err("Unreviewed local Cargo dependency outside the workspace".into());
+                }
+                crate::dependency_source::verify(root, |bytes| kelryvo_core::sha256(bytes))?;
+            }
             continue;
         }
         if package["source"] != REGISTRY {

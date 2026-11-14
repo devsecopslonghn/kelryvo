@@ -1,4 +1,6 @@
-//! A local runtime repair must retain the exact published source and license.
+//! The prepared runtime must retain the exact published source and license.
+#[path = "../../../tools/dependency_source.rs"]
+mod dependency_source;
 use flate2::read::GzDecoder;
 use kelryvo_core::sha256;
 use std::{
@@ -7,9 +9,6 @@ use std::{
     io::Read,
     path::{Path, PathBuf},
 };
-
-const ARCHIVE: &[u8] =
-    include_bytes!("../../antlr-rust-runtime/upstream/antlr-rust-runtime-0.34.0.crate");
 
 fn inventory(root: &Path, relative: &Path, files: &mut BTreeSet<PathBuf>) {
     for entry in fs::read_dir(root.join(relative)).unwrap() {
@@ -27,13 +26,16 @@ fn inventory(root: &Path, relative: &Path, files: &mut BTreeSet<PathBuf>) {
 
 #[test]
 fn runtime_repair_preserves_all_upstream_bytes_outside_context_merge() {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+    dependency_source::verify(&root, |bytes| kelryvo_core::sha256(bytes)).unwrap();
+    let archive = fs::read(root.join(".deps/antlr-rust-runtime-0.34.0.crate")).unwrap();
     assert_eq!(
-        sha256(ARCHIVE),
+        sha256(&archive),
         "11b6fb4f9634cc5620c38a6951c0898d5bbbd03f43e384e64292570dafa48182"
     );
-    let vendor = Path::new(env!("CARGO_MANIFEST_DIR")).join("../antlr-rust-runtime");
+    let vendor = root.join(".deps/antlr-rust-runtime");
     let mut expected = BTreeSet::new();
-    for entry in tar::Archive::new(GzDecoder::new(ARCHIVE))
+    for entry in tar::Archive::new(GzDecoder::new(archive.as_slice()))
         .entries()
         .unwrap()
     {
@@ -75,8 +77,6 @@ fn runtime_repair_preserves_all_upstream_bytes_outside_context_merge() {
         }
         assert!(expected.insert(path));
     }
-    expected.insert("upstream/antlr-rust-runtime-0.34.0.crate".into());
-    expected.insert("PATCH.md".into());
     let mut actual = BTreeSet::new();
     inventory(&vendor, Path::new(""), &mut actual);
     assert_eq!(actual, expected, "unexpected or missing vendored files");
