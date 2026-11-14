@@ -39,6 +39,10 @@ fn migration_versions_preserve_numeric_order_and_distinct_filename_bounds() {
     // Editable files stop at 200 characters; Git releases retain longer names.
     let filename = format!("V0001_02_0__{}.sql", "a".repeat(200));
     assert!(workspace::file_version(&filename).is_none());
+    assert_eq!(
+        workspace::canonical_file_version(&filename).as_deref(),
+        Some("1.2")
+    );
     let path = format!("migrations/{filename}");
     let content = "SELECT 1 FROM dual;\n";
     let file = json!({"path":path,"version":"1.2","sha256":sha256(content),"bytes":content.len()});
