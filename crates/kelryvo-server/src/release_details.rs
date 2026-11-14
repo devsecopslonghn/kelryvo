@@ -79,7 +79,7 @@ pub async fn compare(
     Json(body): Json<Value>,
 ) -> ApiResult<Value> {
     let project = projects::id(&project).map_err(|_| invalid())?;
-    if !plans::keys(&body, &["baseReleaseId", "candidateReleaseId"]) {
+    if !kelryvo_core::plan::keys(&body, &["baseReleaseId", "candidateReleaseId"]) {
         return Err(invalid());
     }
     let (base, candidate) = (

@@ -3,6 +3,7 @@ use super::{
     Model, api, array, button, document, e, escape, form, input, load, s, segment, value, window,
     workflow_location,
 };
+use crate::browser::actions::Action;
 use serde_json::{Value, json};
 use wasm_bindgen::JsCast;
 fn checked(id: &str) -> bool {
@@ -133,11 +134,11 @@ async fn select(model: &Model, id: &str) -> Result<(), String> {
 }
 pub(super) async fn action(
     model: &Model,
-    action: &str,
+    action: Action,
     id: &str,
     fields: Value,
 ) -> Result<(), String> {
-    if action == "oidc-login" {
+    if action == Action::OidcLogin {
         let result = api(
             model,
             "POST",
@@ -157,7 +158,7 @@ pub(super) async fn action(
             .map_err(|_| "Identity redirect unavailable")?;
         return Ok(());
     }
-    if action == "ldap-login" {
+    if action == Action::LdapLogin {
         let session = api(
             model,
             "POST",
@@ -172,10 +173,10 @@ pub(super) async fn action(
         load(model).await?;
         return Ok(());
     }
-    if action == "open-identity-provider" {
+    if action == Action::OpenIdentityProvider {
         return select(model, id).await;
     }
-    if action == "create-identity-provider" {
+    if action == Action::CreateIdentityProvider {
         let response = api(model, "POST", "/api/identity/providers", Some(fields), None).await?;
         load(model).await?;
         select(model, s(&response["provider"]["id"])).await?;
@@ -186,15 +187,15 @@ pub(super) async fn action(
     let p = model.borrow().data["selectedIdentityProvider"].clone();
     let provider = s(&p["id"]);
     let suffix = match action {
-        "save-identity-provider" => "".to_owned(),
-        "link-identity" => "/mappings".into(),
-        "revoke-identity" => format!("/mappings/{}/revoke", segment(id)),
-        "lookup-identity" => "/lookup".into(),
+        Action::SaveIdentityProvider => "".to_owned(),
+        Action::LinkIdentity => "/mappings".into(),
+        Action::RevokeIdentity => format!("/mappings/{}/revoke", segment(id)),
+        Action::LookupIdentity => "/lookup".into(),
         _ => "/test".into(),
     };
     let response = api(
         model,
-        if action == "save-identity-provider" {
+        if action == Action::SaveIdentityProvider {
             "PATCH"
         } else {
             "POST"
@@ -204,11 +205,11 @@ pub(super) async fn action(
         None,
     )
     .await?;
-    if action == "lookup-identity" {
+    if action == Action::LookupIdentity {
         model.borrow_mut().data["identityLookup"] = response;
         return Ok(());
     }
-    if action == "test-identity-provider" {
+    if action == Action::TestIdentityProvider {
         model.borrow_mut().data["identityTest"] = response;
         return Ok(());
     }

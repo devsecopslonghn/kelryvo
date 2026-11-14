@@ -4,7 +4,7 @@ use crate::{
     auth::{self, Authenticated},
     conflict,
     connections::public_connection,
-    instances, invalid, not_found, plans, projects, targets,
+    instances, invalid, not_found, projects, targets,
 };
 use axum::{
     Json,
@@ -343,7 +343,7 @@ async fn mutate(
         "lifecycle" => &["expectedRevision", "action", "reason"][..],
         _ => &["expectedRevision", "reason"][..],
     };
-    if !plans::keys(&b, keys)
+    if !kelryvo_core::plan::keys(&b, keys)
         || revision(&b["expectedRevision"]).is_none()
         || !safe(&b["reason"], 2000, false)
     {
@@ -595,7 +595,7 @@ pub async fn create_profile(
     Json(mut b): Json<Value>,
 ) -> Result<Response, ApiError> {
     let project = projects::id(&project).map_err(|_| invalid())?;
-    if !plans::keys(
+    if !kelryvo_core::plan::keys(
         &b,
         &[
             "name",
@@ -617,7 +617,8 @@ pub async fn create_profile(
         || b["engine"] != "oracle"
         || b.get("description").is_some_and(|v| !safe(v, 2000, true))
         || b.get("purpose").is_some_and(|v| v != "DEPLOY")
-        || b.get("reason").is_some_and(|v| !plans::reason(v, 2000))
+        || b.get("reason")
+            .is_some_and(|v| !kelryvo_core::plan::reason(v, 2000))
         || !matches(&REFERENCE, &b["credentialRef"])
     {
         return Err(invalid());

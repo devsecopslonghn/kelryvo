@@ -1,6 +1,7 @@
 //! Project-scoped schema evidence. UI selections never supply identity proofs,
 //! credentials or an execution capability; writes recheck loaded server facts.
 use super::{Model, Route, api, array, document, load, project_lifecycle, s, segment, value};
+use crate::browser::actions::Action;
 use serde_json::{Value, json};
 use wasm_bindgen::JsCast;
 use web_sys::{Element, Event};
@@ -214,7 +215,7 @@ async fn snapshot(model: &Model, base: &str, binding: &str, id: &str) -> Result<
     state.data["schemaPage"]["objectFilter"] = json!({"q":"","type":"ALL"});
     Ok(())
 }
-pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), String> {
+pub(super) async fn action(model: &Model, action: Action, id: &str) -> Result<(), String> {
     let Route::Project(project, tab) = model.borrow().route.clone() else {
         return Err("Open Schema baselines first.".into());
     };
@@ -227,8 +228,8 @@ pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), 
         .unwrap_or_default()
         .to_owned();
     let result=async{
-        if action=="more-schema-targets"||action=="more-schema-connections"{
-            let (cursor,path)=if action=="more-schema-targets"{(model.borrow().data["bindingNext"].clone(),"target-bindings")}else{(model.borrow().data["schemaConnections"]["nextCursor"].clone(),"database-connections")};
+        if action == Action::MoreSchemaTargets||action == Action::MoreSchemaConnections{
+            let (cursor,path)=if action == Action::MoreSchemaTargets{(model.borrow().data["bindingNext"].clone(),"target-bindings")}else{(model.borrow().data["schemaConnections"]["nextCursor"].clone(),"database-connections")};
             let cursor=cursor.as_str().ok_or("No further inventory page.")?;
             let result=api(model,"GET",&format!("{base}/{path}?after={}",segment(cursor)),None,None).await?;
             let mut state=model.borrow_mut();
@@ -236,29 +237,29 @@ pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), 
             else{merge(&mut state.data["schemaConnections"]["connections"],&result["connections"],"id");state.data["schemaConnections"]["nextCursor"]=result["nextCursor"].clone();}
             return Ok(());
         }
-        if action=="select-schema-target"{
+        if action == Action::SelectSchemaTarget{
             if !id.is_empty()&&!array(&model.borrow().data,"targetBindings").iter().any(|b|b["bindingId"]==id){return Err("Choose a loaded project target.".into());}
             model.borrow_mut().data["schemaPage"]=blank(id);
             if !id.is_empty(){let h=history(model,&project,id,"").await?;install(&mut model.borrow_mut().data["schemaPage"],h);}
             return Ok(());
         }
         if binding.is_empty(){return Err("Choose a schema target first.".into());}
-        if action=="refresh-schema"{
+        if action == Action::RefreshSchema{
             model.borrow_mut().data["schemaPage"]=blank(&binding);
             let mut data=model.borrow().data.clone();project_lifecycle::load_facts(model,&mut data).await?;
             data["schemaConnections"]=api(model,"GET",&format!("{base}/database-connections"),None,None).await?;
             install(&mut data["schemaPage"],history(model,&project,&binding,"").await?);model.borrow_mut().data=data;return Ok(());
         }
-        if action=="more-schema-snapshots"||action=="more-schema-baselines"{
-            let (key,param,cursor)=if action=="more-schema-snapshots"{("snapshots","after","nextCursor")}else{("baselines","baselineAfter","baselineNextCursor")};
+        if action == Action::MoreSchemaSnapshots||action == Action::MoreSchemaBaselines{
+            let (key,param,cursor)=if action == Action::MoreSchemaSnapshots{("snapshots","after","nextCursor")}else{("baselines","baselineAfter","baselineNextCursor")};
             let next=model.borrow().data["schemaPage"]["history"][cursor].as_str().ok_or("No further schema page.")?.to_owned();
             let h=history(model,&project,&binding,&format!("?{param}={}",segment(&next))).await?;
             let mut state=model.borrow_mut();merge(&mut state.data["schemaPage"]["history"][key],&h[key],"id");
             for field in [cursor,"currentness","canManage","binding","drift"]{state.data["schemaPage"]["history"][field]=h[field].clone();}return Ok(());
         }
-        if action=="close-schema-snapshot"{let mut state=model.borrow_mut();state.data["schemaPage"]["snapshot"]=Value::Null;state.data["schemaPage"]["objectFilter"]=json!({"q":"","type":"ALL"});return Ok(());}
-        if action=="clear-schema-object-filters"{model.borrow_mut().data["schemaPage"]["objectFilter"]=json!({"q":"","type":"ALL"});return Ok(());}
-        if action=="open-retained-schema"{
+        if action == Action::CloseSchemaSnapshot{let mut state=model.borrow_mut();state.data["schemaPage"]["snapshot"]=Value::Null;state.data["schemaPage"]["objectFilter"]=json!({"q":"","type":"ALL"});return Ok(());}
+        if action == Action::ClearSchemaObjectFilters{model.borrow_mut().data["schemaPage"]["objectFilter"]=json!({"q":"","type":"ALL"});return Ok(());}
+        if action == Action::OpenRetainedSchema{
             let retained={let state=model.borrow();let h=&state.data["schemaPage"]["history"];
                 array(h,"snapshots").iter().any(|r|r["id"]==id)||array(h,"baselines").iter().any(|r|r["snapshotId"]==id)};
             if !retained{return Err("Choose a loaded snapshot or baseline.".into());}
@@ -266,7 +267,7 @@ pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), 
             return snapshot(model,&base,&binding,id).await;
         }
         let page=model.borrow().data["schemaPage"].clone();let f=&page["form"];let h=&page["history"];
-        if action=="compare-retained-schema"{
+        if action == Action::CompareRetainedSchema{
             let ids=array(h,"snapshots").iter().map(|s|&s["id"]).chain(array(h,"baselines").iter().map(|b|&b["snapshotId"])).collect::<Vec<_>>();
             if !ids.contains(&&f["expected"])||!ids.contains(&&f["observed"]){return Err("Choose retained expected and observed snapshots.".into());}
             model.borrow_mut().data["schemaPage"]["comparison"]=Value::Null;
@@ -274,8 +275,8 @@ pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), 
             if result["expected"]["bindingId"]!=binding||result["observed"]["bindingId"]!=binding{return Err("Comparison is unavailable for this target.".into());}
             model.borrow_mut().data["schemaPage"]["comparison"]=result;return Ok(());
         }
-        if ["schema-to-workspace","schema-to-plans","schema-to-history"].contains(&action){
-            let selected=h["binding"].clone();let target=if action=="schema-to-workspace"{"workspace"}else if action=="schema-to-plans"{"plans"}else{"history"};
+        if [Action::SchemaToWorkspace,Action::SchemaToPlans,Action::SchemaToHistory].contains(&action){
+            let selected=h["binding"].clone();let target=if action == Action::SchemaToWorkspace{"workspace"}else if action == Action::SchemaToPlans{"plans"}else{"history"};
             let plan=array(&model.borrow().data,"plans").iter().find(|p|p["retainedTarget"]["bindingId"]==binding).map(|p|p["id"].clone());
             model.borrow_mut().route=Route::Project(project.clone(),target.into());load(model).await?;
             {let mut state=model.borrow_mut();
@@ -289,7 +290,7 @@ pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), 
             return Ok(());
         }
         if !manage(&model.borrow().data){return Err("Schema changes require current database-management access, active metadata and an unarchived project.".into());}
-        if action=="capture-retained-baseline"{
+        if action == Action::CaptureRetainedBaseline{
             if !page["snapshot"].is_object(){return Err("Open a snapshot first.".into());}
             let name=s(&f["baselineName"]).trim_matches(kelryvo_core::js_whitespace);let reason=s(&f["baselineReason"]).trim_matches(kelryvo_core::js_whitespace);
             if name.is_empty()||reason.is_empty(){return Err("Enter a baseline name and capture reason.".into());}
@@ -298,7 +299,7 @@ pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), 
             install(&mut state.data["schemaPage"],h);state.data["schemaPage"]["form"]["expected"]=result["baseline"]["snapshotId"].clone();
             state.data["schemaPage"]["form"]["baselineName"]="".into();state.data["schemaPage"]["form"]["baselineReason"]="".into();state.notice="Immutable baseline captured from the selected snapshot.".into();return Ok(());
         }
-        if action=="observe-schema-evidence"{
+        if action == Action::ObserveSchemaEvidence{
             let valid=array(&model.borrow().data["schemaConnections"],"connections").iter().any(|c|c["id"]==f["connectionId"]&&c["routeId"]==h["binding"]["routeId"]&&c["engine"]=="oracle"&&c["enabled"]==true&&c["retiredAt"].is_null());
             let reason=s(&f["reason"]).trim_matches(kelryvo_core::js_whitespace);if !valid||reason.is_empty(){return Err("Choose an authorized connection and enter an observation reason.".into());}
             let result=api(model,"POST",&format!("{base}/target-bindings/{}/schema/observe",segment(&binding)),Some(json!({"connectionId":f["connectionId"],"expectedBindingRevision":h["binding"]["bindingRevision"],"expectedAssignmentRevision":h["binding"]["assignmentRevision"],"reason":reason})),None).await?;
@@ -314,21 +315,21 @@ pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), 
             if ["NOT FOUND", "UNAUTHENTICATED"].contains(&error.as_str()) {
                 state.data = Value::Null;
             } else if [
-                "select-schema-target",
-                "refresh-schema",
-                "more-schema-snapshots",
-                "more-schema-baselines",
+                Action::SelectSchemaTarget,
+                Action::RefreshSchema,
+                Action::MoreSchemaSnapshots,
+                Action::MoreSchemaBaselines,
             ]
             .contains(&action)
             {
-                state.data["schemaPage"] = blank(if action == "select-schema-target" {
+                state.data["schemaPage"] = blank(if action == Action::SelectSchemaTarget {
                     id
                 } else {
                     &binding
                 });
             } else {
                 state.data["schemaPage"]["comparison"] = Value::Null;
-                if action == "open-retained-schema" {
+                if action == Action::OpenRetainedSchema {
                     state.data["schemaPage"]["snapshot"] = Value::Null;
                 }
             }

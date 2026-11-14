@@ -5,7 +5,7 @@ use openssl::{
     asn1::Asn1Time,
     bn::{BigNum, MsbOption},
     hash::MessageDigest,
-    pkey::{PKey, Private},
+    pkey::PKey,
     rsa::Rsa,
     x509::{
         X509, X509NameBuilder,
@@ -13,16 +13,7 @@ use openssl::{
     },
 };
 use serde_json::Value;
-use std::{
-    collections::BTreeMap,
-    fs,
-    net::{Ipv4Addr, TcpListener},
-    os::unix::fs::{DirBuilderExt, OpenOptionsExt},
-    path::{Path, PathBuf},
-    process::Stdio,
-    time::Duration,
-};
-use tokio::process::{Child, Command};
+use std::{collections::BTreeMap, fs, os::unix::fs::OpenOptionsExt, path::Path, time::Duration};
 
 pub struct Response {
     pub status: u16,
@@ -173,23 +164,6 @@ impl Api {
         }
         Ok(response.body)
     }
-    pub async fn login(&mut self) -> Result<()> {
-        let body = self.json("POST", "/api/session", None, 200).await?;
-        self.csrf = Some(
-            body["csrfToken"]
-                .as_str()
-                .ok_or("Session CSRF token")?
-                .into(),
-        );
-        Ok(())
-    }
-    pub fn cookie_header(&self) -> String {
-        self.cookies
-            .iter()
-            .map(|(key, value)| format!("{key}={value}"))
-            .collect::<Vec<_>>()
-            .join("; ")
-    }
 }
 pub fn private_file(path: &Path, value: &[u8]) -> Result<()> {
     use std::io::Write;
@@ -245,220 +219,9 @@ pub fn random_token() -> String {
     rand::rngs::OsRng.fill_bytes(&mut bytes);
     bytes.iter().map(|b| format!("{b:02x}")).collect()
 }
-pub struct Server {
-    pub origin: String,
-    pub secrets: PathBuf,
-    pub certificate: Vec<u8>,
-    pub directory: PathBuf,
-    pub binary: PathBuf,
-    pub web: PathBuf,
-    child: Child,
-}
-impl Drop for Server {
-    fn drop(&mut self) {
-        if let Some(pid) = self.child.id() {
-            let _ = nix::sys::signal::killpg(
-                nix::unistd::Pid::from_raw(pid as i32),
-                nix::sys::signal::Signal::SIGKILL,
-            );
-        }
-        let _ = self.child.start_kill();
-    }
-}
-impl Server {
-    pub async fn start(
-        database: &str,
-        initialize: bool,
-        extra_files: &[(String, Vec<u8>)],
-    ) -> Result<Self> {
-        Self::configured(database, initialize, |_| Ok(extra_files.to_vec())).await
-    }
-    /// Build private configuration after choosing this server's public origin.
-    /// OIDC callbacks must bind the exact origin, including its ephemeral port.
-    pub async fn configured(
-        database: &str,
-        initialize: bool,
-        files: impl FnOnce(&str) -> Result<Vec<(String, Vec<u8>)>>,
-    ) -> Result<Self> {
-        use std::os::unix::process::CommandExt;
-        if !database.starts_with("postgresql:///kelryvo_rust_test?host=") {
-            return Err("Private native test database required".into());
-        }
-        let root = crate::root();
-        let directory =
-            crate::process::private_directory("rust-api-", &root.join(".cache"))?.keep();
-        let secrets = directory.join("secrets");
-        fs::DirBuilder::new().mode(0o700).create(&secrets)?;
-        private_file(&secrets.join("database-url"), database.as_bytes())?;
-        let certificate = certificate(&secrets)?;
-        let port = TcpListener::bind((Ipv4Addr::LOCALHOST, 0))?
-            .local_addr()?
-            .port();
-        let origin = format!("https://localhost:{port}");
-        for (name, value) in files(&origin)? {
-            if Path::new(&name).components().count() != 1 {
-                return Err("Invalid private fixture secret name".into());
-            }
-            private_file(&secrets.join(name), &value)?;
-        }
-        let distribution = std::env::var_os("KELRYVO_RUST_DISTRIBUTION").map(PathBuf::from);
-        let binary = distribution
-            .as_ref()
-            .map(|d| d.join("bin/kelryvo-server"))
-            .unwrap_or_else(|| root.join("target/debug/kelryvo-server"));
-        let web = std::env::var_os("KELRYVO_RUST_WEB_DIRECTORY")
-            .map(PathBuf::from)
-            .unwrap_or_else(|| {
-                distribution
-                    .as_ref()
-                    .map(|d| d.join("dist/rust-web"))
-                    .unwrap_or_else(|| root.join("dist/rust-web"))
-            });
-        if !web.is_absolute() {
-            return Err("Native web fixture path must be absolute".into());
-        }
-        if let Some(distribution) = &distribution {
-            let output = Command::new(distribution.join("bin/kelryvo"))
-                .arg("verify-dist")
-                .arg(distribution)
-                .output()
-                .await?;
-            if !output.status.success() {
-                return Err("Selected native distribution integrity failed".into());
-            }
-            if web != distribution.join("dist/rust-web") {
-                let web_distribution = web
-                    .parent()
-                    .and_then(Path::parent)
-                    .ok_or("Packaged web root")?;
-                if web != web_distribution.join("dist/rust-web") {
-                    return Err("Packaged web must retain its distribution directory layout".into());
-                }
-                let api_identity: Value =
-                    serde_json::from_slice(&fs::read(distribution.join("source-identity.json"))?)?;
-                let web_identity: Value = serde_json::from_slice(&fs::read(
-                    web_distribution.join("source-identity.json"),
-                )?)?;
-                if api_identity["sourceTreeDigest"] != web_identity["sourceTreeDigest"] {
-                    return Err(
-                        "Cross-platform packaged web differs from the selected API source".into(),
-                    );
-                }
-                let output = Command::new(distribution.join("bin/kelryvo"))
-                    .arg("verify-dist")
-                    .arg(web_distribution)
-                    .output()
-                    .await?;
-                if !output.status.success() {
-                    return Err("Cross-platform packaged web inventory failed".into());
-                }
-            }
-        }
-        let environment = BTreeMap::from([
-            ("PATH".into(), std::env::var_os("PATH").unwrap_or_default()),
-            ("LANG".into(), "C.UTF-8".into()),
-            ("TZ".into(), "UTC".into()),
-            (
-                "KELRYVO_SECRET_DIR".into(),
-                secrets.clone().into_os_string(),
-            ),
-            ("KELRYVO_BIND_HOST".into(), "127.0.0.1".into()),
-            ("KELRYVO_PORT".into(), port.to_string().into()),
-            ("KELRYVO_WEB_DIRECTORY".into(), web.clone().into_os_string()),
-        ]);
-        if initialize {
-            let output = crate::process::capture(
-                &binary,
-                &["--initialize".into()],
-                &root,
-                &environment,
-                None,
-                Duration::from_secs(30),
-            )
-            .await?;
-            if !output.success {
-                return Err("Native fixture metadata initialization failed".into());
-            }
-        }
-        let mut command = Command::new(&binary);
-        command
-            .env_clear()
-            .envs(&environment)
-            .stdin(Stdio::null())
-            .stdout(Stdio::null())
-            .stderr(fs::File::create(directory.join("lifecycle.log"))?)
-            .kill_on_drop(true);
-        command.as_std_mut().process_group(0);
-        let child = command.spawn()?;
-        let mut server = Self {
-            origin,
-            secrets,
-            certificate,
-            directory,
-            binary,
-            web,
-            child,
-        };
-        let client = reqwest::Client::builder()
-            .add_root_certificate(reqwest::Certificate::from_pem(&server.certificate)?)
-            .timeout(Duration::from_secs(1))
-            .build()?;
-        for _ in 0..100 {
-            if server.child.try_wait()?.is_some() {
-                return Err("Native API exited before fixture readiness".into());
-            }
-            if client
-                .get(format!("{}/api/readyz", server.origin))
-                .send()
-                .await
-                .is_ok_and(|r| r.status().is_success())
-            {
-                return Ok(server);
-            }
-            tokio::time::sleep(Duration::from_millis(50)).await;
-        }
-        Err("Native fixture HTTPS readiness timed out".into())
-    }
-    pub fn api(&self, token: Option<&str>) -> Result<Api> {
-        Api::new(&self.origin, &self.certificate, token)
-    }
-    pub async fn stop(&mut self) -> Result<()> {
-        if let Some(pid) = self.child.id() {
-            nix::sys::signal::kill(
-                nix::unistd::Pid::from_raw(pid as i32),
-                nix::sys::signal::Signal::SIGTERM,
-            )?;
-        }
-        let status = tokio::time::timeout(Duration::from_secs(10), self.child.wait()).await??;
-        if !status.success() {
-            return Err("Native API fixture shutdown failed".into());
-        }
-        Ok(())
-    }
-}
-pub fn vault_key() -> Result<(PKey<Private>, Vec<u8>)> {
-    let key = PKey::from_rsa(Rsa::generate(3072)?)?;
-    let public = key.public_key_to_pem()?;
-    Ok((key, public))
-}
 pub fn check(actual: &Value, expected: &Value, label: &str) -> Result<()> {
     if actual != expected {
         return Err(format!("Native fixture contract mismatch: {label}").into());
     }
-    Ok(())
-}
-pub async fn actor(
-    pool: &sqlx::PgPool,
-    id: &str,
-    role: &str,
-    token: &str,
-    name: &str,
-) -> Result<()> {
-    sqlx::query("INSERT INTO sf_local_actors(id,organization_id,role,display_name) VALUES($1,'00000000-0000-4000-8000-000000000001',$2,$3) ON CONFLICT DO NOTHING").bind(id).bind(role).bind(name).execute(pool).await?;
-    sqlx::query("WITH issued AS (SELECT clock_timestamp() ts) INSERT INTO sf_local_credentials(actor_id,token_sha256,issued_at,expires_at) SELECT $1,$2,ts,ts+interval '24 hours' FROM issued").bind(id).bind(kelryvo_core::sha256(token)).execute(pool).await?;
-    Ok(())
-}
-pub async fn grant(pool: &sqlx::PgPool, project: &str, actor: &str) -> Result<()> {
-    sqlx::query("INSERT INTO sf_project_grants(id,organization_id,project_id,actor_id,grant_os_uid) VALUES($1,'00000000-0000-4000-8000-000000000001',$2,$3,1000)").bind(uuid::Uuid::new_v4()).bind(uuid::Uuid::parse_str(project)?).bind(actor).execute(pool).await?;
     Ok(())
 }

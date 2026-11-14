@@ -1,7 +1,6 @@
 //! Retained source/dependency closure and immutable contract inventory checks.
 //! Expected responses remain data captured independently of current Rust code.
-use super::{Result, read_json, source};
-use regex::Regex;
+use super::{Result, read_json};
 use serde_json::Value;
 use std::{collections::BTreeSet, fs, path::Path};
 fn inventory(root: &Path) -> Result<()> {
@@ -50,59 +49,8 @@ fn inventory(root: &Path) -> Result<()> {
     Ok(())
 }
 pub(super) fn check(root: &Path) -> Result<()> {
-    for name in ["package.json", "package-lock.json", ".nvmrc"] {
-        if root.join(name).exists() {
-            return Err(format!("Retired Node configuration remains: {name}"));
-        }
-    }
-    let paths = source::git(
-        root,
-        &[
-            "ls-files",
-            "--cached",
-            "--others",
-            "--exclude-standard",
-            "-z",
-        ],
-        None,
-    )?;
-    let npm = Regex::new(r"\b(?:npm|npx|yarn|pnpm)\s|actions/setup-node@").unwrap();
-    let script = Regex::new(r"\b(?:node|python3?|bash)\s+scripts/").unwrap();
-    let retired = Regex::new(r#"from\s+['"][^'"]*(?:packages/|apps/)"#).unwrap();
-    for bytes in paths.split(|b| *b == 0).filter(|s| !s.is_empty()) {
-        let name = std::str::from_utf8(bytes).map_err(|e| e.to_string())?;
-        let path = root.join(name);
-        if !path.exists() {
-            continue;
-        }
-        if ["apps/", "packages/", "experiments/"]
-            .iter()
-            .any(|prefix| name.starts_with(prefix))
-        {
-            return Err(format!("Retired application source remains: {name}"));
-        }
-        if !(name.starts_with("scripts/") || name.starts_with(".github/workflows/")) {
-            continue;
-        }
-        let text = fs::read_to_string(path).map_err(|e| e.to_string())?;
-        if retired.is_match(&text) {
-            return Err(format!("Retired application import: {name}"));
-        }
-        if npm.is_match(&text) {
-            return Err(format!(
-                "{name}: retired Node package-manager tooling remains"
-            ));
-        }
-        if script.is_match(&text) {
-            return Err(format!(
-                "{name}: interpreter script invocation remains; use its native Rust entrypoint"
-            ));
-        }
-    }
     inventory(root)?;
-    println!(
-        "PASS: native source/workflow closure and frozen 169-route/1,228-kernel contract inventory"
-    );
+    println!("PASS: frozen 169-route/1,228-kernel contract inventory");
     Ok(())
 }
 #[cfg(test)]

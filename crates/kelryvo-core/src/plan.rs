@@ -1,5 +1,6 @@
 //! Public retained-plan projection. It never treats stored approval as fresh
 //! target authority and never exposes credential references from the envelope.
+use crate::workspace::positive_revision;
 use crate::{MAX_INPUT_BYTES, MAX_RELEASE_FILES, digest, intent, js_len};
 use serde_json::{Value, json};
 
@@ -136,4 +137,53 @@ pub fn project(row: &Value) -> Value {
     result["executionReadiness"] =
         json!({"state":"WAITING_VALIDATION","executionAuthority":false,"blockers":blockers});
     result
+}
+
+pub fn keys(v: &Value, allowed: &[&str]) -> bool {
+    v.as_object()
+        .is_some_and(|o| o.keys().all(|k| allowed.contains(&k.as_str())))
+}
+
+pub fn text(v: &Value, max: usize) -> bool {
+    v.as_str().is_some_and(|s| {
+        (!s.trim_matches(crate::js_whitespace).is_empty() && s.encode_utf16().count() <= max)
+            && !s.chars().any(|c| c <= '\u{1f}' || c == '\u{7f}')
+    })
+}
+
+pub fn reason(value: &Value, max: usize) -> bool {
+    value.as_str().is_some_and(|text| {
+        !text.trim_matches(crate::js_whitespace).is_empty()
+            && text.encode_utf16().count() <= max
+            && !text.chars().any(|c| matches!(c, '\u{0}'..='\u{8}' | '\u{b}' | '\u{c}' | '\u{e}'..='\u{1f}' | '\u{7f}'..='\u{9f}'))
+    })
+}
+
+pub fn revision(v: &Value) -> bool {
+    v.as_str()
+        .is_some_and(|s| s == "0" || positive_revision(s).is_some())
+}
+
+pub fn source_valid(p: &Value) -> bool {
+    static FOLDER: std::sync::LazyLock<regex::Regex> = std::sync::LazyLock::new(|| {
+        regex::Regex::new(r"\A[A-Za-z0-9_-]+(?:/[A-Za-z0-9_-]+)*\z").expect("folder")
+    });
+    text(&p["source_repository_id"], 200)
+        && p["source_folder"]
+            .as_str()
+            .is_some_and(|s| s.len() <= 200 && FOLDER.is_match(s))
+        && p["source_binding_generation"]
+            .as_str()
+            .and_then(positive_revision)
+            .is_some()
+}
+
+pub fn retained_intent(row: &Value) -> Option<Value> {
+    intent::verify(
+        row["offline_intent_envelope"].as_str()?,
+        row["offline_intent_digest"].as_str()?,
+        Some(
+            &json!({"organizationId":row["organization_id"],"projectId":row["project_id"],"requesterId":row["author_id"],"releaseId":row["release_id"],"profileId":row["profile_id"]}),
+        ),
+    )
 }

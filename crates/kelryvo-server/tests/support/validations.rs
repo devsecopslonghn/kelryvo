@@ -1,20 +1,11 @@
-use super::{OTHER_TOKEN, TOKEN, plans::APPROVER, request, target_reference};
-use axum::{Router, http::StatusCode};
+use super::call;
+use super::{OTHER_TOKEN, TOKEN, plans::APPROVER, target_reference};
+use axum::http::StatusCode;
 use kelryvo_server::{AppState, ORG_UUID, router};
 use serde_json::{Value, json};
 use sqlx::PgPool;
 use uuid::Uuid;
 
-async fn call(
-    app: &Router,
-    token: &str,
-    method: &str,
-    path: &str,
-    body: Option<Value>,
-) -> (StatusCode, Value) {
-    let r = request(app, method, path, body, Some(token), None, None).await;
-    (r.0, r.2)
-}
 fn decision(plan: &Value) -> Value {
     json!({"decision":"APPROVE","reason":"Independent review of bound native validation","expectedIntentDigest":plan["offlineIntent"]["digest"],"expectedAssignmentRevision":plan["retainedTarget"]["assignmentRevision"],"expectedBindingRevision":plan["retainedTarget"]["bindingRevision"]})
 }

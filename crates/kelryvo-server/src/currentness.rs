@@ -1,8 +1,9 @@
 //! Currentness of an exact retained target, including immutable observation and
 //! schema evidence. A CURRENT result is not an execution capability.
-use crate::{ApiError, ORG, ORG_UUID, discovery, targets, workspace::positive_revision};
+use crate::{ApiError, ORG, ORG_UUID, discovery, targets};
 use chrono::{SecondsFormat, Utc};
 use kelryvo_core::evidence::accepted_observation;
+use kelryvo_core::workspace::positive_revision;
 use serde_json::{Value, json};
 use sqlx::PgConnection;
 use uuid::Uuid;

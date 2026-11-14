@@ -7,6 +7,9 @@ license-file = "../../LICENSE"
 publish.workspace = true
 default-run = "kelryvo"
 
+[features]
+repository = ["dep:kelryvo-fixtures"]
+
 [lib]
 path = "src/lib.rs"
 
@@ -17,9 +20,10 @@ path = "src/main.rs"
 [[bin]]
 name = "kelryvo-repository"
 path = "src/repository/main.rs"
+required-features = ["repository"]
 
 [dependencies]
-kelryvo-fixtures = { path = "../kelryvo-fixtures" }
+kelryvo-fixtures = { path = "../kelryvo-fixtures", optional = true }
 chrono.workspace = true
 kelryvo-core = { path = "../kelryvo-core" }
 kelryvo-parser = { path = "../kelryvo-parser" }
@@ -34,9 +38,11 @@ tokio = { version = "1", features = ["rt", "macros", "time", "net", "io-util", "
 zeroize.workspace = true
 base64.workspace = true
 regex.workspace = true
-ryu-js = "=1.0.3"
 yaml-rust2 = { version = "=0.10.4", default-features = false }
 nix = { version = "0.30", default-features = false, features = ["signal", "process"] }
 
 [lints]
 workspace = true
+
+[dev-dependencies]
+kelryvo-fixtures = { path = "../kelryvo-fixtures" }

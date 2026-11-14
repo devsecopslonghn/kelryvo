@@ -1,7 +1,9 @@
 //! Project-scoped editor state, independent of retained immutable revisions.
+use super::*;
 use super::{
     Model, Route, api, array, button, document, e, escape, form, s, segment, value, window,
 };
+use crate::browser::actions::Action;
 use kelryvo_core::workspace;
 use serde_json::{Value, json};
 use wasm_bindgen::JsCast;
@@ -390,16 +392,14 @@ pub(super) fn payload(model: &Model, save: bool) -> Value {
     }
     body
 }
-pub(super) async fn action(
+pub(super) async fn existing_action(
     model: &Model,
-    action: &str,
+    action: Action,
     id: &str,
     fields: Value,
 ) -> Result<(), String> {
-    let Route::Project(project, _) = model.borrow().route.clone() else {
-        return Err("Select a project".into());
-    };
-    if action == "compare-draft-revisions" {
+    let project = super::project_id(model)?;
+    if action == Action::CompareDraftRevisions {
         let draft = model.borrow().data["draft"]["id"].clone();
         let comparison = api(
             model,
@@ -418,7 +418,7 @@ pub(super) async fn action(
         model.borrow_mut().data["draftComparison"] = comparison["comparison"].clone();
         return Ok(());
     }
-    if action == "open-draft-source" {
+    if action == Action::OpenDraftSource {
         if dirty(&model.borrow().data) {
             return Err(
                 "Save or discard unsaved edits before inspecting saved source findings".into(),
@@ -437,7 +437,7 @@ pub(super) async fn action(
         );
         return Ok(());
     }
-    if action == "review-draft-syntax" || action == "validate-draft" {
+    if action == Action::ReviewDraftSyntax || action == Action::ValidateDraft {
         if !mutable(model)
             || dirty(&model.borrow().data)
             || model.borrow().data["draftConflict"] == true
@@ -451,7 +451,7 @@ pub(super) async fn action(
             .cloned()
             .ok_or("Reload the current target before review")?;
         let mut body = json!({"targetBindingId":target["bindingId"],"expectedBindingRevision":target["bindingRevision"],"expectedAssignmentRevision":target["assignmentRevision"]});
-        let url = if action == "validate-draft" && draft["preparedRelease"]["id"].is_string() {
+        let url = if action == Action::ValidateDraft && draft["preparedRelease"]["id"].is_string() {
             format!(
                 "/api/projects/{}/releases/{}/validations",
                 segment(&project),
@@ -463,7 +463,7 @@ pub(super) async fn action(
                 "/api/projects/{}/sql-drafts/{}/{}",
                 segment(&project),
                 segment(s(&draft["id"])),
-                if action == "validate-draft" {
+                if action == Action::ValidateDraft {
                     "validate"
                 } else {
                     "preview"
@@ -471,12 +471,12 @@ pub(super) async fn action(
             )
         };
         let response = api(model, "POST", &url, Some(body), None).await?;
-        let key = if action == "validate-draft" {
+        let key = if action == Action::ValidateDraft {
             "draftValidation"
         } else {
             "draftPreview"
         };
-        model.borrow_mut().data[key] = response[if action == "validate-draft" {
+        model.borrow_mut().data[key] = response[if action == Action::ValidateDraft {
             "validation"
         } else {
             "preview"
@@ -484,7 +484,7 @@ pub(super) async fn action(
         .clone();
         return Ok(());
     }
-    if action == "inspect-draft-conflict" {
+    if action == Action::InspectDraftConflict {
         let id = model.borrow().data["draft"]["id"].clone();
         let latest = api(
             model,
@@ -507,12 +507,12 @@ pub(super) async fn action(
         state.data["draftExcluded"] = json!([]);
         return Ok(());
     }
-    if !mutable(model) && action != "discard-draft-edits" {
+    if !mutable(model) && action != Action::DiscardDraftEdits {
         return Err("The SQL workspace is read-only".into());
     }
     let mut state = model.borrow_mut();
     match action {
-        "discard-draft-edits" => {
+        Action::DiscardDraftEdits => {
             let saved = state.data["draft"].clone();
             if saved["id"].is_string() {
                 adopt(&mut state.data, saved);
@@ -521,7 +521,7 @@ pub(super) async fn action(
             }
             state.notice = "Unsaved edits discarded. Saved revision restored.".into();
         }
-        "add-draft-file" => {
+        Action::AddDraftFile => {
             if array(&state.data["draftEdit"], "files").len() >= 128 {
                 return Err("A draft can contain at most 128 files".into());
             }
@@ -538,7 +538,7 @@ pub(super) async fn action(
             state.data["draftEdit"]["useFiles"] = true.into();
             state.data["draftRemoved"] = Value::Null;
         }
-        "remove-draft-file" => {
+        Action::RemoveDraftFile => {
             let selected = state.data["draftSelected"].clone();
             let files = state.data["draftEdit"]["files"]
                 .as_array_mut()
@@ -556,7 +556,7 @@ pub(super) async fn action(
             state.data["draftSelected"] = selected;
             state.data["draftEdit"]["useFiles"] = true.into();
         }
-        "undo-draft-remove" => {
+        Action::UndoDraftRemove => {
             let removed = state.data["draftRemoved"].clone();
             let files = state.data["draftEdit"]["files"]
                 .as_array_mut()
@@ -569,7 +569,7 @@ pub(super) async fn action(
             state.data["draftSelected"] = removed["file"]["id"].clone();
             state.data["draftRemoved"] = Value::Null;
         }
-        "apply-draft-reconciliation" => {
+        Action::ApplyDraftReconciliation => {
             let merged =
                 reconciliation(&state.data).ok_or("Inspect the latest saved revision first")?;
             if merged["ready"] != true
@@ -593,7 +593,7 @@ pub(super) async fn action(
                 "Reconciliation staged in the editor. Save explicitly to retain a new revision."
                     .into();
         }
-        "load-latest-draft" => {
+        Action::LoadLatestDraft => {
             let latest = state.data["draftLatest"].clone();
             if !latest["id"].is_string() {
                 return Err("Inspect the latest saved revision first".into());
@@ -891,4 +891,116 @@ pub(super) fn view(data: &Value) -> String {
     }
     html.push_str("</section>");
     html
+}
+
+pub(super) async fn action(
+    model: &Model,
+    action: Action,
+    id: &str,
+    fields: Value,
+) -> Result<(), String> {
+    match action {
+        Action::OpenDraft => {
+            let project = super::project_id(model)?;
+            let response = api(
+                model,
+                "GET",
+                &format!(
+                    "/api/projects/{}/sql-drafts/{}",
+                    segment(&project),
+                    segment(id)
+                ),
+                None,
+                None,
+            )
+            .await?;
+            draft_editor::adopt(&mut model.borrow_mut().data, response["draft"].clone());
+        }
+        Action::NewDraft => {
+            draft_editor::start(&mut model.borrow_mut().data);
+        }
+        Action::OlderSqlDrafts => {
+            let project = super::project_id(model)?;
+            let after = model.borrow().data["draftNext"].clone();
+            let page = api(
+                model,
+                "GET",
+                &format!(
+                    "/api/projects/{}/sql-drafts?after={}",
+                    segment(&project),
+                    segment(s(&after))
+                ),
+                None,
+                None,
+            )
+            .await?;
+            let mut state = model.borrow_mut();
+            if let Some(rows) = state.data["drafts"].as_array_mut() {
+                rows.extend(array(&page, "drafts").iter().cloned());
+            }
+            state.data["draftNext"] = page["nextCursor"].clone();
+        }
+        Action::PrepareRelease => {
+            if draft_editor::dirty(&model.borrow().data)
+                || model.borrow().data["draftConflict"] == true
+            {
+                return Err("Save or reconcile your edits before preparing a release".into());
+            }
+            let project = super::project_id(model)?;
+            let draft = model.borrow().data["draft"].clone();
+            let binding = model.borrow().data["targetBindings"]
+                .as_array()
+                .and_then(|bindings| {
+                    bindings
+                        .iter()
+                        .find(|b| b["bindingId"] == draft["targetBindingId"])
+                })
+                .cloned()
+                .ok_or("Reload the current database target before preparing a release")?;
+            let response=api(model,"POST",&format!("/api/projects/{}/sql-drafts/{}/prepare-release",segment(&project),segment(s(&draft["id"]))),Some(json!({"expectedRevision":draft["revision"],"targetBindingId":draft["targetBindingId"],"expectedBindingRevision":binding["bindingRevision"],"expectedAssignmentRevision":binding["assignmentRevision"]})),None).await?;
+            model.borrow_mut().data["draft"]["preparedRelease"] = response["release"].clone();
+            model.borrow_mut().notice = "Immutable release prepared for review.".into();
+        }
+        Action::CreateDraft | Action::SaveDraft => {
+            let project = super::project_id(model)?;
+            let current = model.borrow().data["draft"].clone();
+            let path = if action == Action::SaveDraft {
+                format!(
+                    "/api/projects/{}/sql-drafts/{}",
+                    segment(&project),
+                    segment(s(&current["id"]))
+                )
+            } else {
+                format!("/api/projects/{}/sql-drafts", segment(&project))
+            };
+            let response = api(
+                model,
+                if action == Action::SaveDraft {
+                    "PUT"
+                } else {
+                    "POST"
+                },
+                &path,
+                Some(fields),
+                None,
+            )
+            .await?;
+            let saved = response["draft"].clone();
+            if saved["projectId"] != project
+                || !saved["id"].is_string()
+                || action == Action::SaveDraft && saved["id"] != current["id"]
+            {
+                return Err("Invalid saved draft response; editor preserved".into());
+            }
+            let mut state = model.borrow_mut();
+            let mut rows = array(&state.data, "drafts").to_vec();
+            rows.retain(|d| d["id"] != saved["id"]);
+            rows.insert(0, saved.clone());
+            state.data["drafts"] = rows.into();
+            draft_editor::adopt(&mut state.data, saved);
+            state.notice = "Draft revision saved.".into();
+        }
+        _ => return existing_action(model, action, id, fields).await,
+    }
+    Ok(())
 }

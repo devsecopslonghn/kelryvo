@@ -188,7 +188,7 @@ pub(crate) async fn reconcile(tx: &mut PgConnection, c: &Candidate, o: &Value) -
         for (n, (rct, ack)) in receipts.iter().zip(acks.iter()).enumerate() {
             if rct["ordinal"] != n + 1
                 || rct["statement_digest"] != context["pendingStatementDigests"][n]
-                || !kelryvo_server::plans::digest(&rct["receipt_digest"])
+                || !kelryvo_core::digest(&rct["receipt_digest"])
                 || rct["central_evidence_digest"] != r["central_evidence_digest"]
                 || ack["ordinal"] != rct["ordinal"]
                 || ack["statement_digest"] != rct["statement_digest"]

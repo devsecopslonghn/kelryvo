@@ -52,7 +52,7 @@ pub async fn decide(
     Json(body): Json<Value>,
 ) -> ApiResult<Value> {
     let plan = projects::id(&plan).map_err(|_| invalid())?;
-    if !plans::keys(
+    if !kelryvo_core::plan::keys(
         &body,
         &[
             "decision",
@@ -63,7 +63,7 @@ pub async fn decide(
             "comparisonId",
         ],
     ) || !["APPROVE", "REJECT"].iter().any(|s| body["decision"] == *s)
-        || !plans::reason(&body["reason"], 2000)
+        || !kelryvo_core::plan::reason(&body["reason"], 2000)
     {
         return Err(invalid());
     }
@@ -74,9 +74,9 @@ pub async fn decide(
     ];
     let expected = expectations.iter().any(|k| body.get(*k).is_some());
     if expected
-        && (!plans::digest(&body["expectedIntentDigest"])
-            || !plans::revision(&body["expectedAssignmentRevision"])
-            || !plans::revision(&body["expectedBindingRevision"]))
+        && (!kelryvo_core::digest(&body["expectedIntentDigest"])
+            || !kelryvo_core::plan::revision(&body["expectedAssignmentRevision"])
+            || !kelryvo_core::plan::revision(&body["expectedBindingRevision"]))
     {
         return Err(invalid());
     }
@@ -109,7 +109,7 @@ pub async fn decide(
         return Err(error);
     }
     let source = plans::source(&mut tx, project, true).await?;
-    let retained = plans::intent(&p);
+    let retained = kelryvo_core::plan::retained_intent(&p);
     if retained.is_none()
         && (expected
             || p["offline_intent_envelope"]
@@ -149,7 +149,7 @@ pub async fn decide(
         if retired == Some(true) {
             return Err(conflict("PROFILE_RETIRED"));
         }
-        if !plans::source_valid(&source)
+        if !kelryvo_core::plan::source_valid(&source)
             || p["source_binding_generation"] != source["source_binding_generation"]
         {
             return Err(conflict("FRESH_PLAN_REQUIRED"));
@@ -225,9 +225,9 @@ pub async fn revoke(
     Json(body): Json<Value>,
 ) -> Result<(StatusCode, Json<Value>), ApiError> {
     let plan = projects::id(&plan).map_err(|_| invalid())?;
-    if !plans::keys(&body, &["expectedApprovalReference", "reason"])
+    if !kelryvo_core::plan::keys(&body, &["expectedApprovalReference", "reason"])
         || body.get("expectedApprovalReference").is_none()
-        || !plans::reason(&body["reason"], 2000)
+        || !kelryvo_core::plan::reason(&body["reason"], 2000)
     {
         return Err(invalid());
     }
@@ -248,7 +248,7 @@ pub async fn revoke(
         Some("PROJECT_ARCHIVED")
     } else if role != "approver" {
         Some("APPROVER_REQUIRED")
-    } else if !plans::text(&p["author_id"], 200) || p["author_id"] == auth.actor.id {
+    } else if !kelryvo_core::plan::text(&p["author_id"], 200) || p["author_id"] == auth.actor.id {
         Some("SELF_APPROVAL_DENIED")
     } else if p["status"] != "APPROVED" || p["decision"] != "APPROVE" {
         Some("PLAN_NOT_WITHDRAWABLE")

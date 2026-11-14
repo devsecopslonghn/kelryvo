@@ -1,6 +1,8 @@
 //! Self-service account facts and session revocation. Operator grants and roles
 //! remain read-only; only a different session owned by this actor is revocable.
+use super::*;
 use super::{Model, api, array, button, e, escape, form, input, s, segment};
+use crate::browser::actions::Action;
 use serde_json::{Value, json};
 pub(super) async fn load(model: &Model) -> Result<Value, String> {
     let sessions = api(model, "GET", "/api/account/sessions", None, None).await?;
@@ -10,9 +12,9 @@ pub(super) async fn load(model: &Model) -> Result<Value, String> {
         json!({"sessions":sessions["sessions"],"sessionNext":sessions["nextCursor"],"access":access,"login":login}),
     )
 }
-pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), String> {
+pub(super) async fn existing_action(model: &Model, action: Action, id: &str) -> Result<(), String> {
     let result = async {
-        if action == "revoke-account-session" {
+        if action == Action::RevokeAccountSession {
             let owned = array(&model.borrow().data, "sessions")
                 .iter()
                 .any(|r| r["id"] == id && r["current"] == false);
@@ -32,18 +34,18 @@ pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), 
                 "Other browser session revoked. This session remains signed in.".into();
             return Ok(());
         }
-        if action == "refresh-account" {
+        if action == Action::RefreshAccount {
             model.borrow_mut().data = Value::Null;
             model.borrow_mut().data = load(model).await?;
             return Ok(());
         }
-        let (path, key, cursor) = if action == "more-account-access" {
+        let (path, key, cursor) = if action == Action::MoreAccountAccess {
             (
                 "access",
                 "projects",
                 model.borrow().data["access"]["nextCursor"].clone(),
             )
-        } else if action == "more-account-sessions" {
+        } else if action == Action::MoreAccountSessions {
             (
                 "sessions",
                 "sessions",
@@ -185,4 +187,66 @@ pub(super) fn view(data: &Value, session: &Value) -> String {
     }
     html.push_str("</section>");
     html
+}
+
+pub(super) async fn action(
+    model: &Model,
+    action: Action,
+    id: &str,
+    fields: Value,
+) -> Result<(), String> {
+    match action {
+        Action::Login | Action::TokenLogin => {
+            let session = api(
+                model,
+                "POST",
+                "/api/session",
+                if action == Action::Login {
+                    Some(json!({"username":fields["username"],"password":fields["password"]}))
+                } else {
+                    None
+                },
+                fields.get("token").and_then(Value::as_str),
+            )
+            .await?;
+            model.borrow_mut().set_session(Some(session));
+            model.borrow_mut().data = Value::Null;
+            workflow_location::prepare_login(model);
+            load(model).await?;
+        }
+        Action::Setup => {
+            api(
+                model,
+                "POST",
+                "/api/auth/setup",
+                Some(json!({"username":fields["username"],"password":fields["password"]})),
+                fields["token"].as_str(),
+            )
+            .await?;
+            model.borrow_mut().notice = "Password set. You can now sign in.".into();
+        }
+        Action::ChangePassword => {
+            if fields["newPassword"] != fields["confirmation"] {
+                return Err("New passwords do not match.".into());
+            }
+            api(model,"POST","/api/account/password",Some(json!({"currentPassword":fields["currentPassword"],"newPassword":fields["newPassword"]})),None)
+                .await.map_err(|e|if e=="PASSWORD NOT ACCEPTED" {"Current password was not accepted.".into()} else {e})?;
+            model.borrow_mut().set_session(None);
+            model.borrow_mut().data = Value::Null;
+            model.borrow_mut().route = Route::Projects;
+            model.borrow_mut().notice = "Password changed. Sign in again.".into();
+            workflow_location::signed_out(model);
+        }
+        Action::Logout => {
+            api(model, "POST", "/api/session/logout", None, None).await?;
+            model.borrow_mut().set_session(None);
+            model.borrow_mut().data = Value::Null;
+            workflow_location::signed_out(model);
+            if let Ok(methods) = api(model, "GET", "/api/auth/methods", None, None).await {
+                model.borrow_mut().methods = methods;
+            }
+        }
+        _ => return existing_action(model, action, id).await,
+    }
+    Ok(())
 }

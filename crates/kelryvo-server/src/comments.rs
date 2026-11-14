@@ -33,7 +33,7 @@ pub async fn create(
     Json(body): Json<Value>,
 ) -> Result<(StatusCode, Json<Value>), ApiError> {
     let (project, plan) = (projects::id(&project)?, projects::id(&plan)?);
-    if !plans::keys(&body, &["body", "evidenceRefs", "comparisonId"])
+    if !kelryvo_core::plan::keys(&body, &["body", "evidenceRefs", "comparisonId"])
         || !body["body"].as_str().is_some_and(|s| {
             !s.trim_matches(kelryvo_core::js_whitespace).is_empty()
                 && s.encode_utf16().count() <= 4000
@@ -63,7 +63,7 @@ pub async fn create(
     }
     let refs = if input.as_array().is_some_and(|refs| !refs.is_empty()) {
         let source = plans::source(&mut tx, project, false).await?;
-        if !plans::source_valid(&source)
+        if !kelryvo_core::plan::source_valid(&source)
             || p["source_binding_generation"] != source["source_binding_generation"]
         {
             return Err(conflict("FRESH_PLAN_REQUIRED"));

@@ -12,6 +12,7 @@ use axum::{
     http::StatusCode,
     response::{IntoResponse, Response},
 };
+use kelryvo_core::workspace::positive_revision;
 use kelryvo_core::{
     sha256,
     workspace::{self, files_digest},
@@ -25,16 +26,6 @@ pub mod origin;
 
 fn name(value: &str) -> bool {
     projects::text(value, 200) && !value.chars().any(|c| c <= '\u{1f}' || c == '\u{7f}')
-}
-pub fn positive_revision(value: &str) -> Option<i64> {
-    if value.starts_with('0') {
-        None
-    } else {
-        value
-            .parse::<i64>()
-            .ok()
-            .filter(|n| *n > 0 && n.to_string() == value)
-    }
 }
 
 async fn guard_read(

@@ -117,7 +117,7 @@ pub async fn request(
         "expectedBindingRevision",
     ];
     if !empty
-        && (!plans::keys(
+        && (!kelryvo_core::plan::keys(
             &body,
             &[
                 "idempotencyKey",
@@ -130,11 +130,11 @@ pub async fn request(
             (16..=128).contains(&s.len())
                 && s.bytes()
                     .all(|b| b.is_ascii_alphanumeric() || b"._:-".contains(&b))
-        }) || !plans::reason(&body["reason"], 1000)
+        }) || !kelryvo_core::plan::reason(&body["reason"], 1000)
             || expectations.iter().any(|k| body.get(k).is_some())
-                && (!plans::digest(&body["expectedIntentDigest"])
-                    || !plans::revision(&body["expectedAssignmentRevision"])
-                    || !plans::revision(&body["expectedBindingRevision"])))
+                && (!kelryvo_core::digest(&body["expectedIntentDigest"])
+                    || !kelryvo_core::plan::revision(&body["expectedAssignmentRevision"])
+                    || !kelryvo_core::plan::revision(&body["expectedBindingRevision"])))
     {
         return Err(invalid());
     }
@@ -158,7 +158,7 @@ pub async fn request(
     if !p["items"].is_array()
         || !p["offline_intent_envelope"].is_string()
         || !kelryvo_core::uuid(&p["approval_reference"])
-        || !plans::digest(&p["offline_intent_digest"])
+        || !kelryvo_core::digest(&p["offline_intent_digest"])
     {
         return Err(conflict("PLAN_NOT_REQUESTABLE"));
     }
@@ -173,7 +173,8 @@ pub async fn request(
     );
     let old:Option<Value>=sqlx::query_scalar("SELECT jsonb_build_object('id',id,'project_id',project_id,'plan_id',plan_id,'approval_reference',approval_reference,'intent_digest',intent_digest,'requester_id',requester_id,'reason',reason,'state',state,'readiness',readiness,'revision',revision,'created_at',created_at,'updated_at',updated_at,'payload_digest',payload_digest) FROM sf_execution_jobs WHERE organization_id=$1 AND requester_id=$2 AND idempotency_key=$3 FOR UPDATE").bind(ORG_UUID).bind(&auth.actor.id).bind(body["idempotencyKey"].as_str()).fetch_optional(&mut *tx).await?;
     if let Some(old) = old {
-        let original = plans::intent(&p).ok_or_else(|| conflict("IDEMPOTENCY_CONFLICT"))?;
+        let original = kelryvo_core::plan::retained_intent(&p)
+            .ok_or_else(|| conflict("IDEMPOTENCY_CONFLICT"))?;
         if old["payload_digest"] != body_digest
             || original["format"].as_u64().is_some_and(|n| n >= 3)
                 && (body["expectedIntentDigest"] != original["digest"]
@@ -332,7 +333,7 @@ pub async fn readiness(
         },
     );
     let project_current = source["archived_at"].is_null()
-        && plans::source_valid(&source)
+        && kelryvo_core::plan::source_valid(&source)
         && p["source_binding_generation"] == source["source_binding_generation"]
         && (i["format"].as_u64().is_some_and(|n| n < 3)
             || i["target"]["sourceBindingGeneration"] == source["source_binding_generation"]);

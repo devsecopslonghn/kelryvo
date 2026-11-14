@@ -4,6 +4,7 @@ use super::{
     Model, Route, api, array, button, configuration, document, e, escape, load_instance_project,
     project_lifecycle, s, segment, value,
 };
+use crate::browser::actions::Action;
 use serde_json::{Value, json};
 use wasm_bindgen::JsCast;
 use web_sys::{Element, Event, HtmlInputElement};
@@ -128,7 +129,7 @@ pub(super) fn fields(id: &str) -> Value {
 }
 pub(super) async fn action(
     model: &Model,
-    action: &str,
+    action: Action,
     id: &str,
     fields: Value,
 ) -> Result<(), String> {
@@ -139,7 +140,7 @@ pub(super) async fn action(
     if !matches!(model.borrow().route, Route::Instances) {
         return Err("Open Instances first.".into());
     }
-    if action == "refresh-instance-profiles" {
+    if action == Action::RefreshInstanceProfiles {
         return load_instance_project(model, &project).await;
     }
     if !manage(&model.borrow().data) {

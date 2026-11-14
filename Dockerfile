@@ -71,7 +71,7 @@ RUN --mount=type=cache,id=kelryvo-native-${TARGETARCH}-rust-1.99.1,target=/opt/k
     --mount=type=cache,id=kelryvo-sccache-${TARGETARCH},target=/opt/kelryvo-sccache,sharing=locked \
     --mount=type=cache,id=kelryvo-registry-rust-1.99.1,target=/opt/cargo/registry,sharing=locked \
     --mount=type=tmpfs,target=/tmp \
-    cargo build --release --locked -p kelryvo-cli -p kelryvo-server -p kelryvo-worker -p kelryvo-operator -p kelryvo-launcher \
+    cargo build --release --locked --features kelryvo-cli/repository -p kelryvo-cli -p kelryvo-server -p kelryvo-worker -p kelryvo-operator -p kelryvo-launcher \
     && target/release/kelryvo-repository toolchain --installed \
     && target/release/kelryvo build-dist /opt/native-distribution \
     && target/release/kelryvo verify-dist /opt/native-distribution \

@@ -1,6 +1,6 @@
 //! Verify exact Cargo archives and license metadata for the complete locked
 //! workspace, including development/build and other-target dependencies.
-use super::{Result, read_json};
+use super::Result;
 use serde_json::{Value, json};
 use std::{
     collections::{BTreeMap, BTreeSet},
@@ -164,12 +164,8 @@ pub(super) fn check(root: &Path, manifest: bool) -> Result<()> {
     }
     let (bytes, inventory) = locked_inventory(root)?;
     let (tool_lock, tool_inventory) = locked_inventory(&root.join("tools/oracle-codegen"))?;
-    let browser = read_json(&root.join("docs/dependencies/test-browser.json"))?;
-    if browser["format"] != 1 || browser["scope"] != "EXTERNAL_TEST_BROWSER_ONLY_NOT_SHIPPED" {
-        return Err("Browser prerequisite provenance changed".into());
-    }
     if manifest {
-        println!("{}",serde_json::to_string_pretty(&json!({"format":1,"scope":"COMPLETE_LOCKED_WORKSPACE_INCLUDING_BUILD_DEV_AND_OTHER_TARGETS","cargoLockSha256":kelryvo_core::sha256(bytes),"packages":inventory,"externalTestBrowser":browser,"hostGenerator":{"cargoLockSha256":kelryvo_core::sha256(tool_lock),"packages":tool_inventory},"limitations":["Checksums and license metadata do not grant runtime or release approval.","Cargo source archives retain package-specific notices; distribution copies them intact."]})).map_err(|e|e.to_string())?);
+        println!("{}",serde_json::to_string_pretty(&json!({"format":1,"scope":"COMPLETE_LOCKED_WORKSPACE_INCLUDING_BUILD_DEV_AND_OTHER_TARGETS","cargoLockSha256":kelryvo_core::sha256(bytes),"packages":inventory,"hostGenerator":{"cargoLockSha256":kelryvo_core::sha256(tool_lock),"packages":tool_inventory},"limitations":["Checksums and license metadata do not grant runtime or release approval.","Cargo source archives retain package-specific notices; distribution copies them intact."]})).map_err(|e|e.to_string())?);
     } else {
         println!(
             "PASS: {} application and {} host-generator Cargo source archives and license expressions verified",

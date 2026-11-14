@@ -1,20 +1,12 @@
-use super::{OTHER_TOKEN, TOKEN, execution_jobs::reference, request};
+use super::call;
+use super::{OTHER_TOKEN, TOKEN, execution_jobs::reference};
 use axum::{Router, http::StatusCode};
 use kelryvo_server::{AppState, ORG_UUID, router};
 use serde_json::{Value, json};
 use sqlx::PgPool;
 use uuid::Uuid;
 const APPROVER: &str = "4444444444444444444444444444444444444444444444444444444444444444";
-async fn call(
-    app: &Router,
-    token: &str,
-    method: &str,
-    path: &str,
-    body: Option<Value>,
-) -> (StatusCode, Value) {
-    let r = request(app, method, path, body, Some(token), None, None).await;
-    (r.0, r.2)
-}
+
 async fn readiness(app: &Router, plan: &Value) -> Value {
     let path = format!(
         "/api/plans/{}/execution-readiness",

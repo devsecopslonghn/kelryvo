@@ -141,7 +141,7 @@ pub async fn cancel(
         .as_u64()
         .filter(|n| *n <= 9_007_199_254_740_991)
         .ok_or_else(invalid)? as i64;
-    if !plans::keys(&body, &["expectedRevision"]) {
+    if !kelryvo_core::plan::keys(&body, &["expectedRevision"]) {
         return Err(invalid());
     }
     let mut tx = state.pool.begin().await?;

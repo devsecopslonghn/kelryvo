@@ -3,6 +3,7 @@ use super::{
     Model, Route, api, array, button, e, escape, form, load, load_instance_project, s, segment,
     value,
 };
+use crate::browser::actions::Action;
 use serde_json::{Value, json};
 fn project(model: &Model) -> Result<String, String> {
     match &model.borrow().route {
@@ -38,12 +39,12 @@ async fn refresh(model: &Model, p: &str, kind: &str, id: &str) -> Result<(), Str
 }
 pub(super) async fn action(
     model: &Model,
-    action: &str,
+    action: Action,
     id: &str,
     fields: Value,
 ) -> Result<(), String> {
     let p = project(model)?;
-    if action == "save-project-source" {
+    if action == Action::SaveProjectSource {
         api(
             model,
             "PUT",
@@ -57,7 +58,7 @@ pub(super) async fn action(
             "Source binding saved. Changed bindings require fresh target and plan evidence.".into();
         return Ok(());
     }
-    if action == "create-deployment-profile" {
+    if action == Action::CreateDeploymentProfile {
         let result = api(
             model,
             "POST",
@@ -76,7 +77,7 @@ pub(super) async fn action(
             "Deployment profile created. Configure target metadata before planning.".into();
         return Ok(());
     }
-    if action == "open-managed-connection" {
+    if action == Action::OpenManagedConnection {
         let (kind, id) = id.split_once('/').ok_or("Invalid connection")?;
         if !["profiles", "database-connections"].contains(&kind) {
             return Err("Invalid connection".into());
@@ -88,8 +89,8 @@ pub(super) async fn action(
         return Err("Refresh connection details".into());
     }
     let operation = match action {
-        "save-managed-configuration" => "configuration",
-        "managed-lifecycle" => "lifecycle",
+        Action::SaveManagedConfiguration => "configuration",
+        Action::ManagedLifecycle => "lifecycle",
         _ => "preflight",
     };
     api(

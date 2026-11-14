@@ -14,7 +14,10 @@ impl ManagedAuthority {
         d: &Dispatch,
     ) -> Result<Option<DispatchClaim>> {
         self.active(p)?;
-        if self.claimed.contains(&d.ordinal) || d.ordinal == 0 || !plans::digest(&json!(d.digest)) {
+        if self.claimed.contains(&d.ordinal)
+            || d.ordinal == 0
+            || !kelryvo_core::digest(&json!(d.digest))
+        {
             return Ok(None);
         }
         let raw = self.ledger()?;
@@ -142,7 +145,7 @@ impl ManagedAuthority {
                 || receipt["statement_digest"].as_str()
                     != r.statement_digests.get(skip + n).map(String::as_str)
                 || receipt["central_evidence_digest"] != i.central_evidence_digest
-                || !plans::digest(&receipt["receipt_digest"])
+                || !kelryvo_core::digest(&receipt["receipt_digest"])
                 || ack["ordinal"] != receipt["ordinal"]
                 || ack["statement_digest"] != receipt["statement_digest"]
             {

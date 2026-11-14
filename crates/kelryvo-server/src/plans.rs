@@ -4,7 +4,6 @@ use crate::{
     ApiError, ApiResult, AppState, ORG, ORG_UUID,
     auth::{self, Authenticated},
     conflict, currentness, invalid, not_found, projects, releases, targets, validations,
-    workspace::positive_revision,
 };
 use axum::{
     Json,
@@ -12,7 +11,11 @@ use axum::{
     http::StatusCode,
 };
 use chrono::{SecondsFormat, Utc};
-use kelryvo_core::intent;
+use kelryvo_core::{
+    digest, intent,
+    plan::{keys, revision, source_valid},
+    workspace::positive_revision,
+};
 use serde::Deserialize;
 use serde_json::{Value, json};
 use sqlx::PgConnection;
@@ -22,51 +25,7 @@ pub const SELECT: &str = include_str!("../plan-projection.sql");
 pub fn id(v: &Value) -> Result<Uuid, ApiError> {
     projects::id(v.as_str().ok_or_else(invalid)?).map_err(|_| invalid())
 }
-pub fn keys(v: &Value, allowed: &[&str]) -> bool {
-    v.as_object()
-        .is_some_and(|o| o.keys().all(|k| allowed.contains(&k.as_str())))
-}
-pub fn text(v: &Value, max: usize) -> bool {
-    v.as_str().is_some_and(|s| {
-        projects::text(s, max) && !s.chars().any(|c| c <= '\u{1f}' || c == '\u{7f}')
-    })
-}
-pub fn reason(v: &Value, max: usize) -> bool {
-    v.as_str().is_some_and(|s|projects::text(s,max) && !s.chars().any(|c|matches!(c,'\u{0}'..='\u{8}'|'\u{b}'|'\u{c}'|'\u{e}'..='\u{1f}'|'\u{7f}'..='\u{9f}')))
-}
-pub fn revision(v: &Value) -> bool {
-    v.as_str()
-        .is_some_and(|s| s == "0" || positive_revision(s).is_some())
-}
-pub fn digest(v: &Value) -> bool {
-    v.as_str().is_some_and(|s| {
-        s.len() == 64
-            && s.bytes()
-                .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
-    })
-}
-pub fn source_valid(p: &Value) -> bool {
-    static FOLDER: std::sync::LazyLock<regex::Regex> = std::sync::LazyLock::new(|| {
-        regex::Regex::new(r"\A[A-Za-z0-9_-]+(?:/[A-Za-z0-9_-]+)*\z").expect("folder")
-    });
-    text(&p["source_repository_id"], 200)
-        && p["source_folder"]
-            .as_str()
-            .is_some_and(|s| s.len() <= 200 && FOLDER.is_match(s))
-        && p["source_binding_generation"]
-            .as_str()
-            .and_then(positive_revision)
-            .is_some()
-}
-pub fn intent(row: &Value) -> Option<Value> {
-    intent::verify(
-        row["offline_intent_envelope"].as_str()?,
-        row["offline_intent_digest"].as_str()?,
-        Some(
-            &json!({"organizationId":row["organization_id"],"projectId":row["project_id"],"requesterId":row["author_id"],"releaseId":row["release_id"],"profileId":row["profile_id"]}),
-        ),
-    )
-}
+
 pub async fn load(
     tx: &mut PgConnection,
     plan: Uuid,
@@ -103,7 +62,7 @@ pub async fn source(
         .ok_or_else(not_found)
 }
 pub async fn lock(tx: &mut PgConnection, row: &Value) -> Result<(), ApiError> {
-    if let Some(facts) = intent(row)
+    if let Some(facts) = kelryvo_core::plan::retained_intent(row)
         && facts["format"].as_u64().is_some_and(|f| f >= 3)
     {
         targets::lock(tx, id(&facts["target"]["bindingId"])?).await?;
@@ -140,7 +99,7 @@ pub async fn project(tx: &mut PgConnection, row: &Value) -> Result<Value, ApiErr
         mapped["currentness"] = json!({"state":"STALE","reasons":reasons,"checkedAt":Utc::now().to_rfc3339_opts(SecondsFormat::Millis,true)});
     }
     if mapped["offlineIntent"]["validation"].is_object()
-        && match intent(row) {
+        && match kelryvo_core::plan::retained_intent(row) {
             Some(facts) => validations::for_intent(tx, &facts).await.is_err(),
             None => true,
         }
@@ -402,7 +361,7 @@ pub async fn statement_envelope(
     let mut tx = state.pool.begin().await?;
     projects::guard_read(&mut tx, &auth, project).await?;
     let row = load(&mut tx, plan, Some(project), false).await?;
-    let facts = intent(&row)
+    let facts = kelryvo_core::plan::retained_intent(&row)
         .filter(|f| f["digest"] == q.intent_digest)
         .ok_or_else(|| conflict("FRESH_PLAN_REQUIRED"))?;
     let statements = facts["statements"]

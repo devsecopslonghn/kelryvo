@@ -1,6 +1,7 @@
 //! Project audit pages use server-issued cursors bound to the project and action.
 //! Display reason summaries only, never arbitrary retained facts or credentials.
 use super::{Model, Route, api, array, button, e, escape, s, segment};
+use crate::browser::actions::Action;
 use serde_json::{Value, json};
 
 async fn read(
@@ -69,7 +70,7 @@ pub(super) async fn load_facts(
     }
 }
 
-pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), String> {
+pub(super) async fn action(model: &Model, action: Action, id: &str) -> Result<(), String> {
     let Route::Project(project, tab) = model.borrow().route.clone() else {
         return Err("Open a project audit trail first.".into());
     };
@@ -78,7 +79,7 @@ pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), 
     }
     let (filter, cursor, retained) = {
         let state = model.borrow();
-        let filter = if action == "filter-audit" {
+        let filter = if action == Action::FilterAudit {
             if id != "ALL"
                 && !array(&state.data["auditPage"], "actions")
                     .iter()
@@ -93,7 +94,7 @@ pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), 
                 .unwrap_or("ALL")
                 .to_owned()
         };
-        if action == "older-audit" {
+        if action == Action::OlderAudit {
             (
                 filter,
                 Some(

@@ -192,12 +192,13 @@ companion revision `0d11a258302f2011d8952dae530172a8f08525dd`. Validate a fresh
 private candidate without changing that checkout:
 
 ```sh
-cargo run --locked -p kelryvo-test-tools --bin kelryvo-test -- --helm-only /absolute/kelryvo-helm-chart
+cargo run --locked -p kelryvo-cli --bin kelryvo -- chart-check /absolute/native-chart-candidate --native
 ```
 
-The command verifies archived files against their Git blob identities, applies
-the patch only in `.cache/`, and runs all retained chart checks plus the native
-contracts. It does not install a chart, create Secrets/PVCs or qualify Oracle.
+Prepare a disposable copy of the pinned companion revision and apply the patch
+there before running the command. `chart-check` renders and validates that
+candidate; it does not prepare a checkout, install a chart, create Secrets/PVCs or
+qualify Oracle. Preserve the source revision and patch identity with the result.
 
 For a separately reviewed native cutover, select a matching Rust image containing
 `installation-init-state`, set `oracleRuntime.native=true`, and supply explicit

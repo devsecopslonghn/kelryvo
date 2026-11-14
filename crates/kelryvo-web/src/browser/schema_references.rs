@@ -1,6 +1,7 @@
 //! Read-only assigned catalog declarations. Reference/server UUIDs are not
 //! Oracle physical identity and confer no binding, approval or execution right.
 use super::{Model, Route, api, array, button, e, escape, s, segment};
+use crate::browser::actions::Action;
 use serde_json::Value;
 use std::collections::BTreeMap;
 
@@ -46,7 +47,7 @@ pub(super) async fn load_facts(
         }
     }
 }
-pub(super) async fn action(model: &Model, action: &str) -> Result<(), String> {
+pub(super) async fn action(model: &Model, action: Action) -> Result<(), String> {
     let Route::Project(project, tab) = model.borrow().route.clone() else {
         return Err("Open a project's schema references first.".into());
     };
@@ -55,7 +56,7 @@ pub(super) async fn action(model: &Model, action: &str) -> Result<(), String> {
     }
     let (after, retained) = {
         let state = model.borrow();
-        if action == "more-schema-references" {
+        if action == Action::MoreSchemaReferences {
             (
                 Some(
                     state.data["referencePage"]["nextCursor"]

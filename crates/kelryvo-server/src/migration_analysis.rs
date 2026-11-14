@@ -133,10 +133,10 @@ pub async fn read(
     let project = projects::id(&project).map_err(|_| invalid())?;
     let plan = projects::id(&plan).map_err(|_| invalid())?;
     let Query(q) = query.map_err(|_| invalid())?;
-    if !plans::digest(&json!(q.intent_digest))
+    if !kelryvo_core::digest(&json!(q.intent_digest))
         || q.analysis_digest
             .as_ref()
-            .is_some_and(|d| !plans::digest(&json!(d)))
+            .is_some_and(|d| !kelryvo_core::digest(&json!(d)))
     {
         return Err(invalid());
     }

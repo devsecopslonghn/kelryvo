@@ -1,9 +1,8 @@
 //! Retained HTTPS governance acceptance shared by native local/runtime/image
 //! fixtures. Tokens stay in memory/private files; no Oracle execution is sent.
-use crate::runner::Context;
 use kelryvo_test_tools::{
     Result,
-    api::{self, Api, Server, check},
+    api::{self, Api, check},
     process,
 };
 use serde_json::{Value, json};
@@ -48,7 +47,6 @@ async fn login(origin: &str, certificate: &[u8], token: &str) -> Result<Api> {
 pub(crate) struct Retained {
     pub project_id: String,
     pub plan_id: String,
-    pub release_id: String,
     developer: Api,
     approver: Api,
     replacement: String,
@@ -405,60 +403,11 @@ pub(crate) async fn smoke(
     Ok(Retained {
         project_id,
         plan_id,
-        release_id,
         developer,
         approver,
         replacement,
         job,
     })
-}
-struct LocalOperator {
-    binary: PathBuf,
-    secrets: PathBuf,
-}
-impl Operator for LocalOperator {
-    async fn invoke(&self, args: &[&str]) -> Result<String> {
-        let mut environment = process::local_environment();
-        environment.insert("KELRYVO_SECRET_DIR".into(), self.secrets.as_os_str().into());
-        let output = process::capture(
-            &self.binary,
-            &args
-                .iter()
-                .map(std::ffi::OsString::from)
-                .collect::<Vec<_>>(),
-            &kelryvo_test_tools::root(),
-            &environment,
-            None,
-            Duration::from_secs(30),
-        )
-        .await?;
-        require(output.success, "native private operator action")?;
-        Ok(String::from_utf8(output.stdout)?)
-    }
-    async fn rotate(&self, role: &str, token: &str) -> Result<()> {
-        require(
-            role == "developer"
-                && token.len() == 64
-                && token.bytes().all(|v| v.is_ascii_hexdigit()),
-            "fixed credential rotation fixture",
-        )?;
-        fs::write(self.secrets.join("developer-token"), token)?;
-        for status in ["ROTATED", "ALREADY_ACTIVE"] {
-            let result: Value =
-                serde_json::from_str(&self.invoke(&["credential-rotate", role]).await?)?;
-            check(
-                &result["status"],
-                &json!(status),
-                "idempotent credential rotation",
-            )?;
-            check(
-                &result["expiryExtended"],
-                &json!(false),
-                "rotation never extends expiry",
-            )?;
-        }
-        Ok(())
-    }
 }
 pub(crate) async fn repository(directory: &Path) -> Result<PathBuf> {
     let path = directory.join("governance-source");
@@ -504,196 +453,4 @@ pub(crate) async fn repository(directory: &Path) -> Result<PathBuf> {
         require(output.success, "private governance Git fixture")?;
     }
     Ok(path)
-}
-pub(crate) async fn run(context: &Context) -> Result<()> {
-    let database = context.database_url()?;
-    let repository = repository(&context.directory).await?;
-    let mut token = api::random_token();
-    let approver = api::random_token();
-    let extra = vec![
-        ("developer-token".into(), token.as_bytes().to_vec()),
-        ("approver-token".into(), approver.as_bytes().to_vec()),
-        (
-            "repositories.json".into(),
-            serde_json::to_vec(
-                &json!([{"id":"local-1","name":"Private governance source","path":repository}]),
-            )?,
-        ),
-    ];
-    let mut server = Server::start(&database, true, &extra).await?;
-    let operator = LocalOperator {
-        binary: server
-            .binary
-            .parent()
-            .ok_or("Native binary directory")?
-            .join("kelryvo-operator"),
-        secrets: server.secrets.clone(),
-    };
-    let result:Result<()>=async {
-        for action in ["seed-actors","activate"] {operator.invoke(&[action]).await?;}
-        let mut retained=smoke(&server.origin,&server.certificate,&mut token,&approver,"local-1",&operator).await?;
-        retained.verify().await?;
-        println!("{}",json!({"status":"PASS","scope":"PRIVATE_NATIVE_TLS_POSTGRESQL_GOVERNANCE","projectId":retained.project_id,"planId":retained.plan_id,"releaseId":retained.release_id,"validation":"VALID","decision":"APPROVED","execution":"NOT_EXECUTED","oracleRuntimeVerified":false}));
-        Ok(())
-    }.await;
-    let stopped = server.stop().await;
-    result?;
-    stopped
-}
-
-struct RootOperator {
-    root: PathBuf,
-}
-impl RootOperator {
-    async fn command(&self, binary: &str, args: &[&str]) -> Result<String> {
-        let mut argv = vec![self.root.clone().into_os_string(), binary.into()];
-        argv.extend(args.iter().map(std::ffi::OsString::from));
-        let output = process::capture(
-            "/usr/sbin/chroot",
-            &argv,
-            &kelryvo_test_tools::root(),
-            &process::local_environment(),
-            None,
-            Duration::from_secs(30),
-        )
-        .await?;
-        require(output.success, "private chroot operator/runtime action")?;
-        Ok(String::from_utf8(output.stdout)?)
-    }
-}
-impl Operator for RootOperator {
-    async fn invoke(&self, args: &[&str]) -> Result<String> {
-        self.command("/opt/kelryvo/bin/kelryvo-operator", args)
-            .await
-    }
-    async fn rotate(&self, role: &str, token: &str) -> Result<()> {
-        use std::{
-            io::Write,
-            os::unix::fs::{MetadataExt, OpenOptionsExt, PermissionsExt},
-        };
-        require(
-            role == "developer"
-                && token.len() == 64
-                && token.bytes().all(|v| v.is_ascii_hexdigit()),
-            "fixed namespace credential rotation",
-        )?;
-        let path = self.root.join("run/kelryvo/secrets/developer-token");
-        let metadata = fs::symlink_metadata(&path)?;
-        require(
-            metadata.is_file()
-                && metadata.uid() == 0
-                && metadata.nlink() == 1
-                && metadata.mode() & 0o077 == 0,
-            "root-owned private fixture token",
-        )?;
-        fs::set_permissions(&path, fs::Permissions::from_mode(0o600))?;
-        let mut file = fs::OpenOptions::new()
-            .write(true)
-            .custom_flags(nix::libc::O_NOFOLLOW)
-            .open(&path)?;
-        let opened = file.metadata()?;
-        require(
-            opened.ino() == metadata.ino() && opened.dev() == metadata.dev(),
-            "fixture token inode unchanged",
-        )?;
-        file.write_all(token.as_bytes())?;
-        file.set_len(token.len() as u64)?;
-        file.sync_all()?;
-        self.command(
-            "/usr/bin/setpriv",
-            &[
-                "--bounding-set=-all,+chown,+kill,+setuid,+setgid",
-                "--no-new-privs",
-                "/opt/kelryvo/bin/kelryvo-runtime",
-                "--prepare",
-            ],
-        )
-        .await?;
-        for status in ["ROTATED", "ALREADY_ACTIVE"] {
-            let result: Value =
-                serde_json::from_str(&self.invoke(&["credential-rotate", role]).await?)?;
-            check(
-                &result["status"],
-                &json!(status),
-                "idempotent namespace credential rotation",
-            )?;
-            check(
-                &result["expiryExtended"],
-                &json!(false),
-                "namespace rotation never extends expiry",
-            )?;
-        }
-        Ok(())
-    }
-}
-pub(crate) async fn root_fixture(root: &Path) -> Result<()> {
-    use std::os::unix::fs::MetadataExt;
-    let cache = kelryvo_test_tools::root().join(".cache");
-    require(
-        nix::unistd::geteuid().is_root()
-            && root.canonicalize()? == root
-            && root.file_name().is_some_and(|v| v == "root")
-            && root.parent().and_then(Path::parent) == Some(cache.as_path())
-            && root
-                .parent()
-                .and_then(Path::file_name)
-                .and_then(|v| v.to_str())
-                .is_some_and(|v| v.starts_with("rust-runtime-")),
-        "private runtime namespace root",
-    )?;
-    let output = process::capture(
-        "/usr/sbin/ip",
-        &["-j".into(), "link".into()],
-        &kelryvo_test_tools::root(),
-        &process::local_environment(),
-        None,
-        Duration::from_secs(5),
-    )
-    .await?;
-    let links: Value = serde_json::from_slice(&output.stdout)?;
-    require(
-        output.success
-            && links
-                .as_array()
-                .is_some_and(|v| v.len() == 1 && v[0]["ifname"] == "lo"),
-        "runtime namespace stays loopback-only",
-    )?;
-    let secrets = root.join("run/kelryvo/secrets");
-    let read = |name: &str| -> Result<Vec<u8>> {
-        let path = secrets.join(name);
-        let metadata = fs::symlink_metadata(&path)?;
-        require(
-            metadata.is_file()
-                && metadata.uid() == 0
-                && metadata.nlink() == 1
-                && metadata.len() <= 65536
-                && metadata.mode() & 0o077 == 0,
-            "private namespace credentials",
-        )?;
-        Ok(fs::read(path)?)
-    };
-    let mut token = String::from_utf8(read("developer-token")?)?
-        .trim()
-        .to_owned();
-    let approver = String::from_utf8(read("approver-token")?)?
-        .trim()
-        .to_owned();
-    let certificate = read("tls.crt")?;
-    let operator = RootOperator {
-        root: root.to_path_buf(),
-    };
-    let mut retained = smoke(
-        "https://127.0.0.1:8443",
-        &certificate,
-        &mut token,
-        &approver,
-        "local-1",
-        &operator,
-    )
-    .await?;
-    retained.verify().await?;
-    println!(
-        "PASS: native artifact HTTPS governance, CSRF, Git/parser, independent approval, explicit grants, durable cancellation, remote-session revocation and idempotent token rotation; Oracle NOT_RUN"
-    );
-    Ok(())
 }

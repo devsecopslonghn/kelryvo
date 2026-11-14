@@ -22,27 +22,19 @@ path = "src/container_probe_main.rs"
 [dependencies]
 kelryvo-fixtures = { path = "../kelryvo-fixtures" }
 kelryvo-core = { path = "../kelryvo-core" }
-serde.workspace = true
 serde_json.workspace = true
 chrono.workspace = true
 regex.workspace = true
-base64.workspace = true
-sha2.workspace = true
 openssl.workspace = true
+url = "2"
 zeroize.workspace = true
 tempfile = "3.27"
 rand = "0.8"
-oracle = "=0.6.3"
 reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "stream", "json"] }
 tokio = { version = "1", features = ["rt-multi-thread", "macros", "time", "net", "io-util", "process", "signal", "sync"] }
 sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio-rustls", "postgres", "json", "uuid", "chrono"] }
 uuid = { version = "1", features = ["v4", "serde"] }
-url = "2"
-tungstenite = { version = "=0.28.0", default-features = false, features = ["handshake"] }
-yaml-rust2 = { version = "=0.10.4", default-features = false }
-zip = { version = "=9.4.1", default-features = false, features = ["deflate-flate2-zlib-rs"] }
-nix = { version = "0.30", default-features = false, features = ["signal", "process", "user", "fs", "mount", "sched", "resource", "hostname", "time", "term", "poll"] }
-caps = "0.5"
+nix = { version = "0.30", default-features = false, features = ["signal", "process", "user", "fs"] }
 
 [lints]
 workspace = true

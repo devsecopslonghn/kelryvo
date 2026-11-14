@@ -1,19 +1,10 @@
-use super::{OTHER_TOKEN, TOKEN, plans::APPROVER, request, target_reference};
+use super::call;
+use super::{OTHER_TOKEN, TOKEN, plans::APPROVER, target_reference};
 use axum::{Router, http::StatusCode};
 use serde_json::{Value, json};
 use sqlx::PgPool;
 use uuid::Uuid;
 
-async fn call(
-    app: &Router,
-    token: &str,
-    method: &str,
-    path: &str,
-    body: Option<Value>,
-) -> (StatusCode, Value) {
-    let r = request(app, method, path, body, Some(token), None, None).await;
-    (r.0, r.2)
-}
 pub async fn run(pool: &PgPool, app: &Router, project: Uuid, plan: &Value, comparison: &Value) {
     let id = plan["id"].as_str().expect("plan");
     let path = format!("/api/projects/{project}/plans/{id}/comments");

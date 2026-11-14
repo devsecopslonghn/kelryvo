@@ -244,7 +244,7 @@ impl AdmissionStore {
             let Some(evidence) = evidence else {
                 return Ok(None);
             };
-            if !plans::digest(&evidence["identity_digest"]) {
+            if !kelryvo_core::digest(&evidence["identity_digest"]) {
                 return Ok(None);
             }
             let physical = kelryvo_core::evidence::physical_target_key(&evidence["identity"]);
@@ -494,7 +494,7 @@ pub fn snapshot_observation(value: &Value, migrations: &Value) -> Option<Value> 
             "hostWitnessDigest",
         ]
         .iter()
-        .any(|k| !plans::digest(&value[*k]))
+        .any(|k| !kelryvo_core::digest(&value[*k]))
         || value["pendingStatementDigests"].as_array()?.len() > MAX_PLAN_STATEMENTS
     {
         return None;

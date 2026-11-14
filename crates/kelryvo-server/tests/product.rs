@@ -124,6 +124,17 @@ async fn request(
     (status, headers, value)
 }
 
+async fn call(
+    app: &Router,
+    token: &str,
+    method: &str,
+    path: &str,
+    body: Option<Value>,
+) -> (StatusCode, Value) {
+    let (status, _, body) = request(app, method, path, body, Some(token), None, None).await;
+    (status, body)
+}
+
 async fn seed(pool: &PgPool, id: &str, token: &str) {
     sqlx::query("INSERT INTO sf_local_actors(id,organization_id,role,display_name) VALUES($1,$2,'developer',$1)").bind(id).bind(ORG_UUID).execute(pool).await.expect("seed actor");
     sqlx::query("WITH issued AS (SELECT clock_timestamp() AS ts) INSERT INTO sf_local_credentials(actor_id,token_sha256,issued_at,expires_at) SELECT $1,$2,ts,ts+interval '24 hours' FROM issued").bind(id).bind(kelryvo_core::sha256(token)).execute(pool).await.expect("seed credential");
@@ -218,6 +229,31 @@ async fn native_product_keeps_authority_audit_and_browser_session_contracts() {
         "creation must not implicitly grant membership"
     );
     sqlx::query("INSERT INTO sf_project_grants(id,organization_id,project_id,actor_id,grant_os_uid) VALUES($1,$2,$3,'rust-developer',1000)").bind(Uuid::new_v4()).bind(ORG_UUID).bind(project).execute(&pool).await.expect("operator fixture grant");
+    // A read must reuse its checked-out connection, even when the pool is full.
+    let single = sqlx::postgres::PgPoolOptions::new()
+        .max_connections(1)
+        .acquire_timeout(std::time::Duration::from_millis(250))
+        .connect(&url)
+        .await
+        .expect("single-connection fixture");
+    let bounded = router(
+        AppState::new(single.clone(), true),
+        ".cache/nonexistent-rust-web".into(),
+    );
+    for (path, token, expected) in [
+        ("/api/projects", TOKEN, StatusCode::OK),
+        (project_path.as_str(), TOKEN, StatusCode::OK),
+        (project_path.as_str(), OTHER_TOKEN, StatusCode::NOT_FOUND),
+    ] {
+        let response = tokio::time::timeout(
+            std::time::Duration::from_secs(2),
+            request(&bounded, "GET", path, None, Some(token), None, None),
+        )
+        .await
+        .expect("project reads must not exhaust their own pool");
+        assert_eq!(response.0, expected, "{}: {}", path, response.2);
+    }
+    single.close().await;
     let loaded = request(&app, "GET", &project_path, None, Some(TOKEN), None, None).await;
     assert_eq!(loaded.0, StatusCode::OK, "{}", loaded.2);
     assert_eq!(loaded.2["project"]["name"], "Native");

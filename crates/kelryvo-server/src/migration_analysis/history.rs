@@ -82,7 +82,7 @@ async fn verified(
         || receipts.iter().enumerate().any(|(n, r)| {
             r["ordinal"] != n + 1
                 || r["statement_digest"] != expected[n]
-                || !plans::digest(&r["receipt_digest"])
+                || !kelryvo_core::digest(&r["receipt_digest"])
                 || r["central_evidence_digest"] != p["central_evidence_digest"]
                 || acks[n]["ordinal"] != n + 1
                 || acks[n]["statement_digest"] != expected[n]

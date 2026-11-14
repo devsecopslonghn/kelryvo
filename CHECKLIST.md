@@ -1,12 +1,12 @@
 # Kelryvo — current checklist
 
-Updated 2026-11-13 (Asia/Saigon). Keep only unfinished work here; remove completed
+Updated 2026-11-14 (Asia/Saigon). Keep only unfinished work here; remove completed
 entries and their run journals. Preserve pending IDs and completion criteria.
 
 The application is Rust under `crates/`, including the API, Oracle runtime,
-operators, parser and WASM UI. Authored development, browser, namespace, container
-and Oracle-lab drivers also run in Rust. Cargo aliases and native CI entrypoints
-cover repository tooling. Frozen initializer bytes remain compatibility data.
+operators, parser and WASM UI. Development checks use a small native PostgreSQL/contract runner and exact-image
+release checks. Browser/host/lab orchestration has been removed; live qualification
+remains pending. See README.md for architecture, build and debugging commands. Frozen initializer bytes remain compatibility data.
 SQL, HTML/CSS, grammar inputs, configuration and licenses remain required.
 The rewrite is not release-qualified. Published customer deployments retain their
 own source/image scope; see [CUSTOMER-GUIDE.md](CUSTOMER-GUIDE.md).
@@ -64,9 +64,9 @@ Use the smallest relevant build, smoke and targeted checks; stop repeating them
 once they pass unless a new change or unresolved concern justifies another run.
 
 Keep configured CI and approval gates. `check.yml`, `containers.yml` and the
-existing CodeQL checks remain publication prerequisites. `product.yml`,
-`parser.yml` and `regression.yml` remain independent advisory runs. Missing
-optional fixtures/logs or environment failures do not block unrelated delivery;
+existing CodeQL checks remain publication prerequisites. Redundant scheduled
+product/parser/regression workflows were removed; affected source groups run in
+`check.yml`. Missing optional fixtures/logs or environment failures do not block unrelated delivery;
 confirmed security, authorization, data-integrity, startup or artifact-provenance
 failures block the affected behavior. Report failed, skipped and unrun checks
 accurately.
@@ -112,19 +112,14 @@ browser storage or command arguments.
 
 Use the pinned Rust toolchain, libffi development headers, PostgreSQL tools and Git. WASM builds
 also require `wasm32-unknown-unknown` and `wasm-bindgen-cli 0.2.130`.
-All lab entrypoints are native and remain opt-in under separate
-authorization and disposable-lab preparation.
-Oracle's reviewed PKI Java utility and vendor container bootstrap remain
-third-party lab prerequisites; their vendor code is not authored test tooling.
-The current Docker bootstrap/probe exports and installed-Oracle/lost-ACK flows
-remain unrun locally. Their configured CI checks and qualification requirements
-remain intact; the tooling migration transfers no earlier artifact's acceptance.
+Live Oracle qualification remains separately authorized work and requires a
+secret-free disposable-lab attestation. The former lab automation is not retained.
+Its removal transfers no earlier artifact's acceptance. Native container/probe
+and two-platform qualification remain required for a nominated release.
 
 ```sh
 cargo fetch --locked
 cargo fetch --locked --manifest-path tools/oracle-codegen/Cargo.toml
-cargo repository status
-cargo repository next
 cargo check-delivery
 cargo build --workspace --locked
 cargo build-web
@@ -143,10 +138,12 @@ workload scope, not a latency SLA, full grammar equivalence or Oracle acceptance
 Native development: `target/debug/kelryvo dev`. Operator/pilot usage:
 `target/debug/kelryvo-operator --help` and `target/debug/kelryvo pilot --help`.
 Opt-in native integration uses `cargo run --locked -p kelryvo-test-tools --bin
-kelryvo-test --`. Add `--browser-product-only` for focused product browser checks.
+kelryvo-test --`. Select `--ci-tests server|worker|operator|tools|core-parser` for
+the affected contract group. The checks create and clean up private fixtures.
 Integration runners create private PostgreSQL fixtures; use an appropriate
 disposable local environment.
-Installed Oracle checks require a separately authorized, prepared fixture.
+Live Oracle checks require a separately authorized, prepared fixture and a
+reviewed qualification procedure; no automated lab driver remains in this repo.
 
 Keep temporary logs, screenshots, reports and build outputs in ignored `.cache/`
 or output directories. Keep one reusable build target and bounded fixtures.

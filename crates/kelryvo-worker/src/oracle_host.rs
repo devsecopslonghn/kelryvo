@@ -15,7 +15,6 @@ use kelryvo_runtime::oracle::{
     ledger::{Append, TargetLedger, target_ledger_id, v1_stream_ids},
     mutex::TargetMutex,
 };
-use kelryvo_server::plans;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::{
@@ -278,7 +277,7 @@ fn owner(s: &str) -> bool {
             .all(|(i, b)| b.is_ascii_uppercase() || i > 0 && (b.is_ascii_digit() || b == b'_'))
 }
 fn digest(s: &str) -> bool {
-    plans::digest(&json!(s))
+    kelryvo_core::digest(&json!(s))
 }
 fn attestation_valid(a: &Attestation, p: &Permit) -> bool {
     let expected = [

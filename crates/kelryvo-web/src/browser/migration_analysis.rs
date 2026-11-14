@@ -1,10 +1,9 @@
 //! Incremental, retained-evidence preview. Pages never become execution input.
-use super::{Model, Route, api, array, button, e, s, segment};
+use super::{Model, api, array, button, e, s, segment};
+use crate::browser::actions::Action;
 use serde_json::{Value, json};
-pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), String> {
-    let Route::Project(project, _) = model.borrow().route.clone() else {
-        return Err("Select a project".into());
-    };
+pub(super) async fn action(model: &Model, action: Action, id: &str) -> Result<(), String> {
+    let project = super::project_id(model)?;
     let plan = array(&model.borrow().data, "plans")
         .iter()
         .find(|p| p["id"] == id)
@@ -17,7 +16,7 @@ pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), 
         segment(id),
         segment(s(&plan["offlineIntent"]["digest"]))
     );
-    if action == "more-migration-sql" {
+    if action == Action::MoreMigrationSql {
         let next = previous["nextOrdinal"]
             .as_u64()
             .ok_or("No further SQL page")?;
@@ -58,7 +57,7 @@ pub(super) async fn action(model: &Model, action: &str, id: &str) -> Result<(), 
     {
         return Err("Migration analysis unavailable".into());
     }
-    if action == "more-migration-sql" {
+    if action == Action::MoreMigrationSql {
         if result["analysisDigest"] != previous["analysisDigest"] {
             state.data["migrationAnalyses"]
                 .as_object_mut()

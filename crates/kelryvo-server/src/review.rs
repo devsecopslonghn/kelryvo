@@ -38,10 +38,10 @@ pub async fn assign(
     Json(body): Json<Value>,
 ) -> ApiResult<Value> {
     let (project, plan) = (projects::id(&project)?, projects::id(&plan)?);
-    if !plans::keys(&body, &["reviewerId", "expectedRevision"])
+    if !kelryvo_core::plan::keys(&body, &["reviewerId", "expectedRevision"])
         || body.get("reviewerId").is_none()
-        || !(body["reviewerId"].is_null() || plans::text(&body["reviewerId"], 200))
-        || !plans::revision(&body["expectedRevision"])
+        || !(body["reviewerId"].is_null() || kelryvo_core::plan::text(&body["reviewerId"], 200))
+        || !kelryvo_core::plan::revision(&body["expectedRevision"])
     {
         return Err(invalid());
     }

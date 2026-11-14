@@ -78,7 +78,7 @@ pub async fn authorize_read(
 ) -> Result<(), ApiError> {
     let mut connection = state.pool.acquire().await?;
     if auth::access_mode_connection(&mut connection).await? == "ENFORCED"
-        && sqlx::query("SELECT 1 FROM sf_project_grants g JOIN sf_local_actors a ON a.id=g.actor_id AND a.organization_id=g.organization_id JOIN sf_local_credentials c ON c.actor_id=a.id AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp() WHERE g.organization_id=$1 AND g.project_id=$2 AND g.actor_id=$3 AND g.revoked_at IS NULL AND a.role IN ('developer','approver') LIMIT 1").bind(ORG_UUID).bind(project).bind(&auth.actor.id).fetch_optional(&state.pool).await?.is_none() { return Err(not_found()); }
+        && sqlx::query("SELECT 1 FROM sf_project_grants g JOIN sf_local_actors a ON a.id=g.actor_id AND a.organization_id=g.organization_id JOIN sf_local_credentials c ON c.actor_id=a.id AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp() WHERE g.organization_id=$1 AND g.project_id=$2 AND g.actor_id=$3 AND g.revoked_at IS NULL AND a.role IN ('developer','approver') LIMIT 1").bind(ORG_UUID).bind(project).bind(&auth.actor.id).fetch_optional(&mut *connection).await?.is_none() { return Err(not_found()); }
     Ok(())
 }
 
@@ -130,7 +130,7 @@ pub async fn list(State(state): State<AppState>, auth: Authenticated) -> ApiResu
     let mut connection = state.pool.acquire().await?;
     let mode = auth::access_mode_connection(&mut connection).await?;
     let rows: Vec<Value> = sqlx::query_scalar("SELECT to_jsonb(p) FROM sf_projects p WHERE p.organization_id=$1 AND ($2<>'ENFORCED' OR EXISTS(SELECT 1 FROM sf_project_grants g WHERE g.project_id=p.id AND g.organization_id=p.organization_id AND g.actor_id=$3 AND g.revoked_at IS NULL)) ORDER BY p.created_at,p.id")
-        .bind(ORG_UUID).bind(&mode).bind(&auth.actor.id).fetch_all(&state.pool).await?;
+        .bind(ORG_UUID).bind(&mode).bind(&auth.actor.id).fetch_all(&mut *connection).await?;
     Ok(Json(
         json!({"accessMode":mode,"projects":rows.iter().map(map_project).collect::<Vec<_>>()}),
     ))

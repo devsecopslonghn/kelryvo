@@ -6,22 +6,22 @@ mod fixtures {
         "/../../tests/support/contracts.rs"
     ));
 }
-pub mod account;
-pub mod assignments;
+pub(crate) mod account;
+pub(crate) mod assignments;
 pub mod auth;
-pub mod comments;
-pub mod comparisons;
+pub(crate) mod comments;
+pub(crate) mod comparisons;
 pub mod config;
-pub mod connection_management;
-pub mod connections;
+pub(crate) mod connection_management;
+pub(crate) mod connections;
 pub mod currentness;
-pub mod decisions;
+pub(crate) mod decisions;
 pub mod discovery;
-pub mod execution;
-pub mod execution_history;
-pub mod execution_jobs;
-pub mod execution_records;
-pub mod git_sources;
+pub(crate) mod execution;
+pub(crate) mod execution_history;
+pub(crate) mod execution_jobs;
+pub(crate) mod execution_records;
+pub(crate) mod git_sources;
 mod health;
 pub mod identity;
 mod input_json;
@@ -29,24 +29,24 @@ pub mod instance_runtime;
 pub use input_json::ObjectJson;
 pub mod instances;
 pub mod lifecycle;
-pub mod migration_analysis;
-pub mod migration_history;
+pub(crate) mod migration_analysis;
+pub(crate) mod migration_history;
 pub mod parser;
 pub mod plans;
 pub mod projects;
 mod rate_limit;
-pub mod reconciliation;
-pub mod records;
+pub(crate) mod reconciliation;
+pub(crate) mod records;
 pub mod recovered;
-pub mod release_details;
+pub(crate) mod release_details;
 pub mod releases;
 pub mod repositories;
-pub mod review;
-pub mod schemas;
+pub(crate) mod review;
+pub(crate) mod schemas;
 pub mod targets;
 pub mod validations;
-pub mod verification;
-pub mod workspace;
+pub(crate) mod verification;
+pub(crate) mod workspace;
 
 use axum::{
     Json, Router,
