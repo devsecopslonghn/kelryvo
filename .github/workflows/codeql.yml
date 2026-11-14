@@ -38,6 +38,7 @@ jobs:
           rustup toolchain install 1.99.1 --profile minimal --no-self-update
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends libffi-dev pkg-config libssl-dev
+          python3 tools/prepare-dependencies.py --fetch
           cargo fetch --locked --manifest-path tools/oracle-codegen/Cargo.toml
       - uses: github/codeql-action/init@5895b2c9be147bc7f1c75ce72c5cb577febb1907 # v4
         with:

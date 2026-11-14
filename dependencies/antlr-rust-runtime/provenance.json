@@ -1,0 +1,14 @@
+{
+  "format": 1,
+  "name": "antlr-rust-runtime",
+  "version": "0.34.0",
+  "repository": "https://github.com/ophi-dev/antlr-rust-runtime",
+  "upstreamCommit": "513228ada1f8033a81d83a28e62f3a755b8495d9",
+  "archiveUrl": "https://static.crates.io/crates/antlr-rust-runtime/antlr-rust-runtime-0.34.0.crate",
+  "archiveSha256": "11b6fb4f9634cc5620c38a6951c0898d5bbbd03f43e384e64292570dafa48182",
+  "patchSha256": "12a148955364eabb53d37929eac056a8818459ce71841ade745db17ebf3d6e23",
+  "predictionSha256": "73436aa50e50eef9e7838592ff0de38d6ec189663c3e4787689a5d5b08e67e24",
+  "sourceTreeSha256": "accf7f40f3ca83864f44f11bcbcf3daa707cffbf3911ca2d43b2523338f5c5b9",
+  "files": 79,
+  "license": "BSD-3-Clause"
+}

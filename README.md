@@ -6,19 +6,26 @@ and [CUSTOMER-GUIDE.md](CUSTOMER-GUIDE.md) for supported customer installations.
 
 ## Build and run
 
-Use Linux, the pinned Rust toolchain, Git, OpenSSL and libffi development headers.
+Use Linux, the pinned Rust toolchain, Git, Python 3 (dependency preparation only),
+OpenSSL and libffi development headers.
 Checkout development uses Docker for its default PostgreSQL instance.
 The local integration checks also need PostgreSQL's `initdb`, `pg_ctl`, `createdb`
 and `dropdb` on `PATH`. The UI needs `wasm32-unknown-unknown` and
 `wasm-bindgen-cli 0.2.130` (also pinned in the CI action).
 
 ```sh
+python3 tools/prepare-dependencies.py --fetch
 cargo fetch --locked
 cargo fetch --locked --manifest-path tools/oracle-codegen/Cargo.toml
 cargo build --workspace --locked
 cargo build-web
 target/debug/kelryvo dev --tls-cert /absolute/localhost.crt --tls-key /absolute/localhost.key
 ```
+
+The explicit preparation step verifies and patches a pinned runtime archive in
+ignored `.deps/`; it never changes Cargo's registry cache. See
+[dependency preparation](dependencies/antlr-rust-runtime/README.md) for offline
+inputs, exact identities and verification.
 
 Browser sign-in requires HTTPS. Supply a localhost certificate/key trusted by
 your browser; loopback HTTP is available for health/API diagnostics. Keep the

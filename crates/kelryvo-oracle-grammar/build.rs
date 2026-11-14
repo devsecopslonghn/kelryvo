@@ -27,6 +27,7 @@ fn main() {
         "../../tools/oracle-codegen/Cargo.toml",
         "../../tools/oracle-codegen/Cargo.lock",
         "../../tools/oracle-codegen/src/main.rs",
+        "../../tools/dependency_source.rs",
     ] {
         println!("cargo::rerun-if-changed={input}");
     }
@@ -40,7 +41,7 @@ fn main() {
     } else {
         let mut cargo = Command::new(env::var_os("CARGO").unwrap_or_else(|| "cargo".into()));
         cargo
-            .args(["run", "--quiet", "--locked", "--manifest-path"])
+            .args(["run", "--quiet", "--locked", "--offline", "--manifest-path"])
             .arg(root.join("tools/oracle-codegen/Cargo.toml"))
             .arg("--target-dir")
             .arg(root.join("target/oracle-codegen"))

@@ -35,8 +35,6 @@ dependencies = [
 [[package]]
 name = "antlr-rust-runtime"
 version = "0.34.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "11b6fb4f9634cc5620c38a6951c0898d5bbbd03f43e384e64292570dafa48182"
 dependencies = [
  "memchr",
  "stacker",
@@ -1491,9 +1489,11 @@ name = "kelryvo-oracle-grammar"
 version = "0.1.0"
 dependencies = [
  "antlr-rust-runtime",
+ "flate2",
  "kelryvo-core",
  "serde_json",
  "sha2",
+ "tar",
 ]
 
 [[package]]

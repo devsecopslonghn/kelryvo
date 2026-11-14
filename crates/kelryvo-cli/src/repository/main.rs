@@ -39,6 +39,7 @@ fn run(root: &Path, args: &[String]) -> Result<()> {
         ["check-delivery"] => {
             run(root,&["lint".into()])?;
             contracts::check(root)?;
+            cargo_check(root,&["test","--locked","-p","kelryvo-cli","--features","repository","--bin","kelryvo-repository"])?;
             cargo_check(root,&["test","--locked","-p","kelryvo-cli","--lib","oci::loader::tests"])?;
             cargo_check(root,&["test","--locked","-p","kelryvo-test-tools","--lib"])?;
             dependencies::check(root,false)

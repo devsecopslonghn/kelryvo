@@ -26,6 +26,11 @@ const INPUTS: &[&str] = &[
     "NOTICE",
     "crates",
     "tools/oracle-codegen",
+    "tools/prepare-dependencies.py",
+    "tools/dependency_source.rs",
+    "dependencies/antlr-rust-runtime",
+    ".deps/antlr-rust-runtime",
+    ".deps/antlr-rust-runtime-0.34.0.crate",
     "Dockerfile",
     ".dockerignore",
     "compose.pilot.yaml",
@@ -82,11 +87,41 @@ fn files(root: &Path, relative: &Path, output: &mut BTreeMap<String, Value>) -> 
     Ok(())
 }
 fn sources(root: &Path) -> Result<BTreeMap<String, Value>> {
+    crate::dependency_source::verify(root, |bytes| kelryvo_core::sha256(bytes))
+        .map_err(|error| eprintln!("{error}"))?;
     let mut inputs = BTreeMap::new();
     for input in INPUTS {
-        files(root, Path::new(input), &mut inputs)?;
+        source_files(root, Path::new(input), &mut inputs)?;
     }
     Ok(inputs)
+}
+// A developer can run the isolated generator with Cargo's default target dir.
+// Keep those ignored compiler outputs out of source identity and distributions.
+// The generic distribution inventory above remains strict about every file.
+fn source_files(root: &Path, relative: &Path, output: &mut BTreeMap<String, Value>) -> Result<()> {
+    if relative.components().count() > 64 || output.len() >= 32768 {
+        return Err(());
+    }
+    let path = root.join(relative);
+    let stat = fs::symlink_metadata(&path).map_err(|_| ())?;
+    if stat.is_dir() {
+        if ["target", ".cache"]
+            .iter()
+            .any(|name| relative.file_name().is_some_and(|n| n == *name))
+        {
+            return Ok(());
+        }
+        for entry in fs::read_dir(path).map_err(|_| ())? {
+            source_files(
+                root,
+                &relative.join(entry.map_err(|_| ())?.file_name()),
+                output,
+            )?;
+        }
+        Ok(())
+    } else {
+        files(root, relative, output)
+    }
 }
 /// Read-only optimization hint for a container build. Packaging independently
 /// recomputes this inventory and probes every compiled executable as before.
@@ -393,6 +428,20 @@ pub fn verify(directory: &str) -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn isolated_compiler_outputs_do_not_enter_the_source_inventory() {
+        let directory = tempfile::tempdir().unwrap();
+        let root = directory.path();
+        fs::create_dir_all(root.join("tools/target/debug")).unwrap();
+        fs::write(root.join("tools/target/debug/compiler-output"), b"output").unwrap();
+        fs::write(root.join("tools/source.rs"), b"source").unwrap();
+        let mut inputs = BTreeMap::new();
+        source_files(root, Path::new("tools"), &mut inputs).unwrap();
+        assert_eq!(inputs.keys().collect::<Vec<_>>(), vec!["tools/source.rs"]);
+        let mut complete = BTreeMap::new();
+        files(root, Path::new("tools"), &mut complete).unwrap();
+        assert_eq!(complete.len(), 2);
+    }
     #[test]
     fn inventory_rejects_changed_missing_added_symlinked_and_writable_artifacts() {
         let root = std::env::temp_dir().join(format!(

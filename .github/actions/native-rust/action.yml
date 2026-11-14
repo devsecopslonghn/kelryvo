@@ -10,6 +10,9 @@ runs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends libffi-dev pkg-config
         fi
+    - name: Prepare the verified runtime source outside Git
+      shell: bash
+      run: python3 tools/prepare-dependencies.py --fetch
     - id: toolchain
       uses: ./.github/actions/master-cache
       with:
@@ -74,7 +77,7 @@ runs:
       with:
         path: ~/.cache/kelryvo-build-tools/oracle-codegen-1.99.1
         # Exact keys only: never reuse a binary from different generator inputs.
-        key: oracle-codegen-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('tools/oracle-codegen/**', 'rust-toolchain.toml') }}-v1
+        key: oracle-codegen-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('tools/oracle-codegen/**', 'tools/dependency_source.rs', 'rust-toolchain.toml') }}-v1
     - name: Fetch the separately locked host generator
       shell: bash
       run: cargo fetch --locked --manifest-path tools/oracle-codegen/Cargo.toml

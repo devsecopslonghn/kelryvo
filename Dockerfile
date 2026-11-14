@@ -46,6 +46,7 @@ RUN test "$(wasm-bindgen --version)" = 'wasm-bindgen 0.2.130'
 # The generator changes independently of application sources. Persist only its
 # executable in a BuildKit layer; its temporary compiler outputs are discarded.
 COPY LICENSE ./
+COPY tools/dependency_source.rs ./tools/
 COPY tools/oracle-codegen ./tools/oracle-codegen
 RUN --mount=type=cache,id=kelryvo-registry-rust-1.99.1,target=/opt/cargo/registry,sharing=locked \
     --mount=type=cache,id=kelryvo-sccache-${TARGETARCH},target=/opt/kelryvo-sccache,sharing=locked \
@@ -58,6 +59,11 @@ COPY Cargo.toml Cargo.lock rust-toolchain.toml NOTICE ./
 COPY .cargo/config.toml ./.cargo/config.toml
 COPY Dockerfile .dockerignore compose.pilot.yaml ./
 COPY crates ./crates
+COPY dependencies/antlr-rust-runtime ./dependencies/antlr-rust-runtime
+COPY tools/prepare-dependencies.py ./tools/
+COPY .deps/antlr-rust-runtime ./.deps/antlr-rust-runtime
+COPY .deps/antlr-rust-runtime-0.34.0.crate ./.deps/
+RUN /opt/kelryvo-grammar-codegen --verify-runtime .
 COPY deploy/native-oracle-helm.patch ./deploy/native-oracle-helm.patch
 ARG KELRYVO_REVISION=local-unpublished
 ARG KELRYVO_SOURCE_TREE_DIGEST=0000000000000000000000000000000000000000000000000000000000000000

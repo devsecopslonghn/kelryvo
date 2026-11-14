@@ -9,6 +9,11 @@
 !crates/
 !crates/**
 !tools/
+!tools/prepare-dependencies.py
+!tools/dependency_source.rs
+!dependencies/
+!dependencies/antlr-rust-runtime/
+!dependencies/antlr-rust-runtime/**
 !tools/oracle-codegen/
 !tools/oracle-codegen/**
 !docs/
@@ -27,3 +32,7 @@
 **/*.key
 **/*.pem
 **/.env*
+!.deps/
+!.deps/antlr-rust-runtime/
+!.deps/antlr-rust-runtime/**
+!.deps/antlr-rust-runtime-0.34.0.crate

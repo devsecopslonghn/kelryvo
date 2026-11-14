@@ -36,3 +36,6 @@ crates/kelryvo-oracle-grammar/grammar/provenance.json
 # Frozen contract inputs are stored as hash-verified gzip archives.
 tests/fixtures/contracts/*.json
 !tests/fixtures/contracts/provenance.json
+
+# Verified, reproducible dependency preparation; never application source.
+.deps/
