@@ -69,19 +69,13 @@ pub(super) async fn existing_action(model: &Model, action: Action, id: &str) -> 
         } else {
             &state.data
         };
-        let mut rows = array(current, key).to_vec();
-        for row in array(&page, key) {
-            if let Some(previous) = rows.iter_mut().find(|r| r["id"] == row["id"]) {
-                *previous = row.clone();
-            } else {
-                rows.push(row.clone());
-            }
-        }
+        let mut rows = current[key].clone();
+        merge_rows(&mut rows, array(&page, key), "id");
         if path == "access" {
             state.data["access"] = page;
-            state.data["access"][key] = rows.into();
+            state.data["access"][key] = rows;
         } else {
-            state.data[key] = rows.into();
+            state.data[key] = rows;
             state.data["sessionNext"] = page["nextCursor"].clone();
         }
         Ok(())
@@ -233,7 +227,6 @@ pub(super) async fn action(
                 .await.map_err(|e|if e=="PASSWORD NOT ACCEPTED" {"Current password was not accepted.".into()} else {e})?;
             model.borrow_mut().set_session(None);
             model.borrow_mut().data = Value::Null;
-            model.borrow_mut().route = Route::Projects;
             model.borrow_mut().notice = "Password changed. Sign in again.".into();
             workflow_location::signed_out(model);
         }

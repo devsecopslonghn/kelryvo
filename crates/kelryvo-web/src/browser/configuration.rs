@@ -345,13 +345,13 @@ pub(super) fn create_profile(data: &Value) -> String {
         )
     )
 }
-pub(super) fn fields(model: &Model, action: &str, id: &str) -> Value {
-    if action == "save-project-source" {
+pub(super) fn fields(model: &Model, action: Action, id: &str) -> Value {
+    if action == Action::SaveProjectSource {
         return json!({"repositoryId":value("source-repository"),"folder":value("source-folder")});
     }
-    let create = action == "create-deployment-profile";
+    let create = action == Action::CreateDeploymentProfile;
     let c = model.borrow().data["managedConnection"]["connection"].clone();
-    if action == "managed-preflight" || action == "managed-lifecycle" {
+    if action == Action::ManagedPreflight || action == Action::ManagedLifecycle {
         return json!({"expectedRevision":c["revision"],"reason":value("connection-action-reason"),"action":id});
     }
     let prefix = if create {

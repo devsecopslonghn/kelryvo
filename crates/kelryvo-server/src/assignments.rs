@@ -62,10 +62,7 @@ pub async fn assign(
     // before the authority checkpoint takes project/credential locks.
     let schemas:Vec<Uuid>=sqlx::query_scalar("SELECT s.id FROM sf_reference_schemas s JOIN sf_database_connections c ON c.container_id=s.container_id AND c.organization_id=s.organization_id WHERE c.id=$1 AND c.organization_id=$2 AND s.exact_owner=ANY($3) AND s.generation=1 ORDER BY s.id").bind(connection).bind(ORG_UUID).bind(&body.owners).fetch_all(&mut *tx).await?;
     for schema in schemas {
-        sqlx::query("SELECT pg_advisory_xact_lock(hashtextextended($1,29))")
-            .bind(schema.to_string())
-            .execute(&mut *tx)
-            .await?;
+        instances::schema_lock(&mut tx, schema).await?;
     }
     instances::guard(&mut tx, &auth, project).await?;
     let c = discovery::scoped_connection(&mut tx, &auth, project, connection).await?;
@@ -182,10 +179,7 @@ pub async fn assign(
             schema
         };
         let schema_id = id(&schema, "id")?;
-        sqlx::query("SELECT pg_advisory_xact_lock(hashtextextended($1,29))")
-            .bind(schema_id.to_string())
-            .execute(&mut *tx)
-            .await?;
+        instances::schema_lock(&mut tx, schema_id).await?;
         let schema: Value = sqlx::query_scalar(
             "SELECT to_jsonb(s) FROM sf_reference_schemas s WHERE id=$1 FOR UPDATE",
         )

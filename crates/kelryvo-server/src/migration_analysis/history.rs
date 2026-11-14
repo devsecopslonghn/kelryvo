@@ -66,13 +66,21 @@ async fn verified(
     {
         return Ok(None);
     }
-    let attempts:Vec<Value>=sqlx::query_scalar("SELECT jsonb_build_object('id',id,'generation',generation::text,'state',state) FROM sf_execution_attempts WHERE job_id=$1 LIMIT 2").bind(plans::id(&p["job_id"])?).fetch_all(&mut *tx).await?;
+    let attempts: Vec<Value> =
+        crate::execution_history::migration_attempts(tx, plans::id(&p["job_id"])?).await?;
     if attempts.len() != 1 || attempts[0]["state"] != p["state"] {
         return Ok(None);
     }
     let attempt = plans::id(&attempts[0]["id"])?;
-    let receipts:Vec<Value>=sqlx::query_scalar("SELECT jsonb_build_object('ordinal',ordinal,'statement_digest',statement_digest,'receipt_digest',receipt_digest,'central_evidence_digest',central_evidence_digest) FROM sf_execution_receipts WHERE job_id=$1 AND attempt_id=$2 AND generation=$3::text::bigint ORDER BY ordinal LIMIT 4097").bind(plans::id(&p["job_id"])?).bind(attempt).bind(attempts[0]["generation"].as_str()).fetch_all(&mut *tx).await?;
-    let acks:Vec<Value>=sqlx::query_scalar("SELECT jsonb_build_object('ordinal',ordinal,'statement_digest',statement_digest) FROM sf_execution_attempt_events WHERE attempt_id=$1 AND phase='ACKNOWLEDGED' ORDER BY ordinal LIMIT 4097").bind(attempt).fetch_all(&mut *tx).await?;
+    let receipts: Vec<Value> = crate::execution_history::migration_receipts(
+        tx,
+        plans::id(&p["job_id"])?,
+        attempt,
+        attempts[0]["generation"].as_str(),
+    )
+    .await?;
+    let acks: Vec<Value> =
+        crate::execution_history::migration_acknowledgements(tx, attempt).await?;
     let terminal:Vec<Value>=sqlx::query_scalar("SELECT jsonb_build_object('phase',phase,'facts',CASE WHEN octet_length(facts::text)<=4194304 THEN facts END) FROM sf_execution_attempt_events WHERE attempt_id=$1 ORDER BY revision DESC LIMIT 2").bind(attempt).fetch_all(&mut *tx).await?;
     let expected = context["pendingStatementDigests"]
         .as_array()

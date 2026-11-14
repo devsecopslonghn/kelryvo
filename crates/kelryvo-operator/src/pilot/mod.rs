@@ -142,10 +142,6 @@ fn image(s: &str) -> bool {
         && s.bytes()
             .all(|b| b.is_ascii_alphanumeric() || b"._/:@-".contains(&b))
 }
-fn compose() -> String {
-    COMPOSE.to_owned()
-}
-
 async fn run_command(mut c: Command, input: Option<Zeroizing<Vec<u8>>>) -> Result<Output> {
     c.stdin(if input.is_some() {
         Stdio::piped()

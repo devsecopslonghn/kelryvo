@@ -8,6 +8,11 @@ mod support;
 use support::{fixture, seal, write};
 #[test]
 fn native_installation_binds_private_files_binary_wallet_and_distinct_public_record() {
+    assert_eq!(
+        canonical_digest(&json!({"z":[{"Ω":1,"a":2}],"a":{"é":"retained","Z":null}})),
+        "106dcfe390bb54158a9cb3adece9ddd8ac1eb5d8bfa82dd9e67ceebd62aba48e",
+        "retained installation canonical encoding includes sorted nested objects and Unicode keys"
+    );
     let (root, mut raw) = fixture();
     let config =
         Config::load(&root.join("installation.json")).expect("complete protected manifest");

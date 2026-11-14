@@ -1,7 +1,7 @@
 //! Explicit operator-option selection. Revisions come from retained API facts;
 //! form fields never choose credentials, physical identity, or execution rights.
 use super::{
-    Model, Route, api, array, button, document, e, escape, load, render, run_action, s,
+    Model, Route, api, array, button, document, e, escape, load, merge_rows, render, run_action, s,
     schema_panel, segment, value,
 };
 use crate::browser::actions::Action;
@@ -78,7 +78,7 @@ pub(super) fn change(model: &Model, event: &Event) -> bool {
     if id == "target-binding-assignment" {
         run_action(
             model.clone(),
-            "binding-assignment".into(),
+            Action::BindingAssignment,
             String::new(),
             Value::Null,
         );
@@ -112,18 +112,6 @@ async fn options(
         path.push_str(&format!("&after={}", segment(after)));
     }
     api(model, "GET", &path, None, None).await
-}
-fn upsert(data: &mut Value, binding: &Value) {
-    let mut bindings = array(data, "targetBindings").to_vec();
-    if let Some(row) = bindings
-        .iter_mut()
-        .find(|b| b["bindingId"] == binding["bindingId"])
-    {
-        *row = binding.clone();
-    } else {
-        bindings.push(binding.clone());
-    }
-    data["targetBindings"] = bindings.into();
 }
 pub(super) async fn existing_action(model: &Model, action: Action, id: &str) -> Result<(), String> {
     let project = project(model)?;
@@ -197,20 +185,12 @@ pub(super) async fn existing_action(model: &Model, action: Action, id: &str) -> 
         )
         .await?;
         let mut state = model.borrow_mut();
-        let mut rows = array(&state.data, field).to_vec();
         let (response, identity) = if path == "target-bindings" {
             ("bindings", "bindingId")
         } else {
             ("references", "assignmentId")
         };
-        for item in array(&result, response) {
-            if let Some(current) = rows.iter_mut().find(|r| r[identity] == item[identity]) {
-                *current = item.clone();
-            } else {
-                rows.push(item.clone());
-            }
-        }
-        state.data[field] = rows.into();
+        merge_rows(&mut state.data[field], array(&result, response), identity);
         state.data[cursor] = result["nextCursor"].clone();
         return Ok(());
     }
@@ -222,7 +202,11 @@ pub(super) async fn existing_action(model: &Model, action: Action, id: &str) -> 
         model.borrow_mut().route = Route::Project(project, "workspace".into());
         load(model).await?;
         let mut state = model.borrow_mut();
-        upsert(&mut state.data, &binding);
+        merge_rows(
+            &mut state.data["targetBindings"],
+            std::slice::from_ref(&binding),
+            "bindingId",
+        );
         state.data["draftEdit"]["targetBindingId"] = id.into();
         return Ok(());
     }
@@ -318,17 +302,17 @@ pub(super) async fn existing_action(model: &Model, action: Action, id: &str) -> 
         Some(body),
         None,
     )
-    .await;
-    let result=match result{
-        Ok(result)=>result,
-        Err(error)=>return Err(match error.as_str(){
-            "TARGET REVISION CONFLICT"=>"The target revision changed. Refresh the target facts, review your choices, and submit explicitly again.".into(),
-            "TARGET OPTION INELIGIBLE"=>"The option is no longer eligible. Ask the local operator to review its configuration.".into(),
-            _=>error,
-        })
-    };
+    .await.map_err(|error| match error.as_str() {
+        "TARGET REVISION CONFLICT" => "The target revision changed. Refresh the target facts, review your choices, and submit explicitly again.".into(),
+        "TARGET OPTION INELIGIBLE" => "The option is no longer eligible. Ask the local operator to review its configuration.".into(),
+        _ => error,
+    })?;
     let mut state = model.borrow_mut();
-    upsert(&mut state.data, &result["binding"]);
+    merge_rows(
+        &mut state.data["targetBindings"],
+        std::slice::from_ref(&result["binding"]),
+        "bindingId",
+    );
     state.data["targetForm"]["bindingId"] = result["binding"]["bindingId"].clone();
     state.data["targetForm"]["reason"] = "".into();
     state.data["bindingEvidence"] = Value::Null;
@@ -336,6 +320,26 @@ pub(super) async fn existing_action(model: &Model, action: Action, id: &str) -> 
     state.notice =
         "Binding revision retained. A binding does not authorize Oracle execution.".into();
     Ok(())
+}
+pub(super) async fn record_identity(
+    model: &Model,
+    project: &str,
+    binding: &str,
+    operation: &str,
+    fields: Value,
+) -> Result<Value, String> {
+    api(
+        model,
+        "POST",
+        &format!(
+            "/api/projects/{}/target-bindings/{}/{operation}",
+            segment(project),
+            segment(binding)
+        ),
+        Some(fields),
+        None,
+    )
+    .await
 }
 fn option(html: &mut String, id: &Value, selected: &Value, label: &str) {
     html.push_str(&format!(
@@ -528,69 +532,36 @@ pub(super) async fn action(
             if project.is_empty() {
                 return Err("Select a project".into());
             }
-            let base = format!("/api/projects/{}", segment(&project));
-            let history_path = format!("{}/target-bindings/{}/schema", base, segment(id));
-            let (path, method, body) = match action {
-                Action::ObserveTargetSchema => (
-                    format!("{history_path}/observe"),
-                    "POST",
-                    Some(fields.clone()),
-                ),
-                Action::CaptureSchemaBaseline => (
-                    format!("{base}/schema-baselines"),
-                    "POST",
-                    Some(fields.clone()),
-                ),
-                Action::OpenSchemaSnapshot => (
-                    format!(
-                        "{}/schema-snapshots/{}",
-                        base,
-                        segment(s(&fields["snapshotId"]))
-                    ),
-                    "GET",
-                    None,
-                ),
-                Action::CompareSchemaSnapshots => (
-                    format!(
-                        "{}/schema-comparison?expected={}&observed={}",
-                        base,
-                        segment(s(&fields["expected"])),
-                        segment(s(&fields["observed"]))
-                    ),
-                    "GET",
-                    None,
-                ),
-                Action::OlderSchemaSnapshots => (
-                    format!(
-                        "{}?after={}",
-                        history_path,
+            let history_action = matches!(
+                action,
+                Action::LoadTargetSchema
+                    | Action::OlderSchemaSnapshots
+                    | Action::OlderSchemaBaselines
+            );
+            let result = if history_action {
+                let query = match action {
+                    Action::OlderSchemaSnapshots => format!(
+                        "?after={}",
                         segment(s(&model.borrow().data["schemaHistory"][id]["nextCursor"]))
                     ),
-                    "GET",
-                    None,
-                ),
-                Action::OlderSchemaBaselines => (
-                    format!(
-                        "{}?baselineAfter={}",
-                        history_path,
+                    Action::OlderSchemaBaselines => format!(
+                        "?baselineAfter={}",
                         segment(s(
                             &model.borrow().data["schemaHistory"][id]["baselineNextCursor"]
                         ))
                     ),
-                    "GET",
-                    None,
-                ),
-                _ => (history_path.clone(), "GET", None),
+                    _ => String::new(),
+                };
+                super::schema_baselines::history(model, &project, id, &query).await?
+            } else {
+                super::schema_baselines::evidence(model, &project, id, action, fields).await?
             };
-            let result = api(model, method, &path, body, None).await?;
-            let history = if method == "POST" {
-                Some(api(model, "GET", &history_path, None, None).await?)
-            } else if action == Action::LoadTargetSchema
-                || matches!(
-                    action,
-                    Action::OlderSchemaSnapshots | Action::OlderSchemaBaselines
-                )
-            {
+            let history = if matches!(
+                action,
+                Action::ObserveTargetSchema | Action::CaptureSchemaBaseline
+            ) {
+                Some(super::schema_baselines::history(model, &project, id, "").await?)
+            } else if history_action {
                 Some(result.clone())
             } else {
                 None
@@ -664,14 +635,7 @@ pub(super) async fn action(
                     } else {
                         "verify"
                     };
-                    api(
-                        model,
-                        "POST",
-                        &format!("{base}/{suffix}"),
-                        Some(fields),
-                        None,
-                    )
-                    .await?
+                    record_identity(model, &project, id, suffix, fields).await?
                 };
                 let bindings = api(
                     model,

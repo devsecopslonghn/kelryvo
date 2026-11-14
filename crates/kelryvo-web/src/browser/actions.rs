@@ -184,11 +184,10 @@ pub(super) enum Action {
 
 pub(super) async fn dispatch(
     model: &Model,
-    name: &str,
+    action: Action,
     id: &str,
     fields: Value,
 ) -> Result<(), String> {
-    let action: Action = serde_json::from_value(json!(name)).map_err(|_| "Unknown action")?;
     match action {
         Action::SwitchProject => shell::switch(model, id).await?,
         Action::RefreshWorkspace => {
@@ -329,7 +328,6 @@ pub(super) async fn dispatch(
             load(model).await?;
         }
         Action::ParseSql => {
-            model.borrow_mut().data["previewSource"] = fields["sql"].clone();
             let parsed = api(model, "POST", "/api/parser/oracle", Some(fields), None).await?;
             model.borrow_mut().data["parsed"] = parsed;
         }

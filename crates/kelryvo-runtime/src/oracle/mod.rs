@@ -50,13 +50,7 @@ pub trait Session {
 pub fn bounded(session: &impl Session) -> bool {
     (1..=30000).contains(&session.call_timeout_ms())
 }
-pub(crate) fn digest(v: &Value) -> bool {
-    v.as_str().is_some_and(|s| {
-        s.len() == 64
-            && s.bytes()
-                .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
-    })
-}
+pub(crate) use kelryvo_core::digest;
 pub(crate) fn uuid(v: &Value) -> bool {
     v.as_str()
         .is_some_and(|s| s.len() == 36 && Uuid::parse_str(s).is_ok())

@@ -102,13 +102,20 @@ fn s(value: &Value) -> &str {
 fn e(value: &Value) -> String {
     escape(s(value))
 }
-fn recovery_digest(value: &Value) -> bool {
-    let value = s(value);
-    value.len() == 64
-        && value
-            .bytes()
-            .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
+fn merge_rows(rows: &mut Value, incoming: &[Value], key: &str) {
+    if !rows.is_array() {
+        *rows = json!([]);
+    }
+    let rows = rows.as_array_mut().expect("row array");
+    for row in incoming {
+        if let Some(previous) = rows.iter_mut().find(|r| r[key] == row[key]) {
+            *previous = row.clone();
+        } else {
+            rows.push(row.clone());
+        }
+    }
 }
+use kelryvo_core::digest as recovery_digest;
 fn capture_hold_forms(model: &Model) {
     let mut state = model.borrow_mut();
     if state.session.is_none()
@@ -581,7 +588,13 @@ async fn load(model: &Model) -> Result<(), String> {
             project_lifecycle::load_facts(model, &mut data).await?;
         }
         if tab == "connections" {
-            connections::load_facts(model, &mut data, &id).await?;
+            connections::load_facts(
+                model,
+                &mut data,
+                &id,
+                &json!({"search":"","engine":"","environment":"","status":""}),
+            )
+            .await?;
         }
         if tab == "configuration" {
             data["repositories"] =
@@ -675,7 +688,26 @@ async fn load(model: &Model) -> Result<(), String> {
     Ok(())
 }
 
-fn run_action(model: Model, action_name: String, id: String, fields: Value) {
+fn retain_plan_target(body: &mut Value, plan: &Value) {
+    if plan["retainedTarget"].is_object() {
+        body["expectedIntentDigest"] = plan["offlineIntent"]["digest"].clone();
+        body["expectedAssignmentRevision"] = plan["retainedTarget"]["assignmentRevision"].clone();
+        body["expectedBindingRevision"] = plan["retainedTarget"]["bindingRevision"].clone();
+    }
+}
+
+fn parse_action(model: &Model, name: &str) -> Option<Action> {
+    match serde_json::from_value(json!(name)) {
+        Ok(action) => Some(action),
+        Err(_) => {
+            model.borrow_mut().error = "Unknown action".into();
+            render(model);
+            None
+        }
+    }
+}
+
+fn run_action(model: Model, action_name: Action, id: String, fields: Value) {
     if model.borrow().busy {
         return;
     }
@@ -687,25 +719,25 @@ fn run_action(model: Model, action_name: String, id: String, fields: Value) {
     instance_profiles::capture(&model);
     schema_baselines::capture(&model);
     if [
-        "projects",
-        "switch-project",
-        "refresh-workspace",
-        "logout",
-        "project",
-        "tab",
-        "account",
-        "instances",
-        "connections",
-        "review",
-        "identity",
-        "open-draft",
-        "new-draft",
-        "open-originating-draft",
-        "open-release",
-        "binding-workspace",
-        "open-inbox-plan",
+        Action::Projects,
+        Action::SwitchProject,
+        Action::RefreshWorkspace,
+        Action::Logout,
+        Action::Project,
+        Action::Tab,
+        Action::Account,
+        Action::Instances,
+        Action::Connections,
+        Action::Review,
+        Action::Identity,
+        Action::OpenDraft,
+        Action::NewDraft,
+        Action::OpenOriginatingDraft,
+        Action::OpenRelease,
+        Action::BindingWorkspace,
+        Action::OpenInboxPlan,
     ]
-    .contains(&action_name.as_str())
+    .contains(&action_name)
         && draft_editor::dirty(&model.borrow().data)
     {
         model.borrow_mut().error =
@@ -719,24 +751,24 @@ fn run_action(model: Model, action_name: String, id: String, fields: Value) {
         state.error.clear();
         state.notice.clear();
         if [
-            "create-plan",
-            "create-validated-plan",
-            "validate-plan-release",
+            Action::CreatePlan,
+            Action::CreateValidatedPlan,
+            Action::ValidatePlanRelease,
         ]
-        .contains(&action_name.as_str())
+        .contains(&action_name)
         {
             state.data["planSelection"] = json!({"releaseId":fields["releaseId"],"targetBindingId":fields["targetBindingId"]});
         }
-        if action_name == "request-execution" {
+        if action_name == Action::RequestExecution {
             if !state.data["requestDrafts"].is_object() {
                 state.data["requestDrafts"] = json!({});
             }
             state.data["requestDrafts"][&id] = fields.clone();
         }
-        if action_name == "parse-sql" {
+        if action_name == Action::ParseSql {
             state.data["previewSource"] = fields["sql"].clone();
         }
-        if action_name == "archive-project" {
+        if action_name == Action::ArchiveProject {
             state.data["archiveReason"] = fields["reason"].clone();
         }
         if array(&state.data, "plans").iter().any(|p| p["id"] == id) {
@@ -746,7 +778,7 @@ fn run_action(model: Model, action_name: String, id: String, fields: Value) {
     // Capture form values before rerendering. Passwords/tokens never enter State.
     render(&model);
     spawn_local(async move {
-        let result = actions::dispatch(&model, &action_name, &id, fields).await;
+        let result = actions::dispatch(&model, action_name, &id, fields).await;
         {
             let mut state = model.borrow_mut();
             state.busy = false;
@@ -758,12 +790,12 @@ fn run_action(model: Model, action_name: String, id: String, fields: Value) {
                     state.data = Value::Null;
                 }
                 if [
-                    "save-draft",
-                    "prepare-release",
-                    "review-draft-syntax",
-                    "validate-draft",
+                    Action::SaveDraft,
+                    Action::PrepareRelease,
+                    Action::ReviewDraftSyntax,
+                    Action::ValidateDraft,
                 ]
-                .contains(&action_name.as_str())
+                .contains(&action_name)
                     && ["DRAFT REVISION CONFLICT", "REVISION CONFLICT"].contains(&error.as_str())
                 {
                     state.data["draftConflict"] = true.into();
@@ -812,9 +844,12 @@ pub fn start() -> Result<(), JsValue> {
             event.prevent_default();
             return;
         }
-        let fields = if ["revoke-identity", "test-identity-provider"].contains(&action.as_str()) {
-            identity::fields(&click_model, &action)
-        } else if action == "managed-lifecycle" {
+        let Some(action) = parse_action(&click_model, &action) else {
+            return;
+        };
+        let fields = if [Action::RevokeIdentity, Action::TestIdentityProvider].contains(&action) {
+            identity::fields(&click_model, action)
+        } else if action == Action::ManagedLifecycle {
             if id == "RETIRE"
                 && !document()
                     .get_element_by_id("confirm-connection-retire")
@@ -825,18 +860,14 @@ pub fn start() -> Result<(), JsValue> {
                 render(&click_model);
                 return;
             }
-            configuration::fields(&click_model, &action, &id)
-        } else if action == "open-originating-draft" {
+            configuration::fields(&click_model, action, &id)
+        } else if action == Action::OpenOriginatingDraft {
             serde_json::from_str(&id).unwrap_or(Value::Null)
-        } else if action == "compare-draft-revisions" {
+        } else if action == Action::CompareDraftRevisions {
             json!({"base":value("draft-base-revision"),"candidate":value("draft-candidate-revision")})
-        } else if action == "request-execution" {
+        } else if action == Action::RequestExecution {
             let state = click_model.borrow();
-            let plan = array(&state.data, "plans")
-                .iter()
-                .find(|p| p["id"] == id)
-                .cloned()
-                .unwrap_or(Value::Null);
+            let plan = plans::selected(&state.data, &id).unwrap_or(Value::Null);
             let reason = value(&format!("execution-reason-{id}"));
             let prior = &state.data["requestDrafts"][&id];
             let key = if prior["reason"] == reason && prior["idempotencyKey"].is_string() {
@@ -848,14 +879,9 @@ pub fn start() -> Result<(), JsValue> {
                     .unwrap_or(Value::Null)
             };
             let mut body = json!({"idempotencyKey":key,"reason":reason});
-            if plan["retainedTarget"].is_object() {
-                body["expectedIntentDigest"] = plan["offlineIntent"]["digest"].clone();
-                body["expectedAssignmentRevision"] =
-                    plan["retainedTarget"]["assignmentRevision"].clone();
-                body["expectedBindingRevision"] = plan["retainedTarget"]["bindingRevision"].clone();
-            }
+            retain_plan_target(&mut body, &plan);
             body
-        } else if action == "validate-plan-release" {
+        } else if action == Action::ValidatePlanRelease {
             let release = value("plan-release");
             let selected = value("plan-target");
             let target = array(&click_model.borrow().data, "targetBindings")
@@ -864,8 +890,8 @@ pub fn start() -> Result<(), JsValue> {
                 .cloned()
                 .unwrap_or(Value::Null);
             json!({"releaseId":release,"targetBindingId":target["bindingId"],"expectedBindingRevision":target["bindingRevision"],"expectedAssignmentRevision":target["assignmentRevision"]})
-        } else if action == "create-validated-plan" || action == "create-workspace-plan" {
-            let v = click_model.borrow().data[if action == "create-workspace-plan" {
+        } else if action == Action::CreateValidatedPlan || action == Action::CreateWorkspacePlan {
+            let v = click_model.borrow().data[if action == Action::CreateWorkspacePlan {
                 "draftValidation"
             } else {
                 "activeValidation"
@@ -874,18 +900,18 @@ pub fn start() -> Result<(), JsValue> {
             let r = &v["report"];
             let t = &r["target"];
             json!({"intentVersion":3,"releaseId":r["releaseId"],"assignmentId":t["assignmentId"],"expectedAssignmentRevision":t["assignmentRevision"],"targetBindingId":t["bindingId"],"expectedBindingRevision":t["bindingRevision"],"validationId":v["id"],"expectedValidationDigest":v["digest"]})
-        } else if action == "rotate-instance" || action == "revoke-instance" {
+        } else if action == Action::RotateInstance || action == Action::RevokeInstance {
             let connection = click_model.borrow().data["instances"]
                 .as_array()
                 .and_then(|rows| rows.iter().find(|c| c["id"] == id))
                 .cloned()
                 .unwrap_or(Value::Null);
-            let mut body = json!({"action":if action=="rotate-instance"{"ROTATE"}else{"REVOKE"},"expectedRevision":connection["revision"],"reason":value(&format!("credential-reason-{id}"))});
-            if action == "rotate-instance" {
+            let mut body = json!({"action":if action==Action::RotateInstance{"ROTATE"}else{"REVOKE"},"expectedRevision":connection["revision"],"reason":value(&format!("credential-reason-{id}"))});
+            if action == Action::RotateInstance {
                 body["password"] = value(&format!("credential-password-{id}")).into();
             }
             body
-        } else if action == "assign-instance-schemas" {
+        } else if action == Action::AssignInstanceSchemas {
             let state = click_model.borrow();
             let observation = assignable_observation(&state.data, &id)
                 .cloned()
@@ -906,30 +932,30 @@ pub fn start() -> Result<(), JsValue> {
                 .iter()
                 .find(|c| c["id"] == id);
             json!({"observationId":observation["id"],"expectedConnectionRevision":connection.map(|c|c["revision"].clone()),"owners":owners,"environmentId":value(&format!("assign-environment-{id}")),"reason":value(&format!("assign-reason-{id}"))})
-        } else if action == "open-execution-attempt" {
+        } else if action == Action::OpenExecutionAttempt {
             json!({"attemptId":value(&format!("attempt-{id}"))})
         } else if [
-            "submit-hold-evidence",
-            "retain-hold-evidence",
-            "review-hold-evidence",
+            Action::SubmitHoldEvidence,
+            Action::RetainHoldEvidence,
+            Action::ReviewHoldEvidence,
         ]
-        .contains(&action.as_str())
+        .contains(&action)
         {
             let (job, submission) = id.split_once('/').unwrap_or((&id, ""));
             let current = execution_job(&click_model.borrow().data, job);
-            if action == "submit-hold-evidence" {
+            if action == Action::SubmitHoldEvidence {
                 json!({"expectedRevision":current["revision"],"evidenceKind":value(&format!("hold-kind-{job}")),"evidenceDigest":value(&format!("hold-digest-{job}")),"reason":value(&format!("hold-reason-{job}"))})
             } else {
-                json!({"expectedRevision":current["revision"],"decision":if action=="retain-hold-evidence"{"RETAIN_HOLD"}else{"EVIDENCE_REVIEWED"},"reason":value(&format!("hold-review-reason-{submission}"))})
+                json!({"expectedRevision":current["revision"],"decision":if action==Action::RetainHoldEvidence{"RETAIN_HOLD"}else{"EVIDENCE_REVIEWED"},"reason":value(&format!("hold-review-reason-{submission}"))})
             }
-        } else if action == "cancel-execution-request" {
+        } else if action == Action::CancelExecutionRequest {
             let job = array(&click_model.borrow().data["executionPage"], "jobs")
                 .iter()
                 .find(|j| j["id"] == id)
                 .cloned()
                 .unwrap_or(Value::Null);
             json!({"expectedRevision":job["revision"]})
-        } else if action == "add-plan-comment" {
+        } else if action == Action::AddPlanComment {
             let state = click_model.borrow();
             let preview = &state.data["statementPreviews"][&id];
             let refs:Vec<_>=array(preview,"statements").iter().enumerate().take(8).filter(|(index,_)|document().get_element_by_id(&format!("comment-ref-{id}-{index}")).and_then(|e|e.dyn_into::<HtmlInputElement>().ok()).is_some_and(|input|input.checked())).map(|(_,statement)|json!({"filePath":preview["filePath"],"startByte":statement["startByte"],"endByte":statement["endByte"],"sourceSha256":statement["sourceSha256"],"executionSha256":statement["executionSha256"]})).collect();
@@ -943,21 +969,21 @@ pub fn start() -> Result<(), JsValue> {
             }
             body
         } else if [
-            "open-schema-snapshot",
-            "capture-schema-baseline",
-            "compare-schema-snapshots",
-            "observe-target-schema",
+            Action::OpenSchemaSnapshot,
+            Action::CaptureSchemaBaseline,
+            Action::CompareSchemaSnapshots,
+            Action::ObserveTargetSchema,
         ]
-        .contains(&action.as_str())
+        .contains(&action)
         {
-            match action.as_str() {
-                "open-schema-snapshot" => {
+            match action {
+                Action::OpenSchemaSnapshot => {
                     json!({"snapshotId":value(&format!("schema-snapshot-{id}"))})
                 }
-                "capture-schema-baseline" => {
+                Action::CaptureSchemaBaseline => {
                     json!({"snapshotId":value(&format!("schema-snapshot-{id}")),"name":value(&format!("baseline-name-{id}")),"reason":value(&format!("baseline-reason-{id}"))})
                 }
-                "compare-schema-snapshots" => {
+                Action::CompareSchemaSnapshots => {
                     json!({"expected":value(&format!("schema-expected-{id}")),"observed":value(&format!("schema-observed-{id}"))})
                 }
                 _ => {
@@ -969,7 +995,7 @@ pub fn start() -> Result<(), JsValue> {
                     json!({"connectionId":binding["policyId"],"expectedBindingRevision":binding["bindingRevision"],"expectedAssignmentRevision":binding["assignmentRevision"],"reason":value(&format!("schema-reason-{id}"))})
                 }
             }
-        } else if action == "observe-target" || action == "verify-target" {
+        } else if action == Action::ObserveTarget || action == Action::VerifyTarget {
             let state = click_model.borrow();
             let binding = array(&state.data, "bindings")
                 .iter()
@@ -980,55 +1006,45 @@ pub fn start() -> Result<(), JsValue> {
                 .cloned()
                 .unwrap_or(Value::Null);
             json!({"connectionId":binding["policyId"],"observationId":observation["id"],"expectedIdentityDigest":observation["identityDigest"],"expectedBindingRevision":binding["bindingRevision"],"expectedAssignmentRevision":binding["assignmentRevision"],"owner":binding["exactOwner"],"reason":value(&format!("verification-reason-{id}"))})
-        } else if action == "attach-instance"
-            || action == "test-instance"
-            || action == "discover-instance"
+        } else if action == Action::AttachInstance
+            || action == Action::TestInstance
+            || action == Action::DiscoverInstance
         {
             json!({"reason":value(&format!("discovery-reason-{id}"))})
         } else if [
-            "approve",
-            "reject",
-            "assign-plan-reviewer",
-            "claim-plan-review",
-            "withdraw-plan-approval",
-            "review-plan-sql",
-            "compare-plan-source",
-            "open-plan-comparison",
+            Action::Approve,
+            Action::Reject,
+            Action::AssignPlanReviewer,
+            Action::ClaimPlanReview,
+            Action::WithdrawPlanApproval,
+            Action::ReviewPlanSql,
+            Action::ComparePlanSource,
+            Action::OpenPlanComparison,
         ]
-        .contains(&action.as_str())
+        .contains(&action)
         {
-            let plan = array(&click_model.borrow().data, "plans")
-                .iter()
-                .find(|p| p["id"] == id)
-                .cloned()
-                .unwrap_or(Value::Null);
-            match action.as_str() {
-                "compare-plan-source" => {
+            let plan = plans::selected(&click_model.borrow().data, &id).unwrap_or(Value::Null);
+            match action {
+                Action::ComparePlanSource => {
                     json!({"baseReleaseId":value(&format!("comparison-base-{id}")),"expectedIntentDigest":plan["offlineIntent"]["digest"]})
                 }
-                "open-plan-comparison" => {
+                Action::OpenPlanComparison => {
                     json!({"comparisonId":value(&format!("saved-comparison-{id}"))})
                 }
-                "review-plan-sql" => json!({"path":value(&format!("review-file-{id}"))}),
-                "assign-plan-reviewer" => {
+                Action::ReviewPlanSql => json!({"path":value(&format!("review-file-{id}"))}),
+                Action::AssignPlanReviewer => {
                     let reviewer = value(&format!("reviewer-{id}"));
                     json!({"reviewerId":if reviewer.is_empty(){Value::Null}else{json!(reviewer)},"expectedRevision":plan["reviewerRevision"]})
                 }
-                "claim-plan-review" => {
+                Action::ClaimPlanReview => {
                     json!({"reviewerId":click_model.borrow().session.as_ref().map(|s|s["actor"]["id"].clone()),"expectedRevision":plan["reviewerRevision"]})
                 }
-                "withdraw-plan-approval" => {
+                Action::WithdrawPlanApproval => {
                     json!({"expectedApprovalReference":plan["approvalReference"],"reason":value(&format!("withdraw-reason-{id}"))})
                 }
                 _ => {
-                    let mut body = json!({"decision":if action=="approve"{"APPROVE"}else{"REJECT"},"reason":value(&format!("reason-{id}"))});
-                    if plan["retainedTarget"].is_object() {
-                        body["expectedIntentDigest"] = plan["offlineIntent"]["digest"].clone();
-                        body["expectedAssignmentRevision"] =
-                            plan["retainedTarget"]["assignmentRevision"].clone();
-                        body["expectedBindingRevision"] =
-                            plan["retainedTarget"]["bindingRevision"].clone();
-                    }
+                    let mut body = json!({"decision":if action==Action::Approve{"APPROVE"}else{"REJECT"},"reason":value(&format!("reason-{id}"))});
+                    retain_plan_target(&mut body, &plan);
                     if document()
                         .get_element_by_id(&format!("attach-comparison-{id}"))
                         .and_then(|input| input.dyn_into::<HtmlInputElement>().ok())
@@ -1057,42 +1073,45 @@ pub fn start() -> Result<(), JsValue> {
         };
         event.prevent_default();
         let id = element.get_attribute("data-id").unwrap_or_default();
-        let fields = match action.as_str() {
-            "retire-instance-profile" => instance_profiles::fields(&id),
-            "choose-connection-project"
-            | "register-manual-reference"
-            | "register-discovery-connection"
-            | "filter-project-connections"
-            | "test-project-connection"
-            | "discover-project-connection"
-            | "retire-project-connection" => connections::fields(&action, &id),
-            "create-identity-provider"
-            | "save-identity-provider"
-            | "link-identity"
-            | "lookup-identity" => identity::fields(&submit_model, &action),
-            "ldap-login" => {
+        let Some(action) = parse_action(&submit_model, &action) else {
+            return;
+        };
+        let fields = match action {
+            Action::RetireInstanceProfile => instance_profiles::fields(&id),
+            Action::ChooseConnectionProject
+            | Action::RegisterManualReference
+            | Action::RegisterDiscoveryConnection
+            | Action::FilterProjectConnections
+            | Action::TestProjectConnection
+            | Action::DiscoverProjectConnection
+            | Action::RetireProjectConnection => connections::fields(action, &id),
+            Action::CreateIdentityProvider
+            | Action::SaveIdentityProvider
+            | Action::LinkIdentity
+            | Action::LookupIdentity => identity::fields(&submit_model, action),
+            Action::LdapLogin => {
                 json!({"username":value(&format!("ldap-username-{id}")),"password":value(&format!("ldap-password-{id}"))})
             }
-            "save-project-source"
-            | "create-deployment-profile"
-            | "save-managed-configuration"
-            | "managed-preflight" => {
-                let mut b = configuration::fields(&submit_model, &action, "");
-                if action == "managed-preflight" {
+            Action::SaveProjectSource
+            | Action::CreateDeploymentProfile
+            | Action::SaveManagedConfiguration
+            | Action::ManagedPreflight => {
+                let mut b = configuration::fields(&submit_model, action, "");
+                if action == Action::ManagedPreflight {
                     b.as_object_mut()
                         .expect("preflight fields")
                         .remove("action");
                 }
                 b
             }
-            "filter-migration-history" => migration_history::fields(),
-            "import-git-release" => {
+            Action::FilterMigrationHistory => migration_history::fields(),
+            Action::ImportGitRelease => {
                 let state = submit_model.borrow();
                 let source = &state.data["project"]["sourceBinding"];
                 json!({"repositoryId":source["repositoryId"],"folder":source["folder"],"commit":value("git-release-commit")})
             }
-            "compare-retained-releases" => releases::fields(),
-            "create-plan" => {
+            Action::CompareRetainedReleases => releases::fields(),
+            Action::CreatePlan => {
                 let release = value("plan-release");
                 let target = value("plan-target");
                 let binding = array(&submit_model.borrow().data, "targetBindings")
@@ -1102,19 +1121,19 @@ pub fn start() -> Result<(), JsValue> {
                     .unwrap_or(Value::Null);
                 json!({"intentVersion":2,"releaseId":release,"assignmentId":binding["assignmentId"],"expectedAssignmentRevision":binding["assignmentRevision"],"targetBindingId":binding["bindingId"],"expectedBindingRevision":binding["bindingRevision"]})
             }
-            "choose-instance-project" => json!({"projectId":value("instance-project")}),
-            "register-instance" => {
+            Action::ChooseInstanceProject => json!({"projectId":value("instance-project")}),
+            Action::RegisterInstance => {
                 json!({"name":value("instance-name"),"containerName":value("instance-container"),"kind":value("instance-kind"),"environment":value("instance-environment"),"host":value("instance-host"),"port":value("instance-port").parse::<u16>().unwrap_or(0),"service":value("instance-service"),"transport":value("instance-transport"),"username":value("instance-username"),"password":value("instance-password"),"reason":value("instance-reason")})
             }
-            "login" => json!({"username":value("username"),"password":value("password")}),
-            "change-password" => {
+            Action::Login => json!({"username":value("username"),"password":value("password")}),
+            Action::ChangePassword => {
                 json!({"currentPassword":value("current-password"),"newPassword":value("new-password"),"confirmation":value("confirm-password")})
             }
-            "token-login" => json!({"token":value("access-token")}),
-            "setup" => {
+            Action::TokenLogin => json!({"token":value("access-token")}),
+            Action::Setup => {
                 json!({"token":value("setup-token"),"username":value("setup-username"),"password":value("setup-password")})
             }
-            "create-project" => {
+            Action::CreateProject => {
                 let mut fields = json!({"name":value("project-name")});
                 let description = value("project-description");
                 if !description.is_empty() {
@@ -1122,12 +1141,12 @@ pub fn start() -> Result<(), JsValue> {
                 }
                 fields
             }
-            "archive-project" => json!({"reason":value("archive-project-reason")}),
-            "create-environment" => json!({"name":value("environment-name")}),
-            "create-draft" | "save-draft" => {
-                draft_editor::payload(&submit_model, action == "save-draft")
+            Action::ArchiveProject => json!({"reason":value("archive-project-reason")}),
+            Action::CreateEnvironment => json!({"name":value("environment-name")}),
+            Action::CreateDraft | Action::SaveDraft => {
+                draft_editor::payload(&submit_model, action == Action::SaveDraft)
             }
-            "parse-sql" => json!({"sql":value("sql-source")}),
+            Action::ParseSql => json!({"sql":value("sql-source")}),
             _ => Value::Null,
         };
         run_action(submit_model.clone(), action, id, fields);
@@ -1186,20 +1205,15 @@ pub fn start() -> Result<(), JsValue> {
                 .and_then(|e| e.dyn_into::<Element>().ok())
                 .and_then(|e| {
                     [
-                        ("review-inbox-scope", "change-review-scope"),
-                        ("audit-action", "filter-audit"),
-                        ("plan-status", "filter-plan-status"),
+                        ("review-inbox-scope", Action::ChangeReviewScope),
+                        ("audit-action", Action::FilterAudit),
+                        ("plan-status", Action::FilterPlanStatus),
                     ]
                     .into_iter()
                     .find(|(field, _)| *field == e.id())
                 })
         {
-            run_action(
-                change_model.clone(),
-                action.into(),
-                value(field),
-                Value::Null,
-            );
+            run_action(change_model.clone(), action, value(field), Value::Null);
             return;
         }
         if !change_model.borrow().busy && instance_profiles::change(&change_model, &event) {

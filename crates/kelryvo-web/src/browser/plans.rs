@@ -1,6 +1,10 @@
 //! User actions for plans.
 use super::*;
 
+pub(super) fn selected(data: &Value, id: &str) -> Option<Value> {
+    array(data, "plans").iter().find(|p| p["id"] == id).cloned()
+}
+
 pub(super) async fn action(
     model: &Model,
     action: Action,
@@ -22,11 +26,7 @@ pub(super) async fn action(
         }
         Action::ViewPlanValidation => {
             let project = super::project_id(model)?;
-            let plan = array(&model.borrow().data, "plans")
-                .iter()
-                .find(|p| p["id"] == id)
-                .cloned()
-                .ok_or("Reload the plan")?;
+            let plan = selected(&model.borrow().data, id).ok_or("Reload the plan")?;
             let result = api(
                 model,
                 "GET",
@@ -67,11 +67,7 @@ pub(super) async fn action(
             model.borrow_mut().notice = "Plan created for independent review.".into();
         }
         Action::ReviewPlanSql => {
-            let plan = array(&model.borrow().data, "plans")
-                .iter()
-                .find(|p| p["id"] == id)
-                .cloned()
-                .ok_or("Reload the plan")?;
+            let plan = selected(&model.borrow().data, id).ok_or("Reload the plan")?;
             let preview = api(
                 model,
                 "GET",

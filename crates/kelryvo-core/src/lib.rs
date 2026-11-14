@@ -83,6 +83,14 @@ pub(crate) fn text(value: &Value, max: usize) -> bool {
     })
 }
 
+/// Integral JSON port numbers, including decimal and exponent spellings.
+pub fn port(value: &Value) -> Option<i32> {
+    value
+        .as_f64()
+        .filter(|n| n.fract() == 0.0 && (1.0..=65535.0).contains(n))
+        .map(|n| n as i32)
+}
+
 pub fn digest(value: &Value) -> bool {
     value.as_str().is_some_and(|s| {
         s.len() == 64

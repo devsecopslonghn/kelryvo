@@ -80,7 +80,7 @@ pub(super) async fn configure(pool: &PgPool, input: &Value, uid: i32) -> Result<
     let mut tx = pool.begin().await?;
     instances::catalog_lock(&mut tx).await?;
     let schema:Uuid=sqlx::query_scalar("SELECT schema_id FROM sf_reference_assignments WHERE id=$1 AND project_id=$2 AND organization_id=$3").bind(assignment).bind(project).bind(ORG_UUID).fetch_optional(&mut *tx).await?.ok_or_else(fail)?;
-    schema_lock(&mut tx, schema).await?;
+    instances::schema_lock(&mut tx, schema).await?;
     guard(&mut tx).await?;
     if auth::access_mode_connection(&mut tx).await? != "ENFORCED" {
         return Err(fail());

@@ -12,6 +12,29 @@ use serde_json::{Value, json};
 use sqlx::PgConnection;
 use uuid::Uuid;
 
+// Internal evidence reads. Callers retain authority checks, transaction lifetime,
+// and their distinct CLAIMED/completed/HOLD predicates.
+pub async fn migration_attempts(
+    tx: &mut PgConnection,
+    job: Uuid,
+) -> Result<Vec<Value>, sqlx::Error> {
+    sqlx::query_scalar("SELECT jsonb_build_object('id',id,'generation',generation::text,'state',state) FROM sf_execution_attempts WHERE job_id=$1 LIMIT 2").bind(job).fetch_all(tx).await
+}
+pub async fn migration_receipts(
+    tx: &mut PgConnection,
+    job: Uuid,
+    attempt: Uuid,
+    generation: Option<&str>,
+) -> Result<Vec<Value>, sqlx::Error> {
+    sqlx::query_scalar("SELECT jsonb_build_object('ordinal',ordinal,'statement_digest',statement_digest,'receipt_digest',receipt_digest,'central_evidence_digest',central_evidence_digest) FROM sf_execution_receipts WHERE job_id=$1 AND attempt_id=$2 AND generation=$3::text::bigint ORDER BY ordinal LIMIT 4097").bind(job).bind(attempt).bind(generation).fetch_all(tx).await
+}
+pub async fn migration_acknowledgements(
+    tx: &mut PgConnection,
+    attempt: Uuid,
+) -> Result<Vec<Value>, sqlx::Error> {
+    sqlx::query_scalar("SELECT jsonb_build_object('ordinal',ordinal,'statement_digest',statement_digest) FROM sf_execution_attempt_events WHERE attempt_id=$1 AND phase='ACKNOWLEDGED' ORDER BY ordinal LIMIT 4097").bind(attempt).fetch_all(tx).await
+}
+
 async fn job(tx: &mut PgConnection, auth: &Authenticated, id: Uuid) -> Result<Value, ApiError> {
     let project: Uuid = sqlx::query_scalar(
         "SELECT project_id FROM sf_execution_jobs WHERE id=$1 AND organization_id=$2",

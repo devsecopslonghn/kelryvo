@@ -45,11 +45,8 @@ fn supplied_string<'de, D: Deserializer<'de>>(deserializer: D) -> Result<Option<
 fn deserialize_port<'de, D: Deserializer<'de>>(deserializer: D) -> Result<i32, D::Error> {
     // JSON numbers have JavaScript Number semantics in the retained API:
     // integral decimal/exponent spellings are valid, strings are not.
-    let value = f64::deserialize(deserializer)?;
-    if value.fract() != 0.0 || !(1.0..=65535.0).contains(&value) {
-        return Err(serde::de::Error::custom("Invalid port"));
-    }
-    Ok(value as i32)
+    kelryvo_core::port(&Value::deserialize(deserializer)?)
+        .ok_or_else(|| serde::de::Error::custom("Invalid port"))
 }
 
 fn bounded(value: &str, max: usize) -> bool {
@@ -85,6 +82,14 @@ fn vault_error() -> ApiError {
         StatusCode::SERVICE_UNAVAILABLE,
         "ORACLE_CREDENTIAL_VAULT_UNAVAILABLE",
     )
+}
+
+pub async fn schema_lock(tx: &mut PgConnection, schema: Uuid) -> Result<(), sqlx::Error> {
+    sqlx::query("SELECT pg_advisory_xact_lock(hashtextextended($1,29))")
+        .bind(schema.to_string())
+        .execute(tx)
+        .await?;
+    Ok(())
 }
 
 pub async fn catalog_lock(tx: &mut PgConnection) -> Result<(), ApiError> {

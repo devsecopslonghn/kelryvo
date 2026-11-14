@@ -27,6 +27,15 @@ fn has(value: &Value, code: &str) -> bool {
 /// The caller holds the catalog/schema locks before the authority checkpoint.
 /// Native managed writer installations will supply a separate capability;
 /// retained installation journals alone cannot qualify this replacement.
+pub async fn captured_profile_current(tx: &mut PgConnection, plan: Uuid) -> Result<bool, ApiError> {
+    let captured:Option<(bool,Uuid)>=sqlx::query_as("SELECT p.enabled AND p.retired_at IS NULL AND p.service_kind='SERVICE_NAME' AND p.revision=s.revision,p.id FROM sf_connection_plan_revisions s JOIN sf_profiles p ON p.id=s.profile_id WHERE s.plan_id=$1").bind(plan).fetch_optional(&mut *tx).await?;
+    if let Some((true, profile)) = captured {
+        profile_current(tx, profile).await
+    } else {
+        Ok(false)
+    }
+}
+
 pub async fn profile_current(tx: &mut PgConnection, profile: Uuid) -> Result<bool, ApiError> {
     let row:Option<Value>=sqlx::query_scalar("SELECT to_jsonb(c)||jsonb_build_object('source_current',c.revision=s.connection_revision,'endpoint_matches',c.host=p.host AND c.port=p.port AND c.service=p.service,'profile_username',p.username,'profile_credential_ref',p.credential_ref) FROM sf_instance_profile_sources s JOIN sf_database_connections c ON c.id=s.connection_id JOIN sf_profiles p ON p.id=s.profile_id WHERE s.profile_id=$1 FOR SHARE OF c").bind(profile).fetch_optional(&mut *tx).await?;
     let Some(c) = row else {
