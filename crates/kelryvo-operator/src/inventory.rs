@@ -57,11 +57,7 @@ async fn schema_lock(tx: &mut PgConnection, schema: Uuid) -> Result<()> {
         .await?;
     Ok(())
 }
-fn port(v: &Value) -> Option<i32> {
-    v.as_f64()
-        .filter(|n| n.fract() == 0.0 && (1.0..=65535.0).contains(n))
-        .map(|n| n as i32)
-}
+use kelryvo_core::port;
 fn valid_host(s: &str) -> bool {
     if s.len() > 253 {
         return false;

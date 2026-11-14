@@ -392,7 +392,6 @@ pub(super) async fn load_instance_project(model: &Model, project: &str) -> Resul
     }
     data["environments"] = project_data["environments"].clone();
     data["profiles"] = project_data["profiles"].clone();
-    data["project"] = project_data["project"].clone();
     data["profileFilters"] = retained;
     data["bindings"] = api(
         model,

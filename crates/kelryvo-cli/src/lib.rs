@@ -119,7 +119,7 @@ fn execute(request: &Value) -> Option<Value> {
         "normalizeObservation" => evidence::normalize_observation(
             &request["observation"],
             request["operation"].as_str()?,
-            chrono_now(),
+            chrono::Utc::now(),
         ),
         "approvedMigrationIdentities" => {
             migrations::approved_identities(&request["intent"]).unwrap_or(Value::Null)
@@ -154,10 +154,6 @@ fn execute(request: &Value) -> Option<Value> {
         .unwrap_or(Value::Null),
         _ => return None,
     })
-}
-
-fn chrono_now() -> chrono::DateTime<chrono::Utc> {
-    chrono::Utc::now()
 }
 
 fn core() -> Result<(), ()> {
@@ -240,13 +236,7 @@ pub fn run() -> ExitCode {
             println!("kelryvo {}", env!("CARGO_PKG_VERSION"));
             ExitCode::SUCCESS
         }
-        [] => {
-            println!(
-                "Usage: kelryvo pilot ACTION [OPTIONS] | dev [OPTIONS] | local-prepare [OPTIONS] | core | build-web | build-dist OUTPUT [--debug] | verify-dist DIRECTORY | runtime-inventory OUTPUT | chart-check CHECKOUT [--native] | oci ACTION [ARGS] | delivery ACTION [ARGS] | --build-info | --help | --version\n\npilot: root-owned installation preparation and native account/grant commands; use kelryvo pilot --help.\ndev/local-prepare: native checkout startup; use kelryvo dev --help for private local inputs.\ncore: bounded JSON-lines interface to native offline governance checks.\nbuild-dist: builds a fresh native application and WASM bundle with pinned Cargo source archives; no deployment or runtime qualification.\nverify-dist: checks exact bundle files against its inventory; hashes are not signatures or approval.\ndelivery: source/image/security gates, verified registry publication and protected Helm promotion; use kelryvo delivery --help.\noci: local archive inspection, source/role verification and deterministic two-platform assembly; use kelryvo oci --help.\nchart-check: read-only Helm rendering and retained storage/security/Argo checks; --native requires explicit native prerequisite claims.\nruntime-inventory: records installed Debian package versions and notices in a fresh absolute directory."
-            );
-            ExitCode::SUCCESS
-        }
-        [arg] if arg == "--help" => {
+        args if args.is_empty() || args == ["--help"] => {
             println!(
                 "Usage: kelryvo pilot ACTION [OPTIONS] | dev [OPTIONS] | local-prepare [OPTIONS] | core | build-web | build-dist OUTPUT [--debug] | verify-dist DIRECTORY | runtime-inventory OUTPUT | chart-check CHECKOUT [--native] | oci ACTION [ARGS] | delivery ACTION [ARGS] | --build-info | --help | --version\n\npilot: root-owned installation preparation and native account/grant commands; use kelryvo pilot --help.\ndev/local-prepare: native checkout startup; use kelryvo dev --help for private local inputs.\ncore: bounded JSON-lines interface to native offline governance checks.\nbuild-dist: builds a fresh native application and WASM bundle with pinned Cargo source archives; no deployment or runtime qualification.\nverify-dist: checks exact bundle files against its inventory; hashes are not signatures or approval.\ndelivery: source/image/security gates, verified registry publication and protected Helm promotion; use kelryvo delivery --help.\noci: local archive inspection, source/role verification and deterministic two-platform assembly; use kelryvo oci --help.\nchart-check: read-only Helm rendering and retained storage/security/Argo checks; --native requires explicit native prerequisite claims.\nruntime-inventory: records installed Debian package versions and notices in a fresh absolute directory."
             );

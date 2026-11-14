@@ -233,7 +233,6 @@ pub(super) async fn action(
                 .await.map_err(|e|if e=="PASSWORD NOT ACCEPTED" {"Current password was not accepted.".into()} else {e})?;
             model.borrow_mut().set_session(None);
             model.borrow_mut().data = Value::Null;
-            model.borrow_mut().route = Route::Projects;
             model.borrow_mut().notice = "Password changed. Sign in again.".into();
             workflow_location::signed_out(model);
         }

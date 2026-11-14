@@ -60,11 +60,7 @@ static USER: LazyLock<Regex> =
 static REFERENCE: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(r"\A(?:vault|secret)://[A-Za-z0-9._/-]{1,500}\z").expect("reference")
 });
-fn port(v: &Value) -> Option<i32> {
-    v.as_f64()
-        .filter(|n| n.is_finite() && n.fract() == 0.0 && (1.0..=65535.0).contains(n))
-        .map(|n| n as i32)
-}
+use kelryvo_core::port;
 fn endpoint(b: &Value, host_limit: usize) -> bool {
     text(&b["host"]).len() <= host_limit
         && matches(&HOST, &b["host"])

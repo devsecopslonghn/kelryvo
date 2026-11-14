@@ -88,9 +88,6 @@ impl Materialized {
     pub fn migrations(&self) -> &Value {
         &self.migrations
     }
-    pub fn statement_manifest_digest(&self) -> &str {
-        &self.manifest
-    }
 }
 pub(crate) fn id(v: &Value) -> Result<Uuid> {
     v.as_str()

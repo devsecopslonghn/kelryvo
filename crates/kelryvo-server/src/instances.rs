@@ -45,11 +45,8 @@ fn supplied_string<'de, D: Deserializer<'de>>(deserializer: D) -> Result<Option<
 fn deserialize_port<'de, D: Deserializer<'de>>(deserializer: D) -> Result<i32, D::Error> {
     // JSON numbers have JavaScript Number semantics in the retained API:
     // integral decimal/exponent spellings are valid, strings are not.
-    let value = f64::deserialize(deserializer)?;
-    if value.fract() != 0.0 || !(1.0..=65535.0).contains(&value) {
-        return Err(serde::de::Error::custom("Invalid port"));
-    }
-    Ok(value as i32)
+    kelryvo_core::port(&Value::deserialize(deserializer)?)
+        .ok_or_else(|| serde::de::Error::custom("Invalid port"))
 }
 
 fn bounded(value: &str, max: usize) -> bool {

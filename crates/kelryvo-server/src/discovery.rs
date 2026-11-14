@@ -24,21 +24,7 @@ use std::{
 };
 use uuid::Uuid;
 
-#[derive(Clone, Copy)]
-pub enum Operation {
-    Test,
-    Discover,
-    Schema,
-}
-impl Operation {
-    fn name(self) -> &'static str {
-        match self {
-            Self::Test => "TEST",
-            Self::Discover => "DISCOVER",
-            Self::Schema => "SCHEMA",
-        }
-    }
-}
+pub use kelryvo_discovery::Operation;
 
 pub type RuntimeResult = Pin<Box<dyn Future<Output = Result<Value, ()>> + Send>>;
 
@@ -50,11 +36,6 @@ pub trait DiscoveryRuntime: Send + Sync {
 impl DiscoveryRuntime for kelryvo_discovery::Client {
     fn run(&self, connection: Value, operation: Operation) -> RuntimeResult {
         let client = self.clone();
-        let operation = match operation {
-            Operation::Test => kelryvo_discovery::Operation::Test,
-            Operation::Discover => kelryvo_discovery::Operation::Discover,
-            Operation::Schema => kelryvo_discovery::Operation::Schema,
-        };
         Box::pin(async move {
             let request = kelryvo_discovery::Request::new(connection, operation).map_err(|_| ())?;
             client.run(request).await.map_err(|_| ())

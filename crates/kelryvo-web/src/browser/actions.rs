@@ -329,7 +329,6 @@ pub(super) async fn dispatch(
             load(model).await?;
         }
         Action::ParseSql => {
-            model.borrow_mut().data["previewSource"] = fields["sql"].clone();
             let parsed = api(model, "POST", "/api/parser/oracle", Some(fields), None).await?;
             model.borrow_mut().data["parsed"] = parsed;
         }

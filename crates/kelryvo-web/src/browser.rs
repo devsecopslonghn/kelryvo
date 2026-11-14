@@ -102,13 +102,7 @@ fn s(value: &Value) -> &str {
 fn e(value: &Value) -> String {
     escape(s(value))
 }
-fn recovery_digest(value: &Value) -> bool {
-    let value = s(value);
-    value.len() == 64
-        && value
-            .bytes()
-            .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
-}
+use kelryvo_core::digest as recovery_digest;
 fn capture_hold_forms(model: &Model) {
     let mut state = model.borrow_mut();
     if state.session.is_none()

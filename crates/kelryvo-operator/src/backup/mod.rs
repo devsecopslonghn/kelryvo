@@ -86,13 +86,7 @@ fn database_name(s: &str) -> bool {
         && s.bytes()
             .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || b == b'_')
 }
-fn digest(v: &Value) -> bool {
-    v.as_str().is_some_and(|s| {
-        s.len() == 64
-            && s.bytes()
-                .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
-    })
-}
+use kelryvo_core::digest;
 fn operator() -> Result<i32> {
     let uid = files::uid()?;
     if [10001, 10002].contains(&uid) {

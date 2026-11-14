@@ -33,11 +33,7 @@ fn exact(v: &Value, keys: &[&str]) -> bool {
 fn id(v: &Value) -> Result<Uuid, ApiError> {
     projects::id(v.as_str().ok_or_else(invalid)?)
 }
-fn port(v: &Value) -> Option<i32> {
-    v.as_f64()
-        .filter(|n| n.is_finite() && n.fract() == 0.0 && (1.0..=65535.0).contains(n))
-        .map(|n| n as i32)
-}
+use kelryvo_core::port;
 static HOST: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(r"\A(?:[A-Za-z0-9](?:[A-Za-z0-9.-]*[A-Za-z0-9])?|\[[0-9A-Fa-f:]+\])\z")
         .expect("host")

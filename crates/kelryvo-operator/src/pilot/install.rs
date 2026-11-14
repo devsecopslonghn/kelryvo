@@ -319,7 +319,7 @@ pub(super) async fn prepare(o: &Options) -> Result<()> {
     )?;
     write(
         &o.directory.join("compose.yaml"),
-        compose().as_bytes(),
+        COMPOSE.as_bytes(),
         0o600,
         0,
     )?;
