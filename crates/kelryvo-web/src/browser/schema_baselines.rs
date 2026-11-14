@@ -162,7 +162,7 @@ pub(super) fn change(model: &Model, event: &Event) -> bool {
         let binding = value(&id);
         super::run_action(
             model.clone(),
-            "select-schema-target".into(),
+            Action::SelectSchemaTarget,
             binding,
             Value::Null,
         );

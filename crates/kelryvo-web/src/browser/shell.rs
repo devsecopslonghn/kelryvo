@@ -1,6 +1,6 @@
 //! Local presentation state never holds credentials or unsaved form contents.
 //! Theme and menu changes patch the DOM without replacing active form controls.
-use super::{Model, Route, api, array, document, e, escape, load, value, window};
+use super::{Action, Model, Route, api, array, document, e, escape, load, value, window};
 use serde_json::Value;
 use wasm_bindgen::JsCast;
 
@@ -303,7 +303,7 @@ pub(super) fn change(model: &Model, event: &web_sys::Event) -> bool {
     {
         super::run_action(
             model.clone(),
-            "switch-project".into(),
+            Action::SwitchProject,
             value("active-project"),
             Value::Null,
         );

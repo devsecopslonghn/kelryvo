@@ -184,11 +184,10 @@ pub(super) enum Action {
 
 pub(super) async fn dispatch(
     model: &Model,
-    name: &str,
+    action: Action,
     id: &str,
     fields: Value,
 ) -> Result<(), String> {
-    let action: Action = serde_json::from_value(json!(name)).map_err(|_| "Unknown action")?;
     match action {
         Action::SwitchProject => shell::switch(model, id).await?,
         Action::RefreshWorkspace => {

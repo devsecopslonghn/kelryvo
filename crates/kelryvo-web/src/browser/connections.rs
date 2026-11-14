@@ -601,13 +601,13 @@ pub(super) fn view(data: &Value, global: bool) -> String {
     html.push_str("</section>");
     html
 }
-pub(super) fn fields(action: &str, id: &str) -> Value {
+pub(super) fn fields(action: Action, id: &str) -> Value {
     match action {
-        "choose-connection-project" => json!({"projectId":value("connection-project")}),
-        "filter-project-connections" => {
+        Action::ChooseConnectionProject => json!({"projectId":value("connection-project")}),
+        Action::FilterProjectConnections => {
             json!({"search":value("connection-search"),"engine":value("connection-engine"),"environment":value("connection-environment"),"status":value("connection-status")})
         }
-        "register-manual-reference" => {
+        Action::RegisterManualReference => {
             let mut b = json!({});
             for key in [
                 "name",
@@ -628,7 +628,7 @@ pub(super) fn fields(action: &str, id: &str) -> Value {
             }
             b
         }
-        "register-discovery-connection" => {
+        Action::RegisterDiscoveryConnection => {
             let reference = value("discovery-reference");
             let (assignment, route) = reference.split_once('/').unwrap_or(("", ""));
             let mut b = json!({"assignmentId":assignment,"routeId":route,"purpose":"DISCOVERY"});
@@ -649,8 +649,8 @@ pub(super) fn fields(action: &str, id: &str) -> Value {
         }
         _ => {
             let key = match action {
-                "test-project-connection" => "test",
-                "discover-project-connection" => "discover",
+                Action::TestProjectConnection => "test",
+                Action::DiscoverProjectConnection => "discover",
                 _ => "retire",
             };
             let mut b = json!({"reason":value(&format!("connection-{key}-reason-{id}"))});

@@ -86,8 +86,8 @@ fn config(prefix: &str, kind: &str, existing: &Value) -> Value {
         json!({"routeId":route,"baseDN":value(&format!("{prefix}-base-dn")),"bindDN":value(&format!("{prefix}-bind-dn")),"bindSecretRef":value(&format!("{prefix}-bind-secret")),"loginAttribute":value(&format!("{prefix}-login-attribute")),"subjectAttribute":"entryUUID"})
     }
 }
-pub(super) fn fields(model: &Model, action: &str) -> Value {
-    if action == "create-identity-provider" {
+pub(super) fn fields(model: &Model, action: Action) -> Value {
+    if action == Action::CreateIdentityProvider {
         let route = value("new-identity-route");
         let kind = array(&model.borrow().data, "routes")
             .iter()
@@ -98,14 +98,14 @@ pub(super) fn fields(model: &Model, action: &str) -> Value {
     }
     let p = model.borrow().data["selectedIdentityProvider"].clone();
     match action {
-        "save-identity-provider" => {
+        Action::SaveIdentityProvider => {
             json!({"expectedRevision":p["revision"],"name":value("edit-identity-name"),"enabled":checked("edit-identity-enabled"),"config":config("edit-identity",s(&p["kind"]),&p["config"]),"reason":value("edit-identity-reason")})
         }
-        "link-identity" => {
+        Action::LinkIdentity => {
             json!({"expectedProviderRevision":p["revision"],"subject":value("identity-subject"),"actorId":value("identity-actor"),"reason":value("identity-link-reason")})
         }
-        "revoke-identity" => json!({"reason":value("identity-revoke-reason")}),
-        "lookup-identity" => {
+        Action::RevokeIdentity => json!({"reason":value("identity-revoke-reason")}),
+        Action::LookupIdentity => {
             json!({"expectedRevision":p["revision"],"username":value("identity-lookup-username")})
         }
         _ => json!({"expectedRevision":p["revision"]}),

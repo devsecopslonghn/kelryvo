@@ -78,7 +78,7 @@ pub(super) fn change(model: &Model, event: &Event) -> bool {
     if id == "target-binding-assignment" {
         run_action(
             model.clone(),
-            "binding-assignment".into(),
+            Action::BindingAssignment,
             String::new(),
             Value::Null,
         );
