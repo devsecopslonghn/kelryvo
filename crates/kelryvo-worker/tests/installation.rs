@@ -6,6 +6,40 @@ use uuid::Uuid;
 #[path = "support/installation.rs"]
 mod support;
 use support::{fixture, seal, write};
+
+#[tokio::test]
+#[ignore = "requires private PostgreSQL from kelryvo-test --worker-only"]
+async fn metadata_pools_preserve_limits_and_timeouts_on_every_connection() {
+    let url = std::env::var("KELRYVO_RUST_TEST_DATABASE_URL").expect("private cluster");
+    assert!(url.starts_with("postgresql:///kelryvo_rust_test?host="));
+    for maximum in [1, 2] {
+        let options = kelryvo_worker::metadata_pool_options(maximum);
+        assert_eq!(options.get_max_connections(), maximum);
+        assert_eq!(
+            options.get_acquire_timeout(),
+            std::time::Duration::from_secs(5)
+        );
+        let pool = options.connect(&url).await.unwrap();
+        let mut connections = Vec::new();
+        for _ in 0..maximum {
+            let mut connection = pool.acquire().await.unwrap();
+            for (sql, expected) in [
+                ("SHOW statement_timeout", "10s"),
+                ("SHOW lock_timeout", "5s"),
+            ] {
+                let actual: String = sqlx::query_scalar(sql)
+                    .fetch_one(&mut *connection)
+                    .await
+                    .unwrap();
+                assert_eq!(actual, expected);
+            }
+            connections.push(connection);
+        }
+        drop(connections);
+        pool.close().await;
+    }
+}
+
 #[test]
 fn native_installation_binds_private_files_binary_wallet_and_distinct_public_record() {
     assert_eq!(

@@ -18,13 +18,12 @@ use kelryvo_server::ORG_UUID;
 use rand::{RngCore, rngs::OsRng};
 use serde::Deserialize;
 use serde_json::{Value, json};
-use sqlx::{PgPool, postgres::PgPoolOptions};
+use sqlx::PgPool;
 use std::{
     fs::{self, OpenOptions},
     io::Write,
     os::unix::fs::{DirBuilderExt, OpenOptionsExt},
     path::{Path, PathBuf},
-    time::Duration,
 };
 use uuid::Uuid;
 use zeroize::Zeroizing;
@@ -169,18 +168,7 @@ pub async fn run(path: &Path) -> Result<Value> {
     let database_url = c.database_url()?;
     let key = VaultPrivateKey::parse(&installation::private_file(&r.vault_key_file, 16384)?)
         .map_err(|_| Unavailable)?;
-    let pool = PgPoolOptions::new()
-        .max_connections(1)
-        .acquire_timeout(Duration::from_secs(5))
-        .after_connect(|conn, _| {
-            Box::pin(async move {
-                sqlx::query("SET statement_timeout='10s'")
-                    .execute(&mut *conn)
-                    .await?;
-                sqlx::query("SET lock_timeout='5s'").execute(conn).await?;
-                Ok(())
-            })
-        })
+    let pool = crate::metadata_pool_options(1)
         .connect(&database_url)
         .await?;
     let result = prepare(&r, &c, policy, &pool, &database_url, &key).await;

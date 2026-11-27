@@ -18,8 +18,8 @@ use kelryvo_runtime::oracle::{
 use kelryvo_server::{ORG_UUID, plans};
 use rand::{RngCore, rngs::OsRng};
 use serde_json::{Value, json};
-use sqlx::{PgPool, postgres::PgPoolOptions};
-use std::{collections::HashSet, fs, path::Path, time::Duration};
+use sqlx::PgPool;
+use std::{collections::HashSet, fs, path::Path};
 use zeroize::Zeroizing;
 mod evidence_store;
 
@@ -35,20 +35,7 @@ impl ManagedHost {
         config.validate()?;
         config.verify_artifacts()?;
         let url = config.database_url()?;
-        let pool = PgPoolOptions::new()
-            .max_connections(2)
-            .acquire_timeout(Duration::from_secs(5))
-            .after_connect(|conn, _| {
-                Box::pin(async move {
-                    sqlx::query("SET statement_timeout='10s'")
-                        .execute(&mut *conn)
-                        .await?;
-                    sqlx::query("SET lock_timeout='5s'").execute(conn).await?;
-                    Ok(())
-                })
-            })
-            .connect(&url)
-            .await?;
+        let pool = crate::metadata_pool_options(2).connect(&url).await?;
         Ok(Self {
             config,
             pool,

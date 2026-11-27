@@ -3,6 +3,59 @@ use serde_json::{Value, json};
 use std::cmp::Ordering;
 
 #[test]
+fn lowercase_digest_validation_keeps_string_and_json_boundaries() {
+    for value in ["0".repeat(64), "abcdef0123456789".repeat(4)] {
+        assert!(kelryvo_core::is_digest(&value));
+        assert!(kelryvo_core::digest(&json!(value)));
+    }
+    for invalid in [
+        "".to_owned(),
+        "a".repeat(63),
+        "a".repeat(65),
+        "A".repeat(64),
+        "g".repeat(64),
+        format!("{}\n", "a".repeat(63)),
+        "é".repeat(32),
+    ] {
+        assert!(!kelryvo_core::is_digest(&invalid));
+        assert!(!kelryvo_core::digest(&json!(invalid)));
+    }
+    for invalid in [json!(null), json!(0), json!(true), json!([]), json!({})] {
+        assert!(!kelryvo_core::digest(&invalid));
+    }
+}
+
+#[test]
+fn canonical_revisions_preserve_zero_and_i64_boundaries() {
+    assert_eq!(workspace::positive_revision("0"), None);
+    assert_eq!(workspace::nonnegative_revision("0"), Some(0));
+    for value in ["1", "9223372036854775806", "9223372036854775807"] {
+        assert_eq!(workspace::positive_revision(value), value.parse().ok());
+        assert_eq!(workspace::nonnegative_revision(value), value.parse().ok());
+    }
+    for invalid in [
+        "",
+        "00",
+        "01",
+        "+1",
+        "-0",
+        "-1",
+        "1.0",
+        "1e0",
+        " 1",
+        "1\n",
+        "١",
+        "9223372036854775808",
+    ] {
+        assert_eq!(workspace::positive_revision(invalid), None);
+        assert_eq!(workspace::nonnegative_revision(invalid), None);
+    }
+    for invalid in [json!(0), json!(1), json!(null), json!(true)] {
+        assert!(!kelryvo_core::plan::revision(&invalid));
+    }
+}
+
+#[test]
 fn migration_versions_preserve_numeric_order_and_distinct_filename_bounds() {
     for (left, right, expected) in [
         ("1", "1.0.0", Ordering::Equal),
@@ -39,6 +92,10 @@ fn migration_versions_preserve_numeric_order_and_distinct_filename_bounds() {
     // Editable files stop at 200 characters; Git releases retain longer names.
     let filename = format!("V0001_02_0__{}.sql", "a".repeat(200));
     assert!(workspace::file_version(&filename).is_none());
+    assert_eq!(
+        workspace::canonical_file_version(&filename).as_deref(),
+        Some("1.2")
+    );
     let path = format!("migrations/{filename}");
     let content = "SELECT 1 FROM dual;\n";
     let file = json!({"path":path,"version":"1.2","sha256":sha256(content),"bytes":content.len()});

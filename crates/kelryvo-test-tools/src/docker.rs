@@ -1,9 +1,26 @@
 //! Local-daemon fixture transport. No inherited daemon/context, credentials,
 //! registry write or shell expansion can choose an external destination.
 use kelryvo_test_tools::{Result, api, process};
+use serde_json::{Value, json};
 use std::{collections::BTreeMap, ffi::OsString, time::Duration};
 pub fn require(valid: bool, label: &str) -> Result<()> {
     api::check(&serde_json::json!(valid), &serde_json::json!(true), label)
+}
+pub fn lifecycle_record(line: &str) -> Option<Value> {
+    let value: Value = serde_json::from_str(line).ok()?;
+    if !["startup", "shutdown"].contains(&value["event"].as_str().unwrap_or(""))
+        || !["started", "ready", "failed", "complete", "timeout"]
+            .contains(&value["state"].as_str().unwrap_or(""))
+    {
+        return None;
+    }
+    let mut record = json!({"event":value["event"],"state":value["state"]});
+    if value["code"].as_str().is_some_and(|s| {
+        !s.is_empty() && s.len() <= 40 && s.bytes().all(|b| b.is_ascii_lowercase() || b == b'_')
+    }) {
+        record["code"] = value["code"].clone();
+    }
+    Some(record)
 }
 pub fn valid_image(image: &str) -> bool {
     image.len() <= 255
@@ -127,6 +144,35 @@ pub async fn probe(info: &serde_json::Value) -> Result<std::path::PathBuf> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn diagnostics_only_return_allowlisted_lifecycle_fields() {
+        assert_eq!(
+            lifecycle_record(
+                r#"{"event":"startup","state":"ready","code":"safe_code","password":"private"}"#
+            )
+            .unwrap()
+            .to_string(),
+            r#"{"event":"startup","state":"ready","code":"safe_code"}"#
+        );
+        for code in ["", "PRIVATE", "private-token", "a1", &"a".repeat(41)] {
+            assert_eq!(
+                lifecycle_record(
+                    &json!({"event":"shutdown","state":"failed","code":code,"extra":"private"})
+                        .to_string()
+                ),
+                Some(json!({"event":"shutdown","state":"failed"}))
+            );
+        }
+        for invalid in [
+            "private text",
+            "{}",
+            r#"{"event":"sql","state":"ready"}"#,
+            r#"{"event":"startup","state":"private"}"#,
+        ] {
+            assert!(lifecycle_record(invalid).is_none());
+        }
+    }
+
     #[test]
     fn local_daemon_and_image_selection_are_fixed_and_bounded() {
         assert_eq!(

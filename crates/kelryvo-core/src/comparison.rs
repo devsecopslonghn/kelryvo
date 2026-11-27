@@ -25,19 +25,7 @@ pub fn releases(base: &Value, candidate: &Value) -> Option<Value> {
         .collect::<Option<_>>()?;
     let mut seen = HashSet::new();
     versions.retain(|v| seen.insert(*v));
-    versions.sort_by(|a, b| {
-        let a: Vec<_> = a.split('.').collect();
-        let b: Vec<_> = b.split('.').collect();
-        for i in 0..a.len().max(b.len()) {
-            let x = a.get(i).copied().unwrap_or("0");
-            let y = b.get(i).copied().unwrap_or("0");
-            let order = x.len().cmp(&y.len()).then_with(|| x.cmp(y));
-            if !order.is_eq() {
-                return order;
-            }
-        }
-        std::cmp::Ordering::Equal
-    });
+    versions.sort_by(|a, b| crate::workspace::compare_versions(a, b));
     let reference = |f: Option<&Value>| {
         f.map(|f|json!({"path":f["path"],"sha256":f["sha256"],"bytes":f["bytes"],"content":f["content"]}))
     };

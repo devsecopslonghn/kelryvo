@@ -21,6 +21,22 @@ pub mod preparation;
 pub mod publication;
 pub mod recovery;
 pub mod run;
+
+/// Worker metadata connections share acquisition and per-session SQL timeouts.
+pub fn metadata_pool_options(max_connections: u32) -> sqlx::postgres::PgPoolOptions {
+    sqlx::postgres::PgPoolOptions::new()
+        .max_connections(max_connections)
+        .acquire_timeout(std::time::Duration::from_secs(5))
+        .after_connect(|conn, _| {
+            Box::pin(async move {
+                sqlx::query("SET statement_timeout='10s'")
+                    .execute(&mut *conn)
+                    .await?;
+                sqlx::query("SET lock_timeout='5s'").execute(conn).await?;
+                Ok(())
+            })
+        })
+}
 #[cfg(test)]
 use installation::canonical_digest;
 #[cfg(test)]

@@ -28,9 +28,6 @@ static FOLDER: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r"\A[A-Za-z0-9_-]+(?:/[A-Za-z0-9_-]+)*\z").expect("folder"));
 static PATH: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r"\A[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*\z").expect("Git path"));
-static FILENAME: LazyLock<Regex> = LazyLock::new(|| {
-    Regex::new(r"\AV[0-9]+(?:[._][0-9]+)*__[A-Za-z0-9_-]+\.sql\z").expect("migration filename")
-});
 fn importable(s: &str) -> bool {
     REF.is_match(s) && !s.contains("..") && !s.ends_with('/')
 }
@@ -233,26 +230,7 @@ pub async fn refs(
     Ok(Json(json!({"branches":branches,"tags":tags})))
 }
 fn version(path: &str) -> Result<String, ()> {
-    let file = path.rsplit('/').next().ok_or(())?;
-    if !FILENAME.is_match(file) {
-        return Err(());
-    }
-    let v = file
-        .strip_prefix('V')
-        .and_then(|s| s.split_once("__"))
-        .ok_or(())?
-        .0;
-    let mut parts: Vec<_> = v
-        .split(['.', '_'])
-        .map(|s| {
-            let s = s.trim_start_matches('0');
-            if s.is_empty() { "0" } else { s }
-        })
-        .collect();
-    while parts.len() > 1 && parts.last() == Some(&"0") {
-        parts.pop();
-    }
-    Ok(parts.join("."))
+    kelryvo_core::workspace::canonical_file_version(path.rsplit('/').next().ok_or(())?).ok_or(())
 }
 async fn snapshot(root: &FilePath, commit: &str, folder: &str) -> Result<Value, ()> {
     if !importable(commit) {

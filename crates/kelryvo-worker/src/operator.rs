@@ -13,7 +13,7 @@ use kelryvo_runtime::oracle::{
 };
 use kelryvo_server::{ORG_UUID, auth, instances};
 use serde_json::{Value, json};
-use sqlx::{PgConnection, PgPool, postgres::PgPoolOptions};
+use sqlx::{PgConnection, PgPool};
 use std::{
     fs,
     os::unix::fs::MetadataExt,
@@ -131,20 +131,7 @@ pub(crate) fn loader_config(path: &Path) -> Result<Config> {
 pub async fn run(path: &Path, record: bool) -> Result<Value> {
     let config = loader_config(path)?;
     let url = config.database_url()?;
-    let pool = PgPoolOptions::new()
-        .max_connections(1)
-        .acquire_timeout(Duration::from_secs(5))
-        .after_connect(|conn, _| {
-            Box::pin(async move {
-                sqlx::query("SET statement_timeout='10s'")
-                    .execute(&mut *conn)
-                    .await?;
-                sqlx::query("SET lock_timeout='5s'").execute(conn).await?;
-                Ok(())
-            })
-        })
-        .connect(&url)
-        .await?;
+    let pool = crate::metadata_pool_options(1).connect(&url).await?;
     let result = async {
         let inspection = inspect(&config, &pool).await?;
         if record {

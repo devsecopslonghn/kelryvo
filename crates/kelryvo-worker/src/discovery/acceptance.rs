@@ -70,11 +70,7 @@ impl Review {
         ))
     }
 }
-fn digest(s: &str) -> bool {
-    s.len() == 64
-        && s.bytes()
-            .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
-}
+use kelryvo_core::is_digest as digest;
 impl Config {
     fn scope_digest(&self) -> Result<String> {
         let mut value = serde_json::to_value(self).map_err(|_| Unavailable)?;

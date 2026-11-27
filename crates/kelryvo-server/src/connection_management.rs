@@ -1,4 +1,5 @@
 //! Revisioned configuration; offline preflight never opens an Oracle session.
+use crate::connections::{HOST, REFERENCE, SERVICE, USER, matches};
 use crate::{
     ApiError, ApiResult, AppState, ORG_UUID,
     auth::{self, Authenticated},
@@ -12,10 +13,8 @@ use axum::{
     http::StatusCode,
     response::{IntoResponse, Response},
 };
-use regex::Regex;
 use serde_json::{Value, json};
 use sqlx::PgConnection;
-use std::sync::LazyLock;
 use uuid::Uuid;
 #[derive(Clone, Copy, PartialEq)]
 enum Kind {
@@ -46,20 +45,6 @@ fn safe(v: &Value, max: usize, empty: bool) -> bool {
                 .any(|c| c <= '\u{1f}' || ('\u{7f}'..='\u{9f}').contains(&c))
     })
 }
-fn matches(pattern: &LazyLock<Regex>, v: &Value) -> bool {
-    v.as_str().is_some_and(|s| pattern.is_match(s))
-}
-static HOST: LazyLock<Regex> = LazyLock::new(|| {
-    Regex::new(r"\A(?:[A-Za-z0-9](?:[A-Za-z0-9.-]*[A-Za-z0-9])?|\[[0-9A-Fa-f:]+\])\z")
-        .expect("host")
-});
-static SERVICE: LazyLock<Regex> =
-    LazyLock::new(|| Regex::new(r"\A[A-Za-z0-9_$#.-]{1,128}\z").expect("service"));
-static USER: LazyLock<Regex> =
-    LazyLock::new(|| Regex::new(r"\A[A-Za-z][A-Za-z0-9_$#]{0,127}\z").expect("username"));
-static REFERENCE: LazyLock<Regex> = LazyLock::new(|| {
-    Regex::new(r"\A(?:vault|secret)://[A-Za-z0-9._/-]{1,500}\z").expect("reference")
-});
 use kelryvo_core::port;
 fn endpoint(b: &Value, host_limit: usize) -> bool {
     text(&b["host"]).len() <= host_limit
@@ -70,14 +55,9 @@ fn endpoint(b: &Value, host_limit: usize) -> bool {
         && ["SERVICE_NAME", "SID"].contains(&text(&b["serviceKind"]))
 }
 fn revision(v: &Value) -> Option<i64> {
-    let s = v.as_str()?;
-    if !s.starts_with(|c: char| c.is_ascii_digit() && c != '0')
-        || s.len() > 19
-        || !s.bytes().all(|b| b.is_ascii_digit())
-    {
-        return None;
-    }
-    s.parse::<i64>().ok().filter(|n| *n < i64::MAX)
+    v.as_str()
+        .and_then(kelryvo_core::workspace::positive_revision)
+        .filter(|n| *n < i64::MAX)
 }
 fn database(e: sqlx::Error) -> ApiError {
     if e.as_database_error()
